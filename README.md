@@ -1,11 +1,10 @@
 # Gruppuppgift
 Agil systemutveckling med SCRUM
 
+**Ordning enligt listan**
+
+* Alexandra Johansson
+* Göran Bäckström
 * Johannes Bergendahl
 * Mikael Gidmo
-* Göran Bäckström
 * Michael Wong
-* Alexandra Johansson
-
-
-Testar att ändra README...
