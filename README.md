@@ -6,3 +6,6 @@ Agil systemutveckling med SCRUM
 * Göran Bäckström
 * Michael Wong
 * Alexandra Johansson
+
+
+Testar att ändra README...
