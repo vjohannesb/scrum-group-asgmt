@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Roboto&display=swap");
+:root {
+	--bg-dark-blue: #0e153d;
+	--bg-darkest-blue: #080c24;
+	--bg-indigo: #292f51;
+	--text-teal: #20d3c2;
+	--light-gray: #cccccc;
+
+	--light-green: #64cb83;
+	font-family: "Roboto", sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.teal {
+	color: var(--text-teal);
+}
+
+.hover-teal:hover {
+	color: var(--text-teal);
+}
+
+.white {
+	color: white;
+}
+
+.hover-white:hover {
+	color: white;
+}
+
+.banner {
+	background: var(--bg-indigo);
+}
+
+.pill {
+	background: white;
+	width: 25%;
+	padding: 10px 5px;
+	border-radius: 2rem;
+	text-align: center;
+	border: 1px solid transparent;
+	cursor: pointer;
+}
+
+.pill:hover {
+	background: transparent;
+	border: 1px solid var(--text-teal);
+}
+
+.h-36px {
+	font-size: 2.25rem;
+}
+
+.shoe img {
+	position: relative;
+}
+
+.circle {
+	border-radius: 50px;
+}
+
+.circle-blue {
+	background: var(--text-teal);
+}
+
+.circle-green {
+	background: var(--light-green);
+}
