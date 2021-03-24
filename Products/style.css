@@ -1,0 +1,138 @@
+.Roboto-medium-24 {
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    color: #20D3C2;
+}
+
+.Roboto-regular-16 {
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+.Roboto-regular-14 {
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+.Roboto-regular-12 {
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+.Roboto-regular-18 {
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+}
+
+.Roboto-bold-16 {
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+}
+.user-select-none {
+    user-select: none;
+}
+.gray {
+    color: #AAAAAA;
+}
+
+.teal {
+    color: #20D3C2;
+}
+
+.line-through {
+    text-decoration: line-through;
+}
+
+
+
+
+
+
+
+
+
+#decrement-box {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border:1.5px solid #AAAAAA;
+}
+
+#decrement {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#increment-box {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border:1.5px solid #AAAAAA;
+}
+#increment-box:hover, #decrement-box:hover {
+    border:1.5px solid #20D3C2;
+    background-color: #20D3C2;
+}
+
+#amount-placeholder-box {
+    border:1.5px solid #AAAAAA;
+}
+
+.tags-border {
+    border: 2px solid #AAAAAA;
+    padding: 5px;
+}
+
+
+/* Tabs */
+
+.tab {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #0E153D;
+    color: white;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+.tab:hover {
+    background-color: #20D3C2;
+    cursor: pointer;
+}
+
+.tabs-underline {
+    border: 0 !important;
+    margin:0 !important;
+    width:100% !important;
+    height: 5px !important;
+    background-color: #20D3C2 !important;
+}
+
+.add-review-form {
+    background-color: #F6F6F6;
+    padding: 20px
+}
+
+
+.review-input {
+    border: 0px solid;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.submit-button {
+    color: white;
+    background-color: #20D3C2;
+    border: solid #20D3C2;
+    border-radius: 23px;
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
