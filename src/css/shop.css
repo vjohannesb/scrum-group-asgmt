@@ -1,37 +1,47 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Roboto&display=swap");
-:root {
-	--bg-dark-blue: #0e153d;
-	--bg-darkest-blue: #080c24;
-	--bg-indigo: #292f51;
-	--text-teal: #20d3c2;
-	--light-gray: #cccccc;
+/* Generella */
 
-	--light-green: #64cb83;
-	font-family: "Roboto", sans-serif;
+.play-font {
+	font-family: "Play", sans-serif;
 }
 
-* {
-	box-sizing: border-box;
+.bg-dark-blue {
+	background: var(--bg-dark-blue) !important;
+}
+
+.text-dark-blue {
+	color: var(--bg-dark-blue) !important;
+}
+
+.bg-indigo {
+	background: var(--bg-indigo) !important;
 }
 
 .teal {
-	color: var(--text-teal);
+	color: var(--teal) !important;
+}
+
+.bg-teal {
+	background: var(--teal) !important;
 }
 
 .hover-teal:hover {
-	color: var(--text-teal);
-}
-
-.white {
-	color: white;
+	color: var(--teal) !important;
 }
 
 .hover-white:hover {
 	color: white;
 }
 
-.banner {
-	background: var(--bg-indigo);
+.rounded-4 {
+	border-radius: 0.5rem !important;
+}
+
+.shop-product-n-link.active {
+	color: var(--teal) !important;
+}
+
+.shop-product-n-link:hover {
+	color: var(--teal);
 }
 
 .pill {
@@ -42,11 +52,12 @@
 	text-align: center;
 	border: 1px solid transparent;
 	cursor: pointer;
+	transition: 0.2s;
 }
 
 .pill:hover {
 	background: transparent;
-	border: 1px solid var(--text-teal);
+	border: 1px solid var(--teal);
 }
 
 .h-36px {
@@ -62,9 +73,219 @@
 }
 
 .circle-blue {
-	background: var(--text-teal);
+	background: var(--teal);
 }
 
 .circle-green {
 	background: var(--light-green);
+}
+
+/* Shop */
+.list-box-large-box {
+	padding: 0.75rem 1rem;
+}
+
+/** SLIDER */
+.slider-container {
+	cursor: pointer !important;
+}
+
+#slider-range-price {
+	background: transparent;
+	border: 0 !important;
+	max-height: 0.2rem;
+}
+
+.ui-slider-range {
+	background: var(--teal) !important;
+	border: 0 !important;
+	margin-top: 0.15rem;
+	cursor: pointer !important;
+}
+
+.ui-slider-handle {
+	background: var(--teal) !important;
+	border: 0 !important;
+	width: 0.3rem !important;
+	cursor: pointer !important;
+}
+
+.ui-slider-handle-0 {
+	margin-left: 0 !important;
+}
+
+.ui-slider-handle-1 {
+	margin-left: -1px !important;
+}
+
+label[for="priceRangeAmount"] {
+	margin-right: 0.25rem;
+}
+
+.filter-pill {
+	cursor: pointer;
+	border-radius: 1rem;
+	padding-left: 1.4rem !important;
+	padding-right: 1.4rem !important;
+	border: 1px solid transparent;
+	transition: color 0.2s, border 0.2s, background 0.2s;
+}
+
+.filter-pill:hover {
+	background: transparent !important;
+	border: 1px solid var(--teal) !important;
+	color: var(--teal) !important;
+}
+
+/* ! FILTER BOXES */
+.filter-box-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 0.5rem;
+}
+
+.filter-box-amount {
+	margin: 0;
+	padding: 0 0.25rem;
+	border: 1px solid lightgray;
+	border-radius: 0.2rem;
+}
+
+.filter-box-container.selected .filter-box-amount {
+	color: white !important;
+	background: var(--teal) !important;
+	border: 1px solid var(--teal) !important;
+}
+
+.filter-box-container {
+	cursor: pointer;
+	opacity: 0.75;
+}
+
+.filter-box-container:hover,
+.filter-box-container.selected {
+	opacity: 1;
+}
+
+/*! Filter by Color */
+.filter-box-container .color-box i {
+	display: none;
+}
+
+.filter-box-container.selected .color-box i {
+	display: block;
+	color: white;
+}
+
+.color-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.25rem;
+	height: 1.25rem;
+	border-radius: 0.3rem;
+	background: black;
+}
+
+.color-box-black {
+	background: black;
+}
+
+.color-box-gray {
+	background: gray;
+}
+
+.color-box-red {
+	background: red;
+}
+
+.color-box-green {
+	background: green;
+}
+
+/*! Product Categories + Filter by Size */
+.filter-box-container.text-box-container.selected p {
+	color: var(--teal);
+}
+
+/*! Filter by Brand */
+.filter-brand-container img {
+	cursor: pointer;
+	opacity: 0.7;
+	transition: 0.15s;
+}
+
+.filter-brand-container img:hover,
+.filter-brand-container.selected img {
+	border: 2px solid rgb(83, 83, 83) !important;
+	opacity: 1;
+}
+
+.filter-brand-container img:hover {
+	transform: scale(1.075);
+}
+
+/*! Top Rated Products */
+.promo-product-container img {
+	max-width: 100%;
+}
+
+.review-stars i {
+	color: var(--teal);
+	font-size: 0.75rem;
+	margin-left: -2px;
+}
+
+/*! Subscription Conversion Banner */
+.subscribe-conversion-banner {
+	background: var(--off-white);
+}
+
+.subscribe-conversion-banner .subscribe-banner-container img {
+	max-width: 100%;
+}
+
+.subscribe-form {
+	display: flex;
+	background: white;
+	border: 1px solid lightgray;
+	border-radius: 2rem;
+	padding: 0 4px;
+}
+
+#inputEmailSubscribe {
+	flex: 1;
+	border: none;
+	border-radius: 5rem;
+	padding-left: 1rem;
+	padding-bottom: 0.15rem;
+}
+
+#btnSubscribe {
+	margin-left: -50px;
+	border-radius: 2rem;
+	background: var(--teal);
+	border: 1px solid transparent;
+	color: white;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding: 0.25rem 1rem;
+	padding-bottom: 0.28rem;
+	transition: 0.2s;
+}
+
+#btnSubscribe:hover {
+	background: white;
+	color: var(--teal);
+	border: 1px solid var(--teal) !important;
+}
+
+input:focus {
+	outline: none;
+}
+
+/*! Brand Bottom Banner */
+.brand-bottom-banner img {
+	width: 75%;
 }
