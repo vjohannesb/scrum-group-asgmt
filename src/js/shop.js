@@ -23,4 +23,12 @@ $(function() {
     $(".filter-brand-container").each((idx, elem) => $(elem).on("click", function() {
         $(elem).toggleClass("selected");
     }));
+
+    let flex = "none";
+    $("#btnToggleFilters").on("click", function() {
+        flex = flex === "flex" ? "none" : "flex";
+        $(".filter-column").toggle();
+        $(".filter-toggle-flex").css("display", flex);
+
+    });
 });

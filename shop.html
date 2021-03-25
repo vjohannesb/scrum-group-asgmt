@@ -12,15 +12,13 @@
 
     <link rel="stylesheet" type="text/css" href="/src/css/style.css">
     <link rel="stylesheet" type="text/css" href="/src/css/shop.css">
+    <link rel="stylesheet" type="text/css" href="/src/css/product.css">
     <link rel="stylesheet" type="text/css" href="/src/css/jquery-ui.min.css">
 
     <title></title>
 </head>
 
 <body>
-    <!-- <div class="temp-header">
-        <img src="/src/img/Header.svg" alt="">
-    </div> -->
     <div class="banner pt-5 pb-5 bg-indigo">
         <div class="container">
             <div class="row justify-content-between align-items-center">
@@ -38,7 +36,6 @@
     <div class="shop-container mt-5">
         <div class="container">
             <!-- Top Menu -->
-            <img src="/src/img/Component 13 – 1.svg" class="w-50 d-flex justify-content-end" alt="">
             <div class="row shop-top-menu justify-content-between">
                 <!-- Title + Breadcrumb -->
                 <div class="col-4 col-xxl-6 col-xl-5 col-lg-4">
@@ -52,9 +49,17 @@
                         </ol>
                     </nav>
                 </div>
+
+                <!-- Filter Toggle Button -->
+                <div id="btnToggleFilters" class="mt-3 d-block d-lg-none">
+                    Show Filters
+                </div>
+
+                <!-- Spacer -->
                 <div class="col-12 mb-3 d-lg-none"></div>
+
                 <!-- Show x items -->
-                <div class="col-12 col-lg mt-2 mb-2 me-4 px-xl-4 show-x-items">
+                <div class="col-12 col-lg mt-2 mb-2 me-4 px-xl-4 show-x-items filter-toggle-flex">
                     <div>
                         <span> Show:
                             <a class="shop-product-n-link text-decoration-none text-white hover-teal" href="#">9
@@ -70,14 +75,14 @@
                 </div>
 
                 <!-- List/box/large box -->
-                <div class="col col-lg mt-2 mb-2 me-1 me-sm-4 list-box-large-box">
+                <div class="col col-lg mt-2 mb-2 me-1 me-sm-4 list-box-large-box filter-toggle-flex">
                     <a href="#"><i class="text-white hover-teal fs-2 me-3 fas fa-list"></i></a>
                     <a href="#"><i class="text-white hover-teal fs-2 me-3 fas fa-th-large"></i></a>
                     <a href="#"><i class="text-white hover-teal fs-2 me-0 fas fa-th"></i></a>
                 </div>
 
                 <!-- Sorting Dropdown -->
-                <div class="col col-lg mt-2 mb-2 btn-sorting-container">
+                <div class="col col-lg mt-2 mb-2 btn-sorting-container filter-toggle-flex">
                     <button class="btn btn-sorting dropdown-toggle" type="button" id="btnDropdownSorting"
                         data-bs-toggle="dropdown">
                         <span>Default sorting</span>
@@ -99,7 +104,7 @@
             <!-- Main Row -->
             <div class="row mt-5">
                 <!-- Filter Column -->
-                <div class="col me-5">
+                <div class="col-3 me-5 filter-column">
                     <!-- Filter by Categories -->
                     <div class="filter-categories mb-5">
                         <h6 class="teal fw-bold">Product Categories</h6>
@@ -269,7 +274,7 @@
                     <!-- Filter by Brand -->
                     <div class="filter-brand mb-5">
                         <h6 class="teal fw-bold">Filter by Brand</h6>
-                        <div class="row row-cols-1 row-cols-xl-2 gx-2 gy-2 mt-2">
+                        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-1 row-cols-xl-2 gx-2 gy-2 mt-2">
                             <div class="col filter-brand-container">
                                 <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/bexim.svg"
                                     alt="Bexim Logo">
@@ -374,7 +379,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -383,15 +387,16 @@
     <div class="subscribe-conversion-banner mt-5">
         <div class="container">
             <div class="row gx-5 align-items-center">
-                <div class="col me-5 mt-5 mb-5 subscribe-form-container">
+                <div class="col me-lg-5 me-0 mt-5 mb-5 subscribe-form-container text-center text-lg-start">
                     <h1 class="play-font fw-bold text-dark-blue">SUBSCRIBE <span class="teal">NOW</span></h1>
-                    <p class="pe-5">Signup for awesome news about our products and all our special discounts.</p>
-                    <div class="subscribe-form">
+                    <p class="pe-lg-5 pe-0">Signup for awesome news about our products and all our special discounts.
+                    </p>
+                    <div class="subscribe-form mx-auto">
                         <input type="email" id="inputEmailSubscribe" placeholder="Enter email address">
                         <button type="button" id="btnSubscribe">Subscribe</button>
                     </div>
                 </div>
-                <div class="col subscribe-banner-container">
+                <div class="col subscribe-banner-container d-none d-lg-block">
                     <img src="https://via.placeholder.com/600x400" alt="Subscribe Picture">
                 </div>
             </div>
