@@ -80,12 +80,70 @@
 	background: var(--light-green);
 }
 
-/* Shop */
+/** Shop Top Menu **/
+/*! List/Box/Large Box */
 .list-box-large-box {
-	padding: 0.75rem 1rem;
+	background: var(--bg-dark-blue);
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
+	border-radius: 0.5rem;
 }
 
-/** SLIDER */
+/*! Show X Items  */
+.show-x-items {
+	background: var(--bg-dark-blue);
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	border-radius: 0.5rem;
+}
+
+/* d-flex align-items-center justify-content-center p-0 m-0 bg-dark-blue m-0 px-4 py-3 text-white rounded-4 */
+.btn-sorting {
+	color: white;
+	padding-top: 0.95rem;
+	padding-bottom: 0.95rem;
+}
+
+.btn-sorting:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.btn-sorting-container {
+	background: var(--bg-dark-blue);
+	border-radius: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.btn-sorting i {
+	transition: color 0.2s;
+	margin-left: 2rem;
+}
+
+.btn-sorting:hover i {
+	color: var(--teal);
+}
+
+.btn-sorting:hover {
+	color: white;
+}
+
+.dropdown-toggle::after {
+	display: none;
+}
+
+/** Filter Column  */
+/*! SLIDER */
 .slider-container {
 	cursor: pointer !important;
 }
@@ -252,6 +310,7 @@ label[for="priceRangeAmount"] {
 	border: 1px solid lightgray;
 	border-radius: 2rem;
 	padding: 0 4px;
+	max-width: 90%;
 }
 
 #inputEmailSubscribe {

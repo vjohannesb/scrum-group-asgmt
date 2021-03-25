@@ -37,64 +37,61 @@
 
     <div class="shop-container mt-5">
         <div class="container">
-            <div class="row shop-top-menu">
-                <div class="row">
-                    <!-- Title + Breadcrumb -->
-                    <div class="col col-xxl-6 col-xl-5 col-lg-4">
-                        <h2 class="teal fw-bold">Shop</h2>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item">
-                                    <a href="#" class="text-decoration-none text-dark">Home</a>
-                                </li>
-                                <li class="breadcrumb-item active mb-0" aria-current="page">Shop</li>
-                            </ol>
-                        </nav>
+            <!-- Top Menu -->
+            <img src="/src/img/Component 13 – 1.svg" class="w-50 d-flex justify-content-end" alt="">
+            <div class="row shop-top-menu justify-content-between">
+                <!-- Title + Breadcrumb -->
+                <div class="col-4 col-xxl-6 col-xl-5 col-lg-4">
+                    <h2 class="teal fw-bold">Shop</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">
+                                <a href="#" class="text-decoration-none text-dark">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active mb-0" aria-current="page">Shop</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-12 mb-3 d-lg-none"></div>
+                <!-- Show x items -->
+                <div class="col-12 col-lg mt-2 mb-2 me-4 px-xl-4 show-x-items">
+                    <div>
+                        <span> Show:
+                            <a class="shop-product-n-link text-decoration-none text-white hover-teal" href="#">9
+                            </a>/
+                            <a class="shop-product-n-link text-decoration-none text-white hover-teal active" href="#">12
+                            </a>/
+                            <a class="shop-product-n-link text-decoration-none text-white hover-teal" href="#">18
+                            </a>/
+                            <a class="shop-product-n-link text-decoration-none text-white hover-teal" href="#">24
+                            </a>
+                        </span>
                     </div>
+                </div>
 
-                    <!-- Show x items -->
-                    <div class="col d-flex align-items-center justify-content-center p-0 m-0">
-                        <div class="bg-dark-blue m-0 px-4 py-3 text-white rounded-4">
-                            <span> Show:
-                                <a class="shop-product-n-link text-decoration-none text-white hover-teal" href="#">9
-                                </a>/
-                                <a class="shop-product-n-link text-decoration-none text-white hover-teal active"
-                                    href="#">12 </a>/
-                                <a class="shop-product-n-link text-decoration-none text-white hover-teal" href="#">18
-                                </a>/
-                                <a class="shop-product-n-link text-decoration-none text-white hover-teal" href="#">24
-                                </a>
-                            </span>
-                        </div>
-                    </div>
+                <!-- List/box/large box -->
+                <div class="col col-lg mt-2 mb-2 me-1 me-sm-4 list-box-large-box">
+                    <a href="#"><i class="text-white hover-teal fs-2 me-3 fas fa-list"></i></a>
+                    <a href="#"><i class="text-white hover-teal fs-2 me-3 fas fa-th-large"></i></a>
+                    <a href="#"><i class="text-white hover-teal fs-2 me-0 fas fa-th"></i></a>
+                </div>
 
-                    <!-- List/box/large box -->
-                    <div class="col d-flex align-items-center justify-content-center p-0 m-0">
-                        <div class="list-box-large-box bg-dark-blue m-0 text-white rounded-4">
-                            <a href="#"><i class="text-white hover-teal fs-2 me-3 fas fa-list"></i></a>
-                            <a href="#"><i class="text-white hover-teal fs-2 me-3 fas fa-th-large"></i></a>
-                            <a href="#"><i class="text-white hover-teal fs-2 me-0 fas fa-th"></i></a>
-                        </div>
-                    </div>
-
-                    <!-- Sorting Dropdown -->
-                    <div class="col d-flex align-items-center justify-content-center p-0 m-0">
-                        <div>
-                            <button class="btn dropdown-toggle text-white hover-teal bg-dark-blue px-4 py-3 rounded-4"
-                                type="button" id="btnDropdownSorting" data-bs-toggle="dropdown">
-                                Default sorting
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="btnDropdownSorting">
-                                <li><a class="dropdown-item" href="#">Default sorting</a></li>
-                                <li><a class="dropdown-item" href="#">Recommended</a></li>
-                                <li><a class="dropdown-item" href="#">Latest</a></li>
-                                <li><a class="dropdown-item" href="#">Price (low to high)</a></li>
-                                <li><a class="dropdown-item" href="#">Price (high to low)</a></li>
-                                <li><a class="dropdown-item" href="#">Alphabetical (a-z)</a></li>
-                                <li><a class="dropdown-item" href="#">Alphabetical (z-a)</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                <!-- Sorting Dropdown -->
+                <div class="col col-lg mt-2 mb-2 btn-sorting-container">
+                    <button class="btn btn-sorting dropdown-toggle" type="button" id="btnDropdownSorting"
+                        data-bs-toggle="dropdown">
+                        <span>Default sorting</span>
+                        <i class="fas fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="btnDropdownSorting">
+                        <li><a class="dropdown-item" href="#">Default sorting</a></li>
+                        <li><a class="dropdown-item" href="#">Recommended</a></li>
+                        <li><a class="dropdown-item" href="#">Latest</a></li>
+                        <li><a class="dropdown-item" href="#">Price (low to high)</a></li>
+                        <li><a class="dropdown-item" href="#">Price (high to low)</a></li>
+                        <li><a class="dropdown-item" href="#">Alphabetical (a-z)</a></li>
+                        <li><a class="dropdown-item" href="#">Alphabetical (z-a)</a></li>
+                    </ul>
                 </div>
 
             </div>
@@ -102,7 +99,7 @@
             <!-- Main Row -->
             <div class="row mt-5">
                 <!-- Filter Column -->
-                <div class="col">
+                <div class="col me-5">
                     <!-- Filter by Categories -->
                     <div class="filter-categories mb-5">
                         <h6 class="teal fw-bold">Product Categories</h6>
@@ -378,10 +375,6 @@
                     </div>
                 </div>
 
-                <div class="col">1</div>
-                <div class="col">1</div>
-                <div class="col">1</div>
-                <div class="col">1</div>
             </div>
         </div>
     </div>
@@ -392,7 +385,7 @@
             <div class="row gx-5 align-items-center">
                 <div class="col me-5 mt-5 mb-5 subscribe-form-container">
                     <h1 class="play-font fw-bold text-dark-blue">SUBSCRIBE <span class="teal">NOW</span></h1>
-                    <p class="pe-5">Signup for awesome news about our products and all special discounts.</p>
+                    <p class="pe-5">Signup for awesome news about our products and all our special discounts.</p>
                     <div class="subscribe-form">
                         <input type="email" id="inputEmailSubscribe" placeholder="Enter email address">
                         <button type="button" id="btnSubscribe">Subscribe</button>
