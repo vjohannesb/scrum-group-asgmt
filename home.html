@@ -8,7 +8,7 @@
 
     <script src="http://kit.fontawesome.com/043e51ac62.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
-    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="/css/home.css">
     <link rel="stylesheet" type="text/css" href="/src/style.css">
@@ -19,60 +19,60 @@
 <body>
     <!-- block 1 -->
     <div class="container d-flex align-items-center justify-content-between">
-        <div class="p-4 col-4">
+        <div class="p-0 col-5 start-text">
             <p class="txt-big play-txt mb-0">Shopping is</p>
             <h1 class="txt-big play-txt teal">MORE FUN</h1>
             <p class="mb-5">Vivamus dignissim a ex eu ornare. Ut fermentum orci vel diam ultricies faucibus. Quisque quis erat sed</p>
 
             <div class="d-flex rounded-btn justify-content-center align-items-center">
                 <h5 class="teal m-0"><a>SHOP NOW</a></h5>
-            </div> 
+            </div>
         </div>
         <div class="col-7">
             <div class="img-background"></div>
-            <img src="/img/Banner-thumb.svg" alt="people">
-        </div> 
+            <img src="/img/girls.svg" alt="people">
+        </div>
     </div>
-     <!-- block 2 -->
-    <div class="d-flex justify-content-between m-5" onmouseover="chbg()">
-        <div class="box d-flex align-items-center" onmouseover="changeStyle(this)">
+    <!-- block 2 -->
+    <div class="d-flex justify-content-between container-wide">
+        <div class="box d-flex align-items-center">
             <img id="box-img-pack" class="box-img" alt="box">
             <div class="box-text">
                 <h6>Free shipping</h6>
                 <p>For a local customer, we provide free shipping facility</p>
-            </div>         
-        </div> 
-        <div class="box d-flex align-items-center" onmouseover="changeStyle(this)">
+            </div>
+        </div>
+        <div class="box d-flex align-items-center">
             <img id="box-img-clock" class="box-img" alt="box">
             <div class="box-text">
-                <h6>Free shipping</h6>
-                <p>For a local customer, we provide free shipping facility</p>
-            </div>         
-        </div> 
-        <div class="box d-flex align-items-center" onmouseover="changeStyle(this)">
+                <h6>24/7 support</h6>
+                <p>For any inquiry, we are available 24 hours every day</p>
+            </div>
+        </div>
+        <div class="box d-flex align-items-center">
             <img id="box-img-pay" class="box-img" alt="box">
             <div class="box-text">
-                <h6>Free shipping</h6>
-                <p>For a local customer, we provide free shipping facility</p>
-            </div>         
-        </div> 
-        <div class="box d-flex align-items-center" onmouseover="changeStyle(this)">
+                <h6>Online payment</h6>
+                <p>You can pay quickly and easily with our online payment system</p>
+            </div>
+        </div>
+        <div class="box d-flex align-items-center">
             <img id="box-img-time" class="box-img" alt="box">
             <div class="box-text">
-                <h6>Free shipping</h6>
-                <p>For a local customer, we provide free shipping facility</p>
-            </div>         
-        </div> 
+                <h6>Fast delivery</h6>
+                <p>We understand your urgency and we deliver in a fast way</p>
+            </div>
+        </div>
     </div>
-  <!-- block 3 -->
+    <!-- block 3 -->
     <div class="container">
-        <div class="">
+        <div class="d-flex align-items-center flex-column">
             <p class="dark-blue txt-medium play-txt">
-                SHOP BY 
+                SHOP BY
                 <span class="teal ">CATEGORY</span>
             </p>
-            <img class="d-block" src="/img/zigzag.svg" alt="pattern">
-            <p class="d-block">
+            <img class="d-block mb-4" src="/img/zigzag.svg" alt="pattern">
+            <p class="d-block mb-5">
                 We always try to give you the best product within a fast and reliable way
             </p>
         </div>
@@ -115,68 +115,696 @@
             </div>
         </div>
     </div>
-      
     <!-- block 4 -->
-    
-    <!-- block 5 -->
-    <div class="">
-        <div class="container d-flex justify-content-between">
-            <div>
-                <p>30% <p>OFF</p></p>
-                <p>FOR NEW CUSTOMER</p>
-                <button>SHOP NOW</button>
+    <div class="container">
+        <div class="d-flex align-items-center flex-column mt-5 pt-5">
+            <p class="dark-blue txt-medium play-txt">
+                NEW
+                <span class="teal ">ARRIVALS</span>
+            </p>
+            <img class="d-block mb-4" src="/img/zigzag.svg" alt="pattern">
+            <p class="d-block mb-5">
+                Check out our latest products from top fashion designers
+            </p>
+        </div>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false">
+            <div class="carousel-inner">
+                <div class="carousel-item active ">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="hide">
+                                            <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                                <p class="mb-0 text-light font-r">NEW</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="hide">
+                                            <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                                <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+                                            <div class="fill"></div>
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="m-1">New look men's coat</p>
+                                                <p class="m-1 fashion-border">Fashion</p>
+                                                <p class="m-1"><strike>$220.00</strike></p>
+                                                <p class="m-1 teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="hide">
+                                            <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                                <p class="mb-0 text-light font-r">NEW</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod3.png">
+                                        </div>
+                                        <div class="hide">
+                                            <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                                <p class="text-light mt-0 mb-0">New look men's coat</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+                                            <div class="fill"></div>
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="m-1">New look men's coat</p>
+                                                <p class="m-1 fashion-border">Fashion</p>
+                                                <p class="m-1"><strike>$220.00</strike></p>
+                                                <p class="m-1 teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="hide">
+                                            <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                                <p class="mb-0 text-light font-r">NEW</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod2.svg">
+                                        </div>
+                                        <div class="hide">
+                                            <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                                <p class="text-light mt-0 mb-0">Circle pattern girls shirt</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+                                            <div class="fill"></div>
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="m-1">Circle pattern girls shirt</p>
+                                                <p class="m-1 fashion-border">Fashion</p>
+                                                <p class="m-1"><strike>$220.00</strike></p>
+                                                <p class="m-1 teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            <div class="carousel-indicators">
+                <button id="test" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"><div class="dot rounded middle-gray-bg"></div></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"><div class="dot rounded middle-gray-bg"></div></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"><div class="dot rounded middle-gray-bg"></div></button>
+            </div>
+        </div>
+    </div>
+    <!-- block 5  -->
+    <div class="banner mb-5">
+        <div class="banner container d-flex justify-content-between align-items-center">
+            <div class="teal-bg col-3 h-100 d-flex justify-content-center align-items-center flex-column">
+                <p class="b-w-play-60 m-0">30% <span class="b-w-play-36">OFF</span></p>
+                <p class="roboto text-light mb-4">FOR NEW CUSTOMER</p>
+                <button class="button-rounded-normal">SHOP NOW</button>
+            </div>
+            <div class="text-box">
                 <p>Donec pulvinar arcu vitae ipsum varius cursus. Nunc iaculis fermentum iaculis. Nunc pulvinar purus at erat lacinia, ut convallis nibh consequat. Integer nulla nisi, aliquam at tellus a, viverra scelerisque purus. Nam pretium iaculis ultrices.</p>
-                <button>LEARN MORE</button>
+                <button class="button-rounded-long mt-3">LEARN MORE</button>
             </div>
-        </div>   
+        </div>
     </div>
     <!-- block 6 -->
-    <!-- block 7 -->
-    <div class="">
-        <div class="container d-flex justify-content-between">
-            <div>
-                <p>FLASH SALE</p>
-                <p>UP TO 50% OFF</p>
-            </div>
-            <div>
-                <div>
-                    <img src="" alt=""/>
-                    <img src="" alt=""/>
-                    <img src="" alt=""/>
-                    <img src="" alt=""/>
+    <div class="container">
+        <div class="d-flex align-items-center flex-column mt-5 pt-5">
+            <p class="dark-blue txt-medium play-txt">
+                FEATURED
+                <span class="teal ">PRODUCTS</span>
+            </p>
+            <img class="d-block mb-4" src="/img/zigzag.svg" alt="pattern">
+            <p class="d-block mb-5">
+                Check out our monthly featured products from top brands
+            </p>
+        </div>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false">
+            <div class="carousel-inner">
+                <div class="carousel-item active ">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="hide">
+                                            <div class="red-bg small-circle d-flex justify-content-center align-items-center">
+                                                <p class="mb-0 text-light roboto">HOT</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod5.svg">
+                                        </div>
+                                        <div class="hide">
+                                            <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                                <p class="text-light mt-0 mb-0">Winter collection for women's</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+                                            <div class="fill"></div>
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="m-1">Winter collection for women's</p>
+                                                <p class="m-1 fashion-border">Fashion</p>
+                                                <p class="m-1"><strike>$220.00</strike></p>
+                                                <p class="m-1 teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="hide">
+                                            <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                                <p class="mb-0 text-light roboto">NEW</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod6.png">
+                                        </div>
+                                        <div class="hide">
+                                            <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                                <p class="text-light mt-0 mb-0">New look men's coat</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+                                            <div class="fill"></div>
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="m-1">New look men's coat</p>
+                                                <p class="m-1 fashion-border">Fashion</p>
+                                                <p class="m-1"><strike>$220.00</strike></p>
+                                                <p class="m-1 teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="hide">
+                                            <div class="green-bg small-circle d-flex justify-content-center align-items-center">
+                                                <p class="mb-0 text-light roboto">-30%</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod4.svg">
+                                        </div>
+                                        <div class="hide">
+                                            <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                                <p class="text-light mt-0 mb-0">Red women's blazer full</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+                                            <div class="fill"></div>
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="m-1">Red women's blazer full</p>
+                                                <p class="m-1 fashion-border">Fashion</p>
+                                                <p class="m-1"><strike>$220.00</strike></p>
+                                                <p class="m-1 teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button>LEARN MORE</button>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-block w-100 rounded">
+                                <div class="prod-card">
+                                    <div class="start-card rounded p-0 ">
+                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
+                                            <p class="mb-0 text-light font-r">NEW</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img class="d-block rounded" src="/img/prod1.svg">
+                                        </div>
+                                        <div class="textbox-prod dark-blue-bg d-flex align-items-center rounded-bottom">
+                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
+                                        </div>
+                                    </div>
+                                    <div class="hover-card rounded p-0 ">
+                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
+
+                                            <div class="text d-flex flex-column m-4">
+                                                <p class="">New look men's coat</p>
+                                                <p class="border ">Fashion</p>
+                                                <p class=""><strike>$220.00</strike></p>
+                                                <p class="teal">$190.00</p>
+                                            </div>
+                                        </div>
+                                        <!-- Ikon-funktion: johannes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>   
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            <div class="carousel-indicators">
+                <button id="test" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"><div class="dot rounded middle-gray-bg"></div></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"><div class="dot rounded middle-gray-bg"></div></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"><div class="dot rounded middle-gray-bg"></div></button>
+            </div>
+        </div>
     </div>
+    <!-- block 7 -->
+    <div class="banner2 w-100 mb-5">
+        <div class="container d-flex justify-content-between">
+            <div class="teal-bg col-3 p-5 text-center">
+                <p class="b-w-play-60 m-0">FLASH SALE</p>
+                <p class="m-w-roboto-24">UP TO 50% OFF</p>
+            </div>
+            <div class="d-flex align-items-center flex-column justify-content-center">
+                <div class="d-flex justify-content-between mb-4">
+                    <div class="circle p-2">
+                        <p>7</p>
+                        <p>Days</p>
+                    </div>
+                    <div class="circle-container">
+                        <div class="circle p-2"></div>
+                        <p class="b-w-play-36 teal">7</p>
+                        <p class="roboto">Days</p>
+                    </div>
+                    <div class="circle p-2">
+                        <p>7</p>
+                        <p>Days</p>
+                    </div>
+                    <div class="circle p-2">
+                        <p>7</p>
+                        <p>Days</p>
+                    </div>
+                </div>
+                <button class="button-rounded-normal">LEARN MORE</button>
+            </div>
+        </div>
+    </div>
+
     <!-- block 8 -->
     <!-- block 9 -->
     <!-- block 10 -->
+
     <!-- block 11 -->
+    <!-- Finns redan på nästa sida, copy paste! -->
     <!-- block 12 -->
-    <div class="container">
-        <div class=" m-5">
-            <div>
-                <p>SUBSCRIBE <p>NOW</p>></p>
-                <p></p>
-                <!-- Sökfunktion -->
-            </div>
-            <div></div>
-        </div>
-        <div class="d-flex justify-content-between">
-            <img src="/img/Brand.svg" alt="brands"/>
-            <img src="/img/Brand.svg" alt="brands"/>
-            <img src="/img/Brand.svg" alt="brands"/>
-            <img src="/img/Brand.svg" alt="brands"/>
-            <img src="/img/Brand.svg" alt="brands"/>
-        </div>
-        
+    <!-- footer! -->
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-        crossorigin="anonymous"></script>
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
