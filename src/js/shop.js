@@ -29,6 +29,6 @@ $(function() {
         flex = flex === "flex" ? "none" : "flex";
         $(".filter-column").toggle();
         $(".filter-toggle-flex").css("display", flex);
-
+        $("#btnToggleFilters").html(`${flex !== "flex" ? 'Show' : 'Hide'} filters`);
     });
 });
