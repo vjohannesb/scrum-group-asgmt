@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+html, body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    color: #0E153D;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+span {
+    color: #20D3C2;
+}
+
+button {
+    background-color: #20D3C2;
+    color: white;
+    border: none;
+    border-radius: 50px;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* forms-section */
+
+.coupon {
+    width: 445px;
+    border: dashed 2px #E3E3E3;
+    border-radius: 6px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.coupon input {
+    border-radius: 50px;
+    border: solid 1px #E3E3E3;
+    height: 2.5rem;
+    width: 385px;
+    font-size: 14px;
+}
+
+.coupon button {
+    margin-left: -152px;
+    height: 2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.form-small {
+    height: 2.5rem;
+    width: 255px;
+    border: solid 1px #E3E3E3;
+    color: #777777;
+    font-size: 14px;
+}
+
+.form-large {
+    height: 2.5rem;
+    width: 540px;
+    border: solid 1px #E3E3E3;
+    color: #777777;
+    font-size: 14px;
+}
+
+.select {
+    height: 2.5rem;
+    width: 540px;
+    border: solid 1px #E3E3E3;
+    color: #777777;
+    font-size: 14px;
+}
+
+.checkbox-border {
+    border-bottom: solid 1px #E3E3E3;
+}
+
+.checkbox-label-1 {
+    margin-top: 1px;
+    margin-bottom: 3rem;
+}
+
+.checkbox-label-2 {
+    margin-top: 2px;
+}
+
+.form-text {
+    width: 540px;
+    border: solid 1px #E3E3E3;
+    color: #777777;
+    font-size: 14px;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* order-section */
+
+.order-section {
+    height: min-content;
+    width: 540px;
+    border: dashed 2px #0E153D;
+    border-radius: 6px;
+}
+
+.order-banner {
+    height: 80px;
+    width: 540px;
+    margin-left: -2px;
+    margin-top: -2px;
+    border-radius: 6px 6px 0px 0px;
+    font-size: 24px;
+    background-color: #0E153D;
+    color: #20D3C2;
+}
+
+.order-section ul {
+    list-style: none;
+    border-top: solid 1px #E3E3E3;
+    border-bottom: solid 1px #E3E3E3;
+    padding: 0;
+}
+
+.order-section li {
+    padding-top: 1rem;
+}
+
+.shipping {
+    border-top: solid 1px #E3E3E3;
+    border-bottom: solid 1px #E3E3E3;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.shipping p {
+    margin: 0;
+}
+
+.total-cost {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: solid 1px #E3E3E3;
+}
+
+.payment-options {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: solid 1px #E3E3E3;
+}
+
+.privacy-policy {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: solid 1px #E3E3E3;
+    color: #0E153D;
+}
+
+.terms {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.order-section button {
+    font-size: 18px;
+    display: block;
+    height: 3rem;
+    width: 100%;
+}
