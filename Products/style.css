@@ -346,10 +346,9 @@
 }
 
 .carousel-control-next {
-    margin-right: -5vw;
+    margin-right: -1vw;
     margin-top: 130px;
-    width: 10px;
-    height: 50px;
+    width: 50px;
     content: url(/img/carousel-right-arrow.svg);
 }
 
@@ -358,10 +357,9 @@
     }
 
 .carousel-control-prev {
-    margin-left: -8vw;
+    margin-left: -3vw;
     margin-top: 130px;
-    width: 10px;
-    height: 50px;
+    width: 50px;
     content: url(/img/carousel-left-arrow.svg);
 }
 
@@ -376,7 +374,7 @@
 }
 
 .carousel-indicators {
-    width: 10px;
+   
 }
 
 .dot {
