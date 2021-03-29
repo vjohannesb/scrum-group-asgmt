@@ -1,0 +1,52 @@
+  
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@700&family=Roboto:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap');
+:root {
+	--bg-dark-blue: #0e153d;
+	--bg-darkest-blue: #080c24;
+    --bg-red: #FE4545;
+    --bg-green: #64CB83;
+	--text-teal: #20d3c2;
+	--light-gray: #cccccc;
+    --bg-middle-gray: #E3E3E3;
+    --bg-lighter-gray: #EEEEEE;
+	font-family: "Roboto", sans-serif;
+    font-family: 'Play', sans-serif;
+}
+/* ALLMÄNT */
+.teal {color: var(--text-teal)}
+
+.lighter-gray-bg{background-color: var(--bg-lighter-gray)}
+
+.roboto{font-family: "Roboto", sans-serif}
+.b-play-60{
+    font-family: 'Play', sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+}
+.play-60{
+    font-family: 'Play', sans-serif;
+    font-size: 60px;
+}
+
+.container{width: 1100px}
+
+.button-rounded-long, .button-rounded-normal{
+    border: none;
+    width: 170px;
+    height: 55px;
+    border-radius: 27px;
+    color: var(--text-teal);
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    background-color: white;
+}
+.button-rounded-normal{width: 155px}
+
+/* Start */
+#start-div-background{
+    width: 100vw;
+    height: 600px;
+}
+.start-text{width: 390px}
