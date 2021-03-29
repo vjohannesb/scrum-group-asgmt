@@ -1,0 +1,114 @@
+
+.basket {
+    margin-top: 5rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    height:500px;
+
+        .productColumn {
+            display: flex;
+            
+        }
+}
+
+    
+
+    .cartTotals {
+        width: 350px;
+        margin:10px;
+        height:465px;
+
+    }
+    .headerTotals {                
+            width: auto;
+            height: 51px;
+            align-self: center;
+            background: VAR(--bg-dark-blue);
+            color: var(--teal);
+            font-size: 1.125rem;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center; height:60px; padding-top:1rem;
+            border-radius: 4px 4px 0px 0px;
+            padding: 1rem;
+            display: center;
+        }
+
+        .innerCartTotals {
+            width: auto;
+            border: var(--bg-dark-blue) 2.25px dotted;
+            border-radius: 0 0 5px 5px;
+            height:414px;
+            display: grid;
+            justify-content: center;
+        } 
+        
+        .checkOut {           
+            background: VAR(--teal);
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            width: 17rem; 
+            text-align: center;
+            height:54px;
+            padding-top: 2rem;                    
+            border-radius: 50px;
+            padding: 1rem;                        
+        }     
+        
+.updateCartButton {
+    background: VAR(--bg-darkest-blue);
+    color: #fff;
+    width: 12rem;
+    height: 50px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;        
+    text-align: center;
+    padding: .85rem;
+
+    position: relative;
+    left: 50%;
+}
+.couponArea {
+    position: relative;
+    top: -10px;
+    left: 50px;
+    width: 445px;
+    height: 150px;
+    border: grey 1px dashed;
+    border-radius: 5px 5px 5px 5px;
+}
+.couponDiv {
+    border: grey 1px ;
+    border-radius: 50px 50px 15px 15px;
+    width: 385px;
+    height:150px;
+    display: grid;
+    justify-content: center;
+}
+.couponField {
+    display: flex;    
+    height: 46px;
+}
+.couponCode {
+    width: auto;
+    border: var(--bg-dark-blue) 2.25px dotted;
+    border-radius: 0 0 5px 5px;
+}
+
+// < start_of YOU MAY Also Like "Section" 
+
+#carousel {
+    background: rgb(30, 93, 210);
+
+    hr {
+        display: block;    
+        flex: content;
+        justify-content: center;
+    }
+}
+
+// /> End_of You may... "Section"
