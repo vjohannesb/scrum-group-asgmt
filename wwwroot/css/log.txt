@@ -1,0 +1,6 @@
+25 mars 2021 (Göran)
+Började om. Med fokus på Bootstrap och responsivitet.
+Fixade en Counter (Källanvisning: https://codepen.io/Tanya_Rybachuk/pen/jyxzEp)
+
+26 mars 2021 (Göran)
+Bygger delen med Cart Totals med Bootstrap Grid
