@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+html, body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    color: #0E153D;
+}
+
+a {
+    text-decoration: none;
+}
+
+p {
+    margin: 0;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+
+span {
+    color: #20D3C2;
+}
+
+button {
+    background-color: #20D3C2;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 700;
+    display: block;
+    height: 3rem;
+    width: 100%;
+}
+
+.box {
+    height: min-content;
+    width: 540px;
+    border-radius: 6px;
+    background-color: #F6F6F6;
+}
+
+.form {
+    height: 2.5rem;
+    width: 480px;
+    border: none;
+    color: #777777;
+    font-size: 14px;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* login */
+
+.checkbox-label {
+    margin-top: 0.2rem;
+}
+
+.or-login-with {
+    text-align: center;
+    border-bottom: solid 2px #AAAAAA;
+    line-height: 0;
+}
+
+.or-login-with-span {
+    color: #0E153D;
+    padding:0 20px;
+    background-color: #F6F6F6;
+}
+
+.facebook-btn {
+    height: 42px;
+    width: 235px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 400;
+    background-color: #3B5998;
+    position: relative;
+}
+
+.facebook-btn img {
+    position: absolute;
+    height: 22px;
+    top: 10px;
+    left: 10px;  
+}
+
+.google-btn {
+    height: 42px;
+    width: 235px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 400;
+    background-color: #4285F4;
+    position: relative;
+}
+
+.google-btn img {
+    position: absolute;
+    height: 22px;
+    top: 10px;
+    left: 10px;  
+}
+
+/* ---------------------------------------------------------------------------------------------------- */
+/* register */
+
+.small-text {
+    font-size: 14px;
+    color: #777777;
+}
