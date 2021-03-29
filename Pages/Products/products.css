@@ -220,7 +220,7 @@
 	background-color: #20d3c2;
 }
 .box:hover #box-img-pack {
-	content: url(/src/img/shipping-box-white.svg);
+	content: url(/src/img/products/shipping-box-white.svg);
 }
 .box:hover span {
 	color: white;
@@ -230,28 +230,28 @@
 }
 
 #box-img-pack {
-	content: url(/src/img/shipping-box-teal.svg);
+	content: url(/src/img/products/shipping-box-teal.svg);
 }
 
 #box-img-clock {
-	content: url(/src/img/img-clock-teal.svg);
+	content: url(/src/img/products/img-clock-teal.svg);
 }
 .box:hover #box-img-clock {
-	content: url(/src/img/img-clock-white.svg);
+	content: url(/src/img/products/img-clock-white.svg);
 }
 
 #box-img-pay {
-	content: url(/src/img/img-pay-teal.svg);
+	content: url(/src/img/products/img-pay-teal.svg);
 }
 .box:hover #box-img-pay {
-	content: url(/src/img/img-pay-white.svg);
+	content: url(/src/img/products/img-pay-white.svg);
 }
 
 #box-img-time {
-	content: url(/src/img/img-time-teal.svg);
+	content: url(/src/img/products/img-time-teal.svg);
 }
 .box:hover #box-img-time {
-	content: url(/src/img/img-time-white.svg);
+	content: url(/src/img/products/img-time-white.svg);
 }
 
 /* Carousel */
