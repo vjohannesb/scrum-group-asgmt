@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 :root {
 	--bg-dark-blue: #0e153d;
@@ -9,5 +9,8 @@
 	--light-green: #64cb83;
 	--teal: #20d3c2;
 	--off-white: #f6f6f6;
-	font-family: "Roboto", sans-serif;
+}
+
+body {
+	font-family: "Roboto", sans-serif !important;
 }

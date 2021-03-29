@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="36" viewBox="0 0 88 36">
+  <g id="Product_quantity" data-name="Product quantity" transform="translate(-975 -653)">
+    <g id="Rectangle_534" data-name="Rectangle 534" transform="translate(1004 653)" fill="none" stroke="#aaa" stroke-width="1">
+      <rect width="30" height="36" stroke="none"/>
+      <rect x="0.5" y="0.5" width="29" height="35" fill="none"/>
+    </g>
+    <g id="Rectangle_535" data-name="Rectangle 535" transform="translate(975 653)" fill="none" stroke="#aaa" stroke-width="1">
+      <path d="M6,0H30a0,0,0,0,1,0,0V36a0,0,0,0,1,0,0H6a6,6,0,0,1-6-6V6A6,6,0,0,1,6,0Z" stroke="none"/>
+      <path d="M6,.5H29a.5.5,0,0,1,.5.5V35a.5.5,0,0,1-.5.5H6A5.5,5.5,0,0,1,.5,30V6A5.5,5.5,0,0,1,6,.5Z" fill="none"/>
+    </g>
+    <text id="_-" data-name="-" transform="translate(989 676)" fill="#0e153d" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="-2.207" y="0">-</tspan></text>
+    <text id="_3" data-name="3" transform="translate(1019 676)" fill="#0e153d" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="-4.492" y="0">3</tspan></text>
+    <path id="Rectangle_533" data-name="Rectangle 533" d="M0,0H24a6,6,0,0,1,6,6V30a6,6,0,0,1-6,6H0a0,0,0,0,1,0,0V0A0,0,0,0,1,0,0Z" transform="translate(1033 653)" fill="#20d3c2"/>
+    <text id="_" data-name="+" transform="translate(1049 676)" fill="#fff" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="-4.535" y="0">+</tspan></text>
+  </g>
+</svg>
