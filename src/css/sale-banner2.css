@@ -1,0 +1,91 @@
+  
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@700&family=Roboto:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap');
+:root {
+	--bg-dark-blue: #0e153d;
+	--bg-darkest-blue: #080c24;
+    --bg-red: #FE4545;
+    --bg-green: #64CB83;
+	--text-teal: #20d3c2;
+	--light-gray: #cccccc;
+    --bg-middle-gray: #E3E3E3;
+    --bg-lighter-gray: #EEEEEE;
+	font-family: "Roboto", sans-serif;
+    font-family: 'Play', sans-serif;
+}
+/* ALLMÄNT */
+.b-w-play-60{
+    font-family: 'Play', sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+    color: white;
+}
+.b-w-play-36{
+    font-family: 'Play', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: white;
+}
+.m-w-roboto-24{
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: white;
+}
+.roboto{
+    font-family: "Roboto", sans-serif;
+}
+.teal {
+	color: var(--text-teal);
+}
+.teal-bg {
+    background-color: var(--text-teal);
+}
+.dark-blue-bg {
+	background-color: var(--bg-dark-blue);
+}
+.small-circle{
+    position: absolute;
+    top: 25px;
+    left:25px;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}
+.button-rounded-long, .button-rounded-normal{
+    border: none;
+    width: 170px;
+    height: 55px;
+    border-radius: 27px;
+    color: var(--text-teal);
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+}
+.button-rounded-normal{
+    width: 155px;
+}
+.container{
+    width: 1100px;
+}
+/* sale banner 2 */
+#banner2{
+    height: 435px;
+    background-color: var(--bg-dark-blue);
+}
+.circle-container{
+    width: 110px;
+    height: 110px;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.circle{
+    content: url(/img/round.svg);
+    position: absolute;
+    top: 0;
+    left:0;
+    width: 110px;
+    height: 110px;
+    border-radius: 55px;
+}
