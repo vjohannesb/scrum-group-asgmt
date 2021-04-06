@@ -1,0 +1,51 @@
+﻿
+/*! Subscription Conversion Banner */
+.subscribe-conversion-banner {
+    background: var(--off-white);
+}
+
+    .subscribe-conversion-banner .subscribe-banner-container img {
+        max-width: 100%;
+    }
+
+.subscribe-form {
+    display: flex;
+    background: white;
+    border: 2px solid lightgray;
+    border-radius: 2rem;
+    padding-right: 4px;
+    max-width: 90%;
+}
+
+#inputEmailSubscribe {
+    flex: 1;
+    border: none;
+    margin-right: 3.5rem;
+    border-bottom-left-radius: 2rem;
+    border-top-left-radius: 2rem;
+    padding-left: 1rem;
+    padding-bottom: 0.15rem;
+}
+
+#btnSubscribe {
+    margin-left: -50px;
+    border-radius: 2rem;
+    background: var(--teal);
+    border: 1px solid transparent;
+    color: white;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 0.25rem 1rem;
+    padding-bottom: 0.28rem;
+    transition: 0.2s;
+}
+
+    #btnSubscribe:hover {
+        background: white;
+        color: var(--teal);
+        border: 1px solid var(--teal) !important;
+    }
+
+input:focus {
+    outline: none;
+}
