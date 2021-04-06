@@ -1,0 +1,326 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp", "BlazorApp\BlazorApp.csproj", "{2FC64283-E64D-4A37-B0D7-0170A16B2973}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{219FAD14-5583-43AC-B4B6-4C668BDDDD17}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedLibrary", "SharedLibrary\SharedLibrary.csproj", "{354BFD67-327C-495A-8B9E-15FFA368F9F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pages", "Pages", "{B06A1E75-18DF-462C-BE13-AD2DE1049669}"
+	ProjectSection(SolutionItems) = preProject
+		Pages\footer.css = Pages\footer.css
+		Pages\footer.html = Pages\footer.html
+		Pages\menu.css = Pages\menu.css
+		Pages\menu.html = Pages\menu.html
+		Pages\product-overlay-pill.css = Pages\product-overlay-pill.css
+		Pages\product-overlay-pill.html = Pages\product-overlay-pill.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2394995F-BE1B-4CD3-9354-90B3FD072FD4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{EC3D86BA-3A38-4486-AD5D-4B0C8B113E26}"
+	ProjectSection(SolutionItems) = preProject
+		src\css\jquery-ui.min.css = src\css\jquery-ui.min.css
+		src\css\style.css = src\css\style.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{9E3C7950-6C3F-479F-9EB3-DC386F192BC9}"
+	ProjectSection(SolutionItems) = preProject
+		src\js\jquery-ui.min.js = src\js\jquery-ui.min.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{9295B306-9584-4367-A3E1-0E7C35926BBA}"
+	ProjectSection(SolutionItems) = preProject
+		src\img\kenkata-logo.svg = src\img\kenkata-logo.svg
+		src\img\temp-product-quantity.svg = src\img\temp-product-quantity.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "team", "team", "{37289D26-3BE4-468C-A66A-ADA7576A73F6}"
+	ProjectSection(SolutionItems) = preProject
+		src\img\team\person-placeholder.svg = src\img\team\person-placeholder.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shopping-cart", "shopping-cart", "{3F851094-5310-4E52-9EC0-A16AFFDCBFA3}"
+	ProjectSection(SolutionItems) = preProject
+		src\img\shopping-cart\blue-ish.png = src\img\shopping-cart\blue-ish.png
+		src\img\shopping-cart\Close icon.svg = src\img\shopping-cart\Close icon.svg
+		src\img\shopping-cart\empty.png = src\img\shopping-cart\empty.png
+		src\img\shopping-cart\gentsjacket.svg = src\img\shopping-cart\gentsjacket.svg
+		src\img\shopping-cart\gentsshirt.svg = src\img\shopping-cart\gentsshirt.svg
+		src\img\shopping-cart\hat.svg = src\img\shopping-cart\hat.svg
+		src\img\shopping-cart\menswatch.svg = src\img\shopping-cart\menswatch.svg
+		src\img\shopping-cart\Next btn.png = src\img\shopping-cart\Next btn.png
+		src\img\shopping-cart\Product-dress.svg = src\img\shopping-cart\Product-dress.svg
+		src\img\shopping-cart\product-hat.svg = src\img\shopping-cart\product-hat.svg
+		src\img\shopping-cart\Product-shoes.svg = src\img\shopping-cart\Product-shoes.svg
+		src\img\shopping-cart\Product-widedress.svg = src\img\shopping-cart\Product-widedress.svg
+		src\img\shopping-cart\squiggly-line.svg = src\img\shopping-cart\squiggly-line.svg
+		src\img\shopping-cart\tent.svg = src\img\shopping-cart\tent.svg
+		src\img\shopping-cart\wmnshoe.svg = src\img\shopping-cart\wmnshoe.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shop", "shop", "{FA4B6C0E-0DAF-4780-8245-2DB9A8C53068}"
+	ProjectSection(SolutionItems) = preProject
+		src\img\shop\color-selection-circle.svg = src\img\shop\color-selection-circle.svg
+		src\img\shop\shoe-left.svg = src\img\shop\shoe-left.svg
+		src\img\shop\shoe-right.svg = src\img\shop\shoe-right.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "products", "products", "{A60DEBE1-C93C-4D4D-A32E-04BFCCA62ABE}"
+	ProjectSection(SolutionItems) = preProject
+		src\img\products\add-wishlist.svg = src\img\products\add-wishlist.svg
+		src\img\products\carousel-left-arrow-green.svg = src\img\products\carousel-left-arrow-green.svg
+		src\img\products\carousel-left-arrow.svg = src\img\products\carousel-left-arrow.svg
+		src\img\products\carousel-right-arrow-green.svg = src\img\products\carousel-right-arrow-green.svg
+		src\img\products\carousel-right-arrow.svg = src\img\products\carousel-right-arrow.svg
+		src\img\products\cart.svg = src\img\products\cart.svg
+		src\img\products\Color icon.svg = src\img\products\Color icon.svg
+		src\img\products\Compare icon.svg = src\img\products\Compare icon.svg
+		src\img\products\img-clock-teal.svg = src\img\products\img-clock-teal.svg
+		src\img\products\img-clock-white.svg = src\img\products\img-clock-white.svg
+		src\img\products\img-pay-teal.svg = src\img\products\img-pay-teal.svg
+		src\img\products\img-pay-white.svg = src\img\products\img-pay-white.svg
+		src\img\products\img-time-teal.svg = src\img\products\img-time-teal.svg
+		src\img\products\img-time-white.svg = src\img\products\img-time-white.svg
+		src\img\products\Product-dress.svg = src\img\products\Product-dress.svg
+		src\img\products\product-hat.svg = src\img\products\product-hat.svg
+		src\img\products\Product-shoes.svg = src\img\products\Product-shoes.svg
+		src\img\products\Product-thumb.svg = src\img\products\Product-thumb.svg
+		src\img\products\review-star.svg = src\img\products\review-star.svg
+		src\img\products\shipping-box-teal.svg = src\img\products\shipping-box-teal.svg
+		src\img\products\shipping-box-white.svg = src\img\products\shipping-box-white.svg
+		src\img\products\small-shoes-1.svg = src\img\products\small-shoes-1.svg
+		src\img\products\small-shoes-2.svg = src\img\products\small-shoes-2.svg
+		src\img\products\small-shoes-3.svg = src\img\products\small-shoes-3.svg
+		src\img\products\small-shoes-4.svg = src\img\products\small-shoes-4.svg
+		src\img\products\social-button1.svg = src\img\products\social-button1.svg
+		src\img\products\social-button2.svg = src\img\products\social-button2.svg
+		src\img\products\social-button3.svg = src\img\products\social-button3.svg
+		src\img\products\social-button4.svg = src\img\products\social-button4.svg
+		src\img\products\social-button5.svg = src\img\products\social-button5.svg
+		src\img\products\squiggly-line.svg = src\img\products\squiggly-line.svg
+		src\img\products\stock-image.svg = src\img\products\stock-image.svg
+		src\img\products\user-profile-pic.svg = src\img\products\user-profile-pic.svg
+		src\img\products\your-rating.svg = src\img\products\your-rating.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "payment-methods", "payment-methods", "{B0E72EBF-61D0-4BD5-AC1E-BC635016B3E8}"
+	ProjectSection(SolutionItems) = preProject
+		src\img\payment-methods\discover.svg = src\img\payment-methods\discover.svg
+		src\img\payment-methods\mastercard.svg = src\img\payment-methods\mastercard.svg
+		src\img\payment-methods\payoneer.svg = src\img\payment-methods\payoneer.svg
+		src\img\payment-methods\paypal.svg = src\img\payment-methods\paypal.svg
+		src\img\payment-methods\visa.svg = src\img\payment-methods\visa.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "my_account", "my_account", "{A7BC037B-818A-4604-A96E-4EE0294CFA1B}"
+	ProjectSection(SolutionItems) = preProject
+		src\img\my_account\Facebook icon.svg = src\img\my_account\Facebook icon.svg
+		src\img\my_account\Google icon.svg = src\img\my_account\Google icon.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "home", "home", "{55C264EB-F033-443D-A39D-07F74CB55A35}"
+	ProjectSection(SolutionItems) = preProject
+		src\img\home\arrow__b.svg = src\img\home\arrow__b.svg
+		src\img\home\arrow_d.svg = src\img\home\arrow_d.svg
+		src\img\home\arrow_n_b.svg = src\img\home\arrow_n_b.svg
+		src\img\home\arrow_p.svg = src\img\home\arrow_p.svg
+		src\img\home\arrow_w_l.svg = src\img\home\arrow_w_l.svg
+		src\img\home\arrow_w_r.svg = src\img\home\arrow_w_r.svg
+		src\img\home\Bag_icon.svg = src\img\home\Bag_icon.svg
+		src\img\home\Bexim.svg = src\img\home\Bexim.svg
+		src\img\home\box.png = src\img\home\box.png
+		src\img\home\box.svg = src\img\home\box.svg
+		src\img\home\box1.svg = src\img\home\box1.svg
+		src\img\home\btn_b_n.svg = src\img\home\btn_b_n.svg
+		src\img\home\btn_b_p.svg = src\img\home\btn_b_p.svg
+		src\img\home\btn_n.svg = src\img\home\btn_n.svg
+		src\img\home\btn_p.svg = src\img\home\btn_p.svg
+		src\img\home\circle.svg = src\img\home\circle.svg
+		src\img\home\clock.png = src\img\home\clock.png
+		src\img\home\clock.svg = src\img\home\clock.svg
+		src\img\home\girls.svg = src\img\home\girls.svg
+		src\img\home\Heart_icon.svg = src\img\home\Heart_icon.svg
+		src\img\home\Lighton.svg = src\img\home\Lighton.svg
+		src\img\home\Logo.svg = src\img\home\Logo.svg
+		src\img\home\pay.png = src\img\home\pay.png
+		src\img\home\pay.svg = src\img\home\pay.svg
+		src\img\home\prod1.svg = src\img\home\prod1.svg
+		src\img\home\prod2.svg = src\img\home\prod2.svg
+		src\img\home\prod3.png = src\img\home\prod3.png
+		src\img\home\prod3.svg = src\img\home\prod3.svg
+		src\img\home\prod4.svg = src\img\home\prod4.svg
+		src\img\home\prod5.svg = src\img\home\prod5.svg
+		src\img\home\prod6.png = src\img\home\prod6.png
+		src\img\home\prod6.svg = src\img\home\prod6.svg
+		src\img\home\prod7.svg = src\img\home\prod7.svg
+		src\img\home\prod8.svg = src\img\home\prod8.svg
+		src\img\home\prod9.png = src\img\home\prod9.png
+		src\img\home\prod9.svg = src\img\home\prod9.svg
+		src\img\home\Quote.svg = src\img\home\Quote.svg
+		src\img\home\Rosimo.svg = src\img\home\Rosimo.svg
+		src\img\home\round.svg = src\img\home\round.svg
+		src\img\home\star.svg = src\img\home\star.svg
+		src\img\home\star_empty.svg = src\img\home\star_empty.svg
+		src\img\home\time.png = src\img\home\time.png
+		src\img\home\time.svg = src\img\home\time.svg
+		src\img\home\User_icon.svg = src\img\home\User_icon.svg
+		src\img\home\zigzag.svg = src\img\home\zigzag.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "checkout", "checkout", "{632195E6-CD76-41AA-B114-E2B84A540247}"
+	ProjectSection(SolutionItems) = preProject
+		src\img\checkout\PayPal logo.svg = src\img\checkout\PayPal logo.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "brands", "brands", "{0C1DB89C-ED91-451B-AE56-424017FCB42A}"
+	ProjectSection(SolutionItems) = preProject
+		src\img\brands\bexim.svg = src\img\brands\bexim.svg
+		src\img\brands\concord.svg = src\img\brands\concord.svg
+		src\img\brands\dallas.svg = src\img\brands\dallas.svg
+		src\img\brands\dismis.svg = src\img\brands\dismis.svg
+		src\img\brands\lighton.svg = src\img\brands\lighton.svg
+		src\img\brands\rosimo.svg = src\img\brands\rosimo.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "404", "404", "{3BFCAD02-0EA2-4D74-B138-D20D9C0B2188}"
+	ProjectSection(SolutionItems) = preProject
+		Pages\404\404.css = Pages\404\404.css
+		Pages\404\404.html = Pages\404\404.html
+		Pages\404\404.scss = Pages\404\404.scss
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Checkout", "Checkout", "{068208D4-8E50-4D72-9E53-7A490F8B91A4}"
+	ProjectSection(SolutionItems) = preProject
+		Pages\Checkout\checkout.css = Pages\Checkout\checkout.css
+		Pages\Checkout\checkout.html = Pages\Checkout\checkout.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contact Us", "Contact Us", "{8D298F14-DADA-4ABB-A6A4-5F5E4054FB13}"
+	ProjectSection(SolutionItems) = preProject
+		Pages\Contact Us\contact-us.css = Pages\Contact Us\contact-us.css
+		Pages\Contact Us\contact-us.html = Pages\Contact Us\contact-us.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Home", "Home", "{C8DADA4C-97D9-46B3-B155-3CA745C14D13}"
+	ProjectSection(SolutionItems) = preProject
+		Pages\Home\categories.css = Pages\Home\categories.css
+		Pages\Home\categories.html = Pages\Home\categories.html
+		Pages\Home\featured-products.css = Pages\Home\featured-products.css
+		Pages\Home\featured-products.html = Pages\Home\featured-products.html
+		Pages\Home\home.html = Pages\Home\home.html
+		Pages\Home\latest-blog.css = Pages\Home\latest-blog.css
+		Pages\Home\latest-blog.html = Pages\Home\latest-blog.html
+		Pages\Home\new-arrivals.css = Pages\Home\new-arrivals.css
+		Pages\Home\new-arrivals.html = Pages\Home\new-arrivals.html
+		Pages\Home\rating.css = Pages\Home\rating.css
+		Pages\Home\rating.html = Pages\Home\rating.html
+		Pages\Home\sale-banner1.css = Pages\Home\sale-banner1.css
+		Pages\Home\sale-banner1.html = Pages\Home\sale-banner1.html
+		Pages\Home\sale-banner2.css = Pages\Home\sale-banner2.css
+		Pages\Home\sale-banner2.html = Pages\Home\sale-banner2.html
+		Pages\Home\shipping-info.css = Pages\Home\shipping-info.css
+		Pages\Home\shipping-info.html = Pages\Home\shipping-info.html
+		Pages\Home\start.css = Pages\Home\start.css
+		Pages\Home\start.html = Pages\Home\start.html
+		Pages\Home\top-sellers.css = Pages\Home\top-sellers.css
+		Pages\Home\top-sellers.html = Pages\Home\top-sellers.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "My Account", "My Account", "{EE4DA4A5-14E6-4261-93CA-872DABB58394}"
+	ProjectSection(SolutionItems) = preProject
+		Pages\My Account\my_account.css = Pages\My Account\my_account.css
+		Pages\My Account\my_account.html = Pages\My Account\my_account.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{0157FE82-69CF-4A69-9437-FB65914B25AE}"
+	ProjectSection(SolutionItems) = preProject
+		Pages\Products\products.css = Pages\Products\products.css
+		Pages\Products\products.html = Pages\Products\products.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shop", "Shop", "{C241906C-1BAB-4CDA-B68B-7AC72074D9A7}"
+	ProjectSection(SolutionItems) = preProject
+		Pages\Shop\product-quick-view.css = Pages\Shop\product-quick-view.css
+		Pages\Shop\product-quick-view.html = Pages\Shop\product-quick-view.html
+		Pages\Shop\shop.css = Pages\Shop\shop.css
+		Pages\Shop\shop.html = Pages\Shop\shop.html
+		Pages\Shop\shop.js = Pages\Shop\shop.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shopping Cart", "Shopping Cart", "{C3A1D5BA-322E-4451-B6E6-53973A400F72}"
+	ProjectSection(SolutionItems) = preProject
+		Pages\Shopping Cart\shopping-cart.css = Pages\Shopping Cart\shopping-cart.css
+		Pages\Shopping Cart\shopping-cart.html = Pages\Shopping Cart\shopping-cart.html
+		Pages\Shopping Cart\shopping-cart.js = Pages\Shopping Cart\shopping-cart.js
+		Pages\Shopping Cart\shopping-cart.min.css = Pages\Shopping Cart\shopping-cart.min.css
+		Pages\Shopping Cart\shopping-cart.scss = Pages\Shopping Cart\shopping-cart.scss
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Team", "Team", "{0144E229-267D-44D4-A2F5-24A83263DEFD}"
+	ProjectSection(SolutionItems) = preProject
+		Pages\Team\team.css = Pages\Team\team.css
+		Pages\Team\team.html = Pages\Team\team.html
+		Pages\Team\team.scss = Pages\Team\team.scss
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vscode-port", "vscode-port", "{D9189D64-125A-41A2-A1BC-3C01255F1D93}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FC64283-E64D-4A37-B0D7-0170A16B2973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FC64283-E64D-4A37-B0D7-0170A16B2973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FC64283-E64D-4A37-B0D7-0170A16B2973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FC64283-E64D-4A37-B0D7-0170A16B2973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{219FAD14-5583-43AC-B4B6-4C668BDDDD17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{219FAD14-5583-43AC-B4B6-4C668BDDDD17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{219FAD14-5583-43AC-B4B6-4C668BDDDD17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{219FAD14-5583-43AC-B4B6-4C668BDDDD17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{354BFD67-327C-495A-8B9E-15FFA368F9F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{354BFD67-327C-495A-8B9E-15FFA368F9F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{354BFD67-327C-495A-8B9E-15FFA368F9F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{354BFD67-327C-495A-8B9E-15FFA368F9F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B06A1E75-18DF-462C-BE13-AD2DE1049669} = {D9189D64-125A-41A2-A1BC-3C01255F1D93}
+		{2394995F-BE1B-4CD3-9354-90B3FD072FD4} = {D9189D64-125A-41A2-A1BC-3C01255F1D93}
+		{EC3D86BA-3A38-4486-AD5D-4B0C8B113E26} = {2394995F-BE1B-4CD3-9354-90B3FD072FD4}
+		{9E3C7950-6C3F-479F-9EB3-DC386F192BC9} = {2394995F-BE1B-4CD3-9354-90B3FD072FD4}
+		{9295B306-9584-4367-A3E1-0E7C35926BBA} = {2394995F-BE1B-4CD3-9354-90B3FD072FD4}
+		{37289D26-3BE4-468C-A66A-ADA7576A73F6} = {9295B306-9584-4367-A3E1-0E7C35926BBA}
+		{3F851094-5310-4E52-9EC0-A16AFFDCBFA3} = {9295B306-9584-4367-A3E1-0E7C35926BBA}
+		{FA4B6C0E-0DAF-4780-8245-2DB9A8C53068} = {9295B306-9584-4367-A3E1-0E7C35926BBA}
+		{A60DEBE1-C93C-4D4D-A32E-04BFCCA62ABE} = {9295B306-9584-4367-A3E1-0E7C35926BBA}
+		{B0E72EBF-61D0-4BD5-AC1E-BC635016B3E8} = {9295B306-9584-4367-A3E1-0E7C35926BBA}
+		{A7BC037B-818A-4604-A96E-4EE0294CFA1B} = {9295B306-9584-4367-A3E1-0E7C35926BBA}
+		{55C264EB-F033-443D-A39D-07F74CB55A35} = {9295B306-9584-4367-A3E1-0E7C35926BBA}
+		{632195E6-CD76-41AA-B114-E2B84A540247} = {9295B306-9584-4367-A3E1-0E7C35926BBA}
+		{0C1DB89C-ED91-451B-AE56-424017FCB42A} = {9295B306-9584-4367-A3E1-0E7C35926BBA}
+		{3BFCAD02-0EA2-4D74-B138-D20D9C0B2188} = {B06A1E75-18DF-462C-BE13-AD2DE1049669}
+		{068208D4-8E50-4D72-9E53-7A490F8B91A4} = {B06A1E75-18DF-462C-BE13-AD2DE1049669}
+		{8D298F14-DADA-4ABB-A6A4-5F5E4054FB13} = {B06A1E75-18DF-462C-BE13-AD2DE1049669}
+		{C8DADA4C-97D9-46B3-B155-3CA745C14D13} = {B06A1E75-18DF-462C-BE13-AD2DE1049669}
+		{EE4DA4A5-14E6-4261-93CA-872DABB58394} = {B06A1E75-18DF-462C-BE13-AD2DE1049669}
+		{0157FE82-69CF-4A69-9437-FB65914B25AE} = {B06A1E75-18DF-462C-BE13-AD2DE1049669}
+		{C241906C-1BAB-4CDA-B68B-7AC72074D9A7} = {B06A1E75-18DF-462C-BE13-AD2DE1049669}
+		{C3A1D5BA-322E-4451-B6E6-53973A400F72} = {B06A1E75-18DF-462C-BE13-AD2DE1049669}
+		{0144E229-267D-44D4-A2F5-24A83263DEFD} = {B06A1E75-18DF-462C-BE13-AD2DE1049669}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4DD3A00A-D5E9-4433-9A11-7D03CABFBC2F}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,99 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Roboto:wght@300;400;700;900&display=swap');
+
+/* Allmänt */
+:root {
+    --bg-dark-blue: #0e153d;
+    --bg-darkest-blue: #080c24;
+    --bg-indigo: #292f51;
+    --light-gray: #cccccc;
+    --light-green: #64cb83;
+    --blue-gray: #50546e;
+    --teal: #20d3c2;
+    --off-white: #f6f6f6;
+}
+
+html, body {
+    font-family: Roboto, sans-serif;
+}
+
+.font-play {
+    font-family: 'Play', sans-serif !important;
+}
+
+.bg-teal {
+    background: var(--teal) !important;
+}
+.text-teal {
+    color: var(--teal) !important;
+}
+
+.bg-indigo {
+    background: var(--bg-indigo) !important;
+}
+.text-indigo {
+    color: var(--bg-indigo) !important;
+}
+
+.bg-dark-blue {
+    background: var(--bg-dark-blue) !important;
+}
+.text-dark-blue {
+    color: var(--bg-dark-blue) !important;
+}
+
+.bg-darkest-blue {
+    background: var(--bg-darkest-blue) !important;
+}
+.text-darkest-blue {
+    color: var(--bg-darkest-blue) !important;
+}
+
+
+/************/
+
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
