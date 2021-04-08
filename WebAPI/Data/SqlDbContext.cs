@@ -272,7 +272,7 @@ namespace WebAPI.Data
 
             modelBuilder.Entity<Size>(entity =>
             {
-                entity.Property(e => e.Size1)
+                entity.Property(e => e.SizeName)
                     .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("Size");
