@@ -11,15 +11,67 @@
     --blue-gray: #50546e;
     --teal: #20d3c2;
     --off-white: #f6f6f6;
+    --bg-red: #FE4545;
+    --bg-green: #64CB83;
+    --dark-gray: #AAAAAA;
+    --bg-middle-gray: #E3E3E3;
+    --bg-lighter-gray: #EEEEEE;
+    font-family: "Roboto", sans-serif;
+    font-family: 'Play', sans-serif;
 }
 
 html, body {
     font-family: Roboto, sans-serif;
 }
 
+/* Fonts */
 .font-play {
     font-family: 'Play', sans-serif !important;
 }
+
+.b-w-play-60 {
+    font-family: 'Play', sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+    color: white;
+}
+
+.b-w-play-36 {
+    font-family: 'Play', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: white;
+}
+
+.m-w-roboto-24 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: white;
+}
+
+.m-w-roboto-18 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: white;
+}
+
+.w-roboto-14 {
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    color: white;
+}
+
+.m-roboto {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+}
+
+.roboto {
+    font-family: "Roboto", sans-serif
+}
+
 
 .bg-teal {
     background: var(--teal) !important;
@@ -48,12 +100,50 @@ html, body {
 .text-darkest-blue {
     color: var(--bg-darkest-blue) !important;
 }
+.f-16 {
+    font-size: 16px
+}
 
+/* Colors */
+.teal {
+    color: var(--teal)
+}
+
+.dark-blue {
+    color: var(--bg-dark-blue)
+}
+
+.dark-gray {
+    color: var(--dark-gray)
+}
+
+.dark-blue-bg {
+    background-color: var(--bg-dark-blue)
+}
+
+.bg-red {
+    background-color: var(--bg-red)
+}
+
+.bg-green {
+    background-color: var(--bg-green)
+}
+
+.bg-lightgray {
+    background-color: var(--light-gray)
+}
+
+.lighter-gray-bg {
+    background-color: var(--bg-lighter-gray)
+}
 
 /************/
-
+.container {
+    width: 60vw
+}
 
 a, .btn-link {
+    text-decoration: none;
     color: #0366d6;
 }
 
@@ -91,9 +181,87 @@ a, .btn-link {
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
-    }
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+.hidden {
+    display: none
+}
+
+.small-circle {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}
+
+.fashion-border {
+    width: 70px;
+    text-align: center;
+    border: 1px solid white;
+}
+/* Buttons */
+.button-rounded-long, .button-rounded-normal {
+    border: none;
+    width: 170px;
+    height: 55px;
+    border-radius: 27px;
+    color: var(--teal);
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.button-rounded-normal {
+    width: 155px
+}
+
+/* Carousel */
+#carouselExampleIndicators {
+    height: 400px;
+    margin-bottom: 100px;
+}
+
+.carousel-control-next {
+    margin-right: -4vw;
+    margin-top: 15%;
+    width: 64px;
+    content: url(/img/btn_n.svg);
+}
+
+.carousel-control-next:hover {
+    content: url(/img/btn_b_n.svg)
+}
+
+.carousel-control-prev {
+    margin-left: -4vw;
+    margin-top: 15%;
+    width: 64px;
+    content: url(/img/btn_p.svg);
+}
+
+.carousel-control-prev:hover {
+    content: url(/img/btn_b_p.svg)
+}
+
+.carousel {
+    margin-bottom: 100px
+}
+
+.carousel-indicators {
+    position: relative;
+    top: 20px;
+    width: 10px;
+    margin: 0 auto;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+}

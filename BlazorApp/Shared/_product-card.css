@@ -1,0 +1,144 @@
+.test-height, .height {
+    height: 400px;
+}
+
+.prod-card {
+    height: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.front-card, .hover-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 5;
+}
+
+.front-card {
+    background-color: var(--bg-lighter-gray);
+}
+
+.hover-card {
+    opacity: 0.9;
+    background-color: var(--bg-dark-blue);
+    display: none;
+}
+
+.card-img {
+    position: absolute;
+    bottom: 0;
+}
+
+.front-card-textbox {
+    position: absolute;
+    bottom: 0;
+    height: 5vh;
+    width: 100%;
+}
+
+.prod-card:hover .hover-card {
+    display: block;
+}
+
+.hide {
+    display: block
+}
+
+.prod-card:hover .hide {
+    display: none
+}
+
+/* hover card details*/
+.hover-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.text p:first-child {
+    font-size: 18px;
+}
+
+.fashion-border {
+    width: 70px;
+    text-align: center;
+    border: 1px solid white;
+    font-size: 14px;
+}
+
+/*! Product Overlay Pill  */
+.product-overlay-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 0.6rem;
+    border-radius: 2rem;
+    background: white;
+    margin: 1rem;
+}
+
+.pop-toggle-btn {
+    color: rgba(255, 0, 0, 0.75) !important;
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+    transition: 0.2s;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.product-overlay-pill i:last-child {
+    margin-bottom: 0.4rem;
+}
+
+.product-overlay-pill i:not(:last-child) {
+    margin-bottom: 0.75rem;
+}
+
+.product-overlay-pill i {
+    display: block;
+    color: gray;
+    position: relative;
+    cursor: pointer;
+}
+
+    .product-overlay-pill i:hover {
+        color: var(--text-teal);
+    }
+    /*! Pill Modals */
+    .product-overlay-pill i .pop-modal {
+        font-weight: normal !important;
+        font-family: "Roboto", sans-serif !important;
+        background: var(--text-teal);
+        color: white;
+        position: absolute;
+        left: -8rem;
+        top: -0.5rem;
+        border-radius: 0.25rem;
+        text-align: center;
+        padding: 0.5rem;
+        width: 7rem;
+        /* opacity: 0;
+	transition: 0.2s; */
+        display: none;
+    }
+
+    .product-overlay-pill i:hover .pop-modal {
+        /* opacity: 1 !important; */
+        display: block;
+    }
+
+.product-overlay-pill .pop-modal::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-top: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent transparent var(--text-teal);
+}

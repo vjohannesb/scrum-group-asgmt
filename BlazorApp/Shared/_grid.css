@@ -1,4 +1,3 @@
-/* Category */
 .grid-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -45,19 +44,7 @@
     grid-area: div7;
 }
 
-.inner-div {
-    height: 40px;
-    width: 50%;
-    background-color: var(--bg-dark-blue);
-    border-radius: 0px 6px 0px 6px;
-}
-
 .grid-container p {
     padding-left: 15px;
     font-family: "Roboto", sans-serif;
-}
-
-.TEST{
-    background-color: red;
-    border: 1px solid red;
 }
