@@ -35,6 +35,9 @@ namespace WebAPI
             // Kopplar in IIdentityService
             services.AddScoped<IIdentityService, IdentityService>();
 
+            // Enable CORS
+            services.AddCors();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -55,6 +58,9 @@ namespace WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // Definiera CORS
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthorization();
 
