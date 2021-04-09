@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using WebAPI.Data;
+using WebAPI.Services;
 
 namespace WebAPI
 {
@@ -26,7 +22,14 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
+            // Kopplar in SqlDbContext m.h.a. ConnectionString i appsettings.json
+            services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
+
+            // Kopplar in IIdentityService
+            services.AddScoped<IIdentityService, IdentityService>();
+
+            // Enable CORS
+            services.AddCors();
 
             // Enable CORS
             services.AddCors();
@@ -51,6 +54,9 @@ namespace WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // Definiera CORS
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthorization();
 

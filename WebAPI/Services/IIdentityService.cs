@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SharedLibrary.Models.ViewModels;
 using System.Threading.Tasks;
 
 namespace WebAPI.Services
 {
-    interface IIdentityService
+    public interface IIdentityService
     {
+        public Task<ResponseModel> SignInAsync(SignInModel model);
     }
 }

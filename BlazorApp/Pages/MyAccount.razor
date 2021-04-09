@@ -1,0 +1,118 @@
+﻿@page "/myaccount"
+
+@if (_signInModel != null)
+{
+    <div class="d-flex justify-content-center mt-5 mb-5">
+
+        <!-- Login -->
+        <div class="box d-flex justify-content-center p-4 me-4">
+            <div>
+                <h1>LOGIN</h1>
+                <EditForm Model="@_signInModel" OnValidSubmit="@LoginUser">
+                    <DataAnnotationsValidator />
+
+                    <div class="mt-4">
+                        <label class="mb-2" for="emailLogin">Email <span>*</span></label><br>
+                        <InputText class="form-control form" type="email" id="emailLogin" required
+                                   @bind-Value="_signInModel.Email" />
+                        <ValidationMessage For="() => _signInModel.Email" />
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="mb-2" for="passwordLogin">Password <span>*</span></label><br>
+                        <InputText class="form-control form" type="password" id="passwordLogin" required
+                                   @bind-Value="_signInModel.Password" />
+                        <ValidationMessage For="() => _signInModel.Password" />
+                    </div>
+
+                    <button type="submit" class="mt-4" disabled=@_submitting>
+                        LOG IN
+                    </button>
+
+                </EditForm>
+                <div class="mt-4 d-flex align-items-center justify-content-between">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                        <label class="checkbox-label" for="rememberMe">Remember me</label>
+                    </div>
+                    <a href="#"><span>Lost your password?</span></a>
+                </div>
+                <p class="or-login-with mt-5"><span class="or-login-with-span">OR LOGIN WITH</span></p>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="facebook-btn mt-5">
+                        Facebook
+                        <img src="/src/img/my_account/Facebook icon.svg">
+                    </button>
+                    <button type="button" class="google-btn mt-5">
+                        Google
+                        <img src="/src/img/my_account/Google icon.svg">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register -->
+        <div class="box d-flex justify-content-center p-4 ms-4">
+            <div>
+                <h1>REGISTER</h1>
+                <p class="small-text mt-4">
+                    Registering for this site allows you to access your order status and
+                    history.<br>
+                    Just fill in the fields below, and we’ll get a new account set up for you in no<br>
+                    time. We will only ask you for information necessary to make the purchase<br>
+                    process faster and easier.
+                </p>
+                <div class="mt-4">
+                    <label class="mb-2" for="username">Username <span>*</span></label><br>
+                    <input class="form-control form" type="text" id="username" required>
+                </div>
+                <div class="mt-4">
+                    <label class="mb-2" for="emailRegister">Email address <span>*</span></label><br>
+                    <input class="form-control form" type="email" id="emailRegister" required>
+                </div>
+                <div class="mt-4">
+                    <label class="mb-2" for="passwordRegister">Password <span>*</span></label><br>
+                    <input class="form-control form" type="password" id="passwordRegister" required>
+                </div>
+                <p class="mt-4">
+                    Your personal data will be used to support your experience<br>
+                    throughout this website, to manage access to your account, and for<br>
+                    other purposes described in our <a href="#"><span>privacy policy.</span></a>
+                </p>
+                <button type="submit" class="mt-4">REGISTER</button>
+            </div>
+        </div>
+    </div>
+    <_BottomBrandBanner />
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    private SignInModel _signInModel;
+
+    private string _error;
+    private bool _submitting = false;
+
+    protected override void OnInitialized()
+    {
+        _signInModel = new SignInModel();
+    }
+
+    private async Task LoginUser()
+    {
+        _submitting = true;
+        _error = string.Empty;
+
+        var response = await apiService.SignInAsync(_signInModel);
+
+        if (response.IsSuccessStatusCode)
+            Console.WriteLine("Successfully logged in!");
+        else
+            Console.WriteLine($"{(int)response.StatusCode} {response.ReasonPhrase}");
+
+        _submitting = false;
+    }
+} 

@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace WebAPI.Data
+namespace SharedLibrary.Models
 {
-    public partial class Color
+    public partial class Size
     {
-        public Color()
+        public Size()
         {
             Products = new HashSet<Product>();
         }
 
-        public int ColorId { get; set; }
-        public string Name { get; set; }
+        public int SizeId { get; set; }
+        public string SizeName { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }
