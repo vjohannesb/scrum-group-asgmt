@@ -28,12 +28,12 @@ namespace WebAPI.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("login")]
+        [HttpPost("signin")]
         public async Task<IActionResult> SignIn([FromBody] SignInModel model)
         {
             var response = await _identity.SignInAsync(model);
             return response.Succeeded
-                ? Ok(Response)
+                ? Ok(response)
                 : Unauthorized();
         }
 
