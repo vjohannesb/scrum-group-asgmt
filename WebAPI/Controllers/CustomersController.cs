@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SharedLibrary.Models;
+using SharedLibrary.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Data;
 using WebAPI.Models;
+using WebAPI.Services;
 
 namespace WebAPI.Controllers
 {
@@ -16,12 +19,25 @@ namespace WebAPI.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly SqlDbContext _context;
+        private readonly IIdentityService _identity;
+
         private IConfiguration _configuration { get; }
 
-        public CustomersController(SqlDbContext context, IConfiguration configuration)
+        public CustomersController(SqlDbContext context, IIdentityService identity, IConfiguration configuration)
         {
             _context = context;
+            _identity = identity;
             _configuration = configuration;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> SignIn([FromBody] SignInModel model)
+        {
+            var response = await _identity.SignInAsync(model);
+            return response.Succeeded
+                ? Ok(Response)
+                : Unauthorized();
         }
 
         //POST Customer
@@ -55,7 +71,7 @@ namespace WebAPI.Controllers
                 }
                 catch { }
             }
-            
+
             return BadRequest();
         }
 
@@ -81,40 +97,39 @@ namespace WebAPI.Controllers
         //    }
 
         //    return false;
-        }
-
-        //[HttpPost("register")]
-        //public async Task<IActionResult> Register([FromBody] RegisterUser model)
-        //{
-        //    if (await _identity.CreateUserAsync(model))
-        //        return new OkResult();
-
-        //    return new BadRequestResult();
-        //}
-
-
-        //public async Task<bool> CreateCustomerAsync(RegisterCustomer model)
-        //{
-        //    if (!_context.Customers.Any(customer => customer.Email == model.Email))
-        //    {
-        //        try
-        //        {
-        //            var user = new User()
-        //            {
-        //                FirstName = model.FirstName,
-        //                LastName = model.LastName,
-        //                Email = model.Email
-        //            };
-        //            user.CreatePasswordWithHash(model.Password);
-        //            _context.Users.Add(user);
-        //            await _context.SaveChangesAsync();
-
-        //            return true;
-        //        }
-        //        catch { }
-        //    }
-
-        //    return false;
-        //}
     }
 
+    //[HttpPost("register")]
+    //public async Task<IActionResult> Register([FromBody] RegisterUser model)
+    //{
+    //    if (await _identity.CreateUserAsync(model))
+    //        return new OkResult();
+
+    //    return new BadRequestResult();
+    //}
+
+
+    //public async Task<bool> CreateCustomerAsync(RegisterCustomer model)
+    //{
+    //    if (!_context.Customers.Any(customer => customer.Email == model.Email))
+    //    {
+    //        try
+    //        {
+    //            var user = new User()
+    //            {
+    //                FirstName = model.FirstName,
+    //                LastName = model.LastName,
+    //                Email = model.Email
+    //            };
+    //            user.CreatePasswordWithHash(model.Password);
+    //            _context.Users.Add(user);
+    //            await _context.SaveChangesAsync();
+
+    //            return true;
+    //        }
+    //        catch { }
+    //    }
+
+    //    return false;
+    //}
+}
