@@ -23,6 +23,65 @@ namespace WebAPI.Controller
             _configuration = configuration;
         }
 
+        //POST Customer
+        //[HttpPost]
+        //public async Task<ActionResult<Customer>> PostOrder(Customer customer)
+        //{
+        //    _context.Customers.Add(customer);
+        //    await _context.SaveChangesAsync();
+
+        //    return Ok(customer);
+        //}
+
+        [HttpPost]
+        public async Task<ActionResult<RegisterCustomer>> PostOrder(RegisterCustomer model)
+        {
+            if (!_context.Customers.Any(c => c.Email == model.Email))
+            {
+                try
+                {
+                    var customer = new Customer()
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email
+                    };
+                    customer.CreatePasswordWithHash(model.Password);
+                    _context.Customers.Add(customer);
+                    await _context.SaveChangesAsync();
+
+                    return Ok(customer);
+                }
+                catch { }
+            }
+            
+            return BadRequest();
+        }
+
+        //public async Task<bool> CreateUserAsync(RegisterCustomer model)
+        //{
+        //    if (!_context.Customers.Any(c => c.Email == model.Email))
+        //    {
+        //        try
+        //        {
+        //            var customer = new Customer()
+        //            {
+        //                FirstName = model.FirstName,
+        //                LastName = model.LastName,
+        //                Email = model.Email
+        //            };
+        //            customer.CreatePasswordWithHash(model.Password);
+        //            _context.Customers.Add(customer);
+        //            await _context.SaveChangesAsync();
+
+        //            return true;
+        //        }
+        //        catch { }
+        //    }
+
+        //    return false;
+        }
+
         //[HttpPost("register")]
         //public async Task<IActionResult> Register([FromBody] RegisterUser model)
         //{
@@ -57,4 +116,4 @@ namespace WebAPI.Controller
         //    return false;
         //}
     }
-}
+

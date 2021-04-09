@@ -25,7 +25,6 @@ namespace WebAPI.Controller
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            //return await _context.Products.Include(p => p.Model).Include(p => p.Color).Include(p => p.Size).ToListAsync();
             return await _context.Products.ToListAsync();
         }
 
@@ -42,21 +41,30 @@ namespace WebAPI.Controller
         // POST Color
         [HttpPost("color")]
         public async Task<ActionResult<Color>> PostColor(Color color)
-        {
-            _context.Colors.Add(color);
-            await _context.SaveChangesAsync();
+        {  
+            if (!_context.Colors.Any(c => c.Name == color.Name))
+            {
+                _context.Colors.Add(color);
+                await _context.SaveChangesAsync();
 
-            return Ok(color);
-        }
+                return Ok(color);
+            }
+         
+            return BadRequest();
+        }  
 
         // POST Size
         [HttpPost("size")]
         public async Task<ActionResult<Size>> PostSize(Size size)
         {
-            _context.Sizes.Add(size);
-            await _context.SaveChangesAsync();
+            if (!_context.Sizes.Any(s => s.SizeName == size.SizeName))
+            {
+                _context.Sizes.Add(size);
+                await _context.SaveChangesAsync();
 
-            return Ok(size);
+                return Ok(size);
+            }
+            return BadRequest();
         }
 
         // POST: Model
@@ -73,10 +81,39 @@ namespace WebAPI.Controller
         [HttpPost("brand")]
         public async Task<ActionResult<Brand>> PostBrand(Brand brand)
         {
-            _context.Brands.Add(brand);
+            if (!_context.Brands.Any(b => b.BrandName == brand.BrandName))
+            {
+                _context.Brands.Add(brand);
+                await _context.SaveChangesAsync();
+
+                return Ok(brand);
+            }
+            return BadRequest();
+        }
+
+        // POST: Tags
+        [HttpPost("tags")]
+        public async Task<ActionResult<Tag>> PostTags(Tag tag)
+        {          
+            if (!_context.Tags.Any(t => t.TagName == tag.TagName))
+            {
+                _context.Tags.Add(tag);
+                await _context.SaveChangesAsync();
+
+                return Ok(tag);
+            }
+            return BadRequest();
+
+        }
+
+        // POST: Reviews
+        [HttpPost("reviews")]
+        public async Task<ActionResult<Review>> PostReview(Review review)
+        {
+            _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
 
-            return Ok(brand);
+            return Ok(review);
         }
 
     }
