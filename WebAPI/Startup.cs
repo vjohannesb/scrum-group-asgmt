@@ -28,6 +28,9 @@ namespace WebAPI
         {
             //services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
 
+            // Enable CORS
+            services.AddCors();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
