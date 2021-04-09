@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+using SharedLibrary.Models.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Data;
-using WebAPI.Data.ViewModels;
 
 namespace WebAPI.Services
 {

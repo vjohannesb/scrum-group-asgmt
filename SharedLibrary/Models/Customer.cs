@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
 #nullable disable
 
-namespace WebAPI.Data
+namespace SharedLibrary.Models
 {
     public partial class Customer
     {

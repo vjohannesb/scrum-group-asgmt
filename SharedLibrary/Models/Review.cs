@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#nullable disable
 
-#nullable disable
-
-namespace WebAPI.Data
+namespace SharedLibrary.Models
 {
     public partial class Review
     {

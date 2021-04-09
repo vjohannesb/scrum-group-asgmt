@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 #nullable disable
 
-namespace WebAPI.Data
+namespace SharedLibrary.Models
 {
     public partial class ProductModel
     {

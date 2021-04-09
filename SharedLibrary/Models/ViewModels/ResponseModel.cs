@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebAPI.Data.ViewModels
+﻿namespace SharedLibrary.Models.ViewModels
 {
     public class ResponseModel
     {
