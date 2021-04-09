@@ -33,5 +33,7 @@ namespace BlazorApp.Services
 
         // Identity / Customer
         public Task<HttpResponseMessage> SignInAsync(SignInModel model);
+
+        public Task<HttpResponseMessage> RegisterAsync(RegisterModel model);
     }
 }
