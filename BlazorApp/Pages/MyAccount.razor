@@ -62,35 +62,35 @@
                     time. We will only ask you for information necessary to make the purchase<br>
                     process faster and easier.
                 </p>
-                <EditForm Model="@_signInModel" OnValidSubmit="@LoginUser">
+                <EditForm Model="@_registerModel" OnValidSubmit="@RegisterUser">
                     <DataAnnotationsValidator />
 
                     <div class="mt-4">
                         <label class="mb-2" for="firstName">First name<span>*</span></label><br>
                         <InputText class="form-control form" type="text" id="firstName" required
-                                   @bind-Value="_registerInModel.FirstName" />
-                        <ValidationMessage For="() => _signInModel.FirstName" />
+                                   @bind-Value="_registerModel.FirstName" />
+                        <ValidationMessage For="() => _registerModel.FirstName" />
                     </div>
 
                     <div class="mt-4">
                         <label class="mb-2" for="lastName">Last name<span>*</span></label><br>
                         <InputText class="form-control form" type="text" id="lastName" required
-                                   @bind-Value="_registerInModel.LastName" />
-                        <ValidationMessage For="() => _signInModel.LastName" />
+                                   @bind-Value="_registerModel.LastName" />
+                        <ValidationMessage For="() => _registerModel.LastName" />
                     </div>
 
                     <div class="mt-4">
                         <label class="mb-2" for="emailRegister">Email address<span>*</span></label><br>
                         <InputText class="form-control form" type="email" id="emailRegister" required
-                                   @bind-Value="_registerInModel.Email" />
-                        <ValidationMessage For="() => _signInModel.Email" />
+                                   @bind-Value="_registerModel.Email" />
+                        <ValidationMessage For="() => _registerModel.Email" />
                     </div>
 
                     <div class="mt-4">
                         <label class="mb-2" for="passwordRegister">Password <span>*</span></label><br>
                         <InputText class="form-control form" type="password" id="passwordRegister" required
-                                   @bind-Value="_registerInModel.Password" />
-                        <ValidationMessage For="() => _registerInModel.Password" />
+                                   @bind-Value="_registerModel.Password" />
+                        <ValidationMessage For="() => _registerModel.Password" />
                     </div>
 
                     <p class="mt-4">
@@ -99,7 +99,7 @@
                         other purposes described in our <a href="#"><span>privacy policy.</span></a>
                     </p>
                     <button type="submit" class="mt-4" disabled=@_submitting>REGISTER</button>
-                </EditForm>                
+                </EditForm>
             </div>
         </div>
     </div>
@@ -112,6 +112,7 @@ else
 
 @code {
     private SignInModel _signInModel;
+    private RegisterModel _registerModel;
 
     private string _error;
     private bool _submitting = false;
@@ -119,6 +120,7 @@ else
     protected override void OnInitialized()
     {
         _signInModel = new SignInModel();
+        _registerModel = new RegisterModel();
     }
 
     private async Task LoginUser()
@@ -130,6 +132,24 @@ else
 
         if (response.IsSuccessStatusCode)
             Console.WriteLine("Successfully logged in!");
+        else
+            Console.WriteLine($"{(int)response.StatusCode} {response.ReasonPhrase}");
+
+        _submitting = false;
+    }
+    private async Task RegisterUser()
+    {
+        _submitting = true;
+        _error = string.Empty;
+
+        var response = await apiService.RegisterAsync(_registerModel);
+
+        if (response.IsSuccessStatusCode)
+        {
+            _registerModel = new RegisterModel();
+            Console.WriteLine("Successfully registered user!");
+        }
+
         else
             Console.WriteLine($"{(int)response.StatusCode} {response.ReasonPhrase}");
 

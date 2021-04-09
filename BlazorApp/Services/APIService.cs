@@ -18,6 +18,7 @@ namespace BlazorApp.Services
         public string BaseUrl => "https://localhost:44306/api";
         public string CustomersUrl => $"{BaseUrl}/customers";
         public string SignInUrl => $"{CustomersUrl}/signin";
+        public string RegisterUrl => $"{CustomersUrl}/register";
 
         public APIService(ILocalStorageService localStorage, HttpClient httpClient)
         {
@@ -65,6 +66,16 @@ namespace BlazorApp.Services
                 var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
                 // spara token från result
                 // await SaveTokenAsync(payload.Result)
+            }
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> RegisterAsync(RegisterModel model)
+        {
+            var response = await SendToAPIAsync(HttpMethod.Post, RegisterUrl, model);
+            if (response.IsSuccessStatusCode)
+            {
+                //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
             }
             return response;
         }
