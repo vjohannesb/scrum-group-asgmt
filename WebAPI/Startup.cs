@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -5,8 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Threading.Tasks;
 using WebAPI.Data;
 using WebAPI.Services;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
 
 namespace WebAPI
 {
@@ -18,6 +23,10 @@ namespace WebAPI
         }
 
         public IConfiguration Configuration { get; }
+
+        private bool ValidateTokenLifetime(DateTime? notBefore, DateTime? expires, 
+            SecurityToken tokenToValidate, TokenValidationParameters @param)
+            => expires != null && expires > DateTime.Now;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -31,8 +40,37 @@ namespace WebAPI
             // Enable CORS
             services.AddCors();
 
-            // Enable CORS
-            services.AddCors();
+            // Lägg till Authentication via JWT
+            services.AddAuthentication(auth =>
+            {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(jwtb =>
+            {
+                jwtb.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var parsed = int.TryParse(context.Principal?.FindFirst("UserId")?.Value, out var id);
+                        if (!parsed || id < 1)
+                            context.Fail("401 Unauthorized");
+                        return Task.CompletedTask;
+                    }
+                };
+
+                jwtb.RequireHttpsMetadata = true;
+                jwtb.SaveToken = true;
+                jwtb.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateAudience = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("SecretKey"))),
+
+                    ValidateLifetime = true,
+                    LifetimeValidator = ValidateTokenLifetime
+                };
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -58,6 +96,7 @@ namespace WebAPI
             // Definiera CORS
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

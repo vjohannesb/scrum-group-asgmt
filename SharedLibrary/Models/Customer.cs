@@ -46,6 +46,22 @@ namespace SharedLibrary.Models
             return true;
         }
 
+        public void CreateTokenWithHash(string token)
+            => Token = GenerateSaltedHash(Encoding.UTF8.GetBytes(token));
+
+        public bool ValidateTokenHash(string token)
+        {
+            var saltedToken = GenerateSaltedHash(Encoding.UTF8.GetBytes(token));
+            if (saltedToken.Length != Token.Length)
+                return false;
+
+            for (var i = 0; i < saltedToken.Length; i++)
+                if (saltedToken[i] != Token[i])
+                    return false;
+
+            return true;
+        }
+
         private byte[] GenerateSaltedHash(byte[] password)
         {
             using var hmac = new HMACSHA512(PasswordSalt);
