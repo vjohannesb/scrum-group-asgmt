@@ -1,6 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using SharedLibrary.Models.ViewModels;
+using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Data;
 
@@ -9,10 +15,14 @@ namespace WebAPI.Services
     public class IdentityService : IIdentityService
     {
         private readonly SqlDbContext _context;
+        private readonly IConfiguration _configuration;
+        private readonly JwtSecurityTokenHandler _tokenHandler;
 
-        public IdentityService(SqlDbContext context)
+        public IdentityService(SqlDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
+            _tokenHandler = new JwtSecurityTokenHandler();
         }
 
         public async Task<ResponseModel> SignInAsync(SignInModel model)
@@ -25,10 +35,33 @@ namespace WebAPI.Services
             if (!customer.ValidatePasswordHash(model.Password))
                 return new ResponseModel(false, null);
 
-            // TOKEN
-            // TOKEN
+            var _secretKey = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("SecretKey"));
+            var _tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim("UserId", customer.CustomerId.ToString()),
+                    new Claim("DisplayName", $"{customer.FirstName} {customer.LastName}")
+                }),
+                IssuedAt = DateTime.UtcNow,
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(_secretKey), SecurityAlgorithms.HmacSha512Signature)
+            };
 
-            return new ResponseModel(true, "Logged in!");
+            var _accessToken = _tokenHandler.WriteToken(_tokenHandler.CreateToken(_tokenDescriptor));
+            customer.CreateTokenWithHash(_accessToken);
+
+            try
+            {
+                _context.Update(customer);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unhandled error. {ex.Message}\n{ex}");
+            }
+
+            return new ResponseModel(true, _accessToken);
         }
 
         private bool EmailRegistered(string email) =>
