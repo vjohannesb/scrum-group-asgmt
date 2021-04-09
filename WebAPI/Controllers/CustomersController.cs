@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using WebAPI.Data;
 using WebAPI.Models;
 
-namespace WebAPI.Controller
+namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
