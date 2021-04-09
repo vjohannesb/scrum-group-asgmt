@@ -63,11 +63,13 @@ namespace BlazorApp.Services
             if (response.IsSuccessStatusCode)
             {
                 var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
-                // spara token från result
-                // await SaveTokenAsync(payload.Result)
+                await SaveTokenAsync(payload.Result);
             }
             return response;
         }
+
+        private async Task SaveTokenAsync(string token)
+            => await _localStorage.SetItemAsync("accessToken", token);
     }
 }
 
