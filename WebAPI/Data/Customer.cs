@@ -18,15 +18,14 @@ namespace WebAPI.Data
 
         public int CustomerId { get; set; }
         public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public byte[] Password { get; set; }
         public byte[] PasswordSalt { get; set; }
         public byte[] Token { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
-
 
         public void CreatePasswordWithHash(string password)
         {
@@ -34,13 +33,25 @@ namespace WebAPI.Data
             PasswordSalt = hmac.Key;
             Password = GenerateSaltedHash(Encoding.UTF8.GetBytes(password));
         }
+
+        public bool ValidatePasswordHash(string password)
+        {
+            var saltedHash = GenerateSaltedHash(Encoding.UTF8.GetBytes(password));
+            if (saltedHash.Length != Password.Length)
+                return false;
+
+            for (var i = 0; i < saltedHash.Length; i++)
+                if (saltedHash[i] != Password[i])
+                    return false;
+
+            return true;
+        }
+
         private byte[] GenerateSaltedHash(byte[] password)
         {
             using var hmac = new HMACSHA512(PasswordSalt);
             byte[] saltedPass = password.Concat(PasswordSalt).ToArray();
             return hmac.ComputeHash(saltedPass);
         }
-    
-
     }
 }
