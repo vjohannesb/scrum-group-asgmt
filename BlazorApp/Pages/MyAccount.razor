@@ -62,24 +62,44 @@
                     time. We will only ask you for information necessary to make the purchase<br>
                     process faster and easier.
                 </p>
-                <div class="mt-4">
-                    <label class="mb-2" for="username">Username <span>*</span></label><br>
-                    <input class="form-control form" type="text" id="username" required>
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="emailRegister">Email address <span>*</span></label><br>
-                    <input class="form-control form" type="email" id="emailRegister" required>
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="passwordRegister">Password <span>*</span></label><br>
-                    <input class="form-control form" type="password" id="passwordRegister" required>
-                </div>
-                <p class="mt-4">
-                    Your personal data will be used to support your experience<br>
-                    throughout this website, to manage access to your account, and for<br>
-                    other purposes described in our <a href="#"><span>privacy policy.</span></a>
-                </p>
-                <button type="submit" class="mt-4">REGISTER</button>
+                <EditForm Model="@_signInModel" OnValidSubmit="@LoginUser">
+                    <DataAnnotationsValidator />
+
+                    <div class="mt-4">
+                        <label class="mb-2" for="firstName">First name<span>*</span></label><br>
+                        <InputText class="form-control form" type="text" id="firstName" required
+                                   @bind-Value="_registerInModel.FirstName" />
+                        <ValidationMessage For="() => _signInModel.FirstName" />
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="mb-2" for="lastName">Last name<span>*</span></label><br>
+                        <InputText class="form-control form" type="text" id="lastName" required
+                                   @bind-Value="_registerInModel.LastName" />
+                        <ValidationMessage For="() => _signInModel.LastName" />
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="mb-2" for="emailRegister">Email address<span>*</span></label><br>
+                        <InputText class="form-control form" type="email" id="emailRegister" required
+                                   @bind-Value="_registerInModel.Email" />
+                        <ValidationMessage For="() => _signInModel.Email" />
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="mb-2" for="passwordRegister">Password <span>*</span></label><br>
+                        <InputText class="form-control form" type="password" id="passwordRegister" required
+                                   @bind-Value="_registerInModel.Password" />
+                        <ValidationMessage For="() => _registerInModel.Password" />
+                    </div>
+
+                    <p class="mt-4">
+                        Your personal data will be used to support your experience<br>
+                        throughout this website, to manage access to your account, and for<br>
+                        other purposes described in our <a href="#"><span>privacy policy.</span></a>
+                    </p>
+                    <button type="submit" class="mt-4" disabled=@_submitting>REGISTER</button>
+                </EditForm>                
             </div>
         </div>
     </div>
