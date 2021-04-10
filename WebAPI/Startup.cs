@@ -12,6 +12,7 @@ using WebAPI.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System;
+using Newtonsoft.Json;
 
 namespace WebAPI
 {
@@ -72,7 +73,8 @@ namespace WebAPI
                 };
             });
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
