@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Data;
+using WebAPI.Filters;
 using WebAPI.Models;
 using WebAPI.Services;
 
@@ -60,6 +61,17 @@ namespace WebAPI.Controllers
             }
             return BadRequest();
         }
+
+        /* 
+         * [Authorize] kontrollerar token gentemot SecretKey (useAuthentication m. JWT i Startup.cs) 
+         * [VerifyToken] kontrollerar token gentemot den som finns i databasen (Filters/VerifyToken.cs)
+         * Funktionen körs inte om inte båda dessa "godkänns", och gör de de så returneras Ok()
+         */
+        [Authorize]
+        [VerifyToken]
+        [HttpPost("validate")]
+        public IActionResult ValidateToken()
+            => Ok();
 
     }
 }

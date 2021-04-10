@@ -26,7 +26,7 @@ namespace WebAPI
 
         private bool ValidateTokenLifetime(DateTime? notBefore, DateTime? expires, 
             SecurityToken tokenToValidate, TokenValidationParameters @param)
-            => expires != null && expires > DateTime.Now;
+            => expires != null && expires > DateTime.UtcNow;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -62,7 +62,7 @@ namespace WebAPI
                 jwtb.SaveToken = true;
                 jwtb.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateIssuerSigningKey = true,
                     ValidateAudience = false,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("SecretKey"))),
