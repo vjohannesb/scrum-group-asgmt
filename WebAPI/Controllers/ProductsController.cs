@@ -63,11 +63,25 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostOrder(Product product)
         {
-            _context.Products.Add(product);
+            //var color = _context.Colors.Find(product.ColorId);
+            //var model = _context.ProductModels.Find(product.ModelId);
+            //var size = _context.Sizes.Find(product.SizeId);
+            var productItem = new Product()
+            {
+                ModelId = product.ModelId,
+                ColorId = product.ColorId,
+                SizeId = product.SizeId,
+                InStock = product.InStock,
+                //Color = color,
+                //Model = model,
+                //Size = size
+            };
+
+            _context.Products.Add(productItem);
             await _context.SaveChangesAsync();
 
             return Ok(product);
-        }
+    }
 
         // POST Color
         [HttpPost("color")]

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using SharedLibrary.Models;
 
 #nullable disable
@@ -34,11 +36,11 @@ namespace WebAPI.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            /* Detta görs istället i Startup.cs */
-            //    if (!optionsBuilder.IsConfigured)
-            //    {
-            //        optionsBuilder.UseSqlServer("Server=tcp:ecwin20sqlserver.database.windows.net,1433;Initial Catalog=kenakataDb;Persist Security Info=False;User ID=sqlAdmin;Password=BytMig123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-            //    }
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//                optionsBuilder.UseSqlServer("Server=tcp:ecwin20sqlserver.database.windows.net,1433;Initial Catalog=SqlDb;Persist Security Info=False;User ID=sqlAdmin;Password=BytMig123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+//            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -96,13 +98,13 @@ namespace WebAPI.Data
                     .WithMany()
                     .HasForeignKey(d => d.ModelId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ModelTags__Model__14270015");
+                    .HasConstraintName("FK__ModelTags__Model__1CBC4616");
 
                 entity.HasOne(d => d.Tag)
                     .WithMany()
                     .HasForeignKey(d => d.TagId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ModelTags__TagId__151B244E");
+                    .HasConstraintName("FK__ModelTags__TagId__1DB06A4F");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -146,19 +148,19 @@ namespace WebAPI.Data
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Orders__Customer__367C1819");
+                    .HasConstraintName("FK__Orders__Customer__2DE6D218");
 
                 entity.HasOne(d => d.PaymentMethodNavigation)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.PaymentMethod)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Orders__PaymentM__3864608B");
+                    .HasConstraintName("FK__Orders__PaymentM__2FCF1A8A");
 
                 entity.HasOne(d => d.ShippingNavigation)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.Shipping)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Orders__Shipping__37703C52");
+                    .HasConstraintName("FK__Orders__Shipping__2EDAF651");
             });
 
             modelBuilder.Entity<OrderProduct>(entity =>
@@ -169,19 +171,19 @@ namespace WebAPI.Data
                     .WithMany()
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Order__47A6A41B");
+                    .HasConstraintName("FK__OrderProd__Order__31B762FC");
 
                 entity.HasOne(d => d.Product)
                     .WithMany()
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Produ__489AC854");
+                    .HasConstraintName("FK__OrderProd__Produ__32AB8735");
             });
 
             modelBuilder.Entity<PaymentMethod>(entity =>
             {
                 entity.HasKey(e => e.MethodId)
-                    .HasName("PK__PaymentM__FC681851DBC87A0D");
+                    .HasName("PK__PaymentM__FC6818515933A8A4");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -194,25 +196,25 @@ namespace WebAPI.Data
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ColorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Products__ColorI__05D8E0BE");
+                    .HasConstraintName("FK__Products__ColorI__17F790F9");
 
                 entity.HasOne(d => d.Model)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ModelId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Products__ModelI__04E4BC85");
+                    .HasConstraintName("FK__Products__ModelI__17036CC0");
 
                 entity.HasOne(d => d.Size)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.SizeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Products__SizeId__06CD04F7");
+                    .HasConstraintName("FK__Products__SizeId__18EBB532");
             });
 
             modelBuilder.Entity<ProductModel>(entity =>
             {
                 entity.HasKey(e => e.ModelId)
-                    .HasName("PK__ProductM__E8D7A12C7A7EF8E2");
+                    .HasName("PK__ProductM__E8D7A12C6DF305C4");
 
                 entity.Property(e => e.AdditionalInfo).IsRequired();
 
@@ -238,7 +240,7 @@ namespace WebAPI.Data
                     .WithMany(p => p.ProductModels)
                     .HasForeignKey(d => d.BrandId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ProductMo__Brand__73BA3083");
+                    .HasConstraintName("FK__ProductMo__Brand__10566F31");
             });
 
             modelBuilder.Entity<Review>(entity =>
@@ -249,13 +251,13 @@ namespace WebAPI.Data
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Reviews__Custome__7C4F7684");
+                    .HasConstraintName("FK__Reviews__Custome__2A164134");
 
                 entity.HasOne(d => d.Model)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.ModelId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Reviews__ModelId__7D439ABD");
+                    .HasConstraintName("FK__Reviews__ModelId__2B0A656D");
             });
 
             modelBuilder.Entity<Shipping>(entity =>
@@ -286,19 +288,22 @@ namespace WebAPI.Data
 
             modelBuilder.Entity<Wishlist>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.CustomerId)
+                    .HasName("PK__Wishlist__A4AE64D828506B77");
+
+                entity.Property(e => e.CustomerId).ValueGeneratedNever();
 
                 entity.HasOne(d => d.Customer)
-                    .WithMany()
-                    .HasForeignKey(d => d.CustomerId)
+                    .WithOne(p => p.Wishlist)
+                    .HasForeignKey<Wishlist>(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Wishlists__Custo__236943A5");
+                    .HasConstraintName("FK__Wishlists__Custo__22751F6C");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany()
+                    .WithMany(p => p.Wishlists)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Wishlists__Produ__245D67DE");
+                    .HasConstraintName("FK__Wishlists__Produ__236943A5");
             });
 
             OnModelCreatingPartial(modelBuilder);

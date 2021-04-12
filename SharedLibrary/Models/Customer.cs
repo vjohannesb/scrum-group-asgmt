@@ -23,6 +23,7 @@ namespace SharedLibrary.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        public virtual Wishlist Wishlist { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
 

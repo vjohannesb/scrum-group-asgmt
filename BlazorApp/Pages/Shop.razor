@@ -1,5 +1,6 @@
 ﻿@page "/shop"
 @inject IJSRuntime jsRuntime; 
+@inject HttpClient Http
 
 <_ProductDetailsModal Product="@_modalProduct" />
 
@@ -417,5 +418,10 @@
             _productModels = new List<ProductModel>();
         }
     }
+
+@*    async Task GetCustomerId(int customerid, int prodId)
+    {
+        issues = await Http.GetFromJsonAsync<IEnumerable<Wishlist>>($"https://localhost:44338/api/Issues/customerid?i={customerid}");
+    }*@
 
 }
