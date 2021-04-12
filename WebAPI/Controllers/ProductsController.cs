@@ -21,12 +21,42 @@ namespace WebAPI.Controllers
             _context = context;
         }
 
+        /* 
+         * Products = individuell produkt (Blå klacksko från Bexim i stl 38)    [Fysisk, finns i lager]
+         * ProductModels = "Grundmodellen" (Klacksko från Bexim)                [Abstrakt, finns bara i databas]
+         *      Flera Products kommer från samma ProductModel
+         */
+
+        // GET: api/Products/models
+        [HttpGet("models")]
+        public async Task<ActionResult<IEnumerable<ProductModel>>> GetProductModels()
+            => await _context.ProductModels.ToListAsync();
+
+        // GET: api/Products/models/id
+        [HttpGet("models/{id}")]
+        public async Task<IActionResult> GetProductModel(int id)
+        {
+            var productModel = await _context.ProductModels.FindAsync(id);
+            return productModel == null
+                ? NotFound()
+                : Ok(productModel);
+        }
 
         // GET Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
+        }
+
+        // GET: api/Product/id
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            return product == null
+                ? NotFound()
+                : Ok(product);
         }
 
         //POST Products

@@ -360,7 +360,30 @@
                     </div>
                 </div>
 
-                <div class="col">Produkter</div>
+                @if (_productModels == null)
+                {
+                    <div class="col">
+                        <p>Loading...</p>
+                    </div>
+                }
+                else
+                {
+                    @if (_productModels.Count < 1)
+                    {
+                        <div class="col">
+                            <p>No products available...</p>
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var productModel in _productModels)
+                        {
+                            <div class="col">
+                                <_ProductCard Product="@productModel" />
+                            </div>
+                        }
+                    }
+                }
             </div>
         </div>
     </article>
@@ -370,23 +393,30 @@
 </section>
 
 @code {
-    private List<ProductModel> _products;
+    private List<ProductModel> _productModels;
+    private List<ModelTag> _modelTags;
 
+    private string _error;
     private bool _showModal;
-
-    private List<ProductModel> MockGetProducts() {
-        return new List<ProductModel> { new ProductModel(), new ProductModel() };
-    }
-
-    private class ProductModel
-    {
-        private int id = 0;
-    }
 
     protected override async Task OnInitializedAsync()
     {
-        _products = MockGetProducts();
         var module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-slider.js");
+
+        await GetProductModels();
+        Console.WriteLine(_productModels.ToString());
+    }
+
+    private async Task GetProductModels()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductModelsUrl);
+        if (response.IsSuccessStatusCode)
+            _productModels = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
+        else
+        {
+            _error = "Could not load products.";
+            _productModels = new List<ProductModel>();
+        }
     }
 
 }

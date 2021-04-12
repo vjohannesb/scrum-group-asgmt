@@ -16,11 +16,15 @@ namespace BlazorApp.Services
         private readonly HttpClient _httpClient;
 
         public string BaseUrl => "https://localhost:44306/api";
+
         public string CustomersUrl => $"{BaseUrl}/customers";
         public string ShopUrl => $"{BaseUrl}/shop";
         public string SignInUrl => $"{CustomersUrl}/signin";
         public string RegisterUrl => $"{CustomersUrl}/register";
         
+
+        public string ProductsUrl => $"{BaseUrl}/products";
+        public string ProductModelsUrl => $"{ProductsUrl}/models";
 
         public APIService(ILocalStorageService localStorage, HttpClient httpClient)
         {
@@ -66,11 +70,13 @@ namespace BlazorApp.Services
             if (response.IsSuccessStatusCode)
             {
                 var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
-                // spara token från result
-                // await SaveTokenAsync(payload.Result)
+                await SaveTokenAsync(payload.Result);
             }
             return response;
         }
+
+        private async Task SaveTokenAsync(string token)
+            => await _localStorage.SetItemAsync("accessToken", token);
 
         public async Task<HttpResponseMessage> RegisterAsync(RegisterModel model)
         {
