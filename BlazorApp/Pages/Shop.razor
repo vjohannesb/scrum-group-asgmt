@@ -1,10 +1,7 @@
 ﻿@page "/shop"
 @inject IJSRuntime jsRuntime; 
 
-@*@if (_showModal)
-{
-    <_ProductDetailsModal Product=@_products[0] />
-}*@
+<_ProductDetailsModal Product="@_modalProduct" />
 
 <section>
     <article class="banner pt-5 pb-5 bg-indigo">
@@ -379,7 +376,7 @@
                         @foreach (var productModel in _productModels)
                         {
                             <div class="col">
-                                <_ProductCard Product="@productModel" />
+                                <_ProductCard Product="@productModel" @bind-ModalProduct="@_modalProduct"/>
                             </div>
                         }
                     }
@@ -393,6 +390,8 @@
 </section>
 
 @code {
+    private ProductModel _modalProduct;
+
     private List<ProductModel> _productModels;
     private List<ModelTag> _modelTags;
 
@@ -402,9 +401,9 @@
     protected override async Task OnInitializedAsync()
     {
         var module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-slider.js");
+        _modalProduct = new ProductModel();
 
         await GetProductModels();
-        Console.WriteLine(_productModels.ToString());
     }
 
     private async Task GetProductModels()

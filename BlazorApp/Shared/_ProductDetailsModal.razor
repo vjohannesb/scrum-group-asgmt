@@ -7,7 +7,7 @@
             </button>
             <div class="modal-body">
                 <div class="quick-view-container">
-                    @*<_ProductDetails Product=Product/>*@
+                    <_ProductDetails Product=@Product />
                 </div>
             </div>
         </div>
@@ -18,8 +18,5 @@
     [Parameter]
     public ProductModel Product { get; set; }
 
-    public class ProductModel
-    {
-        public int Id = 0;
-    }
+
 }
