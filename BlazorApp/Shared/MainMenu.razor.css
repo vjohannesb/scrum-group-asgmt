@@ -1,10 +1,15 @@
-.button-rounded-normal {
+﻿.button-rounded-normal {
     height: 40px;
 }
 /* top menu */
 .top-menu {
     width: 100vw;
     height: 40px;
+}
+
+.top-menu-links {
+    text-decoration: none;
+    color: white;
 }
 
 .dropdown-toggle::after {
