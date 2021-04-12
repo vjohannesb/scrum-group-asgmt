@@ -1,4 +1,8 @@
-﻿#nullable disable
+﻿using SharedLibrary.Models;
+using System;
+using System.Collections.Generic;
+
+#nullable disable
 
 namespace SharedLibrary.Models
 {

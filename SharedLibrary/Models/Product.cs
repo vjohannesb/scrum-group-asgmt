@@ -1,5 +1,7 @@
 ﻿#nullable disable
 
+using System.Collections.Generic;
+
 namespace SharedLibrary.Models
 {
     public partial class Product
@@ -13,5 +15,6 @@ namespace SharedLibrary.Models
         public virtual Color Color { get; set; }
         public virtual ProductModel Model { get; set; }
         public virtual Size Size { get; set; }
+        public virtual ICollection<Wishlist> Wishlists { get; set; }
     }
 }

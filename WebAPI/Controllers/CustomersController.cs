@@ -62,6 +62,56 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
+        // POST Color
+        [HttpPost("wish")]
+        public async Task<ActionResult<Wishlist>> wish(Wishlist model)
+        {
+
+            var customer = _context.Customers.Find(model.CustomerId);
+            var product = _context.Products.Find(model.ProductId);
+
+            var wishlistItem = new Wishlist()
+            {
+                CustomerId = customer.CustomerId,
+                ProductId = product.ProductId
+            };
+            _context.Wishlists.Add(wishlistItem);
+            await _context.SaveChangesAsync();
+
+            return Ok(wishlistItem);
+
+        }
+
+
+        [HttpPost("wishlist")]
+        public async Task<ActionResult<Wishlist>> AddWhislistItem(Wishlist model)
+        {
+            if (!_context.Wishlists.Any(w => w.ProductId == model.ProductId))
+            {
+                try
+                {
+                    //var wishlistItem =
+                    //   from customer in _context.Customers
+                    //   join product in _context.Products on customer.CustomerId equals product.ProductId
+                    //   where customer.CustomerId == model.CustomerId && product.ProductId == model.ProductId
+                    //   select new { CustomerId = customer.CustomerId, ProductId = product.ProductId };
+
+                    var wishlistItem = new Wishlist()
+                    {
+                        CustomerId = model.CustomerId,
+                        ProductId = model.ProductId
+                    };
+                    _context.Wishlists.Add(wishlistItem);
+                    await _context.SaveChangesAsync();
+
+                    return Ok(wishlistItem);
+                }
+                catch { }
+            }
+            return BadRequest();
+        }
+
+
         /* 
          * [Authorize] kontrollerar token gentemot SecretKey (useAuthentication m. JWT i Startup.cs) 
          * [VerifyToken] kontrollerar token gentemot den som finns i databasen (Filters/VerifyToken.cs)
