@@ -10,6 +10,10 @@ namespace BlazorApp.Services
         public string BaseUrl { get; }
         public string CustomersUrl { get; }
         public string SignInUrl { get; }
+        public string RegisterUrl { get; }
+
+        public string ProductsUrl { get; }
+        public string ProductModelsUrl { get; }
 
         // TOKEN
         // TOKEN
