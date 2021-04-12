@@ -35,5 +35,7 @@ namespace BlazorApp.Services
         public Task<HttpResponseMessage> SignInAsync(SignInModel model);
 
         public Task<HttpResponseMessage> RegisterAsync(RegisterModel model);
+
+  
     }
 }

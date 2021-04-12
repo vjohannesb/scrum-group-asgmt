@@ -17,8 +17,10 @@ namespace BlazorApp.Services
 
         public string BaseUrl => "https://localhost:44306/api";
         public string CustomersUrl => $"{BaseUrl}/customers";
+        public string ShopUrl => $"{BaseUrl}/shop";
         public string SignInUrl => $"{CustomersUrl}/signin";
         public string RegisterUrl => $"{CustomersUrl}/register";
+        
 
         public APIService(ILocalStorageService localStorage, HttpClient httpClient)
         {
