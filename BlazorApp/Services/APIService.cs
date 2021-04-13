@@ -22,8 +22,9 @@ namespace BlazorApp.Services
         public string ShopUrl => $"{BaseUrl}/shop";
         public string SignInUrl => $"{CustomersUrl}/signin";
         public string RegisterUrl => $"{CustomersUrl}/register";
-        
-
+        public string WishlistUrl => $"{CustomersUrl}/addWishlist";
+        public string CheckWishlistUrl => $"{CustomersUrl}/checkWishlist";
+        public string DeleteWishlistUrl => $"{CustomersUrl}/deleteWishlist";
         public string ProductsUrl => $"{BaseUrl}/products";
         public string ProductModelsUrl => $"{ProductsUrl}/models";
 
@@ -102,6 +103,36 @@ namespace BlazorApp.Services
         public async Task<HttpResponseMessage> RegisterAsync(RegisterModel model)
         {
             var response = await SendToAPIAsync(HttpMethod.Post, RegisterUrl, model);
+            if (response.IsSuccessStatusCode)
+            {
+                //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            }
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> AddToWishlist(int model)
+        {
+            var response = await SendToAPIAsync(HttpMethod.Post, WishlistUrl, model, true);
+            if (response.IsSuccessStatusCode)
+            {
+                //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            }
+            return response;
+        }
+        public async Task<bool> checkIfInWishlist(int model)
+        {
+            var response = await SendToAPIAsync(HttpMethod.Post, CheckWishlistUrl, model);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+                //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            }
+            return false;
+        }
+
+        public async Task<HttpResponseMessage> DeleteFromWishlist(int model)
+        {
+            var response = await SendToAPIAsync(HttpMethod.Delete, DeleteWishlistUrl, model, true);
             if (response.IsSuccessStatusCode)
             {
                 //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();

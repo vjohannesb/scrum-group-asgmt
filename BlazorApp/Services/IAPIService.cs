@@ -48,6 +48,11 @@ namespace BlazorApp.Services
 
         public Task<HttpResponseMessage> RegisterAsync(RegisterModel model);
 
-  
+        public Task<HttpResponseMessage> AddToWishlist(int model);
+
+        public Task<bool> checkIfInWishlist(int model);
+        public Task<HttpResponseMessage> DeleteFromWishlist(int model);
+        
+
     }
 }
