@@ -108,6 +108,16 @@ namespace BlazorApp.Services
             }
             return response;
         }
+
+        public async Task<HttpResponseMessage> AddToWishlist(WishlistModel model)
+        {
+            var response = await SendToAPIAsync(HttpMethod.Post, WishlistUrl, model);
+            if (response.IsSuccessStatusCode)
+            {
+                //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            }
+            return response;
+        }
     }
 }
 
