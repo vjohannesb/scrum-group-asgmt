@@ -1,59 +1,58 @@
-  <div class="top-menu bg-teal d-flex justify-content-between align-items-center"> 
+<div>
+    <div class="top-menu bg-teal d-flex justify-content-between align-items-center">
         <div class="container d-flex justify-content-between align-items-center p-0">
-          <div>
-            <nav class="navbar navbar-expand navbar-light m-0">
-              <div class="container-fluid p-0">
-                <div class="collapse navbar-collapse" id="navbarScroll">
-                  <ul class="navbar-nav navbar-nav-scroll roboto" style="--bs-scroll-height: 100px;">
-                      <li class="nav-item dropdown">
-                          <a class="nav-link text-light dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" href="#">
-                            ENG
-                            <img src="/img/arrow_d.svg" alt="menu">
-                          </a>
-                          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                          </ul>
-                      </li>
-                      <li class="nav-item dropdown">
-                        <a class="nav-link text-light dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" href="#">
-                          USD
-                          <img src="/img/arrow_d.svg" alt="menu">
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                  </ul>  
-                  <div border-start></div>
-                </div>
-              </div>
-            </nav>
-          </div>
+            <div>
+                <nav class="navbar navbar-expand navbar-light m-0">
+                    <div class="container-fluid p-0">
+                        <div class="collapse navbar-collapse" id="navbarScroll">
+                            <ul class="navbar-nav navbar-nav-scroll roboto" style="--bs-scroll-height: 100px;">
+                                <li class="nav-item dropdown me-2 p-1">
+                                    <a class="nav-link text-light dropdown-toggle" id="languageButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        ENG
+                                        <img class="ms-2" src="src/img/home/arrow_d.svg" alt="menu">
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="languageButton">
+                                        <li><a class="dropdown-item" href="#">Language 1</a></li>
+                                        <li><a class="dropdown-item" href="#">Language 2</a></li>
+                                        <li><a class="dropdown-item" href="#">Language 3</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown me-2 p-1">
+                                    <a class="nav-link text-light dropdown-toggle" id="currencyButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        USD
+                                        <img class="ms-2" src="src/img/home/arrow_d.svg" alt="menu">
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="currencyButton">
+                                        <li><a class="dropdown-item" href="#">Currency 1</a></li>
+                                        <li><a class="dropdown-item" href="#">Currency 2</a></li>
+                                        <li><a class="dropdown-item" href="#">Currency 3</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div border-start></div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
             <div class="d-flex align-items-center text-light roboto">
-                <span >Newsletter</span>
+                <span><a class="top-menu-links" href="/newsletter">Newsletter</a></span>
                 <span class="menu_border mx-3"></span>
-                <span>Contact us</span>
+                <span><a class="top-menu-links" href="/contactus">Contact us</a></span>
                 <span class="menu_border mx-3"></span>
-                <span>FAQs</span>
+                <span><a class="top-menu-links" href="/faq">FAQs</a></span>
                 <span class="menu_border mx-3"></span>
                 <span class="d-flex justify-content-between">
-                    <div class="mx-1">O</div>
-                    <div class="mx-1">O</div>
-                    <div class="mx-1">O</div>
-                    <div class="mx-1">O</div>
-                    <div class="mx-1">O</div>
+                    <a class="top-menu-links me-2" href="#"><i class="me-2 fab fa-facebook-f"></i></a>
+                    <a class="top-menu-links me-2" href="#"><i class="me-2 fab fa-instagram"></i></a>
+                    <a class="top-menu-links me-2" href="#"><i class="me-2 fab fa-twitter"></i></a>
+                    <a class="top-menu-links me-2" href="#"><i class="me-2 fab fa-linkedin"></i></a>
+                    <a class="top-menu-links" href="#"><i class="me-2 fab fa-snapchat-ghost"></i></a>
                 </span>
-            </div> 
-        </div>     
+            </div>
+        </div>
     </div>
     <div class="container middle-menu d-flex justify-content-between align-items-center">
-        <img class="my-5" src="/img/Logo.svg">
+        <img class="my-5" src="src/img/home/Logo.svg">
         <div class="subscribe-form">
             <input type="email" id="inputEmailSubscribe" placeholder="Search products...">
             <div class="menu_border2"></div>
@@ -66,115 +65,115 @@
                     <option>Example one</option>
                     <option>Example one</option>
                     <option>Example one</option>
-                </select>                
-            </div>  
+                </select>
+            </div>
             <button type="button" id="btn-search" class="bg-teal px-3">
-              <img src="/img/Search_icon.png" alt="Search">
+                <img src="src/img/home/Search_icon.png" alt="Search">
             </button>
         </div>
         <div class="d-flex align-items-center">
-          <a href="#" class="d-flex align-items-center">
-              <img class="ps-4" src="/img/User_icon.svg" alt="heart-icon">
-              <span class="ps-1 text-dark roboto">My account</span>
-          </a>
-          <a class="ps-4 me-4" href="#"><img src="/img/Heart_icon.svg" alt="heart-icon"></a>
-          <a class="little-box me-4" href="#">
-            <img class="circle" src="/img/Compare_icon.png" alt="compare-icon">
-            <div class="little-circle d-flex justify-content-center align-items-center">
-              <p class="mb-0 text-light roboto">0</p>
-            </div>
-          </a>
-          <a class="little-box" href="#">
-            <img class="circle" src="/img/Bag_icon.svg" alt="compare-icon">
-            <div class="little-circle d-flex justify-content-center align-items-center">
-              <p class="mb-0 text-light roboto">0</p>
-            </div>
-          </a>
-          <div class="ms-2">$0.00</div>
+            <a href="/myaccount" class="d-flex align-items-center">
+                <img class="ps-4" src="src/img/home/User_icon.svg" alt="heart-icon">
+                <span class="ps-1 text-dark roboto">My account</span>
+            </a>
+            <a class="ps-4 me-4" href="/wishlist"><img src="src/img/home/Heart_icon.svg" alt="heart-icon"></a>
+            <a class="little-box me-4" href="/compare">
+                <img class="circle" src="src/img/home/Compare_icon.png" alt="compare-icon">
+                <div class="little-circle d-flex justify-content-center align-items-center">
+                    <p class="mb-0 text-light roboto">0</p>
+                </div>
+            </a>
+            <a class="little-box" href="/shoppingcart">
+                <img class="circle" src="src/img/home/Bag_icon.svg" alt="compare-icon">
+                <div class="little-circle d-flex justify-content-center align-items-center">
+                    <p class="mb-0 text-light roboto">0</p>
+                </div>
+            </a>
+
+
+            <div class="ms-2">$0.00</div>
         </div>
-        
+
     </div>
     <div class="w-100 border-top ">
-      <div class="container bottom-menu p-0">
-          <nav class="navbar navbar-expand-lg navbar-light m-0 p-0 ">
-              <div class="container-fluid p-0 ">
-                <div class="collapse navbar-collapse " id="navbarScroll">
-                  <ul class="navbar-nav me-auto navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                        <li class="nav-item dropdown me-3 bg-teal pt-1">
-                          <a class="first-menu-btn nav-link dropdown-toggle d-flex align-items-center" role="button" aria-expanded="false" data-toggle="dropdown" href="#">
-                            <div class="d-flex flex-column me-2">
-                              <div class="hamburger-line"></div>
-                              <div class="hamburger-line"></div>
-                              <div class="hamburger-line"></div>
-                            </div>
-                            <span class="text-light">Browse Categories</span>
-                            <img class="ms-5" src="/img/arrow_d.svg" alt="menu">
-                          </a>
-                          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                          </ul>
-                        </li>    
-                        <li class="nav-item me-2 p-1">
-                          <a class="nav-link text-dark" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item dropdown me-2 p-1">
-                          <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" role="button" aria-expanded="false" data-toggle="dropdown" href="#">
-                            Shop
-                            <img class="ms-2" src="/img/arrow__b.svg" alt="menu">
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <div class="container bottom-menu p-0">
+            <nav class="navbar navbar-expand-lg navbar-light m-0 p-0 ">
+                <div class="container-fluid p-0 ">
+                    <div class="collapse navbar-collapse " id="navbarScroll">
+                        <ul class="navbar-nav me-auto navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                            <li class="nav-item dropdown me-3 bg-teal pt-1">
+                                <a class="first-menu-btn nav-link dropdown-toggle d-flex align-items-center" id="browseButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="d-flex flex-column me-2">
+                                        <div class="hamburger-line"></div>
+                                        <div class="hamburger-line"></div>
+                                        <div class="hamburger-line"></div>
+                                    </div>
+                                    <span class="text-light">Browse Categories</span>
+                                    <img class="ms-5" src="src/img/home/arrow_d.svg" alt="menu">
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="browseButton">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item me-2 p-1">
+                                <a class="nav-link text-dark" aria-current="page" href="/">Home</a>
+                            </li>
+                            <li class="nav-item dropdown me-2 p-1">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="shopButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Shop
+                                    <img class="ms-2" src="src/img/home/arrow__b.svg" alt="menu">
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="shopButton">
+                                    <li><a class="dropdown-item" href="/shop">Go to shop section</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown me-2 p-1">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="productsButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Products
+                                    <img class="ms-2" src="src/img/home/arrow__b.svg" alt="menu">
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="productsButton">
+                                    <li><a class="dropdown-item" href="/products">Go to products section</a></li>
+                                    <li><a class="dropdown-item" href="/specialoffers">Special offers</a></li>
+                                    <li><a class="dropdown-item" href="/whatsnew">What's new?</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown me-2 p-1">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="categoriesButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Categories
+                                    <img class="ms-2" src="src/img/home/arrow__b.svg" alt="menu">
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="categoriesButton">
+                                    <li><a class="dropdown-item" href="#">Category 1</a></li>
+                                    <li><a class="dropdown-item" href="#">Category 2</a></li>
+                                    <li><a class="dropdown-item" href="#">Category 3</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown me-2 p-1">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="pagesButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Pages
+                                    <img class="ms-2" src="src/img/home/arrow__b.svg" alt="menu">
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="pagesButton">
+                                    <li><a class="dropdown-item" href="/aboutus">About Us</a></li>
+                                    <li><a class="dropdown-item" href="/blog">Blog</a></li>
+                                    <li><a class="dropdown-item" href="/contactus">Contact Us</a></li>
+                                    <li><a class="dropdown-item" href="/portfolio">Portfolio</a></li>
+                                    <li><a class="dropdown-item" href="/team">Team</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item p-1">
+                                <a class="nav-link text-dark" href="/blog">Blog</a>
+                            </li>
                         </ul>
-                      </li> 
-                      <li class="nav-item dropdown me-2 p-1">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" role="button" aria-expanded="false" data-toggle="dropdown" href="#">
-                          Products
-                          <img class="ms-2" src="/img/arrow__b.svg" alt="menu">
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                      </li> 
-                      <li class="nav-item dropdown me-2 p-1">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" role="button" aria-expanded="false" data-toggle="dropdown" href="#">
-                          Categories
-                          <img class="ms-2" src="/img/arrow__b.svg" alt="menu">
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                      </li> 
-                      <li class="nav-item dropdown me-2 p-1">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" role="button" aria-expanded="false" data-toggle="dropdown" href="#">
-                          Pages
-                          <img class="ms-2" src="/img/arrow__b.svg" alt="menu">
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                      </li> 
-                      <li class="nav-item p-1">
-                        <a class="nav-link text-dark" href="#">Blog</a>
-                      </li>
-                    </ul>
-                    <button class="button-rounded-normal bg-teal text-light f-16">SPECIAL OFFER</button>
+                        <button class="button-rounded-normal bg-teal text-light f-16">SPECIAL OFFER</button>
+                    </div>
                 </div>
-              </div>
             </nav>
         </div>
     </div>
+</div>
