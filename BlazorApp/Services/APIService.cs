@@ -4,6 +4,7 @@ using SharedLibrary.Models.ViewModels;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,8 +60,13 @@ namespace BlazorApp.Services
                 if (serializeContent != null)
                     request.Content = new StringContent(JsonConvert.SerializeObject(serializeContent), Encoding.UTF8, "application/json");
 
-                // Token
-                // if (auth) { ... }
+                if (auth)
+                {
+                    var _token = await GetFromLocalStorageAsync("accessToken");
+                    if (string.IsNullOrEmpty(_token))
+                        return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+                }
 
                 var response = await _httpClient.SendAsync(request);
                 response.EnsureSuccessStatusCode();
