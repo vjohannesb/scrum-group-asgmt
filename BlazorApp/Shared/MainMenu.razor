@@ -56,15 +56,12 @@
         <div class="subscribe-form">
             <input type="email" id="inputEmailSubscribe" placeholder="Search products...">
             <div class="menu_border2"></div>
-            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+            <div class="w-auto col-md-3 col-sm-12 p-0 d-flex justify-content-end">
                 <select class="form-select" id="categories-dd">
                     <option>Categories</option>
-                    <option>Example one</option>
-                    <option>Example one</option>
-                    <option>Example one</option>
-                    <option>Example one</option>
-                    <option>Example one</option>
-                    <option>Example one</option>
+                    <option>Category 1</option>
+                    <option>Category 2</option>
+                    <option>Category 3</option>
                 </select>
             </div>
             <button type="button" id="btn-search" class="bg-teal px-3">
@@ -112,9 +109,9 @@
                                     <img class="ms-5" src="src/img/home/arrow_d.svg" alt="menu">
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="browseButton">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><a class="dropdown-item" href="#">Category 1</a></li>
+                                    <li><a class="dropdown-item" href="#">Category 2</a></li>
+                                    <li><a class="dropdown-item" href="#">Category 3</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item me-2 p-1">
@@ -126,9 +123,9 @@
                                     <img class="ms-2" src="src/img/home/arrow__b.svg" alt="menu">
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="shopButton">
-                                    <li><a class="dropdown-item" href="/shop">Go to shop section</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><a class="dropdown-item" href="/shop">Go to shop</a></li>
+                                    <li><a class="dropdown-item" href="#">Go to men's section</a></li>
+                                    <li><a class="dropdown-item" href="#">Go to women's section</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown me-2 p-1">
@@ -137,7 +134,7 @@
                                     <img class="ms-2" src="src/img/home/arrow__b.svg" alt="menu">
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="productsButton">
-                                    <li><a class="dropdown-item" href="/products">Go to products section</a></li>
+                                    <li><a class="dropdown-item" href="/products">Go to products</a></li>
                                     <li><a class="dropdown-item" href="/specialoffers">Special offers</a></li>
                                     <li><a class="dropdown-item" href="/whatsnew">What's new?</a></li>
                                 </ul>
@@ -170,7 +167,9 @@
                                 <a class="nav-link text-dark" href="/blog">Blog</a>
                             </li>
                         </ul>
-                        <button class="button-rounded-normal bg-teal text-light f-16">SPECIAL OFFER</button>
+                        <form action="/specialoffers">
+                            <button class="button-rounded-normal bg-teal text-light f-16">SPECIAL OFFER</button>
+                        </form>
                     </div>
                 </div>
             </nav>
