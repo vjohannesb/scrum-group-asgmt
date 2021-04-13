@@ -15,6 +15,14 @@ namespace BlazorApp.Services
         public string ProductsUrl { get; }
         public string ProductModelsUrl { get; }
 
+        // LocalStorage
+        public Task SaveToLocalStorageAsync(string key, string value);
+        public Task SaveToLocalStorageAsync<T>(string key, T data);
+
+        public Task<string> GetFromLocalStorageAsync(string key);
+        public Task<T> GetFromLocalStorageAsync<T>(string key);
+
+
         // TOKEN
         // TOKEN
 

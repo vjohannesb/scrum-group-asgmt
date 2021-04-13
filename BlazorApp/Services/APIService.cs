@@ -32,6 +32,21 @@ namespace BlazorApp.Services
             _httpClient = httpClient;
         }
 
+        // Helper för att spara i LocalStorage
+        public async Task SaveToLocalStorageAsync(string key, string value)
+            => await _localStorage.SetItemAsync(key, value);
+
+        // Overload för objekt, SetItemAsync serializar objektet automagiskt
+        public async Task SaveToLocalStorageAsync<T>(string key, T data)
+            => await _localStorage.SetItemAsync(key, data);
+
+        // Helper för att hämta från LocalStorage
+        public async Task<string> GetFromLocalStorageAsync(string key)
+            => await _localStorage.GetItemAsStringAsync(key);
+
+        // Overload för objekt, GetItemAsync de-serializar objektet automagiskt
+        public async Task<T> GetFromLocalStorageAsync<T>(string key)
+            => await _localStorage.GetItemAsync<T>(key);
 
         /* Allomfattande funktion vi kan använda på alla sidor för att skicka requests till API. */
         public async Task<HttpResponseMessage> SendToAPIAsync(HttpMethod method, string url, object serializeContent = null, bool auth = false)
@@ -70,7 +85,7 @@ namespace BlazorApp.Services
             if (response.IsSuccessStatusCode)
             {
                 var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
-                await SaveTokenAsync(payload.Result);
+                await SaveToLocalStorageAsync("accessToken", payload.Result);
             }
             return response;
         }

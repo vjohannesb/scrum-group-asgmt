@@ -68,17 +68,40 @@ else
     [Parameter]
     public EventCallback<ProductModel> ModalProductChanged { get; set; }
 
+    private List<ModelTag> _modelTags { get; set; }
+    private ModelTag _firstTag { get; set; }
+
     private string _error;
 
 
     // TODO: GetModelTags i API
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         if (Product == null)
             return;
+
+        //await GetModelTags();
     }
 
     private Task UpdateModalProduct()
         => ModalProductChanged.InvokeAsync(Product);
+
+    //private async Task GetModelTags()
+    //{
+    //    var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ModelTagsUrl);
+    //    if (response.IsSuccessStatusCode)
+    //    {
+    //        _modelTags = await response.Content.ReadFromJsonAsync<List<ModelTag>>();
+    //        if (_modelTags.Count > 0)
+    //        {
+    //            _firstTag = _modelTags[0];
+    //        }
+    //    }
+    //    else
+    //    {
+    //        _error = "Could not load tags.";
+    //        _modelTags = new List<ModelTag>();
+    //    }
+    //}
 }
