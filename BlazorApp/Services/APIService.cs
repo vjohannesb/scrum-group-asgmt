@@ -22,7 +22,7 @@ namespace BlazorApp.Services
         public string ShopUrl => $"{BaseUrl}/shop";
         public string SignInUrl => $"{CustomersUrl}/signin";
         public string RegisterUrl => $"{CustomersUrl}/register";
-        
+        public string WishlistUrl => $"{CustomersUrl}/wishlist";
 
         public string ProductsUrl => $"{BaseUrl}/products";
         public string ProductModelsUrl => $"{ProductsUrl}/models";
