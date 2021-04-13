@@ -370,7 +370,6 @@
                     {
                         <div class="col">
                             <p>No products available...</p>
-                            @IsInDevelopment()
                         </div>
                     }
                     else
@@ -396,8 +395,6 @@
 
     private List<ProductModel> _productModels;
     private List<ModelTag> _modelTags;
-
-    private ProductModel _modalProduct;
 
     private string _error;
     private bool _showModal;
@@ -426,13 +423,5 @@
     {
         issues = await Http.GetFromJsonAsync<IEnumerable<Wishlist>>($"https://localhost:44338/api/Issues/customerid?i={customerid}");
     }*@
-
-    private string IsInDevelopment()
-    {
-#if DEBUG
-        return "Kolla så att API:et är igång.";
-#endif
-        return "";
-    }
 
 }
