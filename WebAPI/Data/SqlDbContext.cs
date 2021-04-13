@@ -288,24 +288,21 @@ namespace WebAPI.Data
 
             modelBuilder.Entity<Wishlist>(entity =>
             {
-                entity.HasKey(e => e.CustomerId)
-                    .HasName("PK__Wishlist__A4AE64D828506B77");
-
-                entity.Property(e => e.CustomerId).ValueGeneratedNever();
+                entity.HasKey(e => new { e.CustomerId, e.ProductId })
+                    .HasName("PK__Wishlist__6FEEA8B41B2B7FF5");
 
                 entity.HasOne(d => d.Customer)
-                    .WithOne(p => p.Wishlist)
-                    .HasForeignKey<Wishlist>(d => d.CustomerId)
+                    .WithMany(p => p.Wishlists)
+                    .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Wishlists__Custo__22751F6C");
+                    .HasConstraintName("FK__Wishlists__Custo__4B7734FF");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Wishlists)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Wishlists__Produ__236943A5");
+                    .HasConstraintName("FK__Wishlists__Produ__4C6B5938");
             });
-
             OnModelCreatingPartial(modelBuilder);
         }
 

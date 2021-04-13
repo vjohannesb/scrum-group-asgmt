@@ -13,6 +13,7 @@ namespace SharedLibrary.Models
         {
             Orders = new HashSet<Order>();
             Reviews = new HashSet<Review>();
+            Wishlists = new HashSet<Wishlist>();
         }
 
         public int CustomerId { get; set; }
@@ -23,9 +24,9 @@ namespace SharedLibrary.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public virtual Wishlist Wishlist { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Wishlist> Wishlists { get; set; }
 
         public void CreatePasswordWithHash(string password)
         {
