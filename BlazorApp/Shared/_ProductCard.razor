@@ -24,7 +24,7 @@ else
                 <div class="product-overlay-pill">
                         <i class="fas fa-circle pop-toggle-btn"></i>
                         <div class="pop-toggle">
-                            <i class="fas fa-heart">
+                            <i class="fas fa-heart" @onclick='(() => FetchModelId(Product.ModelId))'>
                                 <span class="pop-modal">Save item</span>
                             </i>
                             <i class="fas fa-random">
@@ -87,6 +87,47 @@ else
     private Task UpdateModalProduct()
         => ModalProductChanged.InvokeAsync(Product);
 
+//Kontrollera vilka hjärtan som ska vara ifyllda?
+
+    //Hämta modelId
+    public void FetchModelId(int model)
+    {
+         var modelId = model;
+
+    }
+    //Hämta customerId
+    public void FetchCustomerId(int customer)
+    {
+        var customerId = customer;
+    }
+
+
+   //if(heart != ifyllt){
+        public async Task SendToApi(int model)
+        {
+            //Hämta customerId och prodId
+            var wishlistItem = new WishlistModel(1, model);
+            //Skicka id till API
+            var response = await apiService.AddToWishlist(wishlistItem);
+        }
+    //}
+    //else{
+        public async Task DeleteFromApi(int model)
+        {
+            //Hämta customerId och prodId
+            var wishlistItem = new WishlistModel(1, model);
+            //Skicka id till API
+            var response = await apiService.AddToWishlist(wishlistItem);
+        }
+    //}
+
+
+
+
+
+
+
+
     //private async Task GetModelTags()
     //{
     //    var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ModelTagsUrl);
@@ -105,3 +146,4 @@ else
     //    }
     //}
 }
+
