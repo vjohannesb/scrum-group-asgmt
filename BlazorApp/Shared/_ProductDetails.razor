@@ -74,10 +74,10 @@
                 <img class="temp-quantity-button" src="/src/img/temp-product-quantity.svg"
                      title="Ska ersättas med någon annans modul">
 
-                <div class="col-4 ms-3 me-3 add-to-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Add to cart</span>
-                </div>
+            <div class="col-4 ms-3 me-3 add-to-cart" @onclick="AddToCartAsync">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Add to cart</span>
+            </div>
 
                 <div class="col row align-items-center justify-content-center m-0 g-0">
                     <div class="col-2 me-2 color-selection-btn">
@@ -143,4 +143,44 @@
 @code {
     [Parameter]
     public ProductModel Product { get; set; }
+
+    private List<Review> _reviews;
+
+    // TODO: Hämta ProductId från Product, och Quantity från Plus-minus-komponent
+
+    private async Task AddToCartAsync()
+    {
+        var currentCart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
+        var currentProduct = new ShoppingCartItem { ProductId = 1, Quantity = 1 };
+        if (currentCart?.Count > 0)
+        {
+            if (currentCart.Any(sci => sci.ProductId == 1))
+            {
+                currentProduct = currentCart.First(sci => sci.ProductId == 1);
+                currentCart.Remove(currentProduct);
+                currentProduct.Quantity += 1;
+            }
+            currentCart.Insert(0, currentProduct);
+        }
+        else
+            currentCart = new List<ShoppingCartItem> { currentProduct };
+
+        await apiService.SaveToLocalStorageAsync<List<ShoppingCartItem>>("cart", currentCart);
+    }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await GetReviewsAsync();
+    //}
+
+    //private async Task GetReviewsAsync()
+    //{
+    //    var response = await apiService.SendToAPIAsync(HttpMethod.Get, "reviewsurl...");
+    //    if (response.IsSuccessStatusCode)
+    //        _reviews = await response.Content.ReadFromJsonAsync<List<Review>>();
+    //    else
+    //    {
+    //        _reviews = new List<Review>();
+    //    }
+    //}
 }

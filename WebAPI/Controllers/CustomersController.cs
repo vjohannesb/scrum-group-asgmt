@@ -62,6 +62,32 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
+        [HttpPost("wishlist")]
+        public async Task<ActionResult<Wishlist>> AddWhislistItem(Wishlist model)
+        {
+            if (!_context.Wishlists.Any(w => w.ProductId == model.ProductId && w.CustomerId == model.CustomerId))
+            {
+                try
+                {
+                    var customer = _context.Customers.Find(model.CustomerId);
+                    var product = _context.Products.Find(model.ProductId);
+                    var wishlistItem = new Wishlist()
+                    {
+                        CustomerId = model.CustomerId,
+                        ProductId = model.ProductId
+                    };
+                    _context.Wishlists.Add(wishlistItem);
+                    await _context.SaveChangesAsync();
+
+                    return Ok(wishlistItem);
+                }
+                catch { }
+            }
+            return BadRequest();
+
+        }
+
+
         /* 
          * [Authorize] kontrollerar token gentemot SecretKey (useAuthentication m. JWT i Startup.cs) 
          * [VerifyToken] kontrollerar token gentemot den som finns i databasen (Filters/VerifyToken.cs)
