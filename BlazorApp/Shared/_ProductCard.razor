@@ -4,7 +4,7 @@
 }
 else
 {
-    <div class="d-block w-100 rounded height">
+    <div class="d-block w-100 rounded height p-5">
         <div class="prod-card mb-5">
             <div class="front-card rounded p-0 ">
                 <div class="hide">
@@ -24,8 +24,8 @@ else
                 <div class="product-overlay-pill">
                         <i class="fas fa-circle pop-toggle-btn"></i>
                         <div class="pop-toggle">
-                            <i class="fas fa-heart" @onclick='(() => FetchModelId(Product.ModelId))'>
-                                <span class="pop-modal">Save item</span>
+                            <i class="fas fa-heart @(checkWishlist ? "" : "text-teal")" @onclick='(() => checkIfActive(Product.ModelId))'> 
+                                <span class="pop-modal">@(checkWishlist ? "Save item" : "Remove item from wishlist")</span>
                             </i>
                             <i class="fas fa-random">
                                 <span class="pop-modal">Compare</span>
@@ -56,8 +56,6 @@ else
     </div>
 }
 
-
-
 @code {
     [Parameter]
     public ProductModel Product { get; set; }
@@ -68,19 +66,27 @@ else
     [Parameter]
     public EventCallback<ProductModel> ModalProductChanged { get; set; }
 
+
+    private bool checkWishlist { get; set; }
     private List<ModelTag> _modelTags { get; set; }
     private ModelTag _firstTag { get; set; }
 
     private string _error;
 
-
     // TODO: GetModelTags i API
 
     protected override async Task OnInitializedAsync()
     {
+        checkWishlist = true;
+
+        var response = await apiService.checkIfInWishlist(Product.ModelId);
+        if(response == true)
+            checkWishlist = false;
+
+        Console.WriteLine($"vid start {checkWishlist}");
         if (Product == null)
             return;
-
+        
         //await GetModelTags();
     }
 
@@ -88,37 +94,41 @@ else
         => ModalProductChanged.InvokeAsync(Product);
 
 //Kontrollera vilka hjärtan som ska vara ifyllda?
-
-    //Hämta modelId
-    public void FetchModelId(int model)
+    public async Task checkIfActive(int modelId)
     {
-         var modelId = model;
-
+        var response = await apiService.checkIfInWishlist(modelId);
+       
+        if(response == true){
+           checkWishlist = true;
+           await DeleteWishlistItemApi(modelId);
+           Console.WriteLine($"tagits bort {checkWishlist}");
+        }
+        else{
+            checkWishlist = false;
+            await SendWishlistItemToApi(modelId);
+            Console.WriteLine($"lagts till {checkWishlist}");
+        } 
     }
-    //Hämta customerId
-    public void FetchCustomerId(int customer)
+     public async Task SendWishlistItemToApi(int modelId)
     {
-        var customerId = customer;
+        var response = await apiService.AddToWishlist(modelId);
     }
-
+    public async Task DeleteWishlistItemApi(int modelId)
+    {
+        var response = await apiService.DeleteFromWishlist(modelId);
+    }
 
    //if(heart != ifyllt){
-        public async Task SendToApi(int model)
-        {
-            //Hämta customerId och prodId
-            var wishlistItem = new WishlistModel(1, model);
-            //Skicka id till API
-            var response = await apiService.AddToWishlist(wishlistItem);
-        }
+       
     //}
     //else{
-        public async Task DeleteFromApi(int model)
+       @* public async Task DeleteFromApi(int model)
         {
             //Hämta customerId och prodId
-            var wishlistItem = new WishlistModel(1, model);
+            //var wishlistItem = new WishlistModel(1, model);
             //Skicka id till API
-            var response = await apiService.AddToWishlist(wishlistItem);
-        }
+            //var response = await apiService.AddToWishlist(wishlistItem);
+        }*@
     //}
 
 
