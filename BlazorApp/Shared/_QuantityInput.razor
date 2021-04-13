@@ -1,0 +1,30 @@
+﻿
+<div class="d-flex">
+    <div class="quantity-box" id="quantityDecrementBox" @onclick="DecrementQuantity">
+        <i class="fas fa-minus" id="decrement"></i>
+    </div>
+    <div class="quantity-box" id="quantityCountBox">
+        <span id="quantityCount">@Quantity</span>
+    </div>
+
+    <div class="quantity-box" id="quantityIncrementBox" @onclick="IncrementQuantity">
+        <i class="fas fa-plus" id="increment"></i>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Quantity { get; set; }
+
+    [Parameter]
+    public EventCallback<int> QuantityChanged { get; set; }
+
+    private async Task IncrementQuantity()
+        => await QuantityChanged.InvokeAsync(++Quantity);
+
+    private async Task DecrementQuantity()
+    {
+        if (Quantity > 1)
+            await QuantityChanged.InvokeAsync(--Quantity);
+    }
+} 

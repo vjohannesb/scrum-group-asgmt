@@ -1,6 +1,5 @@
 ﻿@if (Product != null)
 {
-
     <div class="row main-row">
         <!-- Image Column -->
         <div class="col-5 image-column">
@@ -63,16 +62,9 @@
 
             <!-- Buy + Actions Row -->
             <div class="row mb-4 buy-actions-row">
-                <!--! Ska ersättas med någon annans knappar -->
-                <!-- <div class="col-2">
-                    <span class="quantity-selector">
-                        <span class="quantity-minus">-</span>
-                        <span class="quantity-current">1</span>
-                        <span class="quantity-plus">+</span>
-                    </span>
-                </div> -->
-                <img class="temp-quantity-button" src="/src/img/temp-product-quantity.svg"
-                     title="Ska ersättas med någon annans modul">
+                <div class="col-3">
+                    <_QuantityInput InitQuantity=10 @bind-Quantity="_quantity" />
+                </div>
 
             <div class="col-4 ms-3 me-3 add-to-cart" @onclick="AddToCartAsync">
                 <i class="fas fa-shopping-cart"></i>
@@ -146,19 +138,19 @@
 
     private List<Review> _reviews;
 
-    // TODO: Hämta ProductId från Product, och Quantity från Plus-minus-komponent
+    private int _quantity = 1;
 
     private async Task AddToCartAsync()
     {
         var currentCart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
-        var currentProduct = new ShoppingCartItem { ProductId = 1, Quantity = 1 };
+        var currentProduct = new ShoppingCartItem { ProductId = Product.ModelId, Quantity = _quantity };
         if (currentCart?.Count > 0)
         {
-            if (currentCart.Any(sci => sci.ProductId == 1))
+            if (currentCart.Any(sci => sci.ProductId == Product.ModelId))
             {
-                currentProduct = currentCart.First(sci => sci.ProductId == 1);
+                currentProduct = currentCart.First(sci => sci.ProductId == Product.ModelId);
                 currentCart.Remove(currentProduct);
-                currentProduct.Quantity += 1;
+                currentProduct.Quantity += _quantity;
             }
             currentCart.Insert(0, currentProduct);
         }

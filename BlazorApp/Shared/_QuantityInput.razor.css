@@ -1,0 +1,31 @@
+﻿.quantity-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+    padding: 0.25rem 0.75rem;
+}
+
+#quantityDecrementBox {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#quantityIncrementBox {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#quantityCountBox {
+    border-width: 1px 0 !important;
+    padding: 0.25rem 1rem;
+    font-size: 1.5rem;
+}
+
+#quantityIncrementBox:hover,
+#quantityDecrementBox:hover {
+    border-color: var(--text-teal);
+    background: var(--text-teal);
+    color: white;
+    cursor: pointer;
+}

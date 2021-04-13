@@ -90,8 +90,8 @@ else
         //await GetModelTags();
     }
 
-    private Task UpdateModalProduct()
-        => ModalProductChanged.InvokeAsync(Product);
+    private async Task UpdateModalProduct()
+        => await ModalProductChanged.InvokeAsync(Product);
 
 //Kontrollera vilka hjärtan som ska vara ifyllda?
     public async Task checkIfActive(int modelId)
