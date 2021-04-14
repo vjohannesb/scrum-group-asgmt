@@ -2,23 +2,24 @@
 
 
 .navy-bg {
-    background-color: var(--bg-navy-);
+    background-color: var(--bg-dark-blue);
 }
 
 .text-white {
-    color: var(--bg-white-);
+    color: white;
 }
 
 .text-black {
-    color: var(--text-black-);
+    color: black;
 }
 
 #location-marker {
-    margin-top:10%;
+    margin-top: 10%;
 }
+
 #z-index-minus {
     position: absolute;
-    top:0;
+    top: 0;
     z-index: -1;
 }
 
@@ -33,12 +34,12 @@
 }
 
 .bottom-border-green {
-    border-bottom: 5px solid var(--text-teal);
+    border-bottom: 5px solid var(--teal);
 }
 
 .title-text {
     font-size: 24px;
-    color: var(--text-teal);
+    color: var(--teal);
 }
 
 
@@ -52,21 +53,20 @@
     content: url(/img/social-icon-white.svg);
 }
 
-#select-menu {
-    margin: 5px;
-    width: 100%;
-}
+
 
 .dropdown-display-input {
-    border-radius: 8px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    padding: 6px;
     outline: none;
     border: 0;
     width: 100%;
 }
-/* Bootstrap override */
+
+
+
+
+
 
 .dropdown-toggle {
     background-color: white;
@@ -81,18 +81,6 @@
     border-bottom-right-radius: 0;
 }
 
-.form-input {
-    padding: 6px;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
-    border: 0;
-    margin: 5px;
-}
-
-#form-container textarea {
-    min-height: 200px;
-}
 
 
 #submit-button {
@@ -103,10 +91,4 @@
     border: 0;
     border-radius: 20px;
     color: white;
-}
-
-
-.error-red {
-    color: red;
-    margin-left: 5px;
 }

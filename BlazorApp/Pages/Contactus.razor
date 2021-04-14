@@ -1,5 +1,4 @@
 ﻿@page "/contactus"
-
 <!-- Google map API? -->
 <div>
     <div class="d-flex justify-content-center align-items-center">
@@ -31,7 +30,7 @@
                 </div>
             </div>
             <div class="address-card col-2">
-                <span class="text-white">
+                <div class="text-white">
                     <div class="d-flex">
                         <img class="m-2" src="/src/img/contact_us/contact-icon.svg" alt="contact">
                         <div>
@@ -39,7 +38,7 @@
                             <div>info@website.com</div>
                         </div>
                     </div>
-                </span>
+                </div>
             </div>
 
         </div>
@@ -68,45 +67,45 @@
             <!-- Form -->
             <div class="col">
                 <div class="p-2 m-4" id="form-container">
-                    <form>
-                        <div id="form-select-error" class="error-red"></div>
-                        <div class="d-flex" id="select-menu">
-                            <select id="dropdown-menu" name="dropdown-menu" class="dropdown-toggle p-2"
-                                    aria-label="Default select example">
+
+                    <div id="form-select-error" class="error-red"></div>
+                    <EditForm Model="@_contactModel">
+                        <DataAnnotationsValidator />
+                        <div class="d-flex m-2" id="select-menu">
+
+                            <select @bind="_contactModel.ProductCategory" id="dropdown-menu" name="dropdown-menu" class="dropdown-toggle p-2">
                                 <option selected disabled value="" class="text-black dropdown-item">
-                                    Product
-                                    category
+                                    Product category
                                 </option>
-                                <option value="Order" class="dropdown-item">Order</option>
-                                <option value="Payment" class="dropdown-item">Payment</option>
-                                <option value="Return" class="dropdown-item">Return</option>
+                                @foreach (var value in Enum.GetValues(typeof(SelectValues)))
+                                {
+                                    <option class="dropdown-item">@value</option>
+                                }
+
                             </select>
-
-                            <input class="dropdown-display-input bg-white p-2" type="text" id="select-display" name="select-display"
-                                    disabled>
+                            <input @bind="_contactModel.ProductCategory" class="dropdown-display-input bg-white" type="text" id="select-display" name="select-display" disabled>
                         </div>
-
-
-                        <div>
-                            <div id="form-name-error" class="error-red"></div>
-                            <input id="form-name" class="form-input p-2" type="text" placeholder="Name">
+                        <ValidationMessage For="() => _contactModel.ProductCategory" />
+                        <div class="m-2">
+                            <InputText id="form-name" class="form-control form" type="text" placeholder="Name" @bind-Value="_contactModel.Name" />
                         </div>
-
-                        <div>
-                            <div id="form-email-error" class="error-red"></div>
-                            <div id="form-email-validate-error" class="error-red"></div>
-                            <input id="form-email" class="form-input p-2" type="email" placeholder="Email" onchange="validateEmail()">
+                        <ValidationMessage For="() => _contactModel.Name" />
+                        <div class="m-2">
+                            <InputText id="form-email" class="form-control form" type="email" placeholder="Email" @bind-Value="_contactModel.Email" />
+                            <ValidationMessage For="() => _contactModel.Email" />
                         </div>
-                        <div>
-                            <div id="form-subject-error" class="error-red"></div>
-                            <input id="form-subject" class="form-input p-2" type="text" placeholder="Subject">
+                        <div class="m-2">
+                            <InputText id="form-subject" class="form-control form" type="text" placeholder="Subject" @bind-Value="_contactModel.Subject" />
+                            <ValidationMessage For="() => _contactModel.Subject" />
                         </div>
-                        <div>
-                            <div id="form-message-error" class="error-red"></div>
-                            <textarea id="form-message" class="form-input p-2" type="text" placeholder="Message"></textarea>
+                        <div class="m-2">
+                            <InputTextArea class="form-control form " rows="8" type="text" placeholder="Message" @bind-Value="_contactModel.Message"></InputTextArea>
+                            <ValidationMessage For="() => _contactModel.Message" />
                         </div>
                         <button type="submit" id="submit-button">Send a message</button>
-                    </form>
+                    </EditForm>
+
+
                 </div>
 
             </div>
@@ -115,3 +114,29 @@
 
     </div>
 </div>
+
+
+
+
+@code {
+    private ContactModel _contactModel;
+
+
+    protected override void OnInitialized()
+    {
+        _contactModel = new ContactModel();
+    }
+
+    public enum SelectValues
+    {
+        Order,
+        Payment,
+        Return,
+        Membership,
+        Discount,
+        Account,
+        Others
+    }
+
+}
+}
