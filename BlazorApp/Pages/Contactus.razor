@@ -1,0 +1,117 @@
+﻿@page "/contactus"
+
+<!-- Google map API? -->
+<div>
+    <div class="d-flex justify-content-center align-items-center">
+        <img id="location-marker" src="/src/img/contact_us/location-marker.svg" alt="marker">
+    </div>
+    <img id="z-index-minus" src="/src/img/contact_us/Maps-Gray.svg" alt="marker">
+</div>
+
+<div class="container">
+    <div class="container-box navy-bg">
+        <!-- Addresses -->
+        <div class="d-flex justify-content-between bottom-border-green">
+            <div class="address-card col-2 text-white">
+                <div class="d-flex">
+                    <img class="m-2" src="/src/img/contact_us/contact-icon.svg" alt="contact">
+                    <div>
+                        <div>252, Chagalnaiya</div>
+                        <div>Feni-2500, Bangladesh</div>
+                    </div>
+                </div>
+            </div>
+            <div class="address-card col-2 text-white">
+                <div class="d-flex">
+                    <img class="m-2" src="/src/img/contact_us/contact-icon.svg" alt="contact">
+                    <div>
+                        <div>+880-123456789</div>
+                        <div>+880-123456789</div>
+                    </div>
+                </div>
+            </div>
+            <div class="address-card col-2">
+                <span class="text-white">
+                    <div class="d-flex">
+                        <img class="m-2" src="/src/img/contact_us/contact-icon.svg" alt="contact">
+                        <div>
+                            <div>vanilla@website.com</div>
+                            <div>info@website.com</div>
+                        </div>
+                    </div>
+                </span>
+            </div>
+
+        </div>
+
+        <div class="row text-white">
+            <!-- Description and contact -->
+            <div class="col m-5">
+                <div class="title-text mb-2">Get in Touch</div>
+                <p>
+                    We have world-class, flexible support via live chat, email and phone. We guarantee that you’ll
+                    be able to
+                    have any issue resolved within 24 hours. You can contact support immediately here.
+                </p>
+                <div>
+                    <span>Follow us</span>
+                    <img id="teal-line" src="/src/img/contact_us/green-line.svg" alt="line">
+                </div>
+                <div>
+                    <img class="social-icon m-2" src="/src/img/contact_us/social-icon.svg" alt="line">
+                    <img class="social-icon m-2" src="/src/img/contact_us/social-icon.svg" alt="line">
+                    <img class="social-icon m-2" src="/src/img/contact_us/social-icon.svg" alt="line">
+                    <img class="social-icon m-2" src="/src/img/contact_us/social-icon.svg" alt="line">
+                    <img class="social-icon m-2" src="/src/img/contact_us/social-icon.svg" alt="line">
+                </div>
+            </div>
+            <!-- Form -->
+            <div class="col">
+                <div class="p-2 m-4" id="form-container">
+                    <form>
+                        <div id="form-select-error" class="error-red"></div>
+                        <div class="d-flex" id="select-menu">
+                            <select id="dropdown-menu" name="dropdown-menu" class="dropdown-toggle p-2"
+                                    aria-label="Default select example">
+                                <option selected disabled value="" class="text-black dropdown-item">
+                                    Product
+                                    category
+                                </option>
+                                <option value="Order" class="dropdown-item">Order</option>
+                                <option value="Payment" class="dropdown-item">Payment</option>
+                                <option value="Return" class="dropdown-item">Return</option>
+                            </select>
+
+                            <input class="dropdown-display-input bg-white p-2" type="text" id="select-display" name="select-display"
+                                    disabled>
+                        </div>
+
+
+                        <div>
+                            <div id="form-name-error" class="error-red"></div>
+                            <input id="form-name" class="form-input p-2" type="text" placeholder="Name">
+                        </div>
+
+                        <div>
+                            <div id="form-email-error" class="error-red"></div>
+                            <div id="form-email-validate-error" class="error-red"></div>
+                            <input id="form-email" class="form-input p-2" type="email" placeholder="Email" onchange="validateEmail()">
+                        </div>
+                        <div>
+                            <div id="form-subject-error" class="error-red"></div>
+                            <input id="form-subject" class="form-input p-2" type="text" placeholder="Subject">
+                        </div>
+                        <div>
+                            <div id="form-message-error" class="error-red"></div>
+                            <textarea id="form-message" class="form-input p-2" type="text" placeholder="Message"></textarea>
+                        </div>
+                        <button type="submit" id="submit-button">Send a message</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
