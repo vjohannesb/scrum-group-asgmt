@@ -126,6 +126,27 @@ a {text-decoration: none}
 	height: 12px;
 }
 
+/* Breadcrumb */
+
+.breadcrumb-section {
+	background-color: rgba(14, 21, 61, 0.65);
+	font-size: 24px;
+	font-weight: 700;
+}
+
+	.breadcrumb-section a {
+		color: white;
+		text-decoration: none;
+	}
+
+	.breadcrumb-section .active {
+		color: #20D3C2;
+	}
+
+.breadcrumb-divider .breadcrumb-item + .breadcrumb-item::before {
+	color: #20D3C2;
+}
+
 /* Category */
 .grid-container {
 	display: grid;
