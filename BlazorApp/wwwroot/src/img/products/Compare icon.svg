@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <g id="Compare_icon" data-name="Compare icon" transform="translate(-1302 -652)">
+    <g id="Ellipse_67" data-name="Ellipse 67" transform="translate(1302 652)" fill="none" stroke="#aaa" stroke-width="1">
+      <circle cx="18" cy="18" r="18" stroke="none"/>
+      <circle cx="18" cy="18" r="17.5" fill="none"/>
+    </g>
+    <g id="Group_664" data-name="Group 664" transform="translate(1064.065 355.988)">
+      <g id="Group_8" data-name="Group 8" transform="translate(246.935 306.012)">
+        <path id="Path_19" data-name="Path 19" d="M264.935,309.9h-3.62a2.207,2.207,0,0,0-1.825.964l-5.727,8.4a2.206,2.206,0,0,1-1.824.964h-5" transform="translate(-246.935 -307.569)" fill="none" stroke="#aaa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Path_20" data-name="Path 20" d="M273.043,306.012l2.335,2.335-2.335,2.335" transform="translate(-257.378 -306.012)" fill="none" stroke="#aaa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <g id="Group_9" data-name="Group 9" transform="translate(246.935 309.482)">
+        <path id="Path_21" data-name="Path 21" d="M264.935,322.126h-3.62a2.209,2.209,0,0,1-1.825-.964l-5.727-8.4a2.208,2.208,0,0,0-1.824-.964h-5" transform="translate(-246.935 -311.795)" fill="none" stroke="#aaa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Path_22" data-name="Path 22" d="M273.043,325.121l2.335,2.335-2.335,2.335" transform="translate(-257.378 -317.126)" fill="none" stroke="#aaa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+</svg>
