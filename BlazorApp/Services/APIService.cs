@@ -1,7 +1,9 @@
 ﻿using Blazored.LocalStorage;
 using Newtonsoft.Json;
+using SharedLibrary.Models;
 using SharedLibrary.Models.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,8 +27,10 @@ namespace BlazorApp.Services
         public string WishlistUrl => $"{CustomersUrl}/addWishlist";
         public string CheckWishlistUrl => $"{CustomersUrl}/checkWishlist";
         public string DeleteWishlistUrl => $"{CustomersUrl}/deleteWishlist";
+        public string ProductModelsWishlistUrl => $"{ProductsUrl}/getWishlist";
         public string ProductsUrl => $"{BaseUrl}/products";
         public string ProductModelsUrl => $"{ProductsUrl}/models";
+
 
         public APIService(ILocalStorageService localStorage, HttpClient httpClient)
         {

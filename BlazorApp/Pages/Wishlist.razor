@@ -1,5 +1,92 @@
 ﻿@page "/wishlist"
+@inject IJSRuntime jsRuntime; 
+@inject HttpClient Http;
 
-<h1>Hello, world!</h1>
+<section>
+    <div class="d-flex align-items-center dark-blue-bg w-100" style="height:140px">
+        <div class=" container d-flex justify-content-between roboto ">
+            <p class="teal m-w-roboto-24">Whishlist</p>
+            <p class="text-light ">
+                <a class="teal" href="#">Home</a> / Whislist
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="d-flex align-items-center flex-column mt-5 pt-5">
+            <p class="dark-blue b-w-play-36">
+                YOUR PRODUCTS 
+                <span class="teal">WHISHLIST</span>
+            </p>
+            <img class="d-block mb-5" src="/img/zigzag.svg" alt="pattern">
+        </div>
+        <div class="row">            
+            @if (_productModels == null)
+            {
+                <div class="col">
+                    <p>Loading...</p>
+                </div>
+            }
+            else
+            {
+                @if (_productModels.Count < 1)
+                {
+                    <div class="col">
+                        <p>No products available...</p>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var productModel in _productModels)
+                    {
+                        <div class="col-3 ">
+                        <div class="remove-top rounded-top d-flex align-items-center">
+                            <i class=" mx-4 fas dark-gray fa-times"></i>
+                            <span class="roboto dark-gray">Remove item</span>
+                        </div>
+                            <_ProductCard Product="@productModel" @bind-ModalProduct="_modalProduct"/>
+                        </div>
+                    }
+                }
+            }
 
-Welcome to your new app.
+        </div>
+
+       
+    </div>
+
+    <_BottomBrandBanner />  
+</section>
+@code {
+    private ProductModel _modalProduct;
+
+    private List<ProductModel> _productModels;
+    private List<ModelTag> _modelTags;
+
+    private string _error;
+    private bool _showModal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-slider.js");
+        _modalProduct = new ProductModel();
+
+        await GetWishlistItems();
+    }
+
+   private async Task GetWishlistItems()
+    {
+        var response = await Http.GetFromJsonAsync<IEnumerable<ProductModel>>("https://localhost:44306/api/products/getWishlist");
+
+        //var response2 = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductModelsWishlistUrl);
+        if (response != null) {
+            Console.WriteLine("dig");
+            _productModels = response.ToList();
+        }
+        else
+        {
+            Console.WriteLine("Successfully registered user!");
+            _error = "Could not load products.";
+            _productModels = new List<ProductModel>();
+        }
+    }
+}

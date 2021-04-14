@@ -32,6 +32,33 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<IEnumerable<ProductModel>>> GetProductModels()
             => await _context.ProductModels.ToListAsync();
 
+
+
+
+        [HttpGet("getWishlist")]
+        public async Task<IEnumerable<ProductModel>> GetProductModelsWishlist()
+        {
+            Console.WriteLine("kommer hit");
+            List<ProductModel> list = new List<ProductModel>();
+            var test = await _context.ProductModels.ToListAsync();
+            foreach (ProductModel model in test)
+            {
+                try
+                {
+                    Console.WriteLine("kommer hit");
+                    if (_context.Wishlists.Any(w => w.ProductId == model.ModelId))
+                    {
+                        Console.WriteLine("kommer hit");
+                         list.Add(model);
+                    }
+                }
+                catch { }
+            }
+            
+            return list;
+        }
+            
+
         // GET: api/Products/models/id
         [HttpGet("models/{id}")]
         public async Task<IActionResult> GetProductModel(int id)
