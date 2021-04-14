@@ -14,6 +14,8 @@ namespace BlazorApp.Services
 
         public string ProductsUrl { get; }
         public string ProductModelsUrl { get; }
+        public string ProductModelsWishlistUrl { get; }
+
 
         // LocalStorage
         public Task SaveToLocalStorageAsync(string key, string value);

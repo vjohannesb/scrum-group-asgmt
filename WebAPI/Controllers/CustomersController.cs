@@ -30,6 +30,7 @@ namespace WebAPI.Controllers
             _identity = identity;
         }
 
+
         [AllowAnonymous]
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn([FromBody] SignInModel model)
@@ -63,6 +64,9 @@ namespace WebAPI.Controllers
             }
             return BadRequest();
         }
+
+        
+     
 
         [HttpPost("addWishlist")]
         public async Task<ActionResult<Wishlist>> AddWhislistItem([FromBody] int productId)
