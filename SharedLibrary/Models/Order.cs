@@ -1,9 +1,16 @@
 ﻿#nullable disable
 
+using System.Collections.Generic;
+
 namespace SharedLibrary.Models
 {
     public partial class Order
     {
+        public Order()
+        {
+            OrderProducts = new HashSet<OrderProduct>();
+        }
+
         public int OrderId { get; set; }
         public int CustomerId { get; set; }
         public string CompanyName { get; set; }
@@ -21,5 +28,6 @@ namespace SharedLibrary.Models
         public virtual Customer Customer { get; set; }
         public virtual PaymentMethod PaymentMethodNavigation { get; set; }
         public virtual Shipping ShippingNavigation { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

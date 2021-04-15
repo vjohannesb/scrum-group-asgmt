@@ -8,6 +8,7 @@ namespace SharedLibrary.Models
     {
         public ProductModel()
         {
+            ModelTags = new HashSet<ModelTag>();
             Products = new HashSet<Product>();
             Reviews = new HashSet<Review>();
         }
@@ -25,6 +26,7 @@ namespace SharedLibrary.Models
         public int BrandId { get; set; }
 
         public virtual Brand Brand { get; set; }
+        public virtual ICollection<ModelTag> ModelTags { get; set; }
         public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
     }
