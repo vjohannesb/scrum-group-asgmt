@@ -92,19 +92,20 @@ namespace WebAPI.Data
 
             modelBuilder.Entity<ModelTag>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.ModelId, e.TagId })
+                   .HasName("PK__ModelTag__3E806EB6ACA01484");
 
                 entity.HasOne(d => d.Model)
-                    .WithMany()
+                    .WithMany(p => p.ModelTags)
                     .HasForeignKey(d => d.ModelId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ModelTags__Model__1CBC4616");
+                    .HasConstraintName("FK__ModelTags__Model__6FB49575");
 
                 entity.HasOne(d => d.Tag)
-                    .WithMany()
+                    .WithMany(p => p.ModelTags)
                     .HasForeignKey(d => d.TagId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ModelTags__TagId__1DB06A4F");
+                    .HasConstraintName("FK__ModelTags__TagId__70A8B9AE");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -145,39 +146,40 @@ namespace WebAPI.Data
                     .HasMaxLength(100);
 
                 entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Orders__Customer__2DE6D218");
+                     .WithMany(p => p.Orders)
+                     .HasForeignKey(d => d.CustomerId)
+                     .OnDelete(DeleteBehavior.ClientSetNull)
+                     .HasConstraintName("FK__Orders__Customer__00DF2177");
 
                 entity.HasOne(d => d.PaymentMethodNavigation)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.PaymentMethod)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Orders__PaymentM__2FCF1A8A");
+                    .HasConstraintName("FK__Orders__PaymentM__02C769E9");
 
                 entity.HasOne(d => d.ShippingNavigation)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.Shipping)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Orders__Shipping__2EDAF651");
+                    .HasConstraintName("FK__Orders__Shipping__01D345B0");
             });
 
             modelBuilder.Entity<OrderProduct>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => new { e.OrderId, e.ProductId })
+                    .HasName("PK__OrderPro__08D097A3BFE36820");
 
                 entity.HasOne(d => d.Order)
-                    .WithMany()
+                    .WithMany(p => p.OrderProducts)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Order__31B762FC");
+                    .HasConstraintName("FK__OrderProd__Order__05A3D694");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany()
+                    .WithMany(p => p.OrderProducts)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderProd__Produ__32AB8735");
+                    .HasConstraintName("FK__OrderProd__Produ__0697FACD");
             });
 
             modelBuilder.Entity<PaymentMethod>(entity =>

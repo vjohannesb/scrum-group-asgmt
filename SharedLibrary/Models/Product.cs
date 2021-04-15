@@ -8,6 +8,7 @@ namespace SharedLibrary.Models
     {
         public Product()
         {
+            OrderProducts = new HashSet<OrderProduct>();
             Wishlists = new HashSet<Wishlist>();
         }
 
@@ -20,6 +21,7 @@ namespace SharedLibrary.Models
         public virtual Color Color { get; set; }
         public virtual ProductModel Model { get; set; }
         public virtual Size Size { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
         public virtual ICollection<Wishlist> Wishlists { get; set; }
     }
 }
