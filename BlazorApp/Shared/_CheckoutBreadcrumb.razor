@@ -1,0 +1,33 @@
+﻿@inject NavigationManager navigationManager
+
+<section>
+    <div class="banner-head d-flex justify-content-center text-white bg-dark-blue">
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="fs-3 @(shoppingCart ? "active" : "")">
+                <span class="fw-bold">Shopping Cart</span>
+                <i class="fas fa-angle-right mx-4 text-teal"></i>
+            </div>
+            <div class="fs-3 @(checkout ? "active" : "")">
+                <span class="fw-bold">Checkout</span>
+                <i class="fas fa-angle-right mx-4 text-teal"></i>
+            </div>
+            <div class="fs-3 @(orderComplete ? "active" : "")">
+                <span class="fw-bold">Order Complete</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    private bool shoppingCart;
+    private bool checkout;
+    private bool orderComplete;
+
+    protected override void OnInitialized()
+    {
+        var uri = navigationManager.Uri.ToLower();
+        shoppingCart = uri.Contains("shoppingcart");
+        checkout = uri.Contains("checkout");
+        orderComplete = uri.Contains("ordercomplete");
+    }
+}

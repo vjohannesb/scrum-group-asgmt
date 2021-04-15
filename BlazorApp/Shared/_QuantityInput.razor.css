@@ -1,9 +1,13 @@
-﻿.quantity-box {
+﻿#quantityInputContainer {
+    max-width: 100%;
+}
+
+.quantity-box {
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid gray;
-    padding: 0.1rem 0.75rem;
+    padding: 0.25rem 0.5rem;
 }
 
 #quantityDecrementBox {
@@ -16,10 +20,17 @@
     border-bottom-right-radius: 5px;
 }
 
+#quantityIncrementBox, #quantityDecrementBox {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    max-width: 30%;
+}
+
 #quantityCountBox {
     border-width: 1px 0 !important;
-    padding: 0.25rem 1rem;
-    font-size: 1.5rem;
+    max-width: 40%;
 }
 
 #quantityIncrementBox:hover,

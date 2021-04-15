@@ -1,14 +1,16 @@
 ﻿
-<div class="d-flex">
+<div class="d-flex" id="quantityInputContainer">
     <div class="quantity-box" id="quantityDecrementBox" @onclick="DecrementQuantity">
-        <i class="fas fa-minus" id="decrement"></i>
+        @*<i class="fas fa-minus" id="decrement"></i>*@
+        -
     </div>
     <div class="quantity-box" id="quantityCountBox">
         <span id="quantityCount">@Quantity</span>
     </div>
 
     <div class="quantity-box" id="quantityIncrementBox" @onclick="IncrementQuantity">
-        <i class="fas fa-plus" id="increment"></i>
+        @*<i class="fas fa-plus" id="increment"></i>*@
+        +
     </div>
 </div>
 
@@ -19,8 +21,16 @@
     [Parameter]
     public EventCallback<int> QuantityChanged { get; set; }
 
+    [Parameter]
+    public int MaxValue { get; set; } = -1;
+
     private async Task IncrementQuantity()
-        => await QuantityChanged.InvokeAsync(++Quantity);
+    {
+        if (MaxValue == -1)
+            await QuantityChanged.InvokeAsync(++Quantity);
+        else if (MaxValue + 1 > Quantity)
+            await QuantityChanged.InvokeAsync(++Quantity);
+    }
 
     private async Task DecrementQuantity()
     {

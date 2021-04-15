@@ -1,0 +1,6 @@
+﻿.banner-head {
+    height: 8.75rem;
+}
+    .banner-head .active {
+        color: var(--text-teal) !important;
+    }

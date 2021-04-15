@@ -1,0 +1,28 @@
+﻿@if (_paramsLoaded)
+{
+    <div class="coupon-container">
+        <p>If you have a coupon code, please apply it below.</p>
+        <EditForm Model="Coupon" OnValidSubmit="SubmitAction">
+            <InputText @bind-Value="@Coupon.CouponCode" placeholder="Coupon code" />
+            <button type="submit" class="btn btn-apply-coupon">Apply Coupon</button>
+        </EditForm>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public CouponViewModel Coupon { get; set; }
+
+    [Parameter]
+    public EventCallback<CouponViewModel> CouponChanged { get; set; }
+
+    [Parameter]
+    public Action SubmitAction { get; set; }
+
+    private bool _paramsLoaded;
+
+    protected override void OnInitialized()
+    {
+        _paramsLoaded = true;
+    }
+}

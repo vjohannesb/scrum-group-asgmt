@@ -1,0 +1,35 @@
+﻿
+@if (Product == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <td>
+        <i class="fas fa-times-circle"></i>
+    </td>
+
+    <th scope="row">
+        @*<img src=@Product.ProductImg alt="Product Image">*@
+        <img src="https://via.placeholder.com/65?text=Product" alt="Product Image"/>
+        <div class="product-name">
+            @Product.ProductName
+        </div>
+    </th>
+
+    <td>
+        $@Product.Price
+    </td>
+
+    <td>
+        <_QuantityInput @bind-Quantity="@Product.Quantity" />
+    </td>
+
+    <td class="subtotal-column text-teal">
+        $@(Product.Quantity * Product.Price)
+    </td>
+}
+@code {
+    [Parameter]
+    public ProductViewModel Product { get; set; }
+}

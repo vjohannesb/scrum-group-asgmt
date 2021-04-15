@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-namespace WebAPI.Data
+namespace SharedLibrary.Models
 {
     public partial class Cupon
     {

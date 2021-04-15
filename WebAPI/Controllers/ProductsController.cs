@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Data;
 using SharedLibrary.Models;
+using SharedLibrary.Models.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace WebAPI.Controllers
 {
@@ -15,10 +17,13 @@ namespace WebAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly SqlDbContext _context;
+        private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(SqlDbContext context)
+        public ProductsController(SqlDbContext context, 
+            ILogger<ProductsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /* 
@@ -84,6 +89,27 @@ namespace WebAPI.Controllers
             return product == null
                 ? NotFound()
                 : Ok(product);
+        }
+
+        [HttpPost("multi")]
+        public async Task<ActionResult<List<ProductViewModel>>> GetMultipleProducts([FromBody] List<ShoppingCartItem> cart) 
+        {
+            var ids = cart.Select(sci => sci.ProductId).ToArray();
+            if (ids.Length < 1)
+                return NotFound();
+
+            var products = await _context.ProductModels
+                .Where(pm => ids.Contains(pm.ModelId))
+                .Select(pm => new ProductViewModel(pm))
+                .ToListAsync();
+
+            if (products.Count < 1)
+                return NotFound();
+
+            foreach (var product in products)
+                product.Quantity = cart.FirstOrDefault(sci => sci.ProductId == product.ModelId)?.Quantity ?? 1;
+
+            return Ok(products);
         }
 
         //POST Products
