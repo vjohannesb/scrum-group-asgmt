@@ -41,7 +41,9 @@ else
                 </div>
                 <div class="hover-content text-light">
                     <div class="text d-flex flex-column m-4">
-                        <p class="m-1 roboto">@Product.ProductName</p>
+                        <a href="/test/@Product.ModelId">
+                            <p class="m-1 roboto">@Product.ProductName</p>
+                        </a>
                         <p class="m-1 roboto fashion-border">@Product.Category</p>
                         <p class="m-1 roboto">
                             <strike>$@Product.Price</strike>
@@ -80,10 +82,10 @@ else
         checkWishlist = true;
 
         var response = await apiService.checkIfInWishlist(Product.ModelId);
+        
         if(response == true)
             checkWishlist = false;
 
-        Console.WriteLine($"vid start {checkWishlist}");
         if (Product == null)
             return;
         
@@ -101,21 +103,19 @@ else
         if(response == true){
            checkWishlist = true;
            await DeleteWishlistItemApi(modelId);
-           Console.WriteLine($"tagits bort {checkWishlist}");
         }
         else{
             checkWishlist = false;
             await SendWishlistItemToApi(modelId);
-            Console.WriteLine($"lagts till {checkWishlist}");
         } 
     }
      public async Task SendWishlistItemToApi(int modelId)
     {
-        var response = await apiService.AddToWishlist(modelId);
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.WishlistUrl, modelId, true);
     }
     public async Task DeleteWishlistItemApi(int modelId)
     {
-        var response = await apiService.DeleteFromWishlist(modelId);
+        var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.DeleteWishlistUrl, modelId, true);
     }
 
    //if(heart != ifyllt){
@@ -156,4 +156,7 @@ else
     //    }
     //}
 }
+
+
+
 

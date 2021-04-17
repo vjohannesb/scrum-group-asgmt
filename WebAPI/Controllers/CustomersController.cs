@@ -66,8 +66,6 @@ namespace WebAPI.Controllers
         }
 
         
-     
-
         [HttpPost("addWishlist")]
         public async Task<ActionResult<Wishlist>> AddWhislistItem([FromBody] int productId)
         {

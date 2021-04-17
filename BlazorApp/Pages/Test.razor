@@ -1,0 +1,41 @@
+﻿@page "/test/{Id:int}"
+@inject HttpClient Http
+
+
+@if (_products == null)
+{
+    <p>Loading...</p>
+}
+else{
+    foreach(Product _prod in _products){
+        <h1>Model:  @product.ModelId</h1>
+    }
+}
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Product product;
+    private List<Product> _products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = new Product();
+        await GetProducts();
+    }
+
+     private async Task GetProducts()
+    {
+        Console.WriteLine("Id: " + Id);
+        var response = await apiService.getProductListByModelId(Id);
+        Console.WriteLine("response: " + response);
+        if (response.IsSuccessStatusCode)
+            _products = await response.Content.ReadFromJsonAsync<List<Product>>();
+        else
+        {
+            _products = new List<Product>();
+        }
+     }
+}
