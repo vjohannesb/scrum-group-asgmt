@@ -9,7 +9,6 @@ using WebAPI.Data;
 using SharedLibrary.Models;
 using SharedLibrary.Models.ViewModels;
 using Microsoft.Extensions.Logging;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace WebAPI.Controllers
 {
@@ -38,17 +37,23 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<IEnumerable<ProductModel>>> GetProductModels()
             => await _context.ProductModels.ToListAsync();
 
+
+
+
         [HttpGet("getWishlist")]
         public async Task<IEnumerable<ProductModel>> GetProductModelsWishlist()
         {
+            Console.WriteLine("kommer hit");
             List<ProductModel> list = new List<ProductModel>();
-            var modelList = await _context.ProductModels.ToListAsync();
-            foreach (ProductModel model in modelList)
+            var test = await _context.ProductModels.ToListAsync();
+            foreach (ProductModel model in test)
             {
                 try
                 {
+                    Console.WriteLine("kommer hit");
                     if (_context.Wishlists.Any(w => w.ProductId == model.ModelId))
                     {
+                        Console.WriteLine("kommer hit");
                          list.Add(model);
                     }
                 }
@@ -76,50 +81,14 @@ namespace WebAPI.Controllers
             return await _context.Products.ToListAsync();
         }
 
-
         // GET: api/Product/id
-        [HttpGet("productsById")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductById([FromBody] int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(int id)
         {
-            if (!_context.Products.Any())
-            {
-                return BadRequest();
-            }
-            else
-            {
-                try
-                {
-                    var model = await _context.ProductModels.FindAsync(id);
-                    List<Product> products = new List<Product>();
-                    foreach (Product prod in _context.Products)
-                    {
-                        if (prod.ModelId == model.ModelId)
-                        {
-                            products.Add(prod);
-                        }
-                    }
-                    if (products != null)
-                    {
-                        return Ok(products);
-                    }
-                }
-                catch { }
-                return NotFound();
-            }
-                    
-        }
-
-
-
-
-        // GET: api/Product/id
-        [HttpGet("productModelById")]
-        public async Task<IActionResult> GetProductModelById(int id)
-        {
-            var productModel = await _context.ProductModels.FindAsync(id);
-            return productModel == null
+            var product = await _context.Products.FindAsync(id);
+            return product == null
                 ? NotFound()
-                : Ok(productModel);
+                : Ok(product);
         }
 
         [HttpPost("multi")]
@@ -147,13 +116,20 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostOrder(Product product)
         {
+            //var color = _context.Colors.Find(product.ColorId);
+            //var model = _context.ProductModels.Find(product.ModelId);
+            //var size = _context.Sizes.Find(product.SizeId);
             var productItem = new Product()
             {
                 ModelId = product.ModelId,
                 ColorId = product.ColorId,
                 SizeId = product.SizeId,
                 InStock = product.InStock,
+                //Color = color,
+                //Model = model,
+                //Size = size
             };
+
             _context.Products.Add(productItem);
             await _context.SaveChangesAsync();
 
@@ -225,6 +201,7 @@ namespace WebAPI.Controllers
                 return Ok(tag);
             }
             return BadRequest();
+
         }
 
         // POST: Reviews
@@ -237,36 +214,5 @@ namespace WebAPI.Controllers
             return Ok(review);
         }
 
-
-        [HttpPost("addReview")]
-        public async Task<ActionResult<ReviewModel>> AddReview([FromBody] ReviewModel reviewModel)
-        {
-            var authorized = HttpContext.Request.Headers.TryGetValue("Authorization", out var bearer);
-            var token = bearer.ToString().Split(" ")[1];
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
-            var tokenId = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
-            var customerId = int.Parse(tokenId);
-
-            try
-            {
-                var review = new Review()
-                {
-                    CustomerId = customerId,
-                    ModelId = reviewModel.ModelId,
-                    Text = reviewModel.Text,
-                    Rating = reviewModel.Rating,
-                    Likes = reviewModel.Likes
-
-                };
-                _context.Reviews.Add(review);
-                await _context.SaveChangesAsync();
-
-                return Ok(review);
-            }
-            catch {
-                return BadRequest();
-            }
-        }
     }
 }

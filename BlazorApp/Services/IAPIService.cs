@@ -22,7 +22,6 @@ namespace BlazorApp.Services
         public string CheckWishlistUrl { get; }
         public string DeleteWishlistUrl { get; }
         public string ProductModelsWishlistUrl { get; }
-        public string getProductListByModelIdUrl { get; }
 
 
         // LocalStorage
@@ -58,8 +57,11 @@ namespace BlazorApp.Services
 
         public Task<HttpResponseMessage> RegisterAsync(RegisterModel model);
 
+        public Task<HttpResponseMessage> AddToWishlist(int model);
+
         public Task<bool> checkIfInWishlist(int model);
-        public Task<HttpResponseMessage> getProductListByModelId(int id);
+        public Task<HttpResponseMessage> DeleteFromWishlist(int model);
+        
 
     }
 }

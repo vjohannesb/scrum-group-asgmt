@@ -377,7 +377,7 @@
                         @foreach (var productModel in _productModels)
                         {
                             <div class="col-4">
-                                 <_ProductCard Product="@productModel" @bind-ModalProduct="_modalProduct"/> 
+                                <_ProductCard Product="@productModel" @bind-ModalProduct="_modalProduct"/>
                             </div>
                         }
                     }
@@ -392,6 +392,7 @@
 
 @code {
     private ProductModel _modalProduct;
+
     private List<ProductModel> _productModels;
     private List<ModelTag> _modelTags;
 

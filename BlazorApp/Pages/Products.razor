@@ -1,16 +1,6 @@
-﻿@page "/products/{Id:int}"
-@inject HttpClient Http;
-
+﻿@page "/products"
 
 <div class="container">
-
-<h1>Blazor is @model.ModelId!</h1>
-<h1>Blazor is @model.Brand!</h1>
-<h1>Blazor is @model.Category!</h1>
-<h1>Blazor is @model.Discount!</h1>
-<h1>Blazor is @model.Price!</h1>
-<h1>Blazor is @model.Rating!</h1>
-<h1>Blazor is @model.ProductDescription!</h1>
     <div class="row">
 
         <!-- Component 2 -->
@@ -29,8 +19,12 @@
         <div class="col-xl-5 col-lg-8 col-md-12 ">
             <div class="row">
                 <div>
-                    <h1 class="Roboto-medium-24">@model.ProductName</h1>
-                    <p class="Roboto-regular-16"> @model.ProductDescription</p>
+                    <h1 class="Roboto-medium-24">Gents Blue Lightweight Trainers</h1>
+                    <p class="Roboto-regular-16">
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+                        nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim
+                        ad minim veniam, quis nostrud.
+                    </p>
                     <hr>
                 </div>
             </div>
@@ -38,10 +32,10 @@
             <div class="row">
                 <div class="d-flex justify-content-start align-items-center">
                     <div class="col-3">
-                        <span class="Roboto-medium-24">@model.Price</span>
+                        <span class="Roboto-medium-24">$190.00</span>
                     </div>
                     <div class="col-2">
-                        <span class="Roboto-regular-16 gray line-through">@model.Discount</span>
+                        <span class="Roboto-regular-16 gray line-through">$220.00</span>
                     </div>
                     <div class="col-2">
                         <div class="d-flex justify-content-start align-items-center">
@@ -54,6 +48,9 @@
             <!-- Component 4 -->
             <div class="row">
                 <div class="d-flex mt-3">
+
+
+
                     <div class="col-3">
                         <div class="d-flex h-100">
                             <div class="d-flex align-items-center justify-conent-center Roboto-regular-16"
@@ -128,6 +125,9 @@
                     </span>
                 </div>
             </div>
+
+
+
         </div>
     </div>
 
@@ -160,6 +160,8 @@
                     <span class="Roboto-regular-18">Gents Blue Lightweight Trainers</span>
                 </div>
             </div>
+
+
             <div class="row mt-5">
                 <div class="col-2">
                     <img src="/src/img/products/user-profile-pic.svg" alt="profile picture">
@@ -174,7 +176,8 @@
                             </div>
                         </div>
                         <div class="col d-inline-flex align-items-center flex-row-reverse">
-                            <img src="/src/img/products/review-star.svg">                        </div>
+                            <img src="/src/img/products/review-star.svg">
+                        </div>
 
                     </div>
                     <div class="row">
@@ -1155,6 +1158,9 @@
         </button>
 
 
+
+
+
         <div class="carousel-indicators">
             <button id="test" type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="0"
                     class="active" aria-current="true" aria-label="Slide 1">
@@ -1177,32 +1183,3 @@
 
     </div>
 </div>
-
-@code {
-    [Parameter]
-    public int Id { get; set; }
-
-    private ProductModel model;
-    private string _error;
-
-    protected override async Task OnInitializedAsync()
-    {
-        model = new ProductModel();
-
-        await GetProductModel();
-    }
-    
-    private async Task GetProductModel()
-    {
-        //Fixa snyggare lösning till API!
-        ProductModel checkModel = await Http.GetFromJsonAsync<ProductModel>($"https://localhost:44306/api/Products/productById?id={Id}");
-        if (checkModel == null){
-            _error = "Could not load product.";
-            model = new ProductModel();
-        }
-        else
-        {
-            model = checkModel;
-        }
-    }
-}
