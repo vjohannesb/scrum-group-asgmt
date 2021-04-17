@@ -34,9 +34,10 @@ namespace BlazorApp.Services
         public string CheckWishlistUrl => $"{CustomersUrl}/checkWishlist";
         public string DeleteWishlistUrl => $"{CustomersUrl}/deleteWishlist";
         public string ProductModelsWishlistUrl => $"{ProductsUrl}/getWishlist";
-        public string getProductListByModelIdUrl => $"{ProductsUrl}/productsById";
+        public string ProductsUrl => $"{BaseUrl}/products";
+        public string ProductModelsUrl => $"{ProductsUrl}/models";
 
-        
+
         public APIService(ILocalStorageService localStorage, HttpClient httpClient)
         {
             _localStorage = localStorage;
@@ -118,6 +119,16 @@ namespace BlazorApp.Services
             }
             return response;
         }
+
+        public async Task<HttpResponseMessage> AddToWishlist(int model)
+        {
+            var response = await SendToAPIAsync(HttpMethod.Post, WishlistUrl, model, true);
+            if (response.IsSuccessStatusCode)
+            {
+                //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+            }
+            return response;
+        }
         public async Task<bool> checkIfInWishlist(int model)
         {
             var response = await SendToAPIAsync(HttpMethod.Post, CheckWishlistUrl, model);
@@ -128,11 +139,10 @@ namespace BlazorApp.Services
             }
             return false;
         }
-        public async Task<HttpResponseMessage> getProductListByModelId(int id)
+
+        public async Task<HttpResponseMessage> DeleteFromWishlist(int model)
         {
-            Console.WriteLine("idservice: " + id);
-            var response = await SendToAPIAsync(HttpMethod.Get, getProductListByModelIdUrl, id);
-            Console.WriteLine("response service: " + response);
+            var response = await SendToAPIAsync(HttpMethod.Delete, DeleteWishlistUrl, model, true);
             if (response.IsSuccessStatusCode)
             {
                 //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();

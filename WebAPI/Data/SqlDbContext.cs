@@ -65,7 +65,7 @@ namespace WebAPI.Data
 
             modelBuilder.Entity<Cupon>(entity =>
             {
-                entity.Property(e => e.Code)
+                entity.Property(e => e.CuponName)
                     .IsRequired()
                     .HasMaxLength(100);
             });
