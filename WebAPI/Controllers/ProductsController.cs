@@ -99,9 +99,53 @@ namespace WebAPI.Controllers
 
             return null;
         }
+        
+        [HttpGet("getTagsById")]
+        public async Task<ActionResult<List<Tag>>> getTagsById(int id)
+        {
+            if (_context.ProductModels.Any() && _context.Tags.Any())
+            {
+                var list = new List<Tag>();
+                var modelTagList = new List<ModelTag>();
+
+                foreach (ModelTag mtag in _context.ModelTags)
+                {
+                    if (mtag.ModelId == id)
+                    {
+                        modelTagList.Add(mtag);
+                    }
+                }
+                foreach (ModelTag mtagItem in modelTagList)
+                {
+                    if (mtagItem.ModelId == id)
+                    {
+                        Tag tag = new Tag();
+                        foreach (Tag t in _context.Tags)
+                        {
+                            if (t.TagId == mtagItem.TagId)
+                            {
+                                tag = t;
+                            }
+                        }
+                        var addTag = new Tag()
+                        {
+                            TagName = tag.TagName
+                        };
+
+                        list.Add(addTag);
+                    }
+                }
+
+                if (list != null)
+                {
+                    return list;
+                }
+            }
+
+            return null;
+        }
 
 
-       
 
         [HttpGet("getReviewsById")]
         public async Task<ActionResult<List<ReviewModel>>> getReviewsById(int id)
@@ -280,6 +324,21 @@ namespace WebAPI.Controllers
                 await _context.SaveChangesAsync();
 
                 return Ok(tag);
+            }
+            return BadRequest();
+
+        }
+
+        // POST: ModelTags
+        [HttpPost("modeltags")]
+        public async Task<ActionResult<ModelTag>> PostModelTags(ModelTag modeltag)
+        {
+            if (_context.ProductModels.Any() && _context.Tags.Any())
+            {
+                _context.ModelTags.Add(modeltag);
+                await _context.SaveChangesAsync();
+
+                return Ok(modeltag);
             }
             return BadRequest();
 

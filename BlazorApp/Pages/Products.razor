@@ -104,10 +104,10 @@
                     <span class="Roboto-regular-16">
                         Tags:
 
-                        @*@foreach(var tag in _tags)
+                        @foreach(var tag in _tags)
                         {
                             <span class="Roboto-regular-12 tags-border">@tag.TagName</span>
-                        }*@
+                        }
                     </span>
                 </div>
             </div>
@@ -1173,17 +1173,19 @@
 
     private List<Product> _products;
     private List<ReviewModel> _reviews;
+    private List<Tag> _tags;
 
     protected override async Task OnInitializedAsync()
     {
         model = new ProductModel();
         _products = new List<Product>();
         _reviews = new List<ReviewModel>();
+        _tags = new List<Tag>();
 
         await GetProductModel();
         await GetProducts();
         await GetReviews();
-        
+        await GetTags();
     }
 
      //Fixa snyggare lösning till API + bygg in bättre fel-hantering!
@@ -1203,7 +1205,11 @@
         var checkRev = await Http.GetFromJsonAsync<List<ReviewModel>>($"https://localhost:44306/api/Products/getReviewsById?id={Id}");
         _reviews = checkRev; 
     }
-    
+    private async Task GetTags()
+    {
+        var checkTag = await Http.GetFromJsonAsync<List<Tag>>($"https://localhost:44306/api/Products/getTagsById?id={Id}");
+        _tags = checkTag; 
+    }
 
     private ReviewModel _reviewModel;
 
