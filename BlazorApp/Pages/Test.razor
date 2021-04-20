@@ -1,0 +1,44 @@
+﻿@page "/test/{Id:int}"
+@inject HttpClient Http;
+
+@*Onödigt abutton ha med products? modifiera om tabellen?*@
+@foreach(var prod in _products)
+{
+     <h1>Model:  @prod.ModelId</h1>
+     <h1>I Lager:  @prod.InStock</h1>
+}
+<h1>Model:  @model.ModelId</h1>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private ProductModel model;
+
+    private List<Product> _products;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = new ProductModel();
+        _products = new List<Product>();
+
+        await GetProductModel();
+        await GetProducts();
+        
+    }
+
+     //Fixa snyggare lösning till API + bygg in bättre fel-hantering!
+    private async Task GetProductModel()
+    {
+        ProductModel checkModel = await Http.GetFromJsonAsync<ProductModel>($"https://localhost:44306/api/Products/getProductModelById?id={Id}");
+        model = checkModel;      
+    }
+
+     private async Task GetProducts()
+    {
+        var checkProd = await Http.GetFromJsonAsync<List<Product>>($"https://localhost:44306/api/Products/getProductsByModelId?id={Id}");
+        _products = checkProd;    
+    }
+
+}

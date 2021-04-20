@@ -23,8 +23,8 @@ namespace BlazorApp.Services
         public string CustomersUrl => $"{BaseUrl}/customers";
         public string SignInUrl => $"{CustomersUrl}/signin";
         public string RegisterUrl => $"{CustomersUrl}/register";
-
         public string ProductsUrl => $"{BaseUrl}/products";
+
         public string ProductModelsUrl => $"{ProductsUrl}/models";
         public string MultipleProductsUrl => $"{ProductsUrl}/multi";
 
@@ -34,8 +34,8 @@ namespace BlazorApp.Services
         public string CheckWishlistUrl => $"{CustomersUrl}/checkWishlist";
         public string DeleteWishlistUrl => $"{CustomersUrl}/deleteWishlist";
         public string ProductModelsWishlistUrl => $"{ProductsUrl}/getWishlist";
-        public string ProductsUrl => $"{BaseUrl}/products";
-        public string ProductModelsUrl => $"{ProductsUrl}/models";
+        public string reviewModelUrl => $"{ProductsUrl}/registerReview";
+        
 
 
         public APIService(ILocalStorageService localStorage, HttpClient httpClient)
@@ -119,7 +119,6 @@ namespace BlazorApp.Services
             }
             return response;
         }
-
         public async Task<HttpResponseMessage> AddToWishlist(int model)
         {
             var response = await SendToAPIAsync(HttpMethod.Post, WishlistUrl, model, true);

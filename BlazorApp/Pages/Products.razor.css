@@ -388,3 +388,10 @@
     height: 60px;
     border-radius: 30px;
 }
+
+
+
+.fa-star:hover {
+    cursor: pointer;
+    color: #20d3c2;
+}
