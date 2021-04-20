@@ -85,6 +85,13 @@ namespace WebAPI.Controllers
                 : Ok(product);
         }
 
+        // GET Products api/Products/search
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<ProductModel>>> SearchProducts(string searchString)
+        {
+            return await _context.ProductModels.Where(p => p.ProductName.ToLower().Contains(searchString.ToLower())).ToListAsync();
+        }
+
         [HttpGet("getProductModelById")]
         public async Task<ActionResult<ProductModel>> GetProductModelById(int id)
         {
