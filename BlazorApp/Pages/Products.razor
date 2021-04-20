@@ -1,4 +1,5 @@
-﻿@page "/products"
+﻿@page "/products/{Id:int}"
+@inject HttpClient Http;
 
 <div class="container">
     <div class="row">
@@ -19,11 +20,9 @@
         <div class="col-xl-5 col-lg-8 col-md-12 ">
             <div class="row">
                 <div>
-                    <h1 class="Roboto-medium-24">Gents Blue Lightweight Trainers</h1>
+                    <h1 class="Roboto-medium-24">@model.ProductName</h1>
                     <p class="Roboto-regular-16">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-                        nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim
-                        ad minim veniam, quis nostrud.
+                        @model.ProductDescription
                     </p>
                     <hr>
                 </div>
@@ -32,10 +31,10 @@
             <div class="row">
                 <div class="d-flex justify-content-start align-items-center">
                     <div class="col-3">
-                        <span class="Roboto-medium-24">$190.00</span>
+                        <span class="Roboto-medium-24">@model.Discount</span>
                     </div>
                     <div class="col-2">
-                        <span class="Roboto-regular-16 gray line-through">$220.00</span>
+                        <span class="Roboto-regular-16 gray line-through">@model.Price</span>
                     </div>
                     <div class="col-2">
                         <div class="d-flex justify-content-start align-items-center">
@@ -96,7 +95,7 @@
             <!-- Category -->
 
             <div class="row mt-3">
-                <span class="Roboto-regular-16">Category: <span class="teal">Shoes</span></span>
+                <span class="Roboto-regular-16">Category: <span class="teal">@model.Category</span></span>
             </div>
 
             <!-- Tags -->
@@ -105,9 +104,10 @@
                     <span class="Roboto-regular-16">
                         Tags:
 
-                        <span class="Roboto-regular-12 tags-border">Fashion</span>
-                        <span class="Roboto-regular-12 tags-border">Shoes</span>
-                        <span class="Roboto-regular-12 tags-border">Sneakers</span>
+                        @*@foreach(var tag in _tags)
+                        {
+                            <span class="Roboto-regular-12 tags-border">@tag.TagName</span>
+                        }*@
                     </span>
                 </div>
             </div>
@@ -156,76 +156,51 @@
         <div class="col">
             <div class="row mt-5">
                 <div class="col">
-                    <span class="Roboto-regular-18 teal">2 reviews for </span>
-                    <span class="Roboto-regular-18">Gents Blue Lightweight Trainers</span>
+                    <span class="Roboto-regular-18 teal">@_reviews.Count reviews for </span>
+                    <span class="Roboto-regular-18">@model.ProductName</span>
                 </div>
             </div>
 
+            @foreach(var rev in _reviews)
+            {
+                <div class="row mt-5">
+                    <div class="col-2">
+                        <img src="/src/img/products/user-profile-pic.svg" alt="profile picture">
+                    </div>
+                    <div class="col-9">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="d-inline-flex">
+                                    <span class="Roboto-bold-16 teal">@rev.Name</span>
+                                    <span class="Roboto-regular-14 gray"> - 24 July, 2020</span>
 
-            <div class="row mt-5">
-                <div class="col-2">
-                    <img src="/src/img/products/user-profile-pic.svg" alt="profile picture">
-                </div>
-                <div class="col-9">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="d-inline-flex">
-                                <span class="Roboto-bold-16 teal">John Doe</span>
-                                <span class="Roboto-regular-14 gray"> - 24 July, 2020</span>
-
+                                </div>
+                            </div>
+                            <div class="col d-inline-flex align-items-center flex-row-reverse">
+                                @for(int i = 4; i >= 0; i--){
+                                    if(i >= rev.Rating){
+                                        <i class="far fa-star"></i> 
+                                    }
+                                    else{
+                                       <i class="far fa-star teal"></i>
+                                    }    
+                                }
                             </div>
                         </div>
-                        <div class="col d-inline-flex align-items-center flex-row-reverse">
-                            <img src="/src/img/products/review-star.svg">
+                        <div class="row">
+                            <p class="Roboto-regular-16 col">
+                                @rev.Text
+                            </p>
                         </div>
 
                     </div>
-                    <div class="row">
-                        <p class="Roboto-regular-16 col">
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                            sed diam
-                            nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi
-                            enim.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="row mt-5">
-                <div class="col-2">
-                    <img src="/src/img/products/user-profile-pic.svg" alt="profile picture">
-                </div>
-                <div class="col-9">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="d-inline-flex">
-                                <span class="Roboto-bold-16 teal">Willium Cary</span>
-                                <span class="Roboto-regular-14 gray"> - 16 June, 2020</span>
-
-                            </div>
-                        </div>
-                        <div class="col d-inline-flex align-items-center flex-row-reverse">
-                            <img src="/src/img/products/review-star.svg">
-                        </div>
-
-                    </div>
-
-                    <p class="Roboto-regular-16 col">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed
-                        diam
-                        nonummy nibh euismod tincidunt ut laoreet.
-                    </p>
-                </div>
-            </div>
-
+                </div>             
+            }
         </div>
 
-
-
-
         <div class="col mt-5">
-            <form>
+            <EditForm Model="@_reviewModel" OnValidSubmit="@RegisterReview">
+                <DataAnnotationsValidator />
                 <div class="add-review-form">
                     <p class="Roboto-medium-24 teal">Add a review </p>
                     <p class="Roboto-regular-14 gray">
@@ -234,44 +209,49 @@
                     </p>
                     <div>
                         <span class="Roboto-regular-16">Your rating<span class="teal">*</span>:</span>
-                        <img src="/src/img/products/your-rating.svg">
-                        <img src="/src/img/products/your-rating.svg">
-                        <img src="/src/img/products/your-rating.svg">
-                        <img src="/src/img/products/your-rating.svg">
-                        <img src="/src/img/products/your-rating.svg">
+                        <i class="far fa-star" @onclick="@(e => GetRating(1))"></i>
+                        <i class="far fa-star" @onclick="@(e => GetRating(2))"></i>
+                        <i class="far fa-star" @onclick="@(e => GetRating(3))"></i>
+                        <i class="far fa-star" @onclick="@(e => GetRating(4))"></i>
+                        <i class="far fa-star" @onclick="@(e => GetRating(5))"></i>
                     </div>
-
-
                     <div class="mt-3">
-
-                        <span class="Roboto-regular-16">Your review<span class="teal">*</span></span>
-
-                        <textarea class="review-input" rows="10"></textarea>
-                    </div>
-
-                    <div class="mt-4">
-                        <span class="Roboto-regular-16">Name<span class="teal">*</span></span>
-                        <input class="review-input p-3" type="text">
+                        <label class="mb-2 Roboto-regular-16" for="firstName">Your review<span class="teal">*</span></label><br>
+                        <InputTextArea rows="10" class="review-input form-control form" type="text" id="firstName" required
+                                   @bind-Value="_reviewModel.Text" />
+                        <ValidationMessage For="() => _reviewModel.Text" />
                     </div>
                     <div class="mt-4">
-                        <span class="Roboto-regular-16">Email<span class="teal">*</span></span>
-                        <input class="review-input p-3" type="text">
+                        <label class="mb-2" for="lastName">Name<span class="teal">*</span></label><br>
+                        <InputText class="review-input Roboto-regular-16 form-control form" type="text" id="lastName" required
+                                   @bind-Value="_reviewModel.Name" />
+                        <ValidationMessage For="() => _reviewModel.Name" />
                     </div>
-                    <div class="m-3">
-                        <input type="checkbox">
+                    <div class="mt-4">
+                        <label class="mb-2" for="lastName">Email<span class="teal">*</span></label><br>
+                        <InputText class="review-input Roboto-regular-16 form-control form" type="text" id="lastName" required
+                                   @bind-Value="_reviewModel.Email" />
+                        <ValidationMessage For="() => _reviewModel.Email" />
+                    </div>
+@*Ta med????*@
+  @*                  <div class="mt-3">
+                        <InputText class="review-input Roboto-regular-16 form-control form" type="checkbox" id="lastName" required
+                                   @bind-Value="_reviewModel.SaveName" />
                         <span class="Roboto-regular-16 m-3">
-                            Save my name, email, and website in this browser for the
-                            next time I comment.
+                        Save my name, email, and website in this browser for the
+                        next time I comment.
                         </span>
-                    </div>
+                        <ValidationMessage For="() => _reviewModel.LastName" />
+                    </div>*@
+
 
                     <div>
-                        <input class="Roboto-regular-16 submit-button" type="button" value="Submit">
+                        <button type="submit" class="mt-4 Roboto-regular-16 submit-button" disabled=@_submitting>ADD REVIEW</button>
                     </div>
-
+                    
 
                 </div>
-            </form>
+            </EditForm>
         </div>
     </div>
 
@@ -283,7 +263,8 @@
 
 <!-- Komponent från Alex med lite modifiering-->
 <div class="navy-bg p-3 mb-5">
-    <div class="d-flex justify-content-between m-5">
+<Shipping_banner/>
+  @*  <div class="d-flex justify-content-between m-5">
         <div class="box d-flex p-3 align-items-center white-bg m-3">
             <span id="box-img-pack" class="icon box-img"></span>
             <div class="box-text">
@@ -312,7 +293,7 @@
                 <span class="Roboto-regular-16">We understand your urgency and we deliver in a fast way</span>
             </div>
         </div>
-    </div>
+    </div>*@
 </div>
 
 <!-- YOU MAY ALSO LIKE -->
@@ -1183,3 +1164,87 @@
 
     </div>
 </div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private ProductModel model;
+
+
+    private List<Product> _products;
+    private List<ReviewModel> _reviews;
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = new ProductModel();
+        _products = new List<Product>();
+        _reviews = new List<ReviewModel>();
+
+        await GetProductModel();
+        await GetProducts();
+        await GetReviews();
+        
+    }
+
+     //Fixa snyggare lösning till API + bygg in bättre fel-hantering!
+    private async Task GetProductModel()
+    {
+        ProductModel checkModel = await Http.GetFromJsonAsync<ProductModel>($"https://localhost:44306/api/Products/getProductModelById?id={Id}");
+        model = checkModel;      
+    }
+
+     private async Task GetProducts()
+    {
+        var checkProd = await Http.GetFromJsonAsync<List<Product>>($"https://localhost:44306/api/Products/getProductsByModelId?id={Id}");
+        _products = checkProd;    
+    }
+    private async Task GetReviews()
+    {
+        var checkRev = await Http.GetFromJsonAsync<List<ReviewModel>>($"https://localhost:44306/api/Products/getReviewsById?id={Id}");
+        _reviews = checkRev; 
+    }
+    
+
+    private ReviewModel _reviewModel;
+
+    private string _error;
+    private int rating;
+    private bool _submitting = false;
+
+    protected override void OnInitialized()
+    {
+        _reviewModel = new ReviewModel();
+    }
+
+
+    
+   private void GetRating(int r){
+        rating = r; 
+   }
+
+    private async Task RegisterReview()
+    {
+        _submitting = true;
+        _error = string.Empty;
+
+        
+        _reviewModel.ModelId = Id;
+        _reviewModel.Rating = rating;
+
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.reviewModelUrl, _reviewModel);
+        if (response.IsSuccessStatusCode)
+        {
+            _reviewModel = new ReviewModel();
+            Console.WriteLine("Successfully registered user!");
+        }
+
+        else
+            Console.WriteLine($"{(int)response.StatusCode} {response.ReasonPhrase}");
+
+        _submitting = false;
+    }
+
+
+
+}
+

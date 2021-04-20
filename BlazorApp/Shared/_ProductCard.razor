@@ -41,7 +41,9 @@ else
                 </div>
                 <div class="hover-content text-light">
                     <div class="text d-flex flex-column m-4">
-                        <p class="m-1 roboto">@Product.ProductName</p>
+                        <a href="/products/@Product.ModelId">
+                            <p class="m-1 roboto">@Product.ProductName</p>
+                        </a>
                         <p class="m-1 roboto fashion-border">@Product.Category</p>
                         <p class="m-1 roboto">
                             <strike>$@Product.Price</strike>
