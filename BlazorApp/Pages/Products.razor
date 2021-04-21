@@ -38,8 +38,17 @@
                     </div>
                     <div class="col-2">
                         <div class="d-flex justify-content-start align-items-center">
-                            <img src="/src/img/products/stock-image.svg" alt="stock-image">
-                            <span class="p-1">In stock</span>
+                            @*<img src="/src/img/products/stock-image.svg" alt="stock-image">*@
+                            @if(stock.Contains("In stock")){
+                                 <i class="fas fa-signal greenStock"></i>
+                            }
+                            else if(stock.Contains("Few in stock")){
+                                 <i class="fas fa-signal yellowStock"></i>
+                            }
+                            else{
+                                <i class="fas fa-signal redStock"></i>
+                            }
+                            <span class="p-1 Roboto-regular-16">@stock</span>
                         </div>
                     </div>
                 </div>
@@ -53,16 +62,16 @@
                     <div class="col-3">
                         <div class="d-flex h-100">
                             <div class="d-flex align-items-center justify-conent-center Roboto-regular-16"
-                                 id="decrement-box">
+                                 id="decrement-box" @onclick='(() => ChangeProductAmount(false))'>
                                 <span class="padding-lr">-</span>
                             </div>
                             <div class="d-flex align-items-center justify-conent-center Roboto-regular-16"
                                  id="amount-placeholder-box">
-                                <span class="padding-lr">3</span>
+                                <span class="padding-lr">@productAmount</span>
                             </div>
 
                             <div class="d-flex align-items-center justify-conent-center Roboto-regular-16"
-                                 id="increment-box">
+                                 id="increment-box" @onclick='(() => ChangeProductAmount(true))'>
                                 <span class="padding-lr">+</span>
                             </div>
                         </div>
@@ -84,9 +93,13 @@
                         <div class="col-5">
                             <img src="/src/img/products/Compare icon.svg" alt="compare icon">
                         </div>
+                        
                         <div class="col-5">
-                            <img src="/src/img/products/add-wishlist.svg" alt="wishlist icon">
+                            @*<img src="/src/img/products/add-wishlist.svg" alt="wishlist icon">*@
+                            <i class="fas fa-heart @(checkWishlist ? "" : "text-teal")" @onclick='(() => checkIfActive(model.ModelId))'></i>
                         </div>
+                    </div>
+
                     </div>
 
                 </div>
@@ -125,34 +138,35 @@
                     </span>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 
 
     <!-- Tabs -->
     <div class="row">
-        <div class="d-flex mt-5">
-            <div class="tab">
-                <span class="Roboto-regular-16">Description</span>
-            </div>
-            <div class="tab">
-                <span class="Roboto-regular-16">Additional Information</span>
-            </div>
-            <div class="tab">
-                <span class="Roboto-regular-16">Reviews (2)</span>
-            </div>
-            <div class="tab">
-                <span class="Roboto-regular-16">About Brand</span>
-            </div>
-        </div>
-        <hr class="tabs-underline" />
-    </div>
+        <div class="d-flex mt-5 container justify-content-between">
+          <div class="tabs">
+          <input type="radio" name="tabs" id="tabone" checked="checked">
+          <label for="tabone" class="Roboto-regular-16 teal-bg">Description</label>
+          <div class="tab">
+            <h1>Description</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
 
-
-    <div class="row">
+          <input type="radio" name="tabs" id="tabtwo" checked="checked">
+          <label for="tabtwo" class="Roboto-regular-16 teal-bg">Additional Information</label>
+          <div class="tab">
+            <h1>Additional Information</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+  
+          <input type="radio" name="tabs" id="tabthree" checked="checked">
+          <label for="tabthree" class="Roboto-regular-16 teal-bg">Reviews (@_reviews.Count)</label>
+          <div class="tab">
+            
+                  <div class="row">
         <div class="col">
             <div class="row mt-5">
                 <div class="col">
@@ -208,27 +222,27 @@
                         marked *
                     </p>
                     <div>
-                        <span class="Roboto-regular-16">Your rating<span class="teal">*</span>:</span>
-                        <i class="far fa-star" @onclick="@(e => GetRating(1))"></i>
-                        <i class="far fa-star" @onclick="@(e => GetRating(2))"></i>
-                        <i class="far fa-star" @onclick="@(e => GetRating(3))"></i>
-                        <i class="far fa-star" @onclick="@(e => GetRating(4))"></i>
-                        <i class="far fa-star" @onclick="@(e => GetRating(5))"></i>
+                        <span class="Roboto-regular-16 mr-2">Your rating<span class="teal">*</span>:</span>
+                        <i class="far fa-star star-rating" @onclick="@(e => GetRating(1))"></i>
+                        <i class="far fa-star star-rating" @onclick="@(e => GetRating(2))"></i>
+                        <i class="far fa-star star-rating" @onclick="@(e => GetRating(3))"></i>
+                        <i class="far fa-star star-rating" @onclick="@(e => GetRating(4))"></i>
+                        <i class="far fa-star star-rating" @onclick="@(e => GetRating(5))"></i>
                     </div>
                     <div class="mt-3">
-                        <label class="mb-2 Roboto-regular-16" for="firstName">Your review<span class="teal">*</span></label><br>
+                        <p Roboto-regular-16" for="firstName">Your review<span class="teal">*</span></p><br>
                         <InputTextArea rows="10" class="review-input form-control form" type="text" id="firstName" required
                                    @bind-Value="_reviewModel.Text" />
                         <ValidationMessage For="() => _reviewModel.Text" />
                     </div>
                     <div class="mt-4">
-                        <label class="mb-2" for="lastName">Name<span class="teal">*</span></label><br>
+                        <p for="lastName">Name<span class="teal">*</span></p><br>
                         <InputText class="review-input Roboto-regular-16 form-control form" type="text" id="lastName" required
                                    @bind-Value="_reviewModel.Name" />
                         <ValidationMessage For="() => _reviewModel.Name" />
                     </div>
                     <div class="mt-4">
-                        <label class="mb-2" for="lastName">Email<span class="teal">*</span></label><br>
+                        <p for="lastName">Email<span class="teal">*</span></p><br>
                         <InputText class="review-input Roboto-regular-16 form-control form" type="text" id="lastName" required
                                    @bind-Value="_reviewModel.Email" />
                         <ValidationMessage For="() => _reviewModel.Email" />
@@ -254,9 +268,18 @@
             </EditForm>
         </div>
     </div>
+          </div>
 
-</div>
-
+          <input type="radio" name="tabs" id="tabfour" checked="checked">
+          <label for="tabfour" class="Roboto-regular-16 teal-bg">About Brand</label>
+          <div class="tab">
+            <h1>About Brand</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+        </div>
+        </div>
+    </div>
 
 
 
@@ -716,8 +739,6 @@
         </button>
 
 
-
-
         <div class="row">
             <div class="carousel-indicators m-0">
                 <button id="test" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
@@ -735,33 +756,8 @@
             </div>
         </div>
 
-
-
-
-
-
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- RELATED PRODUCTS -->
 <div class="container">
@@ -1157,11 +1153,6 @@
             </button>
         </div>
 
-
-
-
-
-
     </div>
 </div>
 
@@ -1169,7 +1160,10 @@
     [Parameter]
     public int Id { get; set; }
     private ProductModel model;
-
+    private bool checkWishlist { get; set; }
+    private int productAmount { get; set; }
+    private string stock { get; set; }
+    
 
     private List<Product> _products;
     private List<ReviewModel> _reviews;
@@ -1181,11 +1175,57 @@
         _products = new List<Product>();
         _reviews = new List<ReviewModel>();
         _tags = new List<Tag>();
+        productAmount = 1;
+        stock = "";
 
         await GetProductModel();
         await GetProducts();
         await GetReviews();
         await GetTags();
+        CheckIfInStock();
+
+        checkWishlist = true;
+
+        var response = await apiService.checkIfInWishlist(Id);
+        if(response == true)
+            checkWishlist = false;
+    }
+    public void CheckIfInStock()
+    {
+        var test = 0;
+        var status = "";
+        foreach(var p in _products){
+            test = p.InStock;
+        }
+
+        if (test > 0)
+        {
+            if (test < 5)
+            {
+                status = "Few in stock";
+            }
+            else
+            {
+                status = "In stock";
+            }
+        }
+        else
+            status = "Not in stock";
+
+        if (status != null)
+        {
+            stock = status;
+        }
+
+    }
+    public void ChangeProductAmount(bool changeAmount)
+    {
+        if(changeAmount == true){
+            productAmount = productAmount + 1;
+        }
+        else{
+            productAmount = productAmount - 1;
+        }
     }
 
      //Fixa snyggare lösning till API + bygg in bättre fel-hantering!
@@ -1221,9 +1261,7 @@
     {
         _reviewModel = new ReviewModel();
     }
-
-
-    
+  
    private void GetRating(int r){
         rating = r; 
    }
@@ -1238,10 +1276,10 @@
         _reviewModel.Rating = rating;
 
         var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.reviewModelUrl, _reviewModel);
-        if (response.IsSuccessStatusCode)
+        var response2 = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.changeCustomerNameUrl, _reviewModel);
+        if (response.IsSuccessStatusCode && response2.IsSuccessStatusCode)
         {
             _reviewModel = new ReviewModel();
-            Console.WriteLine("Successfully registered user!");
         }
 
         else
@@ -1251,6 +1289,34 @@
     }
 
 
+    //Kontrollera vilka hjärtan som ska vara ifyllda?
+    public async Task checkIfActive(int modelId)
+    {
+        var response = await apiService.checkIfInWishlist(modelId);
+       
+        if(response == true){
+           checkWishlist = true;
+           await DeleteWishlistItemApi(modelId);
+        }
+        else{
+            checkWishlist = false;
+            await SendWishlistItemToApi(modelId);
+        } 
+    }
 
+
+     public async Task<HttpResponseMessage> SendWishlistItemToApi(int modelId)
+    {
+        //var response = await apiService.AddToWishlist(modelId);
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.WishlistUrl, Id, true);
+        if (response.IsSuccessStatusCode){}
+        return response;
+    }
+    public async Task<HttpResponseMessage> DeleteWishlistItemApi(int modelId)
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.DeleteWishlistUrl, Id, true);
+        if (response.IsSuccessStatusCode){}
+        return response;
+    }
 }
 

@@ -140,29 +140,56 @@
     padding: 5px;
 }
 
-    .tags-border:hover {
-        cursor: pointer;
-    }
-
-/* Tabs */
-
-.tab {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background-color: #0e153d;
-    color: white;
-    padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-right: 3px;
-    margin-left: 3px;
+.tags-border:hover {
+    cursor: pointer;
 }
 
-    .tab:hover {
-        background-color: #20d3c2;
-        cursor: pointer;
+/* Tabs */
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tabs label {
+    order: 1;
+    padding: 1rem 2rem;
+    margin-right: 0.2rem;
+    cursor: pointer;
+    transition: background ease 0.2s;
+}
+
+.tabs .tab {
+    order: 99;
+    display: none;
+}
+
+    .tabs label {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: var(--bg-dark-blue);
+        color: white;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-right: 3px;
+        margin-left: 3px;
     }
 
+.label:hover {
+    background-color: #20d3c2;
+    cursor: pointer;
+}
+
+.tabs input[type="radio"] {
+    display: none;
+}
+    .tabs input[type="radio"]:checked + label {
+        background: #20d3c2;
+    }
+
+.tabs input[type="radio"]:checked + label + .tab {
+    display: block;
+}
 .tabs-underline {
     border: 0 !important;
     margin: 0 !important;
@@ -391,7 +418,17 @@
 
 
 
-.fa-star:hover {
+.star-rating:hover {
     cursor: pointer;
     color: #20d3c2;
+}
+
+.yellowStock{
+    color: yellow;
+}
+.greenStock {
+    color: green;
+}
+.redStock {
+    color: red;
 }

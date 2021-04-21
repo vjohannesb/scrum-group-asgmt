@@ -23,6 +23,7 @@ namespace BlazorApp.Services
         public string DeleteWishlistUrl { get; }
         public string ProductModelsWishlistUrl { get; }
         public string reviewModelUrl { get; }
+        public string changeCustomerNameUrl { get; }
 
 
         // LocalStorage
