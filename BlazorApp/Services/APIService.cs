@@ -35,7 +35,9 @@ namespace BlazorApp.Services
         public string DeleteWishlistUrl => $"{CustomersUrl}/deleteWishlist";
         public string ProductModelsWishlistUrl => $"{ProductsUrl}/getWishlist";
         public string reviewModelUrl => $"{ProductsUrl}/registerReview";
+        public string changeCustomerNameUrl => $"{ProductsUrl}/ChangeNameCustomer";
         
+
 
 
         public APIService(ILocalStorageService localStorage, HttpClient httpClient)

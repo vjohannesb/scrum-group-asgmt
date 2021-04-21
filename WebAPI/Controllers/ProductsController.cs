@@ -219,7 +219,7 @@ namespace WebAPI.Controllers
             return null;
         }
 
-      
+     
 
         [HttpPost("multi")]
         public async Task<ActionResult<List<ProductViewModel>>> GetMultipleProducts([FromBody] List<ShoppingCartItem> cart) 
@@ -244,7 +244,7 @@ namespace WebAPI.Controllers
 
         //POST Products
         [HttpPost]
-        public async Task<ActionResult<Product>> PostOrder(Product product)
+        public async Task<ActionResult<Product>> PostProducts(Product product)
         {
 
             var productItem = new Product()
@@ -349,25 +349,44 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<ReviewModel>> PostReview(ReviewModel reviewModel)
         {
             var customer = new Customer();
-            foreach (Customer cust in _context.Customers)
-            {
-                if (cust.Email == reviewModel.Email)
+                foreach (Customer cust in _context.Customers)
                 {
-                    customer = cust;                   
+                    if (cust.Email == reviewModel.Email)
+                    {
+                        customer = cust;
+                    }
                 }
-            }
-            Review review = new Review()
-            {
-                CustomerId = customer.CustomerId,
-                ModelId = reviewModel.ModelId,
-                Text = reviewModel.Text,
-                Rating = reviewModel.Rating,
-                Likes = 0
-            };
-            _context.Reviews.Add(review);
-            await _context.SaveChangesAsync();
+                Review review = new Review()
+                {
+                    CustomerId = customer.CustomerId,
+                    ModelId = reviewModel.ModelId,
+                    Text = reviewModel.Text,
+                    Rating = reviewModel.Rating,
+                    Likes = 0
+                };
+                _context.Reviews.Add(review);
+                await _context.SaveChangesAsync();
 
-            return Ok(review);
+                return Ok(review);
+        }
+
+        [HttpPut("ChangeNameCustomer")]
+        public async Task<IActionResult> ChangeNameCustomer(ReviewModel revmodel)
+        {
+            var user = await _context.Customers.FirstOrDefaultAsync(u => u.Email == revmodel.Email);
+            user.FirstName = revmodel.Name;
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+
+            catch (DbUpdateConcurrencyException)
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
     }
 }
