@@ -4,10 +4,6 @@
     margin: 0;
 }
 
-span {
-    color: var(--teal);
-}
-
 button {
     background-color: var(--teal);
     color: white;

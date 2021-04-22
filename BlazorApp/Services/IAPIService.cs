@@ -25,9 +25,6 @@ namespace BlazorApp.Services
         public string reviewModelUrl { get; }
         public string changeCustomerNameUrl { get; }
 
-        // ShoppingCart
-        public int ShoppingCartCount { get; set; }
-
         // LocalStorage
         public Task SaveToLocalStorageAsync(string key, string value);
         public Task SaveToLocalStorageAsync<T>(string key, T data);

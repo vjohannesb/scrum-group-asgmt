@@ -41,6 +41,7 @@ namespace SharedLibrary.Models.ViewModels
             Category = p.Category;
             Rating = p.Rating;
             BrandId = p.BrandId;
+            Brand = p.Brand;
             InStock = p.InStock;
             DateTimeCreated = p.DateTimeCreated;
             Reviews = p.Reviews;

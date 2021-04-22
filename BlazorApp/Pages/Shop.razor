@@ -1,4 +1,5 @@
 ﻿@page "/shop"
+@page "/shop/{Category}"
 @inject IJSRuntime jsRuntime
 @inject HttpClient Http
 
@@ -30,7 +31,7 @@
             <div class="row shop-top-menu justify-content-between">
                 <!-- Title + Breadcrumb -->
                 <div class="col-4 col-xxl-6 col-xl-5 col-lg-4">
-                    <h2 class="teal fw-bold">Shop</h2>
+                    <h2 class="teal fw-bold">Shop @(string.IsNullOrEmpty(Category) ? "" : $"/ {Category}")</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
                             <li class="breadcrumb-item">
@@ -368,15 +369,15 @@
                 <!-- Products Column/Row -->
                 <div class="col-12 col-lg-9">
                     <div class="row row-cols-3 gy-4">
-                        @if (_ProductViewModels == null)
+                        @if (_productViewModels == null)
                         {
                             <div class="col">
-                                <p>Loading...</p>
+                                <div class="loader" />
                             </div>
                         }
                         else
                         {
-                            @if (_ProductViewModels.Count < 1)
+                            @if (_productViewModels.Count < 1)
                             {
                                 <div class="col">
                                     <p>No products available...</p>
@@ -384,10 +385,10 @@
                             }
                             else
                             {
-                                @foreach (var ProductViewModel in _ProductViewModels)
+                                @foreach (var product in _productViewModels)
                                 {
                                     <div class="col">
-                                        <ProductCard Product="@ProductViewModel" @bind-ModalProduct="_modalProduct" />
+                                        <ProductCard Product="@product" @bind-ModalProduct="_modalProduct" />
                                     </div>
                                 }
                             }
@@ -402,9 +403,12 @@
 </section>
 
 @code {
+    [Parameter]
+    public string Category { get; set; }
+
     private ProductViewModel _modalProduct;
 
-    private List<ProductViewModel> _ProductViewModels;
+    private List<ProductViewModel> _productViewModels;
 
     protected override async Task OnInitializedAsync()
     {
@@ -418,10 +422,10 @@
     {
         var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
         if (response.IsSuccessStatusCode)
-            _ProductViewModels = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+            _productViewModels = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
         else
         {
-            _ProductViewModels = new List<ProductViewModel>();
+            _productViewModels = new List<ProductViewModel>();
         }
     }
 

@@ -36,10 +36,6 @@ namespace BlazorApp.Services
         public string changeCustomerNameUrl => $"{ProductsUrl}/ChangeNameCustomer";
 
 
-
-        // ShoppingCart
-        public int ShoppingCartCount { get; set; }
-
         public APIService(ILocalStorageService localStorage, HttpClient httpClient)
         {
             _localStorage = localStorage;

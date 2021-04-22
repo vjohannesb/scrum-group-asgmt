@@ -151,6 +151,14 @@
                 color: #64cb83;
             }
 
+            .quick-view-container .main-row .info-column .price-status-row .stock-status .low-stock {
+                color: #FF6900;
+            }
+
+            .quick-view-container .main-row .info-column .price-status-row .stock-status .no-stock {
+                color: #FE4545;
+            }
+
         .quick-view-container .main-row .info-column .buy-actions-row {
             -webkit-box-align: center;
             -ms-flex-align: center;

@@ -20,6 +20,8 @@ namespace BlazorApp
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<IAPIService, APIService>();
 
+            builder.Services.AddSingleton<StateContainer>();
+
             await builder.Build().RunAsync();
         }
     }

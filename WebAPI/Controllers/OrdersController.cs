@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SharedLibrary.Models.OrderModels;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Data;
@@ -16,6 +18,10 @@ namespace WebAPI.Controllers
         {
             _context = context;
         }
+
+        [HttpGet("shipping")]
+        public async Task<IEnumerable<ShippingMethod>> GetShippingMethods()
+            => await _context.ShippingMethods.ToListAsync();
 
         // POST: ShippingMethod
         [HttpPost("shipping")]

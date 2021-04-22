@@ -1,3 +1,6 @@
+@inject StateContainer stateContainer
+@implements IDisposable
+
 <div>
     <div class="top-menu bg-teal d-flex justify-content-between align-items-center">
         <div class="container d-flex justify-content-between align-items-center p-0">
@@ -60,8 +63,8 @@
         @* Search form *@
         <div class="search-form">
             <EditForm Model="_searchQuery">
-                <InputText @bind-Value="_searchQuery.Query" placeholder="Search products..."/>
-                <InputSelect @bind-Value="_searchQuery.Category" class="form-select" >
+                <InputText @bind-Value="_searchQuery.Query" placeholder="Search products..." />
+                <InputSelect @bind-Value="_searchQuery.Category" class="form-select">
                     <option value="All">All</option>
                     <option value="Men">Men</option>
                     <option value="Women">Women</option>
@@ -96,7 +99,7 @@
             <a class="little-box" href="/shoppingcart">
                 <i class="fas fa-shopping-bag"></i>
                 <div class="little-circle d-flex justify-content-center align-items-center">
-                    <p class="mb-0 text-light">@(_shoppingCartItems?.Count ?? 0) </p>
+                    <p class="mb-0 text-light">@(stateContainer.ShoppingCartProducts?.Count ?? 0) </p>
                 </div>
             </a>
             <div class="ms-2">$0.00</div>
@@ -192,12 +195,28 @@
 @code {
     private SearchQuery _searchQuery;
 
-    private List<ShoppingCartItem> _shoppingCartItems;
-
     protected override async Task OnInitializedAsync()
     {
         _searchQuery = new SearchQuery();
 
-        _shoppingCartItems = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
+        stateContainer.OnChange += StateHasChanged;
+
+        // "Backup" ifall man refreshar sidan och StateContainer har återställts
+        // så kollar den ifall det finns produkter sparat i LocalStorage
+        if (stateContainer?.ShoppingCartProducts == null)
+        {
+            var cart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
+            if (cart?.Count > 0)
+            {
+                var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.MultipleProductsUrl, cart);
+                if (response.IsSuccessStatusCode)
+                    stateContainer.ShoppingCartProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        stateContainer.OnChange -= StateHasChanged;
     }
 } 

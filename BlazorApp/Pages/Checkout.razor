@@ -1,10 +1,11 @@
 ﻿@page "/checkout"
+@inject StateContainer stateContainer
 
 <CheckoutBreadcrumb />
 <div class="d-flex justify-content-center mt-5 mb-5">
     <div class="forms-section me-4">
         <p class="mb-4">Returning customer? <a href="/myaccount"><span>Click here to login</span></a></p>
-        <p class="mb-4">Have a coupon? <a href="#"><span>Click here to enter your code</span></a></p>
+
         <div class="coupon d-flex justify-content-center">
             <div>
                 <p class="mb-4">If you have a coupon code, please apply it below.</p>
@@ -14,6 +15,7 @@
                 </div>
             </div>
         </div>
+
         <div class="mt-5">
             <h1>BILLING DETAILS</h1>
             <div class="mt-4 d-flex justify-content-between">
@@ -94,34 +96,23 @@
                 <h1><span>SUBTOTAL</span></h1>
             </div>
             <ul>
-                <li>
-                    <div class="d-flex justify-content-between">
-                        <p>Women smart high heel shoe</p>
-                        <p>$380.00</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="d-flex justify-content-between">
-                        <p>Gents half t-shirt</p>
-                        <p>$280.00</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="d-flex justify-content-between">
-                        <p>Gents winter yellow jacket</p>
-                        <p>$160.00</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="d-flex justify-content-between">
-                        <p>Men's Watches Brown Leather</p>
-                        <p>$90.00</p>
-                    </div>
-                </li>
+                @foreach (var product in stateContainer.ShoppingCartProducts)
+                {
+
+                    <li>
+                        <div class="d-flex justify-content-between">
+                            <p>
+                                <span class="text-light-gray fs-7">(x@(product.Quantity))</span> 
+                                <span>@product.ProductName</span>
+                            </p>
+                            <p>$@(product.Price * product.Quantity)</p>
+                        </div>
+                    </li>
+                }
             </ul>
             <div class="d-flex justify-content-between">
                 <p><span>Subtotal</span></p>
-                <p id="subtotal"><span>$930.00</span></p>
+                <p id="subtotal"><span>$@stateContainer.ShoppingCartProducts.Sum(scp => scp.Price * scp.Quantity)</span></p>
             </div>
             <div class="shipping d-flex justify-content-between align-items-center">
                 <p>Shipping</p>
@@ -130,13 +121,13 @@
                         <label class="pe-2" for="shippingOption1">Flat rate: <span>$20.00</span></label>
                         <input type="radio" name="shipping" id="shippingOption1">
                     </div>
-                    <div class="d-flex justify-content-end pt-2 pb-2">
-                        <label class="pe-2" for="shippingOption2">Free shipping</label>
-                        <input type="radio" name="shipping" id="shippingOption2">
-                    </div>
                     <div class="d-flex justify-content-end">
                         <label class="pe-2" for="shippingOption3">Local pickup: <span>$25.00</span></label>
                         <input type="radio" name="shipping" id="shippingOption3">
+                    </div>
+                    <div class="d-flex justify-content-end pt-2 pb-2">
+                        <label class="pe-2" for="shippingOption2">Free shipping</label>
+                        <input type="radio" name="shipping" id="shippingOption2">
                     </div>
                 </div>
             </div>

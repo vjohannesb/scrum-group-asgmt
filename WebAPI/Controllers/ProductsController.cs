@@ -10,6 +10,7 @@ using SharedLibrary.Models.ViewModels;
 using SharedLibrary.Models.CustomerModels;
 using SharedLibrary.Models.ProductModels;
 using Microsoft.EntityFrameworkCore.Query;
+using SharedLibrary.Models.OrderModels;
 
 namespace WebAPI.Controllers
 {
@@ -29,6 +30,7 @@ namespace WebAPI.Controllers
         // eller som jag gjort i GetProducts
         private IIncludableQueryable<Product, Tag> ProductContext()
             => _context.Products
+                    .Include(p => p.Brand)
                     .Include(p => p.ProductColors).ThenInclude(pc => pc.Color)
                     .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
                     .Include(p => p.ProductTags).ThenInclude(pt => pt.Tag);
@@ -375,5 +377,6 @@ namespace WebAPI.Controllers
             }
             return NoContent();
         }
+
     }
 }

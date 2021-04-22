@@ -1,16 +1,16 @@
 ﻿@page "/shoppingcart"
+@inject StateContainer stateContainer
+@implements IDisposable
+
+<ProductDetailsModal Product="_modalProduct" />
 
 <CheckoutBreadcrumb />
 
-@if (_cartProducts == null)
-{
-    <p class="text-center mt-5">Loading...</p>
-}
-else if (_cartProducts.Count < 1)
+@if (stateContainer?.ShoppingCartProducts == null || stateContainer?.ShoppingCartProducts?.Count < 1)
 {
     <p class="text-center mt-5">There are no products in your shopping cart.</p>
 }
-else
+else if (_loaded)
 {
     <section class="container my-5">
         <div class="row g-5">
@@ -28,7 +28,7 @@ else
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var product in _cartProducts)
+                            @foreach (var product in stateContainer.ShoppingCartProducts)
                             {
                                 <tr>
                                     <CartProduct Product="@product" />
@@ -44,7 +44,10 @@ else
                     </div>
 
                     <div class="col-auto">
-                        <button type="button" class="col-auto btn btn-update-cart bg-dark-blue">UPDATE CART</button>
+                        <button type="button" class="col-auto btn btn-update-cart bg-dark-blue"
+                                @onclick="UpdateCart">
+                            UPDATE CART
+                        </button>
                     </div>
                 </div>
             </div>
@@ -57,31 +60,36 @@ else
                     <!-- Subtotal -->
                     <div class="row justify-content-between fw-bold">
                         <div class="col-auto">Subtotal</div>
-                        <div class="col-auto text-teal">$@_subTotal</div>
+                        <div class="col-auto text-teal">
+                            $@_subTotal
+                        </div>
                     </div>
 
                     <!-- Shipping methods -->
                     <div class="row justify-content-between">
                         <div class="col-auto fw-bold">Shipping</div>
                         <div class="col-auto">
-                            <EditForm Model="@_selectedShipping" novalidate>
-                                <DataAnnotationsValidator />
+                            @if (_selectedShipping != null)
+                            {
+                                <EditForm Model="@_selectedShipping" novalidate>
+                                    <DataAnnotationsValidator />
 
-                                <InputRadioGroup Name="Shipping" @bind-Value="_selectedShippingId">
-                                    @foreach (var shippingMethod in _shippingMethods)
-                                        {
-                                        <div class="radio-container d-flex align-items-center justify-content-between">
-                                            <label class="me-1">
-                                                <span>@shippingMethod.ShippingMethodName</span>
-                                                <span class="text-teal">
-                                                    @(shippingMethod.Price > 0 ? $"${shippingMethod.Price}" : "")
-                                                </span>
-                                            </label>
-                                            <InputRadio Name="Shipping" Value="shippingMethod.ShippingMethodId" class="float-end" novalidate />
-                                        </div>
-                                        }
-                                </InputRadioGroup>
-                            </EditForm>
+                                    <InputRadioGroup Name="Shipping" @bind-Value="_selectedShippingId">
+                                        @foreach (var shippingMethod in _shippingMethods)
+                                                {
+                                            <div class="radio-container d-flex align-items-center justify-content-between">
+                                                <label class="me-1">
+                                                    <span>@shippingMethod.ShippingMethodName</span>
+                                                    <span class="text-teal">
+                                                        @(shippingMethod.Price > 0 ? $"${shippingMethod.Price}" : "")
+                                                    </span>
+                                                </label>
+                                                <InputRadio Name="Shipping" Value="shippingMethod.ShippingMethodId - 1" class="float-end" novalidate />
+                                            </div>
+                                                }
+                                    </InputRadioGroup>
+                                </EditForm>
+                            }
                         </div>
                     </div>
 
@@ -116,12 +124,11 @@ else
     <div class="my-5">
         <ZigZagTitle BlackText="you may" TealText="also like" />
     </div>
-    <ProductCarousel Products="_products" />
+    @*<ProductCarousel Products="_products" @bind-ModalProduct="_modalProduct" />*@
 </section>
 
 
 @code {
-    private List<ProductViewModel> _cartProducts;
     private List<ShippingMethod> _shippingMethods;
 
     private ShippingMethod _selectedShipping;
@@ -129,63 +136,54 @@ else
 
     private CouponViewModel _coupon;
 
-    private decimal _subTotal;
-
     private List<ProductViewModel> _products;
+    private ProductViewModel _modalProduct;
+
+    private decimal _subTotal;
+    private bool _loaded;
+
+    public void Dispose()
+        => stateContainer.OnChange -= StateHasChanged;
 
     protected override async Task OnInitializedAsync()
     {
-        _cartProducts = new List<ProductViewModel>();
-        _products = new List<ProductViewModel>();
+        _coupon = new CouponViewModel();
+        stateContainer.OnChange += StateHasChanged;
 
         await GetProductsAsync();
-        await GetShoppingCartAsync();
-
-        //var shippingResponse = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ShippingMethodsUrl);
-        //if (response.IsSuccessStatusCode)
-        //    _shippingMethods = await shippingResponse.Content.ReadFromJsonAsync<List<ShippingMethod>>();
-
-        _shippingMethods = new List<ShippingMethod>
-        {
-            new ShippingMethod { ShippingMethodName = "Flat rate", Price = 20, ShippingMethodId = 0},
-            new ShippingMethod { ShippingMethodName = "Local pickup", Price = 25, ShippingMethodId = 1},
-            new ShippingMethod { ShippingMethodName = "Free shipping", Price = 0, ShippingMethodId = 2}
-        };
+        await GetShippingMethodsAsync();
 
         _selectedShippingId = 0;
         _selectedShipping = _shippingMethods[_selectedShippingId];
+        UpdateCart();
 
-        _coupon = new CouponViewModel();
-    }
-
-    private async Task GetShoppingCartAsync()
-    {
-        var cart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
-
-        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.MultipleProductsUrl, serializeContent: cart);
-        if (!response.IsSuccessStatusCode)
-            return;
-
-        _cartProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
-        _subTotal = _cartProducts.Sum(cp => cp.Quantity * cp.Price);
-    }
-
-    private async Task GetProductsAsync()
-    {
-        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
-        if (!response.IsSuccessStatusCode)
-            return;
-
-        _products = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+        _loaded = true;
     }
 
     private void GoToCheckout()
-    {
-        var x = 1 + 1;
-    }
+            => navigationManager.NavigateTo("/checkout");
 
     private void ApplyCoupon()
     {
         Console.WriteLine($"Applied coupon: {_coupon.CouponCode}");
+    }
+
+    private void UpdateCart()
+        => _subTotal = stateContainer.ShoppingCartProducts?.Sum(scp => scp.Price * scp.Quantity) ?? 0;
+
+
+
+    private async Task GetProductsAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
+        if (response.IsSuccessStatusCode)
+            _products = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+    }
+
+    private async Task GetShippingMethodsAsync()
+    {
+        var shippingResponse = await apiService.SendToAPIAsync(HttpMethod.Get, "https://localhost:44306/api/orders/shipping");
+        if (shippingResponse.IsSuccessStatusCode)
+            _shippingMethods = await shippingResponse.Content.ReadFromJsonAsync<List<ShippingMethod>>();
     }
 }

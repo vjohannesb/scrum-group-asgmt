@@ -1,18 +1,20 @@
-﻿
-<div class="modal fade" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <button class="btn close-modal-button" data-bs-dismiss="modal">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="modal-body">
-                <div class="quick-view-container">
-                    <ProductDetails Product=Product/>
+﻿@if (Product != null)
+{
+    <div class="modal fade" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <button class="btn close-modal-button" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="modal-body">
+                    <div class="quick-view-container">
+                        <ProductDetails Product=Product />
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
 
 @code {
     [Parameter]

@@ -1,4 +1,5 @@
-﻿
+﻿@inject StateContainer stateContainer
+
 @if (Product == null)
 {
     <p>Loading...</p>
@@ -6,12 +7,12 @@
 else
 {
     <td>
-        <i class="fas fa-times-circle"></i>
+        <i class="fas fa-times-circle" @onclick="RemoveProduct"></i>
     </td>
 
     <th scope="row">
         @*<img src=@Product.ProductImg alt="Product Image">*@
-        <img src="https://via.placeholder.com/65/EEEEEE/20D3C2?text=@(Product.ProductName.Substring(0, 1).ToUpper())" alt="Product Image"/>
+        <img src="https://via.placeholder.com/65/EEEEEE/20D3C2?text=@(Product.ProductName.Substring(0, 1).ToUpper())" alt="Product Image" />
         <div class="product-name">
             @Product.ProductName
         </div>
@@ -32,4 +33,11 @@ else
 @code {
     [Parameter]
     public ProductViewModel Product { get; set; }
+
+    private void RemoveProduct()
+    {
+        stateContainer.ShoppingCartProducts.Remove(Product);
+        stateContainer.NotifyStateChanged();
+    }
+
 }
