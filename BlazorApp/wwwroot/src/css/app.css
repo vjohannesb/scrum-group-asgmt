@@ -125,6 +125,42 @@ a {
         background: white;
     }
 
+/* Breadcrumb */
+
+.breadcrumb-section {
+    background-color: rgba(14, 21, 61, 0.65);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+    .breadcrumb-section a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .breadcrumb-section p {
+        color: #20D3C2;
+        margin: 0;
+    }
+
+    .breadcrumb-section ol {
+        margin: 0;
+    }
+
+    .breadcrumb-section .active {
+        color: #20D3C2;
+    }
+
+.breadcrumb-divider .breadcrumb-item + .breadcrumb-item::before {
+    color: #20D3C2;
+}
+
+.breadcrumb-small-text {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+}
+
 /******************************************************************************/
 /******************************* Blazor Defaults ******************************/
 /******************************************************************************/
