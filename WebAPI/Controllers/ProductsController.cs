@@ -92,6 +92,39 @@ namespace WebAPI.Controllers
             return await _context.ProductModels.Where(p => p.ProductName.ToLower().Contains(searchString.ToLower())).ToListAsync();
         }
 
+
+        // GET Products api/Category/filter <Göran>
+        [HttpGet("FilterCategory")]
+        public async Task<ActionResult<IEnumerable<ProductModel>>> FilterCategory(string FilterStringCategory)
+        {
+            return await _context.ProductModels.Where(p => p.Category.StartsWith(FilterStringCategory)).ToListAsync();
+        }
+        // GET Products api/Price/filter <Göran>
+        [HttpGet("FilterPrice")]
+        public async Task<ActionResult<IEnumerable<ProductModel>>> FilterPrice(int priceMin, int priceMax)
+        {
+            var direction = "Asc";
+            var result = _context.ProductModels.Where(x => x.Price >= priceMin && x.Price <= priceMax).ToList();
+            if (direction == "Asc")
+                result.OrderBy(x => x.Price);
+            else
+                result.OrderByDescending(x => x.Price);
+            return result;
+        }
+        // GET Products api/Price/filter <Göran>
+        //[HttpGet("FilterColor")]
+        //public async Task<ActionResult<IEnumerable<Product>>> FilterColor(string FilterStringColor)
+        //{
+          //  var direction = "Asc";
+           // var result = _context.Products.Where(x => x.Price >= min && x.Price <= max).ToList();
+            // if (direction == "Asc")
+              //  result.OrderBy(x => x.Price);
+           // else
+            //    result.OrderByDescending(x => x.Price);
+           // return result;
+       // }
+
+
         [HttpGet("getProductModelById")]
         public async Task<ActionResult<ProductModel>> GetProductModelById(int id)
         {

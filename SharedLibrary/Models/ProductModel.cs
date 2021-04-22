@@ -29,5 +29,6 @@ namespace SharedLibrary.Models
         public virtual ICollection<ModelTag> ModelTags { get; set; }
         public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+
     }
 }
