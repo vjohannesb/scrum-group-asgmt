@@ -33,8 +33,7 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             // Kopplar in SqlDbContext m.h.a. ConnectionString i appsettings.json
-            //services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
-            services.AddDbContext<SqlDbContext>(options => options.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Johannes\\Desktop\\temp\\gu\\gu.mdf;Integrated Security=True;Connect Timeout=30"));
+            services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
 
             // Kopplar in IIdentityService
             services.AddScoped<IIdentityService, IdentityService>();
@@ -42,7 +41,7 @@ namespace WebAPI
             // Enable CORS
             services.AddCors();
 
-            // Lägg till Authentication via JWT
+            // LÃ¤gg till Authentication via JWT
             services.AddAuthentication(auth =>
             {
                 auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
