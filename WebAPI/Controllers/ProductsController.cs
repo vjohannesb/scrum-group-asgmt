@@ -271,15 +271,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProducts(Product product)
         {
-
-            var productItem = new Product()
-            {
-                ProductId = product.ProductId,
-                ProductColors = product.ProductColors,
-                ProductSizes = product.ProductSizes,
-                InStock = product.InStock,
-            };
-
+            product.DateTimeCreated = DateTime.Now;
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
