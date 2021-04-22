@@ -1,0 +1,8 @@
+﻿/* Category */
+.grid-container {
+    height: 650px;
+    display: grid;
+    grid-gap: 10px 10px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}

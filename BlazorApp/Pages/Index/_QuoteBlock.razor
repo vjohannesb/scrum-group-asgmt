@@ -1,0 +1,81 @@
+﻿@if (_currentQuote != null)
+{
+    <div class="quote-banner bg-indigo my-5">
+        <div class="container h-100">
+            <div class="row align-items-center justify-content-between">
+
+                <div class="col-1">
+                    <div class="btn-caret left-caret mx-auto" @onclick="PrevQuote" />
+                </div>
+
+                <div class="col-8">
+                    <_QuoteCard Quote="_currentQuote" Animate="_animate" />
+                </div>
+
+                <div class="col-1">
+                    <div class="btn-caret right-caret mx-auto" @onclick="NextQuote" />
+                </div>
+
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="page-indicator-container d-flex justify-content-center">
+                    @for (var i = 0; i < _quotes.Count; i++)
+                    {
+                        <div class="page-indicator @(_index == i ? "active" : "")" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    public class TempQuote
+    {
+        public int Rating { get; set; }
+        public string Name { get; set; }
+        public string CompanyRole { get; set; }
+        public string CompanyName { get; set; }
+    }
+
+    private List<TempQuote> _quotes = new List<TempQuote>
+    {
+        new TempQuote {Rating = 2, Name = "Johny Wesmular", CompanyRole = "CEO", CompanyName = "Biotech Inc."},
+        new TempQuote {Rating = 3, Name = "Law Cezar", CompanyRole = "VP", CompanyName = "Fashion Inc."},
+        new TempQuote {Rating = 4, Name = "Merrill Tollemache", CompanyRole = "CMO", CompanyName = "F123 Inc."},
+        new TempQuote {Rating = 5, Name = "Karly Arterbury", CompanyRole = "CEO", CompanyName = "Stuff Inc."},
+    };
+
+    private TempQuote _currentQuote;
+    private int _index => _quotes.IndexOf(_currentQuote);
+    private bool _animate;
+
+    protected override void OnInitialized()
+    {
+        _currentQuote = _quotes[0];
+    }
+
+    private async Task NextQuote()
+        => await ChangeSlide(_index + 1);
+
+    private async Task PrevQuote()
+        => await ChangeSlide(_index - 1);
+
+
+    private async Task ChangeSlide(int idx)
+    {
+        // Togglar en css-klass med animation, på QuoteCard, simulerar slideshow
+        _animate = false;
+        await Task.Delay(1);
+        _animate = true;
+
+        _currentQuote = idx > 0
+            ? _quotes[idx % _quotes.Count]
+            : _quotes[_quotes.Count - 1];
+    }
+} 

@@ -1,197 +1,186 @@
 ﻿@page "/checkout"
 
-<body>
-    <div class="d-flex justify-content-center align-content-center pt-5 pb-5 breadcrumb-section">
-        <nav class="breadcrumb-divider" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/shoppingcart">Shopping Cart</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
-                <li class="breadcrumb-item"><a href="/ordercomplete">Order Complete</a></li>
-            </ol>
-        </nav>
-    </div>
-    <div class="d-flex justify-content-center mt-5 mb-5">
-        <div class="forms-section me-4">
-            <p class="mb-4">Returning customer? <a href="/myaccount"><span>Click here to login</span></a></p>
-            <p class="mb-4">Have a coupon? <a href="#"><span>Click here to enter your code</span></a></p>
-            <div class="coupon d-flex justify-content-center">
+<CheckoutBreadcrumb />
+<div class="d-flex justify-content-center mt-5 mb-5">
+    <div class="forms-section me-4">
+        <p class="mb-4">Returning customer? <a href="/myaccount"><span>Click here to login</span></a></p>
+        <p class="mb-4">Have a coupon? <a href="#"><span>Click here to enter your code</span></a></p>
+        <div class="coupon d-flex justify-content-center">
+            <div>
+                <p class="mb-4">If you have a coupon code, please apply it below.</p>
+                <div class="d-flex align-items-center">
+                    <input class="form-control" type="text" placeholder="Coupon code">
+                    <button type="submit">Apply Coupon</button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5">
+            <h1>BILLING DETAILS</h1>
+            <div class="mt-4 d-flex justify-content-between">
                 <div>
-                    <p class="mb-4">If you have a coupon code, please apply it below.</p>
-                    <div class="d-flex align-items-center">
-                        <input class="form-control" type="text" placeholder="Coupon code">
-                        <button type="submit">Apply Coupon</button>
-                    </div>
+                    <label class="mb-2" for="firstName">First name <span>*</span></label><br>
+                    <input class="form-control form-small" type="text" id="firstName" required>
+                </div>
+                <div>
+                    <label class="mb-2" for="lastName">Last name <span>*</span></label><br>
+                    <input class="form-control form-small" type="text" id="lastName" required>
                 </div>
             </div>
-            <div class="mt-5">
-                <h1>BILLING DETAILS</h1>
-                <div class="mt-4 d-flex justify-content-between">
-                    <div>
-                        <label class="mb-2" for="firstName">First name <span>*</span></label><br>
-                        <input class="form-control form-small" type="text" id="firstName" required>
-                    </div>
-                    <div>
-                        <label class="mb-2" for="lastName">Last name <span>*</span></label><br>
-                        <input class="form-control form-small" type="text" id="lastName" required>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="companyName">Company name (optional)</label><br>
-                    <input class="form-control form-large" type="text" id="companyName">
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="country">Country / Region <span>*</span></label><br>
-                    <select class="form-select select" id="country" aria-label="Default select example" required>
-                        <option selected>Select a country / region</option>
-                        <option value="1">United States (US)</option>
-                        <option value="2">Sweden (Europe)</option>
-                    </select>
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="adress">Street address <span>*</span></label><br>
-                    <input class="mb-4 form-control form-large" type="text" id="adress"
-                           placeholder="House number and street name" required>
-                    <input class="form-control form-large" type="text" id="adressOptional"
-                           placeholder="Apartment, suite, unit, etc. (optional)">
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="city">Town / City <span>*</span></label><br>
-                    <input class="form-control form-large" type="text" id="city" required>
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="state">State <span>*</span></label><br>
-                    <select class="form-select select" id="state" aria-label="Default select example" required>
-                        <option selected>Select a state</option>
-                        <option value="1">Alabama</option>
-                        <option value="2">California</option>
-                    </select>
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="zip">ZIP <span>*</span></label><br>
-                    <input class="form-control form-large" type="text" id="zip" required>
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="phone">Phone <span>*</span></label><br>
-                    <input class="form-control form-large" type="text" id="phone" required>
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="email">Email adress <span>*</span></label><br>
-                    <input class="form-control form-large" type="email" id="email" required>
-                </div>
-                <div class="mt-5 form-check checkbox-border">
-                    <input class="form-check-input" type="checkbox" value="" id="createAccount">
-                    <label class="checkbox-label-1" for="createAccount">Create an account?</label>
-                </div>
-                <div class="mt-5 form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="differentAddress">
-                    <label class="checkbox-label-2" for="differentAddress">
-                        <h1>SHIP TO A DIFFERENT ADDRESS?</h1>
-                    </label>
-                </div>
-                <div class="mt-4">
-                    <label class="mb-2" for="notes">Order notes (optional)</label><br>
-                    <textarea class="form-control form-text" id="notes"
-                              placeholder="Notes about your order, e.g. special notes for delivery." rows="5"></textarea>
-                </div>
+            <div class="mt-4">
+                <label class="mb-2" for="companyName">Company name (optional)</label><br>
+                <input class="form-control form-large" type="text" id="companyName">
             </div>
-        </div>
-        <div class="order-section ms-4">
-            <div class="order-banner d-flex align-items-center justify-content-center">YOUR ORDER</div>
-            <div class="p-4">
-                <div class="d-flex justify-content-between pb-3">
-                    <h1><span>PRODUCT</span></h1>
-                    <h1><span>SUBTOTAL</span></h1>
-                </div>
-                <ul>
-                    <li>
-                        <div class="d-flex justify-content-between">
-                            <p>Women smart high heel shoe</p>
-                            <p>$380.00</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex justify-content-between">
-                            <p>Gents half t-shirt</p>
-                            <p>$280.00</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex justify-content-between">
-                            <p>Gents winter yellow jacket</p>
-                            <p>$160.00</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex justify-content-between">
-                            <p>Men's Watches Brown Leather</p>
-                            <p>$90.00</p>
-                        </div>
-                    </li>
-                </ul>
-                <div class="d-flex justify-content-between">
-                    <p><span>Subtotal</span></p>
-                    <p id="subtotal"><span>$930.00</span></p>
-                </div>
-                <div class="shipping d-flex justify-content-between align-items-center">
-                    <p>Shipping</p>
-                    <div>
-                        <div class="d-flex justify-content-end">
-                            <label class="pe-2" for="shippingOption1">Flat rate: <span>$20.00</span></label>
-                            <input type="radio" name="shipping" id="shippingOption1">
-                        </div>
-                        <div class="d-flex justify-content-end pt-2 pb-2">
-                            <label class="pe-2" for="shippingOption2">Free shipping</label>
-                            <input type="radio" name="shipping" id="shippingOption2">
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <label class="pe-2" for="shippingOption3">Local pickup: <span>$25.00</span></label>
-                            <input type="radio" name="shipping" id="shippingOption3">
-                        </div>
-                    </div>
-                </div>
-                <div class="total-cost d-flex justify-content-between">
-                    <h1><span>TOTAL</span></h1>
-                    <h1 id="total"><span>$930.00</span></h1>
-                </div>
-                <div class="payment-options">
-                    <div class="d-flex">
-                        <input type="radio" name="payment" id="paymentOption1">
-                        <label class="ps-2" for="paymentOption1">Direct bank transfer</label>
-                    </div>
-                    <div class="d-flex pt-2">
-                        <input type="radio" name="payment" id="paymentOption2">
-                        <label class="ps-2" for="paymentOption2">Check payment</label>
-                    </div>
-                    <div class="d-flex pt-2">
-                        <input type="radio" name="payment" id="paymentOption3">
-                        <label class="ps-2" for="paymentOption3">Cash on delivery</label>
-                    </div>
-                    <div class="d-flex pt-2">
-                        <input type="radio" name="payment" id="paymentOption4">
-                        <label class="ps-2" for="paymentOption4">Paypal</label>
-                        <img class="px-2" src="/src/img/checkout/PayPal logo.svg">
-                        <a href="#"><span>What is paypal?</span></a>
-                    </div>
-                </div>
-                <div class="privacy-policy">
-                    Your personal data will be used to process your order, support your
-                    experience throughout this website, and for other purposes
-                    described in our <a href="#"><span>privacy policy.</span></a>
-                </div>
-                <div class="terms form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="createAccount">
-                    <label for="createAccount">
-                        I have read and agree to the website <a href="#">
-                            <span>
-                                terms and
-                                conditions. *
-                            </span>
-                        </a>
-                    </label>
-                </div>
-                <button type="submit">PLACE ORDER</button>
+            <div class="mt-4">
+                <label class="mb-2" for="country">Country / Region <span>*</span></label><br>
+                <select class="form-select select" id="country" aria-label="Default select example" required>
+                    <option selected>Select a country / region</option>
+                    <option value="1">United States (US)</option>
+                    <option value="2">Sweden (Europe)</option>
+                </select>
+            </div>
+            <div class="mt-4">
+                <label class="mb-2" for="adress">Street address <span>*</span></label><br>
+                <input class="mb-4 form-control form-large" type="text" id="adress"
+                       placeholder="House number and street name" required>
+                <input class="form-control form-large" type="text" id="adressOptional"
+                       placeholder="Apartment, suite, unit, etc. (optional)">
+            </div>
+            <div class="mt-4">
+                <label class="mb-2" for="city">Town / City <span>*</span></label><br>
+                <input class="form-control form-large" type="text" id="city" required>
+            </div>
+            <div class="mt-4">
+                <label class="mb-2" for="state">State <span>*</span></label><br>
+                <select class="form-select select" id="state" aria-label="Default select example" required>
+                    <option selected>Select a state</option>
+                    <option value="1">Alabama</option>
+                    <option value="2">California</option>
+                </select>
+            </div>
+            <div class="mt-4">
+                <label class="mb-2" for="zip">ZIP <span>*</span></label><br>
+                <input class="form-control form-large" type="text" id="zip" required>
+            </div>
+            <div class="mt-4">
+                <label class="mb-2" for="phone">Phone <span>*</span></label><br>
+                <input class="form-control form-large" type="text" id="phone" required>
+            </div>
+            <div class="mt-4">
+                <label class="mb-2" for="email">Email adress <span>*</span></label><br>
+                <input class="form-control form-large" type="email" id="email" required>
+            </div>
+            <div class="mt-5 form-check checkbox-border">
+                <input class="form-check-input" type="checkbox" value="" id="createAccount">
+                <label class="checkbox-label-1" for="createAccount">Create an account?</label>
+            </div>
+            <div class="mt-5 form-check">
+                <input class="form-check-input" type="checkbox" value="" id="differentAddress">
+                <label class="checkbox-label-2" for="differentAddress">
+                    <h1>SHIP TO A DIFFERENT ADDRESS?</h1>
+                </label>
+            </div>
+            <div class="mt-4">
+                <label class="mb-2" for="notes">Order notes (optional)</label><br>
+                <textarea class="form-control form-text" id="notes"
+                          placeholder="Notes about your order, e.g. special notes for delivery." rows="5"></textarea>
             </div>
         </div>
     </div>
-    <_BottomBrandBanner />
-</body>
+    <div class="order-section ms-4">
+        <div class="order-banner d-flex align-items-center justify-content-center">YOUR ORDER</div>
+        <div class="p-4">
+            <div class="d-flex justify-content-between pb-3">
+                <h1><span>PRODUCT</span></h1>
+                <h1><span>SUBTOTAL</span></h1>
+            </div>
+            <ul>
+                <li>
+                    <div class="d-flex justify-content-between">
+                        <p>Women smart high heel shoe</p>
+                        <p>$380.00</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="d-flex justify-content-between">
+                        <p>Gents half t-shirt</p>
+                        <p>$280.00</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="d-flex justify-content-between">
+                        <p>Gents winter yellow jacket</p>
+                        <p>$160.00</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="d-flex justify-content-between">
+                        <p>Men's Watches Brown Leather</p>
+                        <p>$90.00</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="d-flex justify-content-between">
+                <p><span>Subtotal</span></p>
+                <p id="subtotal"><span>$930.00</span></p>
+            </div>
+            <div class="shipping d-flex justify-content-between align-items-center">
+                <p>Shipping</p>
+                <div>
+                    <div class="d-flex justify-content-end">
+                        <label class="pe-2" for="shippingOption1">Flat rate: <span>$20.00</span></label>
+                        <input type="radio" name="shipping" id="shippingOption1">
+                    </div>
+                    <div class="d-flex justify-content-end pt-2 pb-2">
+                        <label class="pe-2" for="shippingOption2">Free shipping</label>
+                        <input type="radio" name="shipping" id="shippingOption2">
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <label class="pe-2" for="shippingOption3">Local pickup: <span>$25.00</span></label>
+                        <input type="radio" name="shipping" id="shippingOption3">
+                    </div>
+                </div>
+            </div>
+            <div class="total-cost d-flex justify-content-between">
+                <h1><span>TOTAL</span></h1>
+                <h1 id="total"><span>$930.00</span></h1>
+            </div>
+            <div class="payment-options">
+                <div class="d-flex">
+                    <input type="radio" name="payment" id="paymentOption1">
+                    <label class="ps-2" for="paymentOption1">Direct bank transfer</label>
+                </div>
+                <div class="d-flex pt-2">
+                    <input type="radio" name="payment" id="paymentOption2">
+                    <label class="ps-2" for="paymentOption2">Check payment</label>
+                </div>
+                <div class="d-flex pt-2">
+                    <input type="radio" name="payment" id="paymentOption3">
+                    <label class="ps-2" for="paymentOption3">Cash on delivery</label>
+                </div>
+                <div class="d-flex pt-2">
+                    <input type="radio" name="payment" id="paymentOption4">
+                    <label class="ps-2" for="paymentOption4">Paypal</label>
+                    <img class="px-2" src="/src/img/ext-logos/paypal.svg">
+                    <a href="#"><span>What is paypal?</span></a>
+                </div>
+            </div>
+            <div class="privacy-policy">
+                Your personal data will be used to process your order, support your
+                experience throughout this website, and for other purposes
+                described in our <a href="#"><span>privacy policy.</span></a>
+            </div>
+            <div class="terms form-check">
+                <input class="form-check-input" type="checkbox" value="" id="createAccount">
+                <label for="createAccount">
+                    I have read and agree to the website <a href="#">
+                        <span>
+                            terms and
+                            conditions. *
+                        </span>
+                    </a>
+                </label>
+            </div>
+            <button type="submit">PLACE ORDER</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+﻿
+<div class="quote-card row">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <img class="quote-img" src="/src/img/home/quote.svg" alt="Quotes" />
+        </div>
+    </div>
+
+    <div class="row @(Animate ? "anim-quote" : "")">
+        <div class="col-12 d-flex justify-content-center">
+            <img src="https://via.placeholder.com/190x200?text=@(Quote?.Name?.Split(" ")?[0]?.ToUpper() ?? "IMG")" 
+                 class="border border-3 border-white rounded-2 mt-5 mb-4" />
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+            <Rating Stars="@Quote.Rating" SpaceBetween="0.125" Size="1" />
+
+        </div>
+
+        <div class="col-12 d-flex justify-content-center">
+            <div class="mt-3">
+                <h5 class="text-teal text-uppercase">@Quote.Name</h5>
+                <p class="text-white text-center fs-7">@Quote.CompanyRole, @Quote.CompanyName</p>
+            </div>
+        </div>
+
+        <div class="col-12 d-flex justify-content-center">
+                <p class="text-center text-white mt-3">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy
+                    text ever since the 1500s, when an unknown printer took a
+                    galley of type and scrambled it to make a type specimen book.
+                    It has survived not only five centuries.
+                </p>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    [Parameter]
+    public _QuoteBlock.TempQuote Quote { get; set; }
+
+    [Parameter]
+    public bool Animate { get; set; }
+} 

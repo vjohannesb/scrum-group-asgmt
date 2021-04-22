@@ -1,0 +1,67 @@
+﻿.quote-banner {
+    padding-bottom: 5rem;
+}
+
+.page-indicator {
+    width: 0.5rem;
+    height: 0.5rem;
+    margin: 0.2rem;
+    background: white;
+    -moz-border-radius: 0.2rem;
+    -webkit-border-radius: 0.2rem;
+    border-radius: 0.2rem;
+    transition: 0.2s;
+}
+
+.page-indicator.active {
+    background: var(--teal);
+}
+
+::deep .anim-quote {
+    -moz-animation: animQuote 0.75s forwards ease-out;
+    -o-animation: animQuote 0.75s forwards ease-out;
+    -webkit-animation: animQuote 0.75s forwards ease-out;
+    animation: animQuote 0.75s forwards ease-out;
+}
+
+@keyframes animQuote {
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes animQuote {
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes animQuote {
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

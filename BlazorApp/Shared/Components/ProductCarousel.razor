@@ -1,0 +1,67 @@
+﻿<div class="product-carousel d-flex align-items-center justify-content-center">
+    <div class="btn-caret left-caret" @onclick="PrevProduct" />
+
+    <div class="container mx-3 p-0">
+        @if (Products != null && Products.Count > 0)
+        {
+            <div class="row row-cols-4">
+                <div class="col">
+                    <ProductCard Product="Products[_index % Products.Count]" @bind-ModalProduct="_childModal"/>
+                </div>
+
+                <div class="col">
+                    <ProductCard Product="Products[(_index + 1) % Products.Count]"  @bind-ModalProduct="_childModal"/>
+                </div>
+
+                <div class="col">
+                    <ProductCard Product="Products[(_index + 2) % Products.Count]"  @bind-ModalProduct="_childModal"/>
+                </div>
+
+                <div class="col">
+                    <ProductCard Product="Products[(_index + 3) % Products.Count]"  @bind-ModalProduct="_childModal"/>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="btn-caret right-caret" @onclick="NextProduct" />
+</div>
+
+@code {
+    [Parameter]
+    public List<ProductModel> Products { get; set; }
+
+    [Parameter]
+    public ProductModel ModalProduct { get; set; }
+
+    [Parameter]
+    public EventCallback<ProductModel> ModalProductChanged { get; set; }
+
+    private ProductModel _childModal
+    {
+        get => ModalProduct;
+        set => ModalProductChanged.InvokeAsync(value);
+    }
+
+    private int _index;
+
+    // Tillfällig, annars sätts produkter från parent som parameter
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductModelsUrl);
+        if (response.IsSuccessStatusCode)
+        {
+            Products = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
+        }
+
+        _index = 0;
+    }
+
+    private void PrevProduct()
+        => _index = _index > 0
+            ? --_index
+            : Products.Count - 1;
+
+    private void NextProduct()
+        => ++_index;
+}

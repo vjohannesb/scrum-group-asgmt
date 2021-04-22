@@ -1,144 +1,7 @@
-
-.Roboto-medium-24 {
-    src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
-    font-family: "Roboto", sans-serif;
-    font-size: 24px;
-    color: #20d3c2;
-}
-
-.Roboto-medium-16 {
-    src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
-    font-family: "Roboto", sans-serif;
-    font-size: 16px;
-    color: #20d3c2;
-}
-
-.Roboto-regular-16 {
-    src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
-    font-family: "Roboto", sans-serif;
-    font-size: 16px;
-}
-
-.Roboto-regular-14 {
-    src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
-}
-
-.Roboto-regular-12 {
-    src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
-    font-family: "Roboto", sans-serif;
-    font-size: 12px;
-}
-
-.Roboto-regular-18 {
-    src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
-    font-family: "Roboto", sans-serif;
-    font-size: 18px;
-}
-
-.Roboto-bold-16 {
-    src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
-    font-family: "Roboto", sans-serif;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.Roboto-play-bold-36 {
-    src: url("https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap");
-    font-family: "Play", sans-serif;
-    font-weight: bold;
-    font-size: 36px;
-}
-
-
 .user-select-none {
     user-select: none;
 }
 
-.gray {
-    color: #aaaaaa;
-}
-
-.teal {
-    color: #20d3c2;
-}
-
-.teal-bg {
-    background-color: #20d3c2;
-}
-
-.green-bg {
-    background-color: var(--bg-green);
-}
-
-.white {
-    color: white;
-}
-
-.white-bg {
-    background-color: white;
-}
-
-.navy-bg {
-    background-color: var(--bg-dark-blue);
-    margin-top: 100px;
-    margin-bottom: 100px;
-}
-
-.navy-color {
-    background-color: var(--bg-dark-blue);
-    padding: 15px;
-}
-
-.line-through {
-    text-decoration: line-through;
-}
-
-#decrement-box {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    border: 1.5px solid #aaaaaa;
-}
-
-.padding-lr {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-#increment-box {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border: 1.5px solid #aaaaaa;
-}
-
-    #increment-box:hover,
-    #decrement-box:hover {
-        border: 1.5px solid #20d3c2;
-        background-color: #20d3c2;
-        cursor: pointer;
-    }
-
-#amount-placeholder-box {
-    border: 1.5px solid #aaaaaa;
-}
-
-#add-to-cart {
-    border-radius: 25px;
-    width: fit-content;
-    padding: 7px;
-    padding-left: 18px;
-    padding-right: 20px;
-}
-
-    #add-to-cart:hover {
-        cursor: pointer;
-    }
-
-.tags-border {
-    border: 2px solid #aaaaaa;
-    padding: 5px;
-}
 
 .tags-border:hover {
     cursor: pointer;
@@ -303,7 +166,7 @@
 }
 
 .start-card {
-    background-color: var(--bg-lighter-gray);
+    background-color: var(--lighter-gray);
 }
 
 .textbox-prod p {
@@ -322,7 +185,7 @@
 .hover-card {
     opacity: 0.9;
     width: 255px;
-    background-color: var(--bg-dark-blue);
+    background-color: var(--dark-blue);
     z-index: 9;
     display: none;
 }
@@ -404,7 +267,7 @@
 
 /* DOT */
 .middle-gray-bg {
-    background-color: var(--bg-middle-gray);
+    background-color: var(--middle-gray);
 }
 
 .small-circle {

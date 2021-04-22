@@ -1,28 +1,15 @@
-﻿html, body {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    line-height: 1.5;
-    margin: 0;
-    padding: 0;
-    color: #0E153D;
-}
-
-a {
-    text-decoration: none;
-}
-
-h1 {
+﻿h1 {
     font-size: 18px;
     font-weight: 700;
     margin: 0;
 }
 
 span {
-    color: #20D3C2;
+    color: var(--teal);
 }
 
 button {
-    background-color: #20D3C2;
+    background-color: var(--teal);
     color: white;
     border: none;
     border-radius: 50px;
@@ -33,7 +20,7 @@ button {
 
 .coupon {
     width: 445px;
-    border: dashed 2px #E3E3E3;
+    border: dashed 2px var(--lighter-gray);
     border-radius: 6px;
     padding: 2rem;
     text-align: center;
@@ -41,7 +28,7 @@ button {
 
     .coupon input {
         border-radius: 50px;
-        border: solid 1px #E3E3E3;
+        border: solid 1px var(--lighter-gray);
         height: 2.5rem;
         width: 385px;
         font-size: 14px;
@@ -59,7 +46,7 @@ button {
 .form-small {
     height: 2.5rem;
     width: 255px;
-    border: solid 1px #E3E3E3;
+    border: solid 1px var(--lighter-gray);
     color: #777777;
     font-size: 14px;
 }
@@ -67,7 +54,7 @@ button {
 .form-large {
     height: 2.5rem;
     width: 540px;
-    border: solid 1px #E3E3E3;
+    border: solid 1px var(--lighter-gray);
     color: #777777;
     font-size: 14px;
 }
@@ -75,13 +62,13 @@ button {
 .select {
     height: 2.5rem;
     width: 540px;
-    border: solid 1px #E3E3E3;
+    border: solid 1px var(--lighter-gray);
     color: #777777;
     font-size: 14px;
 }
 
 .checkbox-border {
-    border-bottom: solid 1px #E3E3E3;
+    border-bottom: solid 1px var(--lighter-gray);
 }
 
 .checkbox-label-1 {
@@ -95,7 +82,7 @@ button {
 
 .form-text {
     width: 540px;
-    border: solid 1px #E3E3E3;
+    border: solid 1px var(--lighter-gray);
     color: #777777;
     font-size: 14px;
 }
@@ -123,8 +110,8 @@ button {
 
 .order-section ul {
     list-style: none;
-    border-top: solid 1px #E3E3E3;
-    border-bottom: solid 1px #E3E3E3;
+    border-top: solid 1px var(--lighter-gray);
+    border-bottom: solid 1px var(--lighter-gray);
     padding: 0;
 }
 
@@ -133,8 +120,8 @@ button {
 }
 
 .shipping {
-    border-top: solid 1px #E3E3E3;
-    border-bottom: solid 1px #E3E3E3;
+    border-top: solid 1px var(--lighter-gray);
+    border-bottom: solid 1px var(--lighter-gray);
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
@@ -146,19 +133,19 @@ button {
 .total-cost {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    border-bottom: solid 1px #E3E3E3;
+    border-bottom: solid 1px var(--lighter-gray);
 }
 
 .payment-options {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    border-bottom: solid 1px #E3E3E3;
+    border-bottom: solid 1px var(--lighter-gray);
 }
 
 .privacy-policy {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    border-bottom: solid 1px #E3E3E3;
+    border-bottom: solid 1px var(--lighter-gray);
     color: #0E153D;
 }
 

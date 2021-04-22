@@ -1,0 +1,23 @@
+﻿<div class="category-block row-span-@RowSpan col-span-@ColumnSpan">
+    <div class="text-box">
+        <p class="category-title">
+            @CategoryName
+        </p>
+        <p class="category-count">
+            @ProductsInCategory products
+        </p>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public string CategoryName { get; set; }
+
+    [Parameter]
+    public int ProductsInCategory { get; set; }
+
+    [Parameter]
+    public int ColumnSpan { get; set; }
+
+    [Parameter]
+    public int RowSpan { get; set; }
+}

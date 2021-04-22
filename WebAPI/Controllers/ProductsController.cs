@@ -17,13 +17,10 @@ namespace WebAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly SqlDbContext _context;
-        private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(SqlDbContext context, 
-            ILogger<ProductsController> logger)
+        public ProductsController(SqlDbContext context)
         {
             _context = context;
-            _logger = logger;
         }
 
         /* 

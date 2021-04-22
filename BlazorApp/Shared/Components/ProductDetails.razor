@@ -1,0 +1,177 @@
+﻿@if (Product != null)
+{
+    <div class="row main-row">
+        <!-- Image Column -->
+        <div class="col-5 image-column">
+            <div class="product-image-display w-100">
+                <img src="https://via.placeholder.com/360" alt="Placeholder">
+            </div>
+
+            <div class="product-image-selection w-100">
+                <img src="https://via.placeholder.com/70" alt="Placeholder">
+                <img src="https://via.placeholder.com/70" alt="Placeholder">
+                <img src="https://via.placeholder.com/70" alt="Placeholder">
+                <img src="https://via.placeholder.com/70" alt="Placeholder">
+            </div>
+        </div>
+
+        <!-- Info Column -->
+        <div class="col-7 info-column">
+            <!-- Review + Logo Row -->
+            <div class="row review-brand-row">
+                <div class="col-3">
+                    <Rating Stars="@(Product.Rating ?? 0)" Size="0.875"/>
+                </div>
+                <div class="col">
+                    <div class="reviews-amount">(2 customer reviews)</div>
+                </div>
+                <div class="col logo">
+                    <img src="/src/img/brands/bexim.svg" alt="Bexim Logo">
+                </div>
+            </div>
+
+            <!-- Title Row -->
+            <div class="row title-row">
+                <h4 class="teal product-title">@Product.ProductName</h4>
+            </div>
+
+            <!-- Description Row -->
+            <div class="row description-row">
+                <p>
+                    @Product.ProductDescription
+                </p>
+            </div>
+
+            <!-- Price + Stock Row -->
+            <div class="row mb-3 g-0 price-status-row">
+                <div class="col-3">
+                    <p class="current-price">@Product.Price</p>
+                </div>
+
+                <div class="col-3">
+                    <div class="old-price">@Product.Price</div>
+                </div>
+
+                <div class="col-3">
+                    <div class="stock-status">
+                        <i class="fas fa-archive in-stock"></i>
+                        In stock
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buy + Actions Row -->
+            <div class="row mb-4 buy-actions-row">
+                <div class="col-3">
+                    <QuantityInput @bind-Quantity="_quantity" />
+                </div>
+
+            <div class="col-4 ms-3 me-3 add-to-cart" @onclick="AddToCartAsync">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Add to cart</span>
+            </div>
+
+                <div class="col row align-items-center justify-content-center m-0 g-0">
+                    <div class="col-2 me-2 color-selection-btn">
+                        <img src="/src/img/shop/color-circle.svg" alt="">
+                    </div>
+
+                    <div class="col-2 me-2 compare-item">
+                        <span>
+                            <i class="fas fa-random"></i>
+                        </span>
+                    </div>
+
+                    <div class="col-2 me-2 save-item">
+                        <span>
+                            <i class="fas fa-heart"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Row -->
+            <div class="row mb-4 pt-2 category-row">
+                <div class="col">
+                    <span>Category: <a href="" class="product-category">@Product.Category </a></span>
+                </div>
+            </div>
+
+            <!-- Tags Row -->
+            <div class="row pt-2 tags-row">
+                <div class="col">
+                    <span class="tags-title">Tags:</span>
+                    <span class="tag-box">Fashion</span>
+                    <span class="tag-box">Shoes</span>
+                    <span class="tag-box">Sneakers</span>
+                </div>
+            </div>
+
+            <!-- Share Row -->
+            <div class="row mb-3 share-row">
+                <div class="col">
+                    <span>Share: </span>
+                    <span class="circle circle-facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </span>
+                    <span class="circle circle-twitter">
+                        <i class="fab fa-twitter"></i>
+                    </span>
+                    <span class="circle circle-pinterest">
+                        <i class="fab fa-pinterest-p"></i>
+                    </span>
+                    <span class="circle circle-linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </span>
+                    <span class="circle circle-email">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ProductModel Product { get; set; }
+
+    private int _quantity = 1;
+
+    private async Task AddToCartAsync()
+    {
+        var currentCart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
+        var currentProduct = new ShoppingCartItem { ProductId = Product.ModelId, Quantity = _quantity };
+        if (currentCart?.Count > 0)
+        {
+            if (currentCart.Any(sci => sci.ProductId == Product.ModelId))
+            {
+                currentProduct = currentCart.First(sci => sci.ProductId == Product.ModelId);
+                currentCart.Remove(currentProduct);
+                currentProduct.Quantity += _quantity;
+            }
+            currentCart.Insert(0, currentProduct);
+        }
+        else
+            currentCart = new List<ShoppingCartItem> { currentProduct };
+
+        apiService.ShoppingCartCount = currentCart.Count;
+        await apiService.SaveToLocalStorageAsync<List<ShoppingCartItem>>("cart", currentCart);
+    }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await GetReviewsAsync();
+    //}
+
+    //private async Task GetReviewsAsync()
+    //{
+    //    var response = await apiService.SendToAPIAsync(HttpMethod.Get, "reviewsurl...");
+    //    if (response.IsSuccessStatusCode)
+    //        _reviews = await response.Content.ReadFromJsonAsync<List<Review>>();
+    //    else
+    //    {
+    //        _reviews = new List<Review>();
+    //    }
+    //}
+}

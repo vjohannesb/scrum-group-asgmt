@@ -1,0 +1,36 @@
+﻿@if (Stars >= 0)
+{
+    <div class="review-stars review-stars-@Stars.ToString()">
+        @for (int i = 0; i < 5; i++)
+        {
+            if (i < Stars)
+            {
+                <i class="fas fa-star text-teal" style="@_size @((i + 1) % 2 == 0 ? _spaceBetween : "")"></i>
+            }
+            else
+            {
+                <i class="far fa-star text-teal" style="@_size"></i>
+            }
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Stars { get; set; }
+
+    [Parameter]
+    public double SpaceBetween { get; set; }
+
+    [Parameter]
+    public double Size { get; set; }
+
+    private string _size;
+    private string _spaceBetween;
+
+    protected override void OnInitialized()
+    {
+        _size = $"font-size: {Size}rem;";
+        _spaceBetween = $"margin-left: {SpaceBetween}rem; margin-right: {SpaceBetween}rem;";
+    }
+}

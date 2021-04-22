@@ -3,7 +3,7 @@
     border-left-style: dashed;
     border-right-style: dashed;
     border-width: 2.25px;
-    border-color: var(--bg-dark-blue);
+    border-color: var(--dark-blue);
 
     -moz-border-radius: 0 0 10px 10px;
     -webkit-border-radius: 0 0 10px 10px;
@@ -13,13 +13,13 @@
     .cart-totals .row:not(:last-child)::after {
         content: "";
         width: calc(100% - 1rem);
-        border-bottom: 1px solid var(--bg-middle-gray);
+        border-bottom: 1px solid var(--middle-gray);
         margin: 1rem auto;
     }
 
 #cartTotalsTitle {
-    background: var(--bg-dark-blue);
-    color: var(--text-teal);
+    background: var(--dark-blue);
+    color: var(--teal);
     font-weight: bold;
     text-align: center;
     border-radius: 10px 10px 0 0;
@@ -31,11 +31,11 @@
 
 .total-title {
     font-size: 1.125rem;
-    color: var(--text-teal);
+    color: var(--teal);
 }
 
 .btn-goto-checkout, .btn-update-cart {
-    background: var(--text-teal);
+    background: var(--teal);
     color: white;
     font-weight: bold;
     padding: .5rem 3rem;
@@ -45,15 +45,15 @@
 }
 
 .btn-goto-checkout:hover {
-    color: var(--text-teal);
+    color: var(--teal);
     background: transparent;
-    border: 2px solid var(--text-teal);
+    border: 2px solid var(--teal);
 }
 
 btn-update-cart:hover {
-    color: var(--bg-dark-blue);
+    color: var(--dark-blue);
     background: transparent;
-    border: 2px solid var(--bg-dark-blue);
+    border: 2px solid var(--dark-blue);
 }
 
 
@@ -76,7 +76,7 @@ btn-update-cart:hover {
 .updateCartButton {
     position: relative;
     left: 30%;
-    background: VAR(--bg-darkest-blue);
+    background: VAR(--darkest-blue);
     color: #fff;
     width: 12rem;
     height: 50px;
@@ -106,7 +106,7 @@ btn-update-cart:hover {
 
 .couponCode {
     width: auto;
-    border: var(--bg-dark-blue) 2.25px dotted;
+    border: var(--dark-blue) 2.25px dotted;
     border-radius: 0 0 5px 5px;
 }
 
@@ -124,7 +124,7 @@ btn-update-cart:hover {
 
 .form-control {
     border-radius: 55px;
-    background-color: var(--text-teal);
+    background-color: var(--teal);
     color: white;
     text-align: center;
 }
@@ -151,7 +151,7 @@ btn-update-cart:hover {
 }
 
 .start-card {
-    background-color: var(--bg-lighter-gray);
+    background-color: var(--lighter-gray);
 }
 
 .textbox-prod p {
@@ -170,7 +170,7 @@ btn-update-cart:hover {
 .hover-card {
     opacity: 0.9;
     width: 255px;
-    background-color: var(--bg-dark-blue);
+    background-color: var(--dark-blue);
     z-index: 9;
     display: none;
 }
@@ -248,7 +248,7 @@ btn-update-cart:hover {
 }
 
 .middle-gray-bg {
-    background-color: var(--bg-middle-gray);
+    background-color: var(--middle-gray);
 }
 
 .small-circle {

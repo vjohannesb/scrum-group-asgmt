@@ -1,0 +1,145 @@
+﻿@page "/"
+
+<ProductDetailsModal Product=_modalProduct />
+
+<section id="topBanner" class="bg-lightest-gray">
+    <div class="container d-flex align-items-center justify-content-between">
+        <div class="col-5">
+            <h1 class="font-play fs-60">Shopping is</h1>
+            <h1 class="font-play fs-60 fw-bold text-teal">MORE FUN</h1>
+            <p class="mb-5 w-70">Vivamus dignissim a ex eu ornare. Ut fermentum orci vel diam ultricies faucibus. Quisque quis erat sed</p>
+            <a href="/shop" class="btn pill pill-white">SHOP NOW</a>
+        </div>
+        <img class="col-7" src="/src/img/home/banner-ppl.svg" />
+    </div>
+</section>
+
+@* USP-banner *@
+<div class="my-5">
+    <USPBanner />
+</div>
+
+@* Shop by categories *@
+<div class="my-5 pt-5">
+    <ZigZagTitle BlackText="SHOP BY" TealText="CATEGORY" Subtitle="We always try to give you the best product in a fast and reliable way" />
+</div>
+<div class="my-5">
+    <_CategoryBlock />
+</div>
+
+
+@* New Arrivals *@
+<div class="my-5 pt-5">
+    <ZigZagTitle BlackText="NEW" TealText="ARRIVALS" Subtitle="Check out our latest products from top fashion designers" />
+</div>
+<div class="my-5">
+    <ProductCarousel @bind-ModalProduct="_modalProduct"/>
+</div>
+
+@* NEW CUSTOMERS 30% OFF *@
+<div class="sale-banner bg-light-gray my-5">
+    <div class="container">
+        <div class="row justify-content-between align-items-center mx-1">
+
+            <div class="col-3 d-flex flex-column text-white bg-teal py-5 px-4">
+                <h1 class="font-play fw-bold text-center mt-5">
+                    <span class="fs-60">30%</span>
+                    <span>OFF</span>
+                </h1>
+                <p class="text-center">FOR NEW CUSTOMERS</p>
+                <button type="button" class="btn pill btn-shop-now mt-3 mb-5 mx-auto">SHOP NOW</button>
+            </div>
+
+            <div class="col-5">
+                <div class="p-5">
+                    <p class="text-white">
+                        Donec pulvinar arcu vitae ipsum varius cursus. Nunc iaculis fermentum iaculis.
+                        Nunc pulvinar purus at erat lacinia, ut convallis nibh consequat. Integer nulla nisi,
+                        aliquam at tellus a, viverra scelerisque purus. Nam pretium iaculis ultrices.
+                    </p>
+                    <button type="button" class="btn pill fw-bold btn-learn-more">LEARN MORE</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="my-5 pt-5">
+    <ZigZagTitle BlackText="FEATURED" TealText="PRODUCTS" Subtitle="Check out our monthly featured products from top brands" />
+</div>
+
+
+<div class="my-5">
+    <ProductCarousel />
+</div>
+
+
+@* FLASH SALE *@
+<div class="flash-sale-banner bg-indigo my-5">
+    <div class="container h-100 d-flex justify-content-between">
+
+        <div id="saleTealBanner" class="text-center bg-teal text-white py-5 px-4">
+            <h1 class="font-play fw-bold lh-1 fs-60">FLASH SALE </h1>
+            <h4 class="fw-medium">UP TO 50% OFF</h4>
+        </div>
+
+        <div class="w-50 my-auto">
+            <div class="d-flex flex-column justify-content-center">
+                <_SaleCounter CountDownTo="2021-05-02 23:55" />
+                <button type="button" class="btn pill btn-shop-now-white mt-4 mx-auto">SHOP NOW</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* TOP SELLERS *@
+<div class="my-5">
+    <ZigZagTitle BlackText="TOP" TealText="SELLERS" Subtitle="Check out our weekly top sellers in all categories" />
+    @if (_products != null && _products.Count > 0)
+    {
+        <div class="row gx-0 justify-content-center">
+
+            <div class="col-auto me-3">
+                <ProductCard Product="_products[0]" ClassName="h-100" @bind-ModalProduct="_modalProduct" />
+            </div>
+
+            <div class="col-auto d-flex flex-column">
+                <ProductCard Product="_products[1]" ClassName="h-50 mb-2" @bind-ModalProduct="_modalProduct" />
+                <ProductCard Product="_products[2]" ClassName="h-50 mt-2" @bind-ModalProduct="_modalProduct" />
+            </div>
+        </div>
+    }
+</div>
+
+
+@* QUOTE BLOCK *@
+<div class="my-5">
+    <_QuoteBlock />
+</div>
+
+
+
+@* LATEST BLOG *@
+<ZigZagTitle BlackText="LATEST" TealText="BLOG" Subtitle="Read our latest posts about our events and trending news" />
+<div class="my-5">
+    <_BlogBlock />
+</div>
+
+<SubscribeBanner />
+
+@code {
+    private ProductModel _modalProduct;
+
+    private List<ProductModel> _products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductModelsUrl);
+        if (response.IsSuccessStatusCode)
+        {
+            _products = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
+        }
+    }
+} 

@@ -1,0 +1,42 @@
+﻿#quantityInputContainer {
+    max-width: 100%;
+}
+
+.quantity-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+    padding: 0.25rem 0.5rem;
+}
+
+#quantityDecrementBox {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#quantityIncrementBox {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#quantityIncrementBox, #quantityDecrementBox {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    max-width: 30%;
+}
+
+#quantityCountBox {
+    border-width: 1px 0 !important;
+    max-width: 40%;
+}
+
+#quantityIncrementBox:hover,
+#quantityDecrementBox:hover {
+    border-color: var(--teal);
+    background: var(--teal);
+    color: white;
+    cursor: pointer;
+}

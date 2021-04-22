@@ -1,19 +1,24 @@
 ﻿@page "/shop"
-@inject IJSRuntime jsRuntime; 
-@inject HttpClient Http;
+@inject IJSRuntime jsRuntime
+@inject HttpClient Http
 
-<_ProductDetailsModal Product=_modalProduct />
+<ProductDetailsModal Product=_modalProduct />
 
 <section>
     <article class="banner pt-5 pb-5 bg-indigo">
         <div class="container">
             <div class="row justify-content-between align-items-center">
                 <div class="col text-white">
-                    <h1 class="h-36px fw-bold play-font">New customers can get <span class="teal">30% off</span></h1>
-                    <div class="pill teal hover-text-white">LEARN MORE</div>
+                    <h1 class="fw-bold font-play">
+                        New customers can get
+                        <span class="text-teal">30% off</span>
+                    </h1>
+                    <div class="btn pill pill-teal">
+                        LEARN MORE
+                    </div>
                 </div>
                 <div class="col">
-                    <img src="/src/img/Group 1158.svg">
+                    <img src="/src/img/shop/shop-shoes.svg">
                 </div>
             </div>
         </div>
@@ -94,7 +99,8 @@
             <!-- Main Row -->
             <div class="row row-cols-md-4 row-cols-lg-5 mt-5">
                 <!-- Filter Column -->
-                <div class="col-12 col-lg me-lg-5 filter-column">
+                <div class="col-12 col-lg-3 filter-column">
+                    <button type="button" class="btn pill pill-teal w-100 mb-3" @onclick="ApplyFilters">Apply filter(s)</button>
                     <!-- Filter by Categories -->
                     <div class="filter-categories mb-5">
                         <h6 class="teal fw-bold">Product Categories</h6>
@@ -170,9 +176,6 @@
                             </div>
                             <div class="col-6 col-xxl-5">
                                 <input type="text" id="priceRangeAmount" readonly class="border-0">
-                            </div>
-                            <div class="col-12 col-xxl mt-2 mt-xxl-0 text-center">
-                                <div class="filter-pill bg-teal text-white">Filter</div>
                             </div>
                         </div>
                     </div>
@@ -299,7 +302,7 @@
                     </div>
 
                     <!-- Filter by Status -->
-                    <div class="filter-status mb-5">
+                    <div class="filter-status">
                         <h6 class="teal fw-bold">Product Status</h6>
                         <div class="row">
                             <div class="filter-status-container">
@@ -314,6 +317,10 @@
 
                     </div>
 
+                    <button type="button" class="btn pill pill-teal w-100 mb-5 mt-3" @onclick="ApplyFilters">Apply filter(s)</button>
+
+
+                    <!-- Top Rated Products -->
                     <!-- Top Rated Products -->
                     <div class="promo-top-products">
                         <h6 class="teal fw-bold">Top Rated Products</h6>
@@ -325,7 +332,7 @@
 
                             <div class="col-8 promo-product-container">
                                 <p class="p-0 m-0 pt-2">Circle Pattern Girls...</p>
-                                <_Rating Stars=4 />
+                                <Rating Stars=4 />
                                 <p class="promo-product-price fw-bold">$190</p>
                             </div>
 
@@ -338,7 +345,7 @@
 
                             <div class="col-8 promo-product-container">
                                 <p class="p-0 m-0 pt-2">Circle Pattern Girls...</p>
-                                <_Rating Stars=4 />
+                                <Rating Stars=4 />
                                 <p class="promo-product-price fw-bold">$190</p>
                             </div>
 
@@ -351,53 +358,53 @@
 
                             <div class="col-8 promo-product-container">
                                 <p class="p-0 m-0 pt-2">Circle Pattern Girls...</p>
-                                <_Rating Stars=4 />
+                                <Rating Stars=4 />
                                 <p class="promo-product-price fw-bold">$190</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                @if (_productModels == null)
-                {
-                    <div class="col">
-                        <p>Loading...</p>
-                    </div>
-                }
-                else
-                {
-                    @if (_productModels.Count < 1)
-                    {
-                        <div class="col">
-                            <p>No products available...</p>
-                        </div>
-                    }
-                    else
-                    {
-                        @foreach (var productModel in _productModels)
+                <!-- Products Column/Row -->
+                <div class="col-12 col-lg-9">
+                    <div class="row row-cols-3 gy-4">
+                        @if (_productModels == null)
                         {
-                            <div class="col-4">
-                                <_ProductCard Product="@productModel" @bind-ModalProduct="_modalProduct"/>
+                            <div class="col">
+                                <p>Loading...</p>
                             </div>
                         }
-                    }
-                }
+                        else
+                        {
+                            @if (_productModels.Count < 1)
+                            {
+                                <div class="col">
+                                    <p>No products available...</p>
+                                </div>
+                            }
+                            else
+                            {
+                                @foreach (var productModel in _productModels)
+                                {
+                                    <div class="col">
+                                        <ProductCard Product="@productModel" @bind-ModalProduct="_modalProduct" />
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </article>
 
-    <_SubscribeBanner />
-    <_BottomBrandBanner />
+    <SubscribeBanner />
 </section>
 
 @code {
     private ProductModel _modalProduct;
 
     private List<ProductModel> _productModels;
-    private List<ModelTag> _modelTags;
-
-    private string _error;
-    private bool _showModal;
 
     protected override async Task OnInitializedAsync()
     {
@@ -414,8 +421,12 @@
             _productModels = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
         else
         {
-            _error = "Could not load products.";
             _productModels = new List<ProductModel>();
         }
+    }
+
+    private void ApplyFilters()
+    {
+        return;
     }
 }

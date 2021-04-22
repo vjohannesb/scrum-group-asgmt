@@ -39,6 +39,8 @@ namespace BlazorApp.Services
         
 
 
+        // ShoppingCart
+        public int ShoppingCartCount { get; set; }
 
         public APIService(ILocalStorageService localStorage, HttpClient httpClient)
         {
@@ -108,9 +110,6 @@ namespace BlazorApp.Services
             }
             return response;
         }
-
-        private async Task SaveTokenAsync(string token)
-            => await _localStorage.SetItemAsync("accessToken", token);
 
         public async Task<HttpResponseMessage> RegisterAsync(RegisterModel model)
         {

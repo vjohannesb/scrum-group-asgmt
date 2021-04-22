@@ -1,0 +1,59 @@
+﻿/* SALE BANNER (NEW CUSTOMERS 30% OFF) */
+.btn-shop-now {
+    background-color: var(--dark-blue);
+    color: white;
+    margin: 2rem auto;
+}
+
+.btn-shop-now:hover {
+    background-color: white;
+    color: var(--dark-blue);
+}
+
+.btn-learn-more {
+    font-weight: bold;
+    background-color: white;
+    color: var(--teal);
+}
+
+.btn-learn-more:hover {
+    background-color: var(--teal);
+    color: white;
+}
+
+
+
+
+
+
+/* SALE BANNER - FLASH SALE + COUNTER */
+.flash-sale-banner {
+    height: 435px;
+}
+
+    .flash-sale-banner #saleTealBanner {
+        width: min-content;
+        height: min-content;
+    }
+
+    .flash-sale-banner .btn-shop-now-white {
+        background-color: white;
+        color: var(--teal);
+        margin: 2rem auto;
+    }
+
+        .flash-sale-banner .btn-shop-now-white:hover {
+            background-color: var(--teal);
+            color: white;
+        }
+
+
+
+/* QUOTE BANNER */
+.quote-banner .quote-img {
+    max-width: 100px;
+}
+
+.quote-banner .person-img {
+    max-width: 200px;
+}

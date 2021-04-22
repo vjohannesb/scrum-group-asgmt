@@ -1,168 +1,139 @@
-﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Roboto:wght@300;400;700;900&display=swap');
+﻿@import url("https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Roboto:wght@300;400;500;700;900&display=swap");
 
-/* Allmänt */
+/******************************************************************************/
+/********************************** Allmänt ***********************************/
+/******************************************************************************/
 :root {
-    --bg-dark-blue: #0e153d;
-    --bg-darkest-blue: #080c24;
-    --bg-indigo: #292f51;
+    --gray-blue: #50546e;
+    --indigo: #292f51;
+    --dark-blue: #0e153d;
+    --darker-blue: #080c24;
+    --dark-gray: #aaaaaa;
     --light-gray: #cccccc;
-    --light-green: #64cb83;
-    --blue-gray: #50546e;
-    --teal: #20d3c2;
+    --lighter-gray: #e3e3e3;
+    --lightest-gray: #eeeeee;
     --off-white: #f6f6f6;
-    --bg-red: #FE4545;
-    --bg-green: #64CB83;
-    --dark-gray: #AAAAAA;
-    --bg-middle-gray: #E3E3E3;
-    --bg-lighter-gray: #EEEEEE;
-    font-family: "Roboto", sans-serif;
-    font-family: 'Play', sans-serif;
+    --red: #fe4545;
+    --green: #64cb83;
+    --teal: #20d3c2;
+    --light-teal: #edfcfa;
+    --font-play: "Play", sans-serif;
+    --font-roboto: "Roboto", sans-serif;
 }
 
-html, body {
-    font-family: Roboto, sans-serif;
+html,
+body {
+    font-family: var(--font-roboto);
+}
+
+a {
+    text-decoration: none;
 }
 
 /* Fonts */
 .font-play {
-    font-family: 'Play', sans-serif !important;
+    font-family: var(--font-play) !important;
 }
 
-.b-w-play-60 {
-    font-family: 'Play', sans-serif;
-    font-weight: 700;
-    font-size: 60px;
-    color: white;
+.font-roboto {
+    font-family: var(--font-roboto) !important;
 }
 
-.b-w-play-36 {
-    font-family: 'Play', sans-serif;
-    font-weight: 700;
-    font-size: 36px;
-    color: white;
+.fs-7 {
+    font-size: 0.875rem;
 }
 
-.m-w-roboto-24 {
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    font-size: 24px;
-    color: white;
+.fs-60 {
+    font-size: 3.75rem;
 }
 
-.m-w-roboto-18 {
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    font-size: 18px;
-    color: white;
-}
-
-.w-roboto-14 {
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
-    color: white;
-}
-
-.m-roboto {
-    font-family: "Roboto", sans-serif;
+.fw-medium {
     font-weight: 500;
 }
 
-.roboto {
-    font-family: "Roboto", sans-serif
+/* Buttons */
+.pill {
+    border: 2px solid transparent;
+    border-radius: 50rem;
+    padding: .375rem 1rem;
+    font-weight: 500 !important;
 }
 
-
-.bg-teal {
-    background: var(--teal) !important;
-}
-.text-teal {
-    color: var(--teal) !important;
+.pill-white {
+    color: var(--teal);
+    background: white;
 }
 
-.bg-indigo {
-    background: var(--bg-indigo) !important;
-}
-.text-indigo {
-    color: var(--bg-indigo) !important;
+    .pill-white:hover {
+        color: white;
+        background: var(--teal);
+    }
+
+.pill-teal {
+    color: white;
+    background: var(--teal);
 }
 
-.bg-dark-blue {
-    background: var(--bg-dark-blue) !important;
-}
-.text-dark-blue {
-    color: var(--bg-dark-blue) !important;
+    .pill-teal:hover {
+        color: var(--teal);
+        background: transparent;
+        border: 2px solid var(--teal);
+    }
+
+.btn-caret {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 2rem;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50rem;
+    background: var(--teal);
+    color: white;
+    cursor: pointer;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    -webkit-transition: 0.2s;
+    transition: 0.15s;
+    border: 1px solid var(--teal);
 }
 
-.bg-darkest-blue {
-    background: var(--bg-darkest-blue) !important;
-}
-.text-darkest-blue {
-    color: var(--bg-darkest-blue) !important;
-}
-.f-16 {
-    font-size: 16px
-}
+    .btn-caret.right-caret::after {
+        content: "\f0da";
+        padding-left: .3rem;
+    }
 
-/* Colors */
-.teal {
-    color: var(--teal)
-}
+    .btn-caret.left-caret::after {
+        content: "\f0d9";
+        padding-right: .3rem;
+    }
 
-.dark-blue {
-    color: var(--bg-dark-blue)
-}
+    .btn-caret:active {
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+    }
 
-.dark-gray {
-    color: var(--dark-gray)
-}
+    .btn-caret:hover {
+        color: var(--teal);
+        background: white;
+    }
 
-.dark-blue-bg {
-    background-color: var(--bg-dark-blue)
-}
-
-.bg-red {
-    background-color: var(--bg-red)
-}
-
-.bg-green {
-    background-color: var(--bg-green)
-}
-
-.bg-lightgray {
-    background-color: var(--light-gray)
-}
-
-.lighter-gray-bg {
-    background-color: var(--bg-lighter-gray)
-}
-
-/************/
-.container {
-    width: 60vw
-}
-
-a, .btn-link {
-    text-decoration: none;
-    color: #0366d6;
-}
-
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
-}
-
-.content {
-    /*padding-top: 1.1rem;*/
-}
-
-.valid.modified:not([type=checkbox]) {
-    outline: 1px solid #26b050;
+/******************************************************************************/
+/******************************* Blazor Defaults ******************************/
+/******************************************************************************/
+.valid.modified:not([type="checkbox"]) {
+    border: 1px solid #26b050;
 }
 
 .invalid {
-    outline: 1px solid red;
+    border: 1px solid red;
 }
 
 .validation-message {
@@ -181,87 +152,18 @@ a, .btn-link {
     z-index: 1000;
 }
 
-#blazor-error-ui .dismiss {
-    cursor: pointer;
-    position: absolute;
-    right: 0.75rem;
-    top: 0.5rem;
-}
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
 
-.hidden {
-    display: none
-}
 
-.small-circle {
-    position: absolute;
-    top: 25px;
-    left: 25px;
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
-}
 
-.fashion-border {
-    width: 70px;
-    text-align: center;
-    border: 1px solid white;
-}
-/* Buttons */
-.button-rounded-long, .button-rounded-normal {
-    border: none;
-    width: 170px;
-    height: 55px;
-    border-radius: 27px;
-    color: var(--teal);
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    font-size: 18px;
-}
 
-.button-rounded-normal {
-    width: 155px
-}
 
-/* Carousel */
-#carouselExampleIndicators {
-    height: 400px;
-    margin-bottom: 100px;
-}
+/******************************************************************************/
+/************************************ TEMP ************************************/
+/******************************************************************************/
 
-.carousel-control-next {
-    margin-right: -4vw;
-    margin-top: 15%;
-    width: 64px;
-    content: url(/img/btn_n.svg);
-}
-
-.carousel-control-next:hover {
-    content: url(/img/btn_b_n.svg)
-}
-
-.carousel-control-prev {
-    margin-left: -4vw;
-    margin-top: 15%;
-    width: 64px;
-    content: url(/img/btn_p.svg);
-}
-
-.carousel-control-prev:hover {
-    content: url(/img/btn_b_p.svg)
-}
-
-.carousel {
-    margin-bottom: 100px
-}
-
-.carousel-indicators {
-    position: relative;
-    top: 20px;
-    width: 10px;
-    margin: 0 auto;
-}
-
-.dot {
-    width: 12px;
-    height: 12px;
-}

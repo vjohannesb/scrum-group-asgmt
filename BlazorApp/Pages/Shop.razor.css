@@ -1,70 +1,4 @@
-﻿/* Generella */
-
-.play-font {
-    font-family: "Play", sans-serif;
-}
-
-.bg-dark-blue {
-    background: var(--bg-dark-blue) !important;
-}
-
-.text-dark-blue {
-    color: var(--bg-dark-blue) !important;
-}
-
-.bg-indigo {
-    background: var(--bg-indigo) !important;
-}
-
-.teal {
-    color: var(--teal) !important;
-}
-
-.bg-teal {
-    background: var(--teal) !important;
-}
-
-.hover-teal:hover {
-    color: var(--teal) !important;
-}
-
-.hover-white:hover {
-    color: white;
-}
-
-.rounded-4 {
-    border-radius: 0.5rem !important;
-}
-
-.shop-product-n-link.active {
-    color: var(--teal) !important;
-}
-
-.shop-product-n-link:hover {
-    color: var(--teal);
-}
-
-.pill {
-    background: white;
-    width: 25%;
-    padding: 10px 5px;
-    border-radius: 2rem;
-    text-align: center;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-    .pill:hover {
-        background: transparent;
-        border: 1px solid var(--teal);
-    }
-
-.h-36px {
-    font-size: 2.25rem;
-}
-
-.shoe img {
+﻿.shoe img {
     position: relative;
 }
 
@@ -83,7 +17,7 @@
 /** Shop Top Menu **/
 /*! List/Box/Large Box */
 .list-box-large-box {
-    background: var(--bg-dark-blue);
+    background: var(--dark-blue);
     color: white;
     display: flex;
     align-items: center;
@@ -95,7 +29,7 @@
 
 /*! Show X Items  */
 .show-x-items {
-    background: var(--bg-dark-blue);
+    background: var(--dark-blue);
     color: white;
     display: flex;
     align-items: center;
@@ -117,7 +51,7 @@
     }
 
 .btn-sorting-container {
-    background: var(--bg-dark-blue);
+    background: var(--dark-blue);
     border-radius: 0.5rem;
     display: flex;
     align-items: center;

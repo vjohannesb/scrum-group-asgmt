@@ -1,0 +1,171 @@
+@if (Product == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="product-container @(ClassName ?? "")">
+        <!-- Circle -->
+        <div class="circle">NEW</div>
+
+        <!-- Product Image-->
+        <img src="https://via.placeholder.com/350/EEEEEE/20D3C2?text=@Product.ProductName" alt="Product Image" class="product-img" />
+
+        <!-- Bottom Title -->
+        <div class="product-title">
+            @Product.ProductName
+        </div>
+
+        <!-- Product Overlay -->
+        <div class="product-overlay">
+            <!-- Pill -->
+            <div class="row justify-content-end">
+                <div class="product-overlay-pill">
+                    <i class="fas fa-circle pop-toggle-btn"></i>
+                    <div class="pop-toggle">
+                        <i class="fas fa-heart @(checkWishlist ? "" : "text-teal")" @onclick='(() => checkIfActive(Product.ModelId))'>
+                            <span class="pop-modal">@(checkWishlist ? "Save item" : "Remove item from wishlist")</span>
+                        </i>
+                        <i class="fas fa-random">
+                            <span class="pop-modal">Compare</span>
+                        </i>
+                        <i class="fas fa-search">
+                            <span class="pop-modal">Details</span>
+                        </i>
+                        <i class="fas fa-shopping-cart" data-bs-toggle="modal" data-bs-target="#quickViewModal" @onclick="UpdateModalProduct">
+                            <span class="pop-modal">Add to cart</span>
+                        </i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Info -->
+            <div class="text-white">
+                <div class="product-name my-2">
+                    @Product.ProductName
+                </div>
+
+                <!-- Tags -->
+                <div class="product-tags my-2">
+                    <span class="px-2 border border-1">Fashion</span>
+                </div>
+
+                <!-- Old Price -->
+                <div class="old-price my-2">
+                    $@Product.Price
+                </div>
+
+                <!-- New Price -->
+                <div class="d-flex justify-content-between align-items-center my-2 text-teal fs-4">
+                    <div class="fw-medium">
+                        $@Product.Price
+                    </div>
+
+                    <!-- Rating -->
+                    <div>
+                        <Rating Stars="@(Product.Rating ?? 0)" Size="1" SpaceBetween="0.15"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ProductModel Product { get; set; }
+
+    [Parameter]
+    public string ClassName { get; set; }
+
+    [Parameter]
+    public ProductModel ModalProduct { get; set; }
+
+    [Parameter]
+    public EventCallback<ProductModel> ModalProductChanged { get; set; }
+
+    private bool checkWishlist { get; set; }
+    private List<ModelTag> _modelTags { get; set; }
+    private ModelTag _firstTag { get; set; }
+
+    // TODO: GetModelTags i API
+
+    protected override async Task OnInitializedAsync()
+    {
+        checkWishlist = true;
+
+        var response = await apiService.checkIfInWishlist(Product.ModelId);
+        if(response == true)
+            checkWishlist = false;
+
+        if (Product == null)
+            return;
+
+        //await GetModelTags();
+    }
+
+    private async Task UpdateModalProduct()
+        => await ModalProductChanged.InvokeAsync(Product);
+
+    //Kontrollera vilka hjärtan som ska vara ifyllda?
+    public async Task checkIfActive(int modelId)
+    {
+        var response = await apiService.checkIfInWishlist(modelId);
+
+        if(response == true){
+           checkWishlist = true;
+           await DeleteWishlistItemApi(modelId);
+        }
+        else{
+            checkWishlist = false;
+            await SendWishlistItemToApi(modelId);
+        } 
+    }
+    public async Task SendWishlistItemToApi(int modelId)
+    {
+        var response = await apiService.AddToWishlist(modelId);
+    }
+    public async Task DeleteWishlistItemApi(int modelId)
+    {
+        var response = await apiService.DeleteFromWishlist(modelId);
+    }
+
+    //if(heart != ifyllt){
+
+    //}
+    //else{
+       @* public async Task DeleteFromApi(int model)
+        {
+            //Hämta customerId och prodId
+            //var wishlistItem = new WishlistModel(1, model);
+            //Skicka id till API
+            //var response = await apiService.AddToWishlist(wishlistItem);
+        }*@
+    //}
+
+
+
+
+
+
+
+
+    //private async Task GetModelTags()
+    //{
+    //    var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ModelTagsUrl);
+    //    if (response.IsSuccessStatusCode)
+    //    {
+    //        _modelTags = await response.Content.ReadFromJsonAsync<List<ModelTag>>();
+    //        if (_modelTags.Count > 0)
+    //        {
+    //            _firstTag = _modelTags[0];
+    //        }
+    //    }
+    //    else
+    //    {
+    //        _error = "Could not load tags.";
+    //        _modelTags = new List<ModelTag>();
+    //    }
+    //}
+}
+

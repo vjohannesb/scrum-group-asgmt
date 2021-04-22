@@ -1,14 +1,14 @@
 ﻿@page "/shoppingcart"
 
-<_CheckoutBreadcrumb />
+<CheckoutBreadcrumb />
 
 @if (_cartProducts == null)
 {
-    <p>Loading...</p>
+    <p class="text-center mt-5">Loading...</p>
 }
 else if (_cartProducts.Count < 1)
 {
-    <p>There are no products in your shopping cart.</p>
+    <p class="text-center mt-5">There are no products in your shopping cart.</p>
 }
 else
 {
@@ -31,7 +31,7 @@ else
                             @foreach (var product in _cartProducts)
                             {
                                 <tr>
-                                    <_CartProduct Product="@product" />
+                                    <CartProduct Product="@product" />
                                 </tr>
                             }
                         </tbody>
@@ -40,7 +40,7 @@ else
 
                 <div class="row mt-4 justify-content-between align-items-center">
                     <div class="col-auto">
-                        <_CouponForm @bind-Coupon="_coupon" SubmitAction="ApplyCoupon" />
+                        <CouponForm @bind-Coupon="_coupon" SubmitAction="ApplyCoupon" />
                     </div>
 
                     <div class="col-auto">
@@ -112,21 +112,11 @@ else
 
 
 <!-- < YOU MAY ALSO LIKE -->
-<section id="YOU-MAY-ALSO-LIKE" class="my-5 py-5">
-    <div class="container">
-        <div class="d-flex justify-content-center">
-            <div>
-                <div class="font-play fs-1">
-                    <span>YOU MAY </span>
-                    <span class="teal">ALSO LIKE</span>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <img src="/src/img/zigzag.svg" alt=" ">
-                </div>
-            </div>
-        </div>
+<section class="my-5 py-5">
+    <div class="my-5">
+        <ZigZagTitle BlackText="you may" TealText="also like" />
     </div>
-    <_carousel />
+    <ProductCarousel Products="_products" />
 </section>
 
 
@@ -141,16 +131,15 @@ else
 
     private decimal _subTotal;
 
+    private List<ProductModel> _products;
+
     protected override async Task OnInitializedAsync()
     {
-        var cart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
+        _cartProducts = new List<ProductViewModel>();
+        _products = new List<ProductModel>();
 
-        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.MultipleProductsUrl, serializeContent: cart);
-        if (!response.IsSuccessStatusCode)
-            return;
-
-        _cartProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
-        _subTotal = _cartProducts.Sum(cp => cp.Quantity * cp.Price);
+        await GetProductsAsync();
+        await GetShoppingCartAsync();
 
         //var shippingResponse = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ShippingMethodsUrl);
         //if (response.IsSuccessStatusCode)
@@ -167,6 +156,27 @@ else
         _selectedShipping = _shippingMethods[_selectedShippingId];
 
         _coupon = new CouponViewModel();
+    }
+
+    private async Task GetShoppingCartAsync()
+    {
+        var cart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
+
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.MultipleProductsUrl, serializeContent: cart);
+        if (!response.IsSuccessStatusCode)
+            return;
+
+        _cartProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+        _subTotal = _cartProducts.Sum(cp => cp.Quantity * cp.Price);
+    }
+
+    private async Task GetProductsAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductModelsUrl);
+        if (!response.IsSuccessStatusCode)
+            return;
+
+        _products = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
     }
 
     private void GoToCheckout()

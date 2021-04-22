@@ -1,6 +1,6 @@
 ﻿/*! FOOTER */
 footer {
-    background: var(--bg-dark-blue);
+    background: var(--dark-blue);
     color: white;
 }
 
@@ -58,7 +58,7 @@ footer .footer-links {
     }
 
 .sub-footer {
-    background: var(--bg-darkest-blue);
+    background: var(--darker-blue);
 }
 
     .sub-footer .payment-methods {

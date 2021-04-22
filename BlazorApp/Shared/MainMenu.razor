@@ -9,7 +9,7 @@
                                 <li class="nav-item dropdown me-2 p-1">
                                     <a class="nav-link text-light dropdown-toggle" id="languageButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         ENG
-                                        <img class="ms-2" src="src/img/home/arrow_d.svg" alt="menu">
+                                        <i class="fas fa-angle-down text-white ms-2"></i>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="languageButton">
                                         <li><a class="dropdown-item" href="#">Language 1</a></li>
@@ -20,7 +20,7 @@
                                 <li class="nav-item dropdown me-2 p-1">
                                     <a class="nav-link text-light dropdown-toggle" id="currencyButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         USD
-                                        <img class="ms-2" src="src/img/home/arrow_d.svg" alt="menu">
+                                        <i class="fas fa-angle-down text-white ms-2"></i>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="currencyButton">
                                         <li><a class="dropdown-item" href="#">Currency 1</a></li>
@@ -29,12 +29,11 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <div border-start></div>
                         </div>
                     </div>
                 </nav>
             </div>
-            <div class="d-flex align-items-center text-light roboto">
+            <div class="d-flex align-items-center text-light">
                 <span><a class="top-menu-links" href="/newsletter">Newsletter</a></span>
                 <span class="menu_border mx-3"></span>
                 <span><a class="top-menu-links" href="/contactus">Contact us</a></span>
@@ -51,49 +50,61 @@
             </div>
         </div>
     </div>
+
+    @* Middle menu *@
     <div class="container middle-menu d-flex justify-content-between align-items-center">
-        <a href="/">
-            <img class="my-5" src="src/img/home/Logo.svg">
+        <a href="#">
+            <img class="my-5" src="src/img/logo.svg">
         </a>
-        <div class="subscribe-form">
-            <input type="email" id="inputEmailSubscribe" placeholder="Search products...">
-            <div class="menu_border2"></div>
-            <div class="w-auto col-md-3 col-sm-12 p-0 d-flex justify-content-end">
-                <select class="form-select" id="categories-dd">
-                    <option>Categories</option>
-                    <option>Category 1</option>
-                    <option>Category 2</option>
-                    <option>Category 3</option>
-                </select>
-            </div>
-            <button type="button" id="btn-search" class="bg-teal px-3">
-                <img src="src/img/home/Search_icon.png" alt="Search">
-            </button>
+
+        @* Search form *@
+        <div class="search-form">
+            <EditForm Model="_searchQuery">
+                <InputText @bind-Value="_searchQuery.Query" placeholder="Search products..."/>
+                <InputSelect @bind-Value="_searchQuery.Category" class="form-select" >
+                    <option value="All">All</option>
+                    <option value="Men">Men</option>
+                    <option value="Women">Women</option>
+                    <option value="Kids">Kids</option>
+                </InputSelect>
+
+                <button type="button" class="btn btn-search">
+                    <i class="fas fa-search"></i>
+                </button>
+
+            </EditForm>
         </div>
-        <div class="d-flex align-items-center">
+
+        @* Account bar *@
+        <div class="d-flex align-items-center account-bar">
             <a href="/myaccount" class="d-flex align-items-center">
-                <img class="ps-4" src="src/img/home/User_icon.svg" alt="heart-icon">
-                <span class="ps-1 text-dark roboto">My account</span>
+                <i class="far fa-user"></i>
+                <span class="ps-1">My account</span>
             </a>
-            <a class="ps-4 me-4" href="/wishlist"><img src="src/img/home/Heart_icon.svg" alt="heart-icon"></a>
+
+            <a class="ps-4 me-4" href="/wishlist">
+                <i class="far fa-heart"></i>
+            </a>
+
             <a class="little-box me-4" href="/compare">
-                <img class="circle" src="src/img/home/Compare_icon.png" alt="compare-icon">
+                <i class="fas fa-random"></i>
                 <div class="little-circle d-flex justify-content-center align-items-center">
-                    <p class="mb-0 text-light roboto">0</p>
+                    <p class="mb-0 text-light">0</p>
                 </div>
             </a>
+
             <a class="little-box" href="/shoppingcart">
-                <img class="circle" src="src/img/home/Bag_icon.svg" alt="compare-icon">
+                <i class="fas fa-shopping-bag"></i>
                 <div class="little-circle d-flex justify-content-center align-items-center">
-                    <p class="mb-0 text-light roboto">0</p>
+                    <p class="mb-0 text-light">@(_shoppingCartItems?.Count ?? 0) </p>
                 </div>
             </a>
-
-
             <div class="ms-2">$0.00</div>
         </div>
 
     </div>
+
+    @* Bottom Menu *@
     <div class="w-100 border-top ">
         <div class="container bottom-menu p-0">
             <nav class="navbar navbar-expand-lg navbar-light m-0 p-0 ">
@@ -103,12 +114,10 @@
                             <li class="nav-item dropdown me-3 bg-teal pt-1">
                                 <a class="first-menu-btn nav-link dropdown-toggle d-flex align-items-center" id="browseButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     <div class="d-flex flex-column me-2">
-                                        <div class="hamburger-line"></div>
-                                        <div class="hamburger-line"></div>
-                                        <div class="hamburger-line"></div>
+                                        <i class="fas fa-bars text-white"></i>
                                     </div>
                                     <span class="text-light">Browse Categories</span>
-                                    <img class="ms-5" src="src/img/home/arrow_d.svg" alt="menu">
+                                    <i class="fas fa-angle-down text-teal ms-2"></i>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="browseButton">
                                     <li><a class="dropdown-item" href="#">Category 1</a></li>
@@ -122,7 +131,7 @@
                             <li class="nav-item dropdown me-2 p-1">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="shopButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     Shop
-                                    <img class="ms-2" src="src/img/home/arrow__b.svg" alt="menu">
+                                    <i class="fas fa-angle-down text-teal ms-2"></i>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="shopButton">
                                     <li><a class="dropdown-item" href="/shop">Go to shop</a></li>
@@ -133,7 +142,7 @@
                             <li class="nav-item dropdown me-2 p-1">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="productsButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     Products
-                                    <img class="ms-2" src="src/img/home/arrow__b.svg" alt="menu">
+                                    <i class="fas fa-angle-down text-teal ms-2"></i>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="productsButton">
                                     <li><a class="dropdown-item" href="/products">Go to products</a></li>
@@ -144,7 +153,7 @@
                             <li class="nav-item dropdown me-2 p-1">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="categoriesButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     Categories
-                                    <img class="ms-2" src="src/img/home/arrow__b.svg" alt="menu">
+                                    <i class="fas fa-angle-down text-teal ms-2"></i>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="categoriesButton">
                                     <li><a class="dropdown-item" href="#">Category 1</a></li>
@@ -155,7 +164,7 @@
                             <li class="nav-item dropdown me-2 p-1">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="pagesButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     Pages
-                                    <img class="ms-2" src="src/img/home/arrow__b.svg" alt="menu">
+                                    <i class="fas fa-angle-down text-teal ms-2"></i>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="pagesButton">
                                     <li><a class="dropdown-item" href="/aboutus">About Us</a></li>
@@ -169,12 +178,26 @@
                                 <a class="nav-link text-dark" href="/blog">Blog</a>
                             </li>
                         </ul>
-                        <form action="/specialoffers">
-                            <button class="button-rounded-normal bg-teal text-light f-16">SPECIAL OFFER</button>
-                        </form>
+
+                        @* Special offer button *@
+                        <a href="/offers" class="btn pill pill-teal">SPECIAL OFFER</a>
                     </div>
                 </div>
             </nav>
         </div>
     </div>
 </div>
+
+
+@code {
+    private SearchQuery _searchQuery;
+
+    private List<ShoppingCartItem> _shoppingCartItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _searchQuery = new SearchQuery();
+
+        _shoppingCartItems = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
+    }
+} 

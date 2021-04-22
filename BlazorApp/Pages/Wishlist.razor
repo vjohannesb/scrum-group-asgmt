@@ -48,7 +48,7 @@
                             <i class=" mx-4 fas dark-gray fa-times"></i>
                             <span class="roboto dark-gray">Remove item</span>
                         </div>
-                            <_ProductCard Product="@productModel" @bind-ModalProduct="_modalProduct"/>
+                            <ProductCard Product="@productModel" @bind-ModalProduct="_modalProduct"/>
                         </div>
                     }
                 }
@@ -59,16 +59,11 @@
        
     </div>
 
-    <_BottomBrandBanner />  
 </section>
 @code {
     private ProductModel _modalProduct;
 
     private List<ProductModel> _productModels;
-    private List<ModelTag> _modelTags;
-
-    private string _error;
-    private bool _showModal;
 
     protected override async Task OnInitializedAsync()
     {
@@ -90,7 +85,6 @@
         else
         {
             Console.WriteLine("Successfully registered user!");
-            _error = "Could not load products.";
             _productModels = new List<ProductModel>();
         }
     }

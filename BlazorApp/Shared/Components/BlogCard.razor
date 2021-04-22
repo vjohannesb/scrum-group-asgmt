@@ -1,0 +1,54 @@
+﻿<div class="blog-card">
+    <div class="blog-picture" />
+    <div class="blog-text-card">
+        <div class="date-banner text-white text-center mb-4">
+            <h1 class="fw-bold font-play mb-0 pt-1">@_dayPosted</h1>
+            <span class="text-uppercase">@_monthPosted</span>
+        </div>
+
+        <div class="blog-author text-white mb-2">
+            By <a href="#" class="text-white text-decoration-underline">@Author</a>
+        </div>
+
+        <div class="blog-title text-teal fw-medium">
+            @Title
+        </div>
+
+        <div class="blog-tags my-4">
+            <span>@Tag1</span>
+            <span>@Tag2</span>
+        </div>
+
+        <button type="button" class="btn pill pill-white">Read more</button>
+    </div>
+</div>
+
+@code {
+    // Ej implementerad, men funkar för att fylla utrymmet så länge
+
+    [Parameter]
+    public string DatePosted { get; set; }
+
+    [Parameter]
+    public string Author { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Tag1 { get; set; }
+
+    [Parameter]
+    public string Tag2 { get; set; }
+
+    private string _dayPosted;
+    private string _monthPosted;
+
+    protected override void OnInitialized()
+    {
+        var date = DateTime.ParseExact(DatePosted, "yyyy-MM-dd", null);
+        _dayPosted = date.ToString("dd");
+        _monthPosted = date.ToString("MMM");
+    }
+
+}
