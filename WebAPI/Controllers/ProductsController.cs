@@ -71,6 +71,9 @@ namespace WebAPI.Controllers
             if (brandList?.Length > 0)
                 products = products.Where(p => brandList.Contains(p.BrandId.ToString()));
 
+            if (inStock)
+                products = products.Where(p => p.InStock > 0);
+                
             return products.Skip(from).Take(take).ToList();
         }
 
