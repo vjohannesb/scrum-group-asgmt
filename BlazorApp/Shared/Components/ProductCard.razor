@@ -1,3 +1,4 @@
+@using SharedLibrary.Models.ProductModels
 @if (Product == null)
 {
     <p>Loading...</p>
@@ -42,7 +43,10 @@ else
             <!-- Info -->
             <div class="text-white">
                 <div class="product-name my-2">
-                    @Product.ProductName
+                    <a href="/products/@Product.ProductId">
+                        @Product.ProductName
+                    </a>
+                    
                 </div>
 
                 <!-- Tags -->
@@ -108,46 +112,38 @@ else
         => await ModalProductChanged.InvokeAsync(Product);
 
     //Kontrollera vilka hjärtan som ska vara ifyllda?
-    public async Task checkIfActive(int modelId)
+    public async Task checkIfActive(int productId)
     {
-        var response = await apiService.checkIfInWishlist(modelId);
+        var response = await apiService.checkIfInWishlist(productId);
 
         if(response == true){
            checkWishlist = true;
-           await DeleteWishlistItemApi(modelId);
+           await DeleteWishlistItemApi(productId);
         }
         else{
             checkWishlist = false;
-            await SendWishlistItemToApi(modelId);
+            await SendWishlistItemToApi(productId);
         } 
     }
-    public async Task SendWishlistItemToApi(int modelId)
+    public async Task<HttpResponseMessage> SendWishlistItemToApi(int productId)
     {
-        var response = await apiService.AddToWishlist(modelId);
-    }
-    public async Task DeleteWishlistItemApi(int modelId)
-    {
-        var response = await apiService.DeleteFromWishlist(modelId);
-    }
-
-    //if(heart != ifyllt){
-
-    //}
-    //else{
-       @* public async Task DeleteFromApi(int model)
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.AddWishlistUrl, productId, true);
+        if (response.IsSuccessStatusCode)
         {
-            //Hämta customerId och prodId
-            //var wishlistItem = new WishlistModel(1, model);
-            //Skicka id till API
-            //var response = await apiService.AddToWishlist(wishlistItem);
-        }*@
-    //}
-
-
-
-
-
-
+            //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+        }
+        return response;
+    }
+        
+    public async Task<HttpResponseMessage> DeleteWishlistItemApi(int productId)
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.DeleteWishlistUrl, productId, true);
+        if (response.IsSuccessStatusCode)
+        {
+            //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+        }
+        return response;
+    }
 
 
     //private async Task GetTags()
