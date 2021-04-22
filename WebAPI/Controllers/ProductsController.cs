@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,10 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Data;
 using SharedLibrary.Models.ViewModels;
-using SharedLibrary.Models.CustomerModels;
 using SharedLibrary.Models.ProductModels;
 using Microsoft.EntityFrameworkCore.Query;
-using SharedLibrary.Models.OrderModels;
 
 namespace WebAPI.Controllers
 {
@@ -37,8 +34,45 @@ namespace WebAPI.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
-            => await ProductContext().Select(p => new ProductViewModel(p)).ToListAsync();
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts(
+            string categories = null,
+            string colors = null,
+            string sizes = null,
+            string brands = null,
+            bool inStock = false,
+            int take = 9,
+            int from = 0)
+        {
+            IEnumerable<ProductViewModel> products = await ProductContext().Select(p => new ProductViewModel(p)).ToListAsync();
+
+            if (categories?.Length + colors?.Length + sizes?.Length == 0 && !inStock)
+                return await ProductContext().Select(p => new ProductViewModel(p)).ToListAsync();
+
+            var categoryList = categories?.ToLower().Split(",");
+            var colorList = colors?.ToLower().Split(",");
+            var sizeList = sizes?.ToLower().Split(",");
+            var brandList = brands?.ToLower().Split(",");
+
+            if (categoryList?.Length > 0)
+                products = products.Where(p => categoryList.Contains(p.Category.ToLower()));
+
+            if (colorList?.Length > 0)
+                products = products
+                    .Where(p => p.Colors.Select(c => c.ColorName.ToLower())
+                    .Intersect(colorList)
+                    .Any());
+
+            if (sizeList?.Length > 0)
+                products = products
+                    .Where(p => p.Sizes.Select(s => s.SizeName.ToLower())
+                    .Intersect(sizeList)
+                    .Any());
+
+            if (brandList?.Length > 0)
+                products = products.Where(p => brandList.Contains(p.BrandId.ToString()));
+
+            return products.Skip(from).Take(take).ToList();
+        }
 
         // GET: api/Products/id
         [HttpGet("{id}")]

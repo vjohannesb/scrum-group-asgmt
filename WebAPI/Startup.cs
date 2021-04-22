@@ -33,7 +33,9 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             // Kopplar in SqlDbContext m.h.a. ConnectionString i appsettings.json
-            services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
+            services.AddDbContext<SqlDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("SqlConnection"),
+                    o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
             // Kopplar in IIdentityService
             services.AddScoped<IIdentityService, IdentityService>();
