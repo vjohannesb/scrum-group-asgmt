@@ -134,19 +134,19 @@
 
 @code {
     [Parameter]
-    public ProductModel Product { get; set; }
+    public ProductViewModel Product { get; set; }
 
     private int _quantity = 1;
 
     private async Task AddToCartAsync()
     {
         var currentCart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
-        var currentProduct = new ShoppingCartItem { ProductId = Product.ModelId, Quantity = _quantity };
+        var currentProduct = new ShoppingCartItem { ProductId = Product.ProductId, Quantity = _quantity };
         if (currentCart?.Count > 0)
         {
-            if (currentCart.Any(sci => sci.ProductId == Product.ModelId))
+            if (currentCart.Any(sci => sci.ProductId == Product.ProductId))
             {
-                currentProduct = currentCart.First(sci => sci.ProductId == Product.ModelId);
+                currentProduct = currentCart.First(sci => sci.ProductId == Product.ProductId);
                 currentCart.Remove(currentProduct);
                 currentProduct.Quantity += _quantity;
             }

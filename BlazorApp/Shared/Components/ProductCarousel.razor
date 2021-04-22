@@ -29,15 +29,15 @@
 
 @code {
     [Parameter]
-    public List<ProductModel> Products { get; set; }
+    public List<ProductViewModel> Products { get; set; }
 
     [Parameter]
-    public ProductModel ModalProduct { get; set; }
+    public ProductViewModel ModalProduct { get; set; }
 
     [Parameter]
-    public EventCallback<ProductModel> ModalProductChanged { get; set; }
+    public EventCallback<ProductViewModel> ModalProductChanged { get; set; }
 
-    private ProductModel _childModal
+    private ProductViewModel _childModal
     {
         get => ModalProduct;
         set => ModalProductChanged.InvokeAsync(value);
@@ -48,10 +48,10 @@
     // Tillfällig, annars sätts produkter från parent som parameter
     protected override async Task OnInitializedAsync()
     {
-        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductModelsUrl);
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
         if (response.IsSuccessStatusCode)
         {
-            Products = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
+            Products = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
         }
 
         _index = 0;

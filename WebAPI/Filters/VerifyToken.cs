@@ -33,7 +33,7 @@ namespace WebAPI.Filters
             var dbContext = context.HttpContext.RequestServices.GetRequiredService<SqlDbContext>();
             var customer = await dbContext.Customers.FindAsync(id);
 
-            if (customer == null || customer?.Token == null || !customer.ValidateTokenHash(token))
+            if (customer == null || customer?.AccessToken == null || !customer.ValidateTokenHash(token))
             {
                 context.Result = new UnauthorizedResult();
                 return;

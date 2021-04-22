@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using SharedLibrary.Models.OrderModels;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Data;
-using SharedLibrary.Models;
 
 namespace WebAPI.Controllers
 {
@@ -20,13 +17,13 @@ namespace WebAPI.Controllers
             _context = context;
         }
 
-        // POST: Shipping
+        // POST: ShippingMethod
         [HttpPost("shipping")]
-        public async Task<ActionResult<Shipping>> PostBrand(Shipping shipping)
+        public async Task<ActionResult<ShippingMethod>> PostBrand(ShippingMethod shipping)
         {
-            if (!_context.Shippings.Any(b => b.Name == shipping.Name))
+            if (!_context.ShippingMethods.Any(b => b.ShippingMethodName == shipping.ShippingMethodName))
             {
-                _context.Shippings.Add(shipping);
+                _context.ShippingMethods.Add(shipping);
                 await _context.SaveChangesAsync();
 
                 return Ok(shipping);
@@ -38,7 +35,7 @@ namespace WebAPI.Controllers
         [HttpPost("paymentmethods")]
         public async Task<ActionResult<PaymentMethod>> PostTags(PaymentMethod paymentMethod)
         {
-            if (!_context.PaymentMethods.Any(p => p.Name == paymentMethod.Name))
+            if (!_context.PaymentMethods.Any(p => p.PaymentMethodName == paymentMethod.PaymentMethodName))
             {
                 _context.PaymentMethods.Add(paymentMethod);
                 await _context.SaveChangesAsync();

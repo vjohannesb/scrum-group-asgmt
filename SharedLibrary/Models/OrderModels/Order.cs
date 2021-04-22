@@ -1,8 +1,10 @@
-﻿#nullable disable
-
+﻿using System;
 using System.Collections.Generic;
+using SharedLibrary.Models.CustomerModels;
 
-namespace SharedLibrary.Models
+#nullable disable
+
+namespace SharedLibrary.Models.OrderModels
 {
     public partial class Order
     {
@@ -21,13 +23,13 @@ namespace SharedLibrary.Models
         public string State { get; set; }
         public string ZipCode { get; set; }
         public string PhoneNumber { get; set; }
-        public int Shipping { get; set; }
         public decimal TotalPrice { get; set; }
-        public int PaymentMethod { get; set; }
+        public int ShippingMethodId { get; set; }
+        public int PaymentMethodId { get; set; }
 
         public virtual Customer Customer { get; set; }
-        public virtual PaymentMethod PaymentMethodNavigation { get; set; }
-        public virtual Shipping ShippingNavigation { get; set; }
+        public virtual PaymentMethod PaymentMethod { get; set; }
+        public virtual ShippingMethod ShippingMethod { get; set; }
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

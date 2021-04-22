@@ -13,7 +13,6 @@ namespace BlazorApp.Services
         public string RegisterUrl { get; }
 
         public string ProductsUrl { get; }
-        public string ProductModelsUrl { get; }
         public string MultipleProductsUrl { get; }
 
         public string ShippingMethodsUrl { get; }
@@ -65,7 +64,7 @@ namespace BlazorApp.Services
 
         public Task<bool> checkIfInWishlist(int model);
         public Task<HttpResponseMessage> DeleteFromWishlist(int model);
-        
+
 
     }
 }

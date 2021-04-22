@@ -368,7 +368,7 @@
                 <!-- Products Column/Row -->
                 <div class="col-12 col-lg-9">
                     <div class="row row-cols-3 gy-4">
-                        @if (_productModels == null)
+                        @if (_ProductViewModels == null)
                         {
                             <div class="col">
                                 <p>Loading...</p>
@@ -376,7 +376,7 @@
                         }
                         else
                         {
-                            @if (_productModels.Count < 1)
+                            @if (_ProductViewModels.Count < 1)
                             {
                                 <div class="col">
                                     <p>No products available...</p>
@@ -384,10 +384,10 @@
                             }
                             else
                             {
-                                @foreach (var productModel in _productModels)
+                                @foreach (var ProductViewModel in _ProductViewModels)
                                 {
                                     <div class="col">
-                                        <ProductCard Product="@productModel" @bind-ModalProduct="_modalProduct" />
+                                        <ProductCard Product="@ProductViewModel" @bind-ModalProduct="_modalProduct" />
                                     </div>
                                 }
                             }
@@ -402,26 +402,26 @@
 </section>
 
 @code {
-    private ProductModel _modalProduct;
+    private ProductViewModel _modalProduct;
 
-    private List<ProductModel> _productModels;
+    private List<ProductViewModel> _ProductViewModels;
 
     protected override async Task OnInitializedAsync()
     {
         var module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-slider.js");
-        _modalProduct = new ProductModel();
+        _modalProduct = new ProductViewModel();
 
-        await GetProductModels();
+        await GetProductViewModels();
     }
 
-    private async Task GetProductModels()
+    private async Task GetProductViewModels()
     {
-        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductModelsUrl);
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
         if (response.IsSuccessStatusCode)
-            _productModels = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
+            _ProductViewModels = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
         else
         {
-            _productModels = new List<ProductModel>();
+            _ProductViewModels = new List<ProductViewModel>();
         }
     }
 

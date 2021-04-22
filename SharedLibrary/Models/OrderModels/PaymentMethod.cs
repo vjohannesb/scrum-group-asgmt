@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #nullable disable
 
-namespace SharedLibrary.Models
+namespace SharedLibrary.Models.OrderModels
 {
     public partial class PaymentMethod
     {
@@ -11,8 +12,8 @@ namespace SharedLibrary.Models
             Orders = new HashSet<Order>();
         }
 
-        public int MethodId { get; set; }
-        public string Name { get; set; }
+        public int PaymentMethodId { get; set; }
+        public string PaymentMethodName { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
     }

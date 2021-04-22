@@ -4,40 +4,40 @@
 @*Onödigt abutton ha med products? modifiera om tabellen?*@
 @foreach(var prod in _products)
 {
-     <h1>Model:  @prod.ModelId</h1>
+     <h1>Model:  @prod.ProductId</h1>
      <h1>I Lager:  @prod.InStock</h1>
 }
-<h1>Model:  @model.ModelId</h1>
+<h1>Model:  @model.ProductId</h1>
 
 @code {
     [Parameter]
     public int Id { get; set; }
-    private ProductModel model;
+    private ProductViewModel model;
 
-    private List<Product> _products;
+    private List<ProductViewModel> _products;
 
 
 
     protected override async Task OnInitializedAsync()
     {
-        model = new ProductModel();
-        _products = new List<Product>();
+        model = new ProductViewModel();
+        _products = new List<ProductViewModel>();
 
-        await GetProductModel();
+        await GetProductViewModel();
         await GetProducts();
         
     }
 
      //Fixa snyggare lösning till API + bygg in bättre fel-hantering!
-    private async Task GetProductModel()
+    private async Task GetProductViewModel()
     {
-        ProductModel checkModel = await Http.GetFromJsonAsync<ProductModel>($"https://localhost:44306/api/Products/getProductModelById?id={Id}");
+        ProductViewModel checkModel = await Http.GetFromJsonAsync<ProductViewModel>($"https://localhost:44306/api/Products/getProductViewModelById?id={Id}");
         model = checkModel;      
     }
 
      private async Task GetProducts()
     {
-        var checkProd = await Http.GetFromJsonAsync<List<Product>>($"https://localhost:44306/api/Products/getProductsByModelId?id={Id}");
+        var checkProd = await Http.GetFromJsonAsync<List<ProductViewModel>>($"https://localhost:44306/api/Products/getProductsByProductId?id={Id}");
         _products = checkProd;    
     }
 

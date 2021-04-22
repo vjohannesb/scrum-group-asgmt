@@ -72,12 +72,12 @@ else
                                         {
                                         <div class="radio-container d-flex align-items-center justify-content-between">
                                             <label class="me-1">
-                                                <span>@shippingMethod.Name</span>
+                                                <span>@shippingMethod.ShippingMethodName</span>
                                                 <span class="text-teal">
                                                     @(shippingMethod.Price > 0 ? $"${shippingMethod.Price}" : "")
                                                 </span>
                                             </label>
-                                            <InputRadio Name="Shipping" Value="shippingMethod.ShippingId" class="float-end" novalidate />
+                                            <InputRadio Name="Shipping" Value="shippingMethod.ShippingMethodId" class="float-end" novalidate />
                                         </div>
                                         }
                                 </InputRadioGroup>
@@ -122,34 +122,34 @@ else
 
 @code {
     private List<ProductViewModel> _cartProducts;
-    private List<Shipping> _shippingMethods;
+    private List<ShippingMethod> _shippingMethods;
 
-    private Shipping _selectedShipping;
+    private ShippingMethod _selectedShipping;
     private int _selectedShippingId;
 
     private CouponViewModel _coupon;
 
     private decimal _subTotal;
 
-    private List<ProductModel> _products;
+    private List<ProductViewModel> _products;
 
     protected override async Task OnInitializedAsync()
     {
         _cartProducts = new List<ProductViewModel>();
-        _products = new List<ProductModel>();
+        _products = new List<ProductViewModel>();
 
         await GetProductsAsync();
         await GetShoppingCartAsync();
 
         //var shippingResponse = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ShippingMethodsUrl);
         //if (response.IsSuccessStatusCode)
-        //    _shippingMethods = await shippingResponse.Content.ReadFromJsonAsync<List<Shipping>>();
+        //    _shippingMethods = await shippingResponse.Content.ReadFromJsonAsync<List<ShippingMethod>>();
 
-        _shippingMethods = new List<Shipping>
+        _shippingMethods = new List<ShippingMethod>
         {
-            new Shipping { Name = "Flat rate", Price = 20, ShippingId = 0},
-            new Shipping { Name = "Local pickup", Price = 25, ShippingId = 1},
-            new Shipping { Name = "Free shipping", Price = 0, ShippingId = 2}
+            new ShippingMethod { ShippingMethodName = "Flat rate", Price = 20, ShippingMethodId = 0},
+            new ShippingMethod { ShippingMethodName = "Local pickup", Price = 25, ShippingMethodId = 1},
+            new ShippingMethod { ShippingMethodName = "Free shipping", Price = 0, ShippingMethodId = 2}
         };
 
         _selectedShippingId = 0;
@@ -172,11 +172,11 @@ else
 
     private async Task GetProductsAsync()
     {
-        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductModelsUrl);
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
         if (!response.IsSuccessStatusCode)
             return;
 
-        _products = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
+        _products = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
     }
 
     private void GoToCheckout()

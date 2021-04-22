@@ -23,7 +23,7 @@ else
                 <div class="product-overlay-pill">
                     <i class="fas fa-circle pop-toggle-btn"></i>
                     <div class="pop-toggle">
-                        <i class="fas fa-heart @(checkWishlist ? "" : "text-teal")" @onclick='(() => checkIfActive(Product.ModelId))'>
+                        <i class="fas fa-heart @(checkWishlist ? "" : "text-teal")" @onclick='(() => checkIfActive(Product.ProductId))'>
                             <span class="pop-modal">@(checkWishlist ? "Save item" : "Remove item from wishlist")</span>
                         </i>
                         <i class="fas fa-random">
@@ -73,35 +73,35 @@ else
 
 @code {
     [Parameter]
-    public ProductModel Product { get; set; }
+    public ProductViewModel Product { get; set; }
 
     [Parameter]
     public string ClassName { get; set; }
 
     [Parameter]
-    public ProductModel ModalProduct { get; set; }
+    public ProductViewModel ModalProduct { get; set; }
 
     [Parameter]
-    public EventCallback<ProductModel> ModalProductChanged { get; set; }
+    public EventCallback<ProductViewModel> ModalProductChanged { get; set; }
 
     private bool checkWishlist { get; set; }
-    private List<ModelTag> _modelTags { get; set; }
-    private ModelTag _firstTag { get; set; }
+    private List<Tag> _modelTags { get; set; }
+    private Tag _firstTag { get; set; }
 
-    // TODO: GetModelTags i API
+    // TODO: GetTags i API
 
     protected override async Task OnInitializedAsync()
     {
         checkWishlist = true;
 
-        var response = await apiService.checkIfInWishlist(Product.ModelId);
+        var response = await apiService.checkIfInWishlist(Product.ProductId);
         if(response == true)
             checkWishlist = false;
 
         if (Product == null)
             return;
 
-        //await GetModelTags();
+        //await GetTags();
     }
 
     private async Task UpdateModalProduct()
@@ -150,12 +150,12 @@ else
 
 
 
-    //private async Task GetModelTags()
+    //private async Task GetTags()
     //{
-    //    var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ModelTagsUrl);
+    //    var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.TagsUrl);
     //    if (response.IsSuccessStatusCode)
     //    {
-    //        _modelTags = await response.Content.ReadFromJsonAsync<List<ModelTag>>();
+    //        _modelTags = await response.Content.ReadFromJsonAsync<List<Tag>>();
     //        if (_modelTags.Count > 0)
     //        {
     //            _firstTag = _modelTags[0];
@@ -164,7 +164,7 @@ else
     //    else
     //    {
     //        _error = "Could not load tags.";
-    //        _modelTags = new List<ModelTag>();
+    //        _modelTags = new List<Tag>();
     //    }
     //}
 }

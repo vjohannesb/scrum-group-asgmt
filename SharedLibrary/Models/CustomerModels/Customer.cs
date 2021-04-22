@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System;
+using System.Collections.Generic;
+using SharedLibrary.Models.ProductModels;
+using SharedLibrary.Models.OrderModels;
 using System.Text;
+using System.Security.Cryptography;
+using System.Linq;
 
 #nullable disable
 
-namespace SharedLibrary.Models
+namespace SharedLibrary.Models.CustomerModels
 {
     public partial class Customer
     {
@@ -18,9 +21,9 @@ namespace SharedLibrary.Models
 
         public int CustomerId { get; set; }
         public string Email { get; set; }
-        public byte[] Password { get; set; }
+        public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-        public byte[] Token { get; set; }
+        public byte[] AccessToken { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
@@ -32,33 +35,33 @@ namespace SharedLibrary.Models
         {
             using var hmac = new HMACSHA512();
             PasswordSalt = hmac.Key;
-            Password = GenerateSaltedHash(Encoding.UTF8.GetBytes(password));
+            PasswordHash = GenerateSaltedHash(Encoding.UTF8.GetBytes(password));
         }
 
         public bool ValidatePasswordHash(string password)
         {
             var saltedHash = GenerateSaltedHash(Encoding.UTF8.GetBytes(password));
-            if (saltedHash.Length != Password.Length)
+            if (saltedHash.Length != PasswordHash.Length)
                 return false;
 
             for (var i = 0; i < saltedHash.Length; i++)
-                if (saltedHash[i] != Password[i])
+                if (saltedHash[i] != PasswordHash[i])
                     return false;
 
             return true;
         }
 
         public void CreateTokenWithHash(string token)
-            => Token = GenerateSaltedHash(Encoding.UTF8.GetBytes(token));
+            => AccessToken = GenerateSaltedHash(Encoding.UTF8.GetBytes(token));
 
         public bool ValidateTokenHash(string token)
         {
-            var saltedToken = GenerateSaltedHash(Encoding.UTF8.GetBytes(token));
-            if (saltedToken.Length != Token.Length)
+            var saltedAccessToken = GenerateSaltedHash(Encoding.UTF8.GetBytes(token));
+            if (saltedAccessToken.Length != AccessToken.Length)
                 return false;
 
-            for (var i = 0; i < saltedToken.Length; i++)
-                if (saltedToken[i] != Token[i])
+            for (var i = 0; i < saltedAccessToken.Length; i++)
+                if (saltedAccessToken[i] != AccessToken[i])
                     return false;
 
             return true;

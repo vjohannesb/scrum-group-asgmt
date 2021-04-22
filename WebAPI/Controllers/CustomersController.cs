@@ -12,8 +12,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Data;
 using WebAPI.Filters;
-using WebAPI.Models;
 using WebAPI.Services;
+using WebAPI.Models;
+using SharedLibrary.Models.ProductModels;
+using SharedLibrary.Models.OrderModels;
+using SharedLibrary.Models.CustomerModels;
 
 namespace WebAPI.Controllers
 {

@@ -1,9 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Newtonsoft.Json;
-using SharedLibrary.Models;
 using SharedLibrary.Models.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -23,9 +21,8 @@ namespace BlazorApp.Services
         public string CustomersUrl => $"{BaseUrl}/customers";
         public string SignInUrl => $"{CustomersUrl}/signin";
         public string RegisterUrl => $"{CustomersUrl}/register";
-        public string ProductsUrl => $"{BaseUrl}/products";
 
-        public string ProductModelsUrl => $"{ProductsUrl}/models";
+        public string ProductsUrl => $"{BaseUrl}/products";
         public string MultipleProductsUrl => $"{ProductsUrl}/multi";
 
         public string ShippingMethodsUrl => $"{BaseUrl}/shippingmethods";
@@ -36,7 +33,7 @@ namespace BlazorApp.Services
         public string ProductModelsWishlistUrl => $"{ProductsUrl}/getWishlist";
         public string reviewModelUrl => $"{ProductsUrl}/registerReview";
         public string changeCustomerNameUrl => $"{ProductsUrl}/ChangeNameCustomer";
-        
+
 
 
         // ShoppingCart
@@ -73,13 +70,18 @@ namespace BlazorApp.Services
 
                 // Lägger till objekt i requesten om vi angett serializeContent
                 if (serializeContent != null)
+                {
                     request.Content = new StringContent(JsonConvert.SerializeObject(serializeContent), Encoding.UTF8, "application/json");
+                }
 
                 if (auth)
                 {
                     var _token = await GetFromLocalStorageAsync("accessToken");
                     if (string.IsNullOrEmpty(_token))
+                    {
                         return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                    }
+
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _token);
                 }
 

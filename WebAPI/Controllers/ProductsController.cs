@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Data;
-using SharedLibrary.Models;
 using SharedLibrary.Models.ViewModels;
-using Microsoft.Extensions.Logging;
+using SharedLibrary.Models.CustomerModels;
+using SharedLibrary.Models.ProductModels;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace WebAPI.Controllers
 {
@@ -23,85 +24,72 @@ namespace WebAPI.Controllers
             _context = context;
         }
 
-        /* 
-         * Products = individuell produkt (Blå klacksko från Bexim i stl 38)    [Fysisk, finns i lager]
-         * ProductModels = "Grundmodellen" (Klacksko från Bexim)                [Abstrakt, finns bara i databas]
-         *      Flera Products kommer från samma ProductModel
-         */
+        // Använd denna istället för _context.Products!
+        // ex: var products = await ProductContext().ToListAsync();
+        // eller som jag gjort i GetProducts
+        private IIncludableQueryable<Product, Tag> ProductContext()
+            => _context.Products
+                    .Include(p => p.ProductColors).ThenInclude(pc => pc.Color)
+                    .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
+                    .Include(p => p.ProductTags).ThenInclude(pt => pt.Tag);
 
-        // GET: api/Products/models
-        [HttpGet("models")]
-        public async Task<ActionResult<IEnumerable<ProductModel>>> GetProductModels()
-            => await _context.ProductModels.ToListAsync();
+        // GET: api/Products
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
+            => await ProductContext().Select(p => new ProductViewModel(p)).ToListAsync();
+
+        // GET: api/Products/id
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product != null)
+            {
+                await ProductContext().LoadAsync();
+                return Ok(new ProductViewModel(product));
+            }
+
+            return NotFound();
+        }
 
         [HttpGet("getWishlist")]
-        public async Task<IEnumerable<ProductModel>> GetProductModelsWishlist()
+        public async Task<IEnumerable<Product>> GetProductsWishlist()
         {
-            List<ProductModel> list = new List<ProductModel>();
-            var test = await _context.ProductModels.ToListAsync();
-            foreach (ProductModel model in test)
+            List<Product> list = new List<Product>();
+            var test = await _context.Products.ToListAsync();
+            foreach (var product in test)
             {
                 try
                 {
-                    if (_context.Wishlists.Any(w => w.ProductId == model.ModelId))
-                    {
-                         list.Add(model);
-                    }
+                    if (_context.Wishlists.Any(w => w.ProductId == product.ProductId))
+                         list.Add(product);
                 }
                 catch { }
             }
             
             return list;
         }
-            
-
-        // GET: api/Products/models/id
-        [HttpGet("models/{id}")]
-        public async Task<IActionResult> GetProductModel(int id)
-        {
-            var productModel = await _context.ProductModels.FindAsync(id);
-            return productModel == null
-                ? NotFound()
-                : Ok(productModel);
-        }
-
-        // GET Products
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
-        {
-            return await _context.Products.ToListAsync();
-        }
-
-        // GET: api/Product/id
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetProduct(int id)
-        {
-            var product = await _context.Products.FindAsync(id);
-            return product == null
-                ? NotFound()
-                : Ok(product);
-        }
 
         // GET Products api/Products/search
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<ProductModel>>> SearchProducts(string searchString)
+        public async Task<ActionResult<IEnumerable<Product>>> SearchProducts(string searchString)
         {
-            return await _context.ProductModels.Where(p => p.ProductName.ToLower().Contains(searchString.ToLower())).ToListAsync();
+            return await _context.Products.Where(p => p.ProductName.ToLower().Contains(searchString.ToLower())).ToListAsync();
         }
 
 
         // GET Products api/Category/filter <Göran>
         [HttpGet("FilterCategory")]
-        public async Task<ActionResult<IEnumerable<ProductModel>>> FilterCategory(string FilterStringCategory)
+        public async Task<ActionResult<IEnumerable<Product>>> FilterCategory(string FilterStringCategory)
         {
-            return await _context.ProductModels.Where(p => p.Category.StartsWith(FilterStringCategory)).ToListAsync();
+            return await _context.Products.Where(p => p.Category.StartsWith(FilterStringCategory)).ToListAsync();
         }
         // GET Products api/Price/filter <Göran>
         [HttpGet("FilterPrice")]
-        public async Task<ActionResult<IEnumerable<ProductModel>>> FilterPrice(int priceMin, int priceMax)
+        public async Task<ActionResult<IEnumerable<Product>>> FilterPrice(int priceMin, int priceMax)
         {
             var direction = "Asc";
-            var result = _context.ProductModels.Where(x => x.Price >= priceMin && x.Price <= priceMax).ToList();
+            var result = _context.Products.Where(x => x.Price >= priceMin && x.Price <= priceMax).ToList();
             if (direction == "Asc")
                 result.OrderBy(x => x.Price);
             else
@@ -122,12 +110,13 @@ namespace WebAPI.Controllers
        // }
 
 
-        [HttpGet("getProductModelById")]
-        public async Task<ActionResult<ProductModel>> GetProductModelById(int id)
+        /* Dessa kan nu ersättas med _context.Products.Include(p => p.ProductColors)...
+        [HttpGet("getProductById")]
+        public async Task<ActionResult<Product>> GetProductById(int id)
         {
-            if (_context.ProductModels.Any())
+            if (_context.Products.Any())
             {
-                var productModel = await _context.ProductModels.FindAsync(id);
+                var productModel = await _context.Products.FindAsync(id);
                 if (productModel != null)
                 {
                     return productModel;
@@ -138,25 +127,25 @@ namespace WebAPI.Controllers
         }
         
         [HttpGet("getTagsById")]
-        public async Task<ActionResult<List<Tag>>> getTagsById(int id)
+        public async Task<ActionResult<List<ProductTag>>> getTagsById(int id)
         {
-            if (_context.ProductModels.Any() && _context.Tags.Any())
+            if (_context.Products.Any() && _context.Tags.Any())
             {
-                var list = new List<Tag>();
-                var modelTagList = new List<ModelTag>();
+                var list = new List<ProductTag>();
+                var modelTagList = new List<ProductTag>();
 
-                foreach (ModelTag mtag in _context.ModelTags)
+                foreach (var mtag in _context.ProductTags)
                 {
-                    if (mtag.ModelId == id)
+                    if (mtag.ProductId == id)
                     {
                         modelTagList.Add(mtag);
                     }
                 }
-                foreach (ModelTag mtagItem in modelTagList)
+                foreach (var mtagItem in modelTagList)
                 {
-                    if (mtagItem.ModelId == id)
+                    if (mtagItem.ProductId == id)
                     {
-                        Tag tag = new Tag();
+                        ProductTag tag = new ProductTag();
                         foreach (Tag t in _context.Tags)
                         {
                             if (t.TagId == mtagItem.TagId)
@@ -182,26 +171,24 @@ namespace WebAPI.Controllers
             return null;
         }
 
-
-
         [HttpGet("getReviewsById")]
         public async Task<ActionResult<List<ReviewModel>>> getReviewsById(int id)
         {
-            if (_context.ProductModels.Any() && _context.Reviews.Any())
+            if (_context.Products.Any() && _context.Reviews.Any())
             {
                 var list = new List<ReviewModel>();
                 var reviewList = new List<Review>();
 
                 foreach (Review rev in _context.Reviews)
                 {
-                    if (rev.ModelId == id)
+                    if (rev.ProductId == id)
                     {
                         reviewList.Add(rev);
                     }
                 }
                 foreach (Review revitem in reviewList)
                 {
-                    if (revitem.ModelId == id)
+                    if (revitem.ProductId == id)
                     {
                         Customer customer = new Customer();
                         foreach (Customer cust in _context.Customers)
@@ -213,7 +200,7 @@ namespace WebAPI.Controllers
                         }
                         var reviewModel = new ReviewModel()
                         {
-                            ModelId = id,
+                            ProductId = id,
                             Name = customer.FirstName,
                             Email = customer.Email,
                             Text = revitem.Text,
@@ -233,16 +220,15 @@ namespace WebAPI.Controllers
             return null;
         }
 
-
-        [HttpGet("getProductsByModelId")]
+        [HttpGet("getProductsByProductId")]
         public async Task<ActionResult<List<Product>>> GetProducts(int id)
         {
-            if (_context.ProductModels.Any() && _context.Products.Any())
+            if (_context.Products.Any() && _context.Products.Any())
             {
                 var list = new List<Product>();
                 foreach (Product prod in _context.Products)
                 {
-                    if (prod.ModelId == id)
+                    if (prod.ProductId == id)
                     {
                         list.Add(prod);
                     }
@@ -256,6 +242,8 @@ namespace WebAPI.Controllers
             return null;
         }
 
+        */
+
      
 
         [HttpPost("multi")]
@@ -265,8 +253,8 @@ namespace WebAPI.Controllers
             if (ids.Length < 1)
                 return NotFound();
 
-            var products = await _context.ProductModels
-                .Where(pm => ids.Contains(pm.ModelId))
+            var products = await _context.Products
+                .Where(pm => ids.Contains(pm.ProductId))
                 .Select(pm => new ProductViewModel(pm))
                 .ToListAsync();
 
@@ -274,7 +262,7 @@ namespace WebAPI.Controllers
                 return NotFound();
 
             foreach (var product in products)
-                product.Quantity = cart.FirstOrDefault(sci => sci.ProductId == product.ModelId)?.Quantity ?? 1;
+                product.Quantity = cart.FirstOrDefault(sci => sci.ProductId == product.ProductId)?.Quantity ?? 1;
 
             return Ok(products);
         }
@@ -286,13 +274,13 @@ namespace WebAPI.Controllers
 
             var productItem = new Product()
             {
-                ModelId = product.ModelId,
-                ColorId = product.ColorId,
-                SizeId = product.SizeId,
+                ProductId = product.ProductId,
+                ProductColors = product.ProductColors,
+                ProductSizes = product.ProductSizes,
                 InStock = product.InStock,
             };
 
-            _context.Products.Add(productItem);
+            _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
             return Ok(product);
@@ -302,7 +290,7 @@ namespace WebAPI.Controllers
         [HttpPost("color")]
         public async Task<ActionResult<Color>> PostColor(Color color)
         {  
-            if (!_context.Colors.Any(c => c.Name == color.Name))
+            if (!_context.Colors.Any(c => c.ColorName == color.ColorName))
             {
                 _context.Colors.Add(color);
                 await _context.SaveChangesAsync();
@@ -327,16 +315,6 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        // POST: Model
-        [HttpPost("model")]
-        public async Task<ActionResult<ProductModel>> PostModel(ProductModel model)
-        {
-            _context.ProductModels.Add(model);
-            await _context.SaveChangesAsync();
-
-            return Ok(model);
-        }
-
         // POST: Brand
         [HttpPost("brand")]
         public async Task<ActionResult<Brand>> PostBrand(Brand brand)
@@ -353,7 +331,7 @@ namespace WebAPI.Controllers
 
         // POST: Tags
         [HttpPost("tags")]
-        public async Task<ActionResult<Tag>> PostTags(Tag tag)
+        public async Task<ActionResult<ProductTag>> PostTags(Tag tag)
         {          
             if (!_context.Tags.Any(t => t.TagName == tag.TagName))
             {
@@ -366,45 +344,25 @@ namespace WebAPI.Controllers
 
         }
 
-        // POST: ModelTags
-        [HttpPost("modeltags")]
-        public async Task<ActionResult<ModelTag>> PostModelTags(ModelTag modeltag)
-        {
-            if (_context.ProductModels.Any() && _context.Tags.Any())
-            {
-                _context.ModelTags.Add(modeltag);
-                await _context.SaveChangesAsync();
-
-                return Ok(modeltag);
-            }
-            return BadRequest();
-
-        }
-
         // POST: Reviews
         [HttpPost("registerReview")]
         public async Task<ActionResult<ReviewModel>> PostReview(ReviewModel reviewModel)
         {
-            var customer = new Customer();
-                foreach (Customer cust in _context.Customers)
-                {
-                    if (cust.Email == reviewModel.Email)
-                    {
-                        customer = cust;
-                    }
-                }
-                Review review = new Review()
-                {
-                    CustomerId = customer.CustomerId,
-                    ModelId = reviewModel.ModelId,
-                    Text = reviewModel.Text,
-                    Rating = reviewModel.Rating,
-                    Likes = 0
-                };
-                _context.Reviews.Add(review);
-                await _context.SaveChangesAsync();
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(c => c.Email == reviewModel.Email);
 
-                return Ok(review);
+            Review review = new Review()
+            {
+                CustomerId = customer.CustomerId,
+                ProductId = reviewModel.ProductId,
+                ReviewText = reviewModel.Text,
+                Rating = reviewModel.Rating,
+                Likes = 0
+            };
+            _context.Reviews.Add(review);
+            await _context.SaveChangesAsync();
+
+            return Ok(review);
         }
 
         [HttpPut("ChangeNameCustomer")]

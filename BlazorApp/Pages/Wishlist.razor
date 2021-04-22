@@ -25,7 +25,7 @@
             <img class="d-block mb-5" src="/img/zigzag.svg" alt="pattern">
         </div>
         <div class="row">            
-            @if (_productModels == null)
+            @if (_ProductViewModels == null)
             {
                 <div class="col">
                     <p>Loading...</p>
@@ -33,7 +33,7 @@
             }
             else
             {
-                @if (_productModels.Count < 1)
+                @if (_ProductViewModels.Count < 1)
                 {
                     <div class="col">
                         <p>No products available...</p>
@@ -41,14 +41,14 @@
                 }
                 else
                 {
-                    @foreach (var productModel in _productModels)
+                    @foreach (var ProductViewModel in _ProductViewModels)
                     {
                         <div class="col-3 ">
                         <div class="remove-top rounded-top d-flex align-items-center">
                             <i class=" mx-4 fas dark-gray fa-times"></i>
                             <span class="roboto dark-gray">Remove item</span>
                         </div>
-                            <ProductCard Product="@productModel" @bind-ModalProduct="_modalProduct"/>
+                            <ProductCard Product="@ProductViewModel" @bind-ModalProduct="_modalProduct"/>
                         </div>
                     }
                 }
@@ -61,31 +61,31 @@
 
 </section>
 @code {
-    private ProductModel _modalProduct;
+    private ProductViewModel _modalProduct;
 
-    private List<ProductModel> _productModels;
+    private List<ProductViewModel> _ProductViewModels;
 
     protected override async Task OnInitializedAsync()
     {
         var module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-slider.js");
-        _modalProduct = new ProductModel();
+        _modalProduct = new ProductViewModel();
 
         await GetWishlistItems();
     }
 
    private async Task GetWishlistItems()
     {
-        var response = await Http.GetFromJsonAsync<IEnumerable<ProductModel>>("https://localhost:44306/api/products/getWishlist");
+        var response = await Http.GetFromJsonAsync<IEnumerable<ProductViewModel>>("https://localhost:44306/api/products/getWishlist");
 
-        //var response2 = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductModelsWishlistUrl);
+        //var response2 = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductViewModelsWishlistUrl);
         if (response != null) {
             Console.WriteLine("dig");
-            _productModels = response.ToList();
+            _ProductViewModels = response.ToList();
         }
         else
         {
             Console.WriteLine("Successfully registered user!");
-            _productModels = new List<ProductModel>();
+            _ProductViewModels = new List<ProductViewModel>();
         }
     }
 }

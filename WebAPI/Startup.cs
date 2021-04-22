@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using System;
+using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Data;
 using WebAPI.Services;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System;
-using Newtonsoft.Json;
 
 namespace WebAPI
 {
@@ -25,7 +25,7 @@ namespace WebAPI
 
         public IConfiguration Configuration { get; }
 
-        private bool ValidateTokenLifetime(DateTime? notBefore, DateTime? expires, 
+        private bool ValidateTokenLifetime(DateTime? notBefore, DateTime? expires,
             SecurityToken tokenToValidate, TokenValidationParameters @param)
             => expires != null && expires > DateTime.UtcNow;
 
@@ -33,7 +33,8 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             // Kopplar in SqlDbContext m.h.a. ConnectionString i appsettings.json
-            services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
+            //services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
+            services.AddDbContext<SqlDbContext>(options => options.UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Johannes\\Desktop\\temp\\gu\\gu.mdf;Integrated Security=True;Connect Timeout=30"));
 
             // Kopplar in IIdentityService
             services.AddScoped<IIdentityService, IdentityService>();
@@ -54,7 +55,10 @@ namespace WebAPI
                     {
                         var parsed = int.TryParse(context.Principal?.FindFirst("UserId")?.Value, out var id);
                         if (!parsed || id < 1)
+                        {
                             context.Fail("401 Unauthorized");
+                        }
+
                         return Task.CompletedTask;
                     }
                 };
@@ -75,6 +79,7 @@ namespace WebAPI
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });

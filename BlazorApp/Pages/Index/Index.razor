@@ -130,16 +130,16 @@
 <SubscribeBanner />
 
 @code {
-    private ProductModel _modalProduct;
+    private ProductViewModel _modalProduct;
 
-    private List<ProductModel> _products;
+    private List<ProductViewModel> _products;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductModelsUrl);
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
         if (response.IsSuccessStatusCode)
         {
-            _products = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
+            _products = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
         }
     }
 } 

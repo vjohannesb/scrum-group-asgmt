@@ -1,10 +1,10 @@
-﻿using SharedLibrary.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SharedLibrary.Models.ProductModels;
 
 #nullable disable
 
-namespace SharedLibrary.Models
+namespace SharedLibrary.Models.CustomerModels
 {
     public partial class Wishlist
     {
