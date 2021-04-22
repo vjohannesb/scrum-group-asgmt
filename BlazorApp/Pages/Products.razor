@@ -1308,7 +1308,7 @@
      public async Task<HttpResponseMessage> SendWishlistItemToApi(int modelId)
     {
         //var response = await apiService.AddToWishlist(modelId);
-        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.WishlistUrl, Id, true);
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.AddWishlistUrl, Id, true);
         if (response.IsSuccessStatusCode){}
         return response;
     }

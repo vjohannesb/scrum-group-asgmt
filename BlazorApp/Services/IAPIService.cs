@@ -9,6 +9,7 @@ namespace BlazorApp.Services
         // Properties (samla alla URL:s på ett ställe)
         public string BaseUrl { get; }
         public string CustomersUrl { get; }
+        public string WishlistUrl { get; }
         public string SignInUrl { get; }
         public string RegisterUrl { get; }
 
@@ -17,7 +18,7 @@ namespace BlazorApp.Services
 
         public string ShippingMethodsUrl { get; }
 
-        public string WishlistUrl { get; }
+        public string AddWishlistUrl { get; }
         public string CheckWishlistUrl { get; }
         public string DeleteWishlistUrl { get; }
         public string ProductModelsWishlistUrl { get; }
@@ -60,10 +61,10 @@ namespace BlazorApp.Services
 
         public Task<HttpResponseMessage> RegisterAsync(RegisterModel model);
 
-        public Task<HttpResponseMessage> AddToWishlist(int model);
+        //public Task<HttpResponseMessage> AddToWishlist(int model);
 
         public Task<bool> checkIfInWishlist(int model);
-        public Task<HttpResponseMessage> DeleteFromWishlist(int model);
+        //public Task<HttpResponseMessage> DeleteFromWishlist(int model);
 
 
     }

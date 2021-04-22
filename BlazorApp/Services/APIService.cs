@@ -19,6 +19,7 @@ namespace BlazorApp.Services
         public string BaseUrl => "https://localhost:44306/api";
 
         public string CustomersUrl => $"{BaseUrl}/customers";
+        public string WishlistUrl => $"{BaseUrl}/Wishlist";
         public string SignInUrl => $"{CustomersUrl}/signin";
         public string RegisterUrl => $"{CustomersUrl}/register";
 
@@ -27,10 +28,10 @@ namespace BlazorApp.Services
 
         public string ShippingMethodsUrl => $"{BaseUrl}/shippingmethods";
 
-        public string WishlistUrl => $"{CustomersUrl}/addWishlist";
-        public string CheckWishlistUrl => $"{CustomersUrl}/checkWishlist";
-        public string DeleteWishlistUrl => $"{CustomersUrl}/deleteWishlist";
-        public string ProductModelsWishlistUrl => $"{ProductsUrl}/getWishlist";
+        public string AddWishlistUrl => $"{WishlistUrl}/addWishlist";
+        public string CheckWishlistUrl => $"{WishlistUrl}/checkWishlist";
+        public string DeleteWishlistUrl => $"{WishlistUrl}/deleteWishlist";
+        public string ProductModelsWishlistUrl => $"{WishlistUrl}/getWishlist";
         public string reviewModelUrl => $"{ProductsUrl}/registerReview";
         public string changeCustomerNameUrl => $"{ProductsUrl}/ChangeNameCustomer";
 
@@ -122,15 +123,15 @@ namespace BlazorApp.Services
             }
             return response;
         }
-        public async Task<HttpResponseMessage> AddToWishlist(int model)
-        {
-            var response = await SendToAPIAsync(HttpMethod.Post, WishlistUrl, model, true);
-            if (response.IsSuccessStatusCode)
-            {
-                //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
-            }
-            return response;
-        }
+        //public async Task<HttpResponseMessage> AddToWishlist(int model)
+        //{
+        //    var response = await SendToAPIAsync(HttpMethod.Post, AddWishlistUrl, model, true);
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+        //    }
+        //    return response;
+        //}
         public async Task<bool> checkIfInWishlist(int model)
         {
             var response = await SendToAPIAsync(HttpMethod.Post, CheckWishlistUrl, model);
@@ -142,15 +143,15 @@ namespace BlazorApp.Services
             return false;
         }
 
-        public async Task<HttpResponseMessage> DeleteFromWishlist(int model)
-        {
-            var response = await SendToAPIAsync(HttpMethod.Delete, DeleteWishlistUrl, model, true);
-            if (response.IsSuccessStatusCode)
-            {
-                //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
-            }
-            return response;
-        }
+        //public async Task<HttpResponseMessage> DeleteFromWishlist(int model)
+        //{
+        //    var response = await SendToAPIAsync(HttpMethod.Delete, DeleteWishlistUrl, model, true);
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+        //    }
+        //    return response;
+        //}
     }
 }
 
