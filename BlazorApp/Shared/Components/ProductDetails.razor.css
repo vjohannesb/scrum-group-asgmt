@@ -200,10 +200,18 @@
                 transition: 0.2s;
             }
 
-                .quick-view-container .main-row .info-column .buy-actions-row .add-to-cart:hover {
+                .quick-view-container .main-row .info-column .buy-actions-row .add-to-cart:hover:not(:disabled) {
                     background: transparent;
                     color: #20d3c2;
                     border: 2px solid #20d3c2;
+                }
+
+
+                .quick-view-container .main-row .info-column .buy-actions-row .add-to-cart:disabled {
+                    background: gray !important;
+                    cursor: default !important;
+                    color: white !important;
+                    border: 2px solid transparent;
                 }
 
             .quick-view-container .main-row .info-column .buy-actions-row .color-selection-btn img {

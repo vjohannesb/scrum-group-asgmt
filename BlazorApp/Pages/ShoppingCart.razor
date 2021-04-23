@@ -61,7 +61,7 @@ else if (_loaded)
                     <div class="row justify-content-between fw-bold">
                         <div class="col-auto">Subtotal</div>
                         <div class="col-auto text-teal">
-                            $@_subTotal
+                            $@(stateContainer.ShoppingCartProducts.Sum(scp => scp.Price * scp.Quantity))
                         </div>
                     </div>
 

@@ -47,7 +47,10 @@
                     <span>OFF</span>
                 </h1>
                 <p class="text-center">FOR NEW CUSTOMERS</p>
-                <button type="button" class="btn pill btn-shop-now mt-3 mb-5 mx-auto">SHOP NOW</button>
+                <button type="button" class="btn pill btn-shop-now mt-3 mb-5 mx-auto" 
+                        @onclick="@(() => navigationManager.NavigateTo("/shop"))">
+                    SHOP NOW
+                </button>
             </div>
 
             <div class="col-5">
@@ -130,7 +133,7 @@
 <SubscribeBanner />
 
 @code {
-    private ProductViewModel _modalProduct;
+    private ProductViewModel _modalProduct = new ProductViewModel();
 
     private List<ProductViewModel> _products;
 

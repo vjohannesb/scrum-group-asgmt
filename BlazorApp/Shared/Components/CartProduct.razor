@@ -34,9 +34,14 @@ else
     [Parameter]
     public ProductViewModel Product { get; set; }
 
-    private void RemoveProduct()
+    private async Task RemoveProduct()
     {
         stateContainer.ShoppingCartProducts.Remove(Product);
+
+        var lsCart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
+        lsCart = lsCart.Where(sci => sci.ProductId != Product.ProductId).ToList();
+        await apiService.SaveToLocalStorageAsync<List<ShoppingCartItem>>("cart", lsCart);
+
         stateContainer.NotifyStateChanged();
     }
 

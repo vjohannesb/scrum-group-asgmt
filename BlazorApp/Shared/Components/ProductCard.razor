@@ -30,7 +30,7 @@ else
                         <i class="fas fa-random">
                             <span class="pop-modal">Compare</span>
                         </i>
-                        <i class="fas fa-search">
+                        <i class="fas fa-search" @onclick="() => GoToProduct(Product.ProductId)">
                             <span class="pop-modal">Details</span>
                         </i>
                         <i class="fas fa-shopping-cart" data-bs-toggle="modal" data-bs-target="#quickViewModal" @onclick="UpdateModalProduct">
@@ -55,8 +55,8 @@ else
                 </div>
 
                 <!-- Old Price -->
-                <div class="old-price my-2">
-                    $@Product.Price
+                <div class="old-price my-2 text-decoration-line-through">
+                    $@(Product.Price + @Product.Discount)
                 </div>
 
                 <!-- New Price -->
@@ -117,13 +117,13 @@ else
         var response = await apiService.checkIfInWishlist(productId);
 
         if(response == true){
-           checkWishlist = true;
-           await DeleteWishlistItemApi(productId);
+            checkWishlist = true;
+            await DeleteWishlistItemApi(productId);
         }
         else{
             checkWishlist = false;
             await SendWishlistItemToApi(productId);
-        } 
+        }
     }
     public async Task<HttpResponseMessage> SendWishlistItemToApi(int productId)
     {
@@ -134,7 +134,7 @@ else
         }
         return response;
     }
-        
+
     public async Task<HttpResponseMessage> DeleteWishlistItemApi(int productId)
     {
         var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.DeleteWishlistUrl, productId, true);
@@ -145,6 +145,9 @@ else
         return response;
     }
 
+
+    private void GoToProduct(int id)
+        => navigationManager.NavigateTo($"/products/{id}");
 
     //private async Task GetTags()
     //{

@@ -1,4 +1,5 @@
-﻿<div class="category-block row-span-@RowSpan col-span-@ColumnSpan">
+﻿<div class="category-block row-span-@RowSpan col-span-@ColumnSpan" 
+     @onclick="() => GoToCategory(CategoryName)">
     <div class="text-box">
         <p class="category-title">
             @CategoryName
@@ -20,4 +21,7 @@
 
     [Parameter]
     public int RowSpan { get; set; }
+
+    private void GoToCategory(string category)
+        => navigationManager.NavigateTo($"/shop/{category}");
 }

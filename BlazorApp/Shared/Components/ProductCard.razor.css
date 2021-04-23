@@ -1,6 +1,6 @@
 ﻿.product-container {
     width: 350px;
-    height: 400px;
+    height: 300px;
     border-radius: 5px;
     background: #eee;
     position: relative;
@@ -68,6 +68,14 @@
         background: #292f51f7;
         opacity: 1;
     }
+
+    .product-overlay .product-name a {
+        color: white !important;
+    }
+
+        .product-overlay .product-name a:hover {
+            color: var(--teal) !important;
+        }
 
 /*! Product Overlay Pill  */
 .product-overlay-pill {

@@ -19,4 +19,9 @@
 @code {
     [Parameter]
     public ProductViewModel Product { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Product.Quantity = 1;
+    }
 }

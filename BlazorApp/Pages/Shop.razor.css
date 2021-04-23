@@ -268,3 +268,12 @@ label[for="priceRangeAmount"] {
         display: flex;
     }
 }
+
+.shop-product-n-link {
+    cursor: pointer;
+}
+
+    .shop-product-n-link:hover,
+    .shop-product-n-link.selected {
+        color: var(--teal) !important;
+    }

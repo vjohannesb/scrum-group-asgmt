@@ -31,7 +31,7 @@
             <div class="row shop-top-menu justify-content-between">
                 <!-- Title + Breadcrumb -->
                 <div class="col-4 col-xxl-6 col-xl-5 col-lg-4">
-                    <h2 class="teal fw-bold">Shop @(string.IsNullOrEmpty(Category) ? "" : $"/ {Category}")</h2>
+                    <h2 class="teal fw-bold">Shop</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
                             <li class="breadcrumb-item">
@@ -55,18 +55,18 @@
                     <div>
                         <span>
                             Show:
-                            <a class="shop-product-n-link text-decoration-none text-white hover-teal" href="#">
+                            <span class="shop-product-n-link text-decoration-none text-white hover-teal selected" @onclick="() => SetTake(9)">
                                 9
-                            </a>/
-                            <a class="shop-product-n-link text-decoration-none text-white hover-teal active" href="#">
+                            </span>/
+                            <span class="shop-product-n-link text-decoration-none text-white hover-teal" @onclick="() => SetTake(12)">
                                 12
-                            </a>/
-                            <a class="shop-product-n-link text-decoration-none text-white hover-teal" href="#">
+                            </span>/
+                            <span class="shop-product-n-link text-decoration-none text-white hover-teal" @onclick="() => SetTake(18)">
                                 18
-                            </a>/
-                            <a class="shop-product-n-link text-decoration-none text-white hover-teal" href="#">
+                            </span>/
+                            <span class="shop-product-n-link text-decoration-none text-white hover-teal" @onclick="() => SetTake(24)">
                                 24
-                            </a>
+                            </span>
                         </span>
                     </div>
                 </div>
@@ -101,61 +101,69 @@
             <div class="row row-cols-md-4 row-cols-lg-5 mt-5">
                 <!-- Filter Column -->
                 <div class="col-12 col-lg-3 filter-column">
-                    <button type="button" class="btn pill pill-teal w-100 mb-3" @onclick="ApplyFilters">Apply filter(s)</button>
+                    <button type="button" class="btn pill pill-teal w-100 mb-3" @onclick="ApplyFiltersAsync">Apply filter(s)</button>
                     <!-- Filter by Categories -->
                     <div class="filter-categories mb-5">
                         <h6 class="teal fw-bold">Product Categories</h6>
 
-                        <div class="filter-box-container text-box-container">
+                        <div class="filter-box-container text-box-container @(Category == "men" ? "selected" : "")"
+                             @onclick="@(() => ToggleCategoryFilter("men"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">Men's</p>
                             </div>
                             <span class="filter-box-amount">12</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container">
+                        <div class="filter-box-container text-box-container @(Category == "women" ? "selected" : "")"
+                             @onclick="@(() => ToggleCategoryFilter("women"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">Women's</p>
                             </div>
                             <span class="filter-box-amount">12</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container">
+                        <div class="filter-box-container text-box-container @(Category == "unisex" ? "selected" : "")"
+                             @onclick="@(() => ToggleCategoryFilter("unisex"))">
+                            <div class="d-flex align-items-center">
+                                <p class="my-0 d-inline">Unisex</p>
+                            </div>
+                            <span class="filter-box-amount">12</span>
+                        </div>
+
+                        <div class="filter-box-container text-box-container @(Category == "kids" ? "selected" : "")"
+                             @onclick="@(() => ToggleCategoryFilter("kids"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">Kids</p>
                             </div>
                             <span class="filter-box-amount">12</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container">
+                        <div class="filter-box-container text-box-container @(Category == "hats" ? "selected" : "")"
+                             @onclick="@(() => ToggleCategoryFilter("hats"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">Hats</p>
                             </div>
                             <span class="filter-box-amount">12</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container selected">
+                        <div class="filter-box-container text-box-container @(Category == "sunglasses" ? "selected" : "")"
+                             @onclick="@(() => ToggleCategoryFilter("sunglasses"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">Sunglasses</p>
                             </div>
                             <span class="filter-box-amount">12</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container selected">
+                        <div class="filter-box-container text-box-container @(Category == "shoes" ? "selected" : "")"
+                             @onclick="@(() => ToggleCategoryFilter("shoes"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">Shoes</p>
                             </div>
                             <span class="filter-box-amount">12</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container">
-                            <div class="d-flex align-items-center">
-                                <p class="my-0 d-inline">Men's</p>
-                            </div>
-                            <span class="filter-box-amount">12</span>
-                        </div>
-
-                        <div class="filter-box-container text-box-container">
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleCategoryFilter("Watches"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">Watches</p>
                             </div>
@@ -185,7 +193,8 @@
                     <div class="filter-color mb-5">
                         <h6 class="teal fw-bold">Filter by Color</h6>
 
-                        <div class="filter-box-container">
+                        <div class="filter-box-container"
+                             @onclick="@(() => ToggleColorFilter("Black"))">
                             <div class="d-flex align-items-center">
                                 <span class="color-box color-box-black">
                                     <i class="fas fa-check"></i>
@@ -194,7 +203,8 @@
                             </div>
                             <span class="filter-box-amount">12</span>
                         </div>
-                        <div class="filter-box-container">
+                        <div class="filter-box-container"
+                             @onclick="@(() => ToggleColorFilter("Gray"))">
                             <div class="d-flex align-items-center">
                                 <span class="color-box color-box-gray">
                                     <i class="fas fa-check"></i>
@@ -203,7 +213,8 @@
                             </div>
                             <span class="filter-box-amount">20</span>
                         </div>
-                        <div class="filter-box-container">
+                        <div class="filter-box-container"
+                             @onclick="@(() => ToggleColorFilter("Red"))">
                             <div class="d-flex align-items-center">
                                 <span class="color-box color-box-red">
                                     <i class="fas fa-check"></i>
@@ -212,7 +223,8 @@
                             </div>
                             <span class="filter-box-amount">18</span>
                         </div>
-                        <div class="filter-box-container selected">
+                        <div class="filter-box-container"
+                             @onclick="@(() => ToggleColorFilter("Green"))">
                             <div class="d-flex align-items-center">
                                 <span class="color-box color-box-green">
                                     <i class="fas fa-check"></i>
@@ -227,42 +239,48 @@
                     <div class="filter-size mb-5">
                         <h6 class="teal fw-bold">Filter by Size</h6>
 
-                        <div class="filter-box-container text-box-container">
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("XS"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">XS</p>
                             </div>
                             <span class="filter-box-amount">18</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container selected">
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("S"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">S</p>
                             </div>
                             <span class="filter-box-amount">23</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container selected">
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("M"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">M</p>
                             </div>
                             <span class="filter-box-amount">32</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container">
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("L"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">L</p>
                             </div>
                             <span class="filter-box-amount">12</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container">
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("XL"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">XL</p>
                             </div>
                             <span class="filter-box-amount">15</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container">
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("XXL"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">XXL</p>
                             </div>
@@ -277,27 +295,27 @@
                         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2 gx-2 gy-2 mt-2">
                             <div class="col filter-brand-container">
                                 <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/bexim.svg"
-                                     alt="Bexim Logo">
+                                     alt="Bexim Logo" @onclick="() => ToggleBrandFilter(1)">
                             </div>
                             <div class="col filter-brand-container">
                                 <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/lighton.svg"
-                                     alt="Lighton Logo">
+                                     alt="Lighton Logo" @onclick="() => ToggleBrandFilter(2)">
                             </div>
                             <div class="col filter-brand-container">
                                 <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/dismis.svg"
-                                     alt="Dismis Logo">
+                                     alt="Dismis Logo" @onclick="() => ToggleBrandFilter(3)">
                             </div>
-                            <div class="col filter-brand-container selected">
+                            <div class="col filter-brand-container">
                                 <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/rosimo.svg"
-                                     alt="Rosimo Logo">
+                                     alt="Rosimo Logo" @onclick="() => ToggleBrandFilter(4)">
                             </div>
                             <div class="col filter-brand-container">
                                 <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/dallas.svg"
-                                     alt="Dallas Logo">
+                                     alt="Dallas Logo" @onclick="() => ToggleBrandFilter(5)">
                             </div>
                             <div class="col filter-brand-container">
                                 <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/concord.svg"
-                                     alt="Concord Logo">
+                                     alt="Concord Logo" @onclick="() => ToggleBrandFilter(6)">
                             </div>
                         </div>
                     </div>
@@ -318,7 +336,7 @@
 
                     </div>
 
-                    <button type="button" class="btn pill pill-teal w-100 mb-5 mt-3" @onclick="ApplyFilters">Apply filter(s)</button>
+                    <button type="button" class="btn pill pill-teal w-100 mb-5 mt-3" @onclick="ApplyFiltersAsync">Apply filter(s)</button>
 
 
                     <!-- Top Rated Products -->
@@ -371,7 +389,7 @@
                     <div class="row row-cols-3 gy-4">
                         @if (_productViewModels == null)
                         {
-                            <div class="col">
+                            <div class="d-flex w-100 h-100 align-items-center justify-content-center">
                                 <div class="loader" />
                             </div>
                         }
@@ -394,6 +412,12 @@
                             }
                         }
                     </div>
+
+                    <div class="col-12 d-flex justify-content-center mt-5">
+                        <div class="btn-caret left-caret me-2" @onclick="PrevPage" />
+                        <div class="btn-caret right-caret ms-2" @onclick="NextPage" />
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -410,27 +434,188 @@
 
     private List<ProductViewModel> _productViewModels;
 
+    private List<string> _filterCategories;
+    private List<string> _filterColors;
+    private List<string> _filterSizes;
+    private List<string> _filterBrands;
+    private int _take = 9;
+    private int _page = 0;
+
+    private string _productsUrl;
+
+    private IJSObjectReference module;
+
     protected override async Task OnInitializedAsync()
     {
-        var module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-slider.js");
+        _productsUrl = apiService.ProductsUrl;
+
+        _filterCategories = new();
+        _filterColors = new();
+        _filterSizes = new();
+        _filterBrands = new();
         _modalProduct = new ProductViewModel();
 
-        await GetProductViewModels();
-    }
-
-    private async Task GetProductViewModels()
-    {
-        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
-        if (response.IsSuccessStatusCode)
-            _productViewModels = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+        if (!string.IsNullOrEmpty(Category))
+        {
+            Category = Category.ToLower();
+            _filterCategories.Add(Category);
+            await ApplyFiltersAsync();
+        }
         else
         {
-            _productViewModels = new List<ProductViewModel>();
+            _productViewModels = await GetProductViewModelsAsync();
+        }
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (module == null)
+            module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-filters.js");
+    }
+
+    private async Task<List<ProductViewModel>> GetProductViewModelsAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, _productsUrl);
+        if (response.IsSuccessStatusCode)
+            return await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+
+        return new List<ProductViewModel>();
+    }
+
+    private async Task NextPage()
+    {
+        _page++;
+        UpdateFilterQuery();
+        var products = await GetProductViewModelsAsync();
+        if (products.Count > 0)
+        {
+            _productViewModels = products;
+            navigationManager.NavigateTo("/shop");
+        }
+        else
+        {
+            _page--;
+            UpdateFilterQuery();
+        }
+    }
+    private async Task PrevPage()
+    {
+        if (_page > 0)
+        {
+            _page--;
+            UpdateFilterQuery();
+            var products = await GetProductViewModelsAsync();
+            if (products.Count > 0)
+            {
+
+                _productViewModels = products;
+                navigationManager.NavigateTo("/shop");
+            }
+            else
+            {
+                _page++;
+                UpdateFilterQuery();
+            }
         }
     }
 
-    private void ApplyFilters()
+    private void SetTake(int take)
+        => _take = take;
+
+    private void ToggleCategoryFilter(string category)
     {
-        return;
+        if (_filterCategories.Contains(category))
+        {
+            _filterCategories.Remove(category);
+            if (Category == category)
+                Category = string.Empty;
+        }
+        else
+            _filterCategories.Add(category);
+    }
+
+    private void ToggleColorFilter(string color)
+    {
+        if (_filterColors.Contains(color))
+            _filterColors.Remove(color);
+        else
+            _filterColors.Add(color);
+    }
+
+    private void ToggleSizeFilter(string size)
+    {
+        if (_filterSizes.Contains(size))
+            _filterSizes.Remove(size);
+        else
+            _filterSizes.Add(size);
+    }
+
+    private void ToggleBrandFilter(int id)
+    {
+        if (_filterBrands.Contains(id.ToString()))
+            _filterBrands.Remove(id.ToString());
+        else
+            _filterBrands.Add(id.ToString());
+    }
+
+    private async Task ApplyFiltersAsync()
+    {
+        _page = 0;
+        UpdateFilterQuery();
+        _productViewModels = await GetProductViewModelsAsync();
+    }
+
+    private void UpdateFilterQuery()
+    {
+        _productsUrl = apiService.ProductsUrl;
+        if (_filterCategories.Count + _filterCategories.Count + _filterSizes.Count + _filterBrands.Count > 0)
+        {
+            _productsUrl += "?";
+            if (_filterCategories?.Count > 0)
+            {
+                _productsUrl += "categories=";
+                foreach (var category in _filterCategories)
+                {
+                    _productsUrl += $"{category},";
+                }
+                _productsUrl += "&";
+            }
+
+            if (_filterColors?.Count > 0)
+            {
+                _productsUrl += "colors=";
+                foreach (var color in _filterColors)
+                {
+                    _productsUrl += $"{color},";
+                }
+                _productsUrl += "&";
+            }
+
+            if (_filterSizes?.Count > 0)
+            {
+                _productsUrl += "sizes=";
+                foreach (var size in _filterSizes)
+                {
+                    _productsUrl += $"{size},";
+                }
+                _productsUrl += "&";
+            }
+
+            if (_filterBrands?.Count > 0)
+            {
+                _productsUrl += "brands=";
+                foreach (var brand in _filterBrands)
+                {
+                    _productsUrl += $"{brand},";
+                }
+            }
+        }
+
+        if (_productsUrl.Contains('?'))
+            _productsUrl += "&";
+        else
+            _productsUrl += "?";
+        _productsUrl += $"take={_take}&from={_take * _page}";
     }
 }
