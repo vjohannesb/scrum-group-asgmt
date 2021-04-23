@@ -1,3 +1,5 @@
+@inject HttpClient Http;
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 @inject StateContainer stateContainer
 @implements IDisposable
 
@@ -71,7 +73,7 @@
                     <option value="Kids">Kids</option>
                 </InputSelect>
 
-                <button type="button" class="btn btn-search">
+                <button type="button" class="btn btn-search" @onclick="NavigateToSearchResult">
                     <i class="fas fa-search"></i>
                 </button>
 
@@ -218,5 +220,10 @@
     public void Dispose()
     {
         stateContainer.OnChange -= StateHasChanged;
+    }
+
+    private void NavigateToSearchResult()
+    {
+        navigationManager.NavigateTo($"/search/{_searchQuery.Query}");
     }
 } 
