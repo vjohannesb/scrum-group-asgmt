@@ -26,7 +26,9 @@
                 @foreach (var product in _products)
                 {
                     <tr>
-                        <td>@product.ProductName</td>
+                        <td>
+                            <a class="text-dark" href="/products/@product.ProductId">@product.ProductName</a>
+                        </td>
                         <td>$@product.Price</td>
                         <td>@product.Rating/5</td>
                     </tr>
