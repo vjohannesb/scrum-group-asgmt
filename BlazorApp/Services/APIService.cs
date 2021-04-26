@@ -26,7 +26,9 @@ namespace BlazorApp.Services
         public string ProductsUrl => $"{BaseUrl}/products";
         public string MultipleProductsUrl => $"{ProductsUrl}/multi";
 
-        public string ShippingMethodsUrl => $"{BaseUrl}/shippingmethods";
+        public string OrdersUrl => $"{BaseUrl}/orders";
+        public string ShippingMethodsUrl => $"{OrdersUrl}/shipping";
+        public string PaymentMethodsUrl => $"{OrdersUrl}/payment";
 
         public string AddWishlistUrl => $"{WishlistUrl}/addWishlist";
         public string CheckWishlistUrl => $"{WishlistUrl}/checkWishlist";

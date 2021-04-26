@@ -66,18 +66,16 @@ else if (_loaded)
                     </div>
 
                     <!-- Shipping methods -->
-                    <div class="row justify-content-between">
+                    <div class="row justify-content-between align-items-center">
                         <div class="col-auto fw-bold">Shipping</div>
                         <div class="col-auto">
                             @if (_selectedShipping != null)
                             {
                                 <EditForm Model="@_selectedShipping" novalidate>
-                                    <DataAnnotationsValidator />
-
                                     <InputRadioGroup Name="Shipping" @bind-Value="_selectedShippingId">
                                         @foreach (var shippingMethod in _shippingMethods)
                                                 {
-                                            <div class="radio-container d-flex align-items-center justify-content-between">
+                                            <div class="radio-container d-flex align-items-center justify-content-end">
                                                 <label class="me-1">
                                                     <span>@shippingMethod.ShippingMethodName</span>
                                                     <span class="text-teal">
@@ -182,7 +180,7 @@ else if (_loaded)
 
     private async Task GetShippingMethodsAsync()
     {
-        var shippingResponse = await apiService.SendToAPIAsync(HttpMethod.Get, "https://localhost:44306/api/orders/shipping");
+        var shippingResponse = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ShippingMethodsUrl);
         if (shippingResponse.IsSuccessStatusCode)
             _shippingMethods = await shippingResponse.Content.ReadFromJsonAsync<List<ShippingMethod>>();
     }

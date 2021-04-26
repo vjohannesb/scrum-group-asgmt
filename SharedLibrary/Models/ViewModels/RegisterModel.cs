@@ -10,10 +10,10 @@ namespace SharedLibrary.Models.ViewModels
     public class RegisterModel
     {
         [Required]
-        [MinLength(6, ErrorMessage = "A minimum of 4 characters is required")]
+        [MinLength(4, ErrorMessage = "A minimum of 4 characters is required")]
         public string FirstName { get; set; }
         [Required]
-        [MinLength(6, ErrorMessage = "A minimum of 4 characters is required")]
+        [MinLength(4, ErrorMessage = "A minimum of 4 characters is required")]
         public string LastName { get; set; }
 
         [Required]

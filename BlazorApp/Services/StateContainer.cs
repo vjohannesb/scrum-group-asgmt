@@ -11,7 +11,6 @@ namespace BlazorApp.Services
     public class StateContainer
     {
         private List<ProductViewModel> _shoppingCartProducts;
-
         public List<ProductViewModel> ShoppingCartProducts
         {
             get => _shoppingCartProducts;
@@ -22,9 +21,24 @@ namespace BlazorApp.Services
             }
         }
 
+        private OrderViewModel _completedOrder;
+        public OrderViewModel CompletedOrder
+        {
+            get => _completedOrder;
+            set
+            {
+                _completedOrder = value;
+                NotifyStateChanged();
+            }
+        }
+
         public event Action OnChange;
 
         public void NotifyStateChanged()
             => OnChange?.Invoke();
+
+
+
+
     }
 }

@@ -13,7 +13,7 @@
     .cart-totals .row:not(:last-child)::after {
         content: "";
         width: calc(100% - 1rem);
-        border-bottom: 1px solid var(--middle-gray);
+        border-bottom: 1px solid var(--light-gray);
         margin: 1rem auto;
     }
 
@@ -248,7 +248,7 @@ btn-update-cart:hover {
 }
 
 .middle-gray-bg {
-    background-color: var(--middle-gray);
+    background-color: var(--light-gray);
 }
 
 .small-circle {

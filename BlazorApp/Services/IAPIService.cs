@@ -16,7 +16,9 @@ namespace BlazorApp.Services
         public string ProductsUrl { get; }
         public string MultipleProductsUrl { get; }
 
+        public string OrdersUrl { get; }
         public string ShippingMethodsUrl { get; }
+        public string PaymentMethodsUrl { get; }
 
         public string AddWishlistUrl { get; }
         public string CheckWishlistUrl { get; }

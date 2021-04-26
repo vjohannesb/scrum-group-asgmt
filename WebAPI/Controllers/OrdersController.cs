@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedLibrary.Models.OrderModels;
+using SharedLibrary.Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,9 +20,32 @@ namespace WebAPI.Controllers
             _context = context;
         }
 
+        // Lägg till token-check + hämta userid om inloggad?
+        [HttpPost]
+        public async Task<IActionResult> PostOrder(OrderViewModel orderViewModel)
+        {
+            var order = new Order(orderViewModel);
+            order.CustomerId = null;
+            try
+            {
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("shipping")]
         public async Task<IEnumerable<ShippingMethod>> GetShippingMethods()
             => await _context.ShippingMethods.ToListAsync();
+
+
+        [HttpGet("payment")]
+        public async Task<IEnumerable<PaymentMethod>> GetPaymentMethods()
+            => await _context.PaymentMethods.ToListAsync();
 
         // POST: ShippingMethod
         [HttpPost("shipping")]
