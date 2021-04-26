@@ -24,7 +24,9 @@ namespace BlazorApp.Services
         public string RegisterUrl => $"{CustomersUrl}/register";
 
         public string ProductsUrl => $"{BaseUrl}/products";
+        public string ProductUrl(int id) => $"{ProductsUrl}/{id}";
         public string MultipleProductsUrl => $"{ProductsUrl}/multi";
+        public string RelatedProductsUrl(int id) => $"{ProductsUrl}/{id}/related";
 
         public string OrdersUrl => $"{BaseUrl}/orders";
         public string ShippingMethodsUrl => $"{OrdersUrl}/shipping";

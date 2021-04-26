@@ -110,9 +110,14 @@
             <div class="row pt-2 tags-row">
                 <div class="col">
                     <span class="tags-title">Tags:</span>
-                    <span class="tag-box">Fashion</span>
-                    <span class="tag-box">Shoes</span>
-                    <span class="tag-box">Sneakers</span>
+                    @if (Product.Tags != null)
+                {
+                    @foreach (var tag in Product.Tags)
+                    {
+                        <span class="tag-box">@tag.TagName</span>
+                    } 
+
+                }
                 </div>
             </div>
 

@@ -59,14 +59,14 @@ namespace WebAPI.Controllers
             if (colorList?.Length > 0)
                 products = products
                     .Where(p => p.Colors.Select(c => c.ColorName.ToLower())
-                    .Intersect(colorList)
-                    .Any());
+                        .Intersect(colorList)
+                        .Any());
 
             if (sizeList?.Length > 0)
                 products = products
                     .Where(p => p.Sizes.Select(s => s.SizeName.ToLower())
-                    .Intersect(sizeList)
-                    .Any());
+                        .Intersect(sizeList)
+                        .Any());
 
             if (brandList?.Length > 0)
                 products = products.Where(p => brandList.Contains(p.BrandId.ToString()));
@@ -304,6 +304,32 @@ namespace WebAPI.Controllers
                 product.Quantity = cart.FirstOrDefault(sci => sci.ProductId == product.ProductId)?.Quantity ?? 1;
 
             return Ok(products);
+        }
+
+        [HttpGet("{id}/related")]
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetRelatedProducts(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+                return NotFound();
+
+            product = await ProductContext().FirstAsync(p => p.ProductId == id);
+
+            var tags = product.ProductTags.Select(pt => pt.TagId);
+            var products = await ProductContext().ToListAsync();
+            products = products
+                    .Where(p => tags
+                                .Intersect(p.ProductTags.Select(p => p.TagId))
+                                .Any())
+                    .OrderByDescending(p => tags
+                                .Intersect(p.ProductTags.Select(p => p.TagId))
+                                .Count())
+                    .ToList();
+            products.Remove(product);
+
+            var productViewModels = products.Select(p => new ProductViewModel(p));
+
+            return Ok(productViewModels);
         }
 
         //POST Products

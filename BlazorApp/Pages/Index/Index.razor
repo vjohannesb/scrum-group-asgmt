@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-<ProductDetailsModal Product=_modalProduct />
+@*<ProductDetailsModal Product=_modalProduct />*@
 
 <section id="topBanner" class="bg-lightest-gray">
     <div class="container d-flex align-items-center justify-content-between">
@@ -33,7 +33,7 @@
     <ZigZagTitle BlackText="NEW" TealText="ARRIVALS" Subtitle="Check out our latest products from top fashion designers" />
 </div>
 <div class="my-5">
-    <ProductCarousel @bind-ModalProduct="_modalProduct"/>
+    <ProductCarousel @bind-ModalProduct="_modalProduct" ProductList="all"/>
 </div>
 
 @* NEW CUSTOMERS 30% OFF *@
@@ -71,10 +71,8 @@
 <div class="my-5 pt-5">
     <ZigZagTitle BlackText="FEATURED" TealText="PRODUCTS" Subtitle="Check out our monthly featured products from top brands" />
 </div>
-
-
 <div class="my-5">
-    <ProductCarousel @bind-ModalProduct="_modalProduct"/>
+    <ProductCarousel @bind-ModalProduct="_modalProduct" ProductList="featured"/>
 </div>
 
 
