@@ -1,8 +1,8 @@
-@inject HttpClient Http;
-@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+@inject HttpClient Http
 @inject StateContainer stateContainer
 @implements IDisposable
 
+<ProductDetailsModal Product=@stateContainer.ModalProduct />
 <div>
     <div class="top-menu bg-teal d-flex justify-content-between align-items-center">
         <div class="container d-flex justify-content-between align-items-center p-0">

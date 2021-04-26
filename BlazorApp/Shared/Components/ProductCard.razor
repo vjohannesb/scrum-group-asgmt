@@ -1,11 +1,12 @@
-@using SharedLibrary.Models.ProductModels
+@inject StateContainer stateContainer
+
 @if (Product == null)
 {
     <p>Loading...</p>
 }
 else
 {
-    <div class="product-container @(ClassName ?? "")">
+    <div class="product-container">
         <!-- Circle -->
         <div class="circle">NEW</div>
 
@@ -79,15 +80,6 @@ else
     [Parameter]
     public ProductViewModel Product { get; set; }
 
-    [Parameter]
-    public string ClassName { get; set; }
-
-    [Parameter]
-    public ProductViewModel ModalProduct { get; set; }
-
-    [Parameter]
-    public EventCallback<ProductViewModel> ModalProductChanged { get; set; }
-
     private bool checkWishlist { get; set; }
     private List<Tag> _modelTags { get; set; }
     private Tag _firstTag { get; set; }
@@ -108,8 +100,8 @@ else
         //await GetTags();
     }
 
-    private async Task UpdateModalProduct()
-        => await ModalProductChanged.InvokeAsync(Product);
+    private void UpdateModalProduct()
+        => stateContainer.ModalProduct = Product;
 
     //Kontrollera vilka hjärtan som ska vara ifyllda?
     public async Task checkIfActive(int productId)

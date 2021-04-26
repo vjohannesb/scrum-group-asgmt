@@ -10,6 +10,8 @@ namespace BlazorApp.Services
 {
     public class StateContainer
     {
+        public OrderViewModel CompletedOrder { get; set; }
+
         private List<ProductViewModel> _shoppingCartProducts;
         public List<ProductViewModel> ShoppingCartProducts
         {
@@ -21,13 +23,14 @@ namespace BlazorApp.Services
             }
         }
 
-        private OrderViewModel _completedOrder;
-        public OrderViewModel CompletedOrder
+
+        private ProductViewModel _modalProduct;
+        public ProductViewModel ModalProduct
         {
-            get => _completedOrder;
+            get => _modalProduct;
             set
             {
-                _completedOrder = value;
+                _modalProduct = value;
                 NotifyStateChanged();
             }
         }

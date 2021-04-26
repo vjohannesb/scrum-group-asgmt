@@ -2,8 +2,6 @@
 @inject StateContainer stateContainer
 @implements IDisposable
 
-<ProductDetailsModal Product="_modalProduct" />
-
 <CheckoutBreadcrumb />
 
 @if (stateContainer?.ShoppingCartProducts == null || stateContainer?.ShoppingCartProducts?.Count < 1)
