@@ -6,7 +6,7 @@
 }
 else
 {
-    <div class="product-container">
+    <div class="product-container @(ClassName ?? "")">
         <!-- Circle -->
         <div class="circle">NEW</div>
 
@@ -103,7 +103,7 @@ else
     private void UpdateModalProduct()
         => stateContainer.ModalProduct = Product;
 
-    //Kontrollera vilka hj‰rtan som ska vara ifyllda?
+    //Kontrollera vilka hj√§rtan som ska vara ifyllda?
     public async Task checkIfActive(int productId)
     {
         var response = await apiService.checkIfInWishlist(productId);
