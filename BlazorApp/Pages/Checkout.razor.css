@@ -36,14 +36,14 @@
         font-size: 14px;
     }
 
-    .coupon button {
-        margin-left: -155px;
-        height: 2rem;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        overflow: hidden;
-        white-space: nowrap;
-    }
+.apply-coupon-btn {
+    margin-left: -155px;
+    height: 2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
 
 .form-small {
     height: 2.5rem;

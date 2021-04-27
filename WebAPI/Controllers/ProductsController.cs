@@ -8,6 +8,7 @@ using WebAPI.Data;
 using SharedLibrary.Models.ViewModels;
 using SharedLibrary.Models.ProductModels;
 using Microsoft.EntityFrameworkCore.Query;
+using SharedLibrary.Models;
 
 namespace WebAPI.Controllers
 {
@@ -135,18 +136,36 @@ namespace WebAPI.Controllers
                 result.OrderByDescending(x => x.Price);
             return result;
         }
+
+        [HttpGet("fetchDiscount")]
+        public async Task<IEnumerable<Coupon>> GetCoupons( string couponCode )
+        {
+            List<Coupon> list = new List<Coupon>();
+            var couponList = await _context.Coupons.ToListAsync();
+            foreach (var coupon in couponList)
+            {
+                if (coupon.CouponCode == couponCode)
+                {
+                    list.Add(coupon);
+                }
+            }
+
+            return list;
+        }
+
+
         // GET Products api/Price/filter <Göran>
         //[HttpGet("FilterColor")]
         //public async Task<ActionResult<IEnumerable<Product>>> FilterColor(string FilterStringColor)
         //{
-          //  var direction = "Asc";
-           // var result = _context.Products.Where(x => x.Price >= min && x.Price <= max).ToList();
-            // if (direction == "Asc")
-              //  result.OrderBy(x => x.Price);
-           // else
-            //    result.OrderByDescending(x => x.Price);
-           // return result;
-       // }
+        //  var direction = "Asc";
+        // var result = _context.Products.Where(x => x.Price >= min && x.Price <= max).ToList();
+        // if (direction == "Asc")
+        //  result.OrderBy(x => x.Price);
+        // else
+        //    result.OrderByDescending(x => x.Price);
+        // return result;
+        // }
 
 
         /* Dessa kan nu ersättas med _context.Products.Include(p => p.ProductColors)...
@@ -283,7 +302,7 @@ namespace WebAPI.Controllers
 
         */
 
-     
+
 
         [HttpPost("multi")]
         public async Task<ActionResult<List<ProductViewModel>>> GetMultipleProducts([FromBody] List<ShoppingCartItem> cart) 
@@ -420,6 +439,20 @@ namespace WebAPI.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(review);
+        }
+
+        // POST: Coupon - Skapa nytt rabattkod och spara i databasen
+        [HttpPost("createCoupon")]
+        public async Task<ActionResult<Coupon>> PostCoupon( Coupon coupon )
+        {
+            if (!_context.Coupons.Any(c => c.CouponCode == coupon.CouponCode))
+            {
+                _context.Coupons.Add(coupon);
+                await _context.SaveChangesAsync();
+                return Ok(coupon);
+            }
+            return BadRequest();
+
         }
 
         [HttpPut("ChangeNameCustomer")]

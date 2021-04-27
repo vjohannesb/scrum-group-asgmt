@@ -40,7 +40,7 @@ namespace BlazorApp.Services
         public void NotifyStateChanged()
             => OnChange?.Invoke();
 
-
+        public decimal CouponDiscount { get; set; }
 
 
     }

@@ -1,5 +1,6 @@
 ﻿@page "/checkout"
 @inject StateContainer stateContainer
+@inject HttpClient Http
 
 <CheckoutBreadcrumb />
 
@@ -9,27 +10,40 @@
 }
 else if (_loaded)
 {
-    <EditForm Model="@_order" OnValidSubmit="SubmitOrder">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
 
-        <div class="d-flex justify-content-center mt-5 mb-5">
-            <div class="forms-section me-4">
-                <p class="mb-4">Returning customer? <a href="/myaccount"><span>Click here to login</span></a></p>
 
-                <div class="coupon d-flex justify-content-center">
-                    <div>
+    <div class="d-flex justify-content-center mt-5 mb-5">
+        <div class="forms-section me-4">
+            <p class="mb-4">Returning customer? <a href="/myaccount"><span>Click here to login</span></a></p>
+
+            <div class="coupon d-flex justify-content-center">
+                <div>
+                    <EditForm Model="@_coupon" OnValidSubmit="@ApplyCouponAsync">
                         <p class="mb-4">If you have a coupon code, please apply it below.</p>
                         <div class="d-flex align-items-center">
-                            <input class="form-control" type="text" placeholder="Coupon code">
-                            <button type="submit" class="apply-coupon-btn">Apply Coupon</button>
+                            <input class="form-control" type="text" placeholder="Coupon code" @bind="couponString">
+                            <button class="apply-coupon-btn" type="submit">Apply Coupon</button>
                         </div>
-                    </div>
+                    </EditForm>
+                    @if (coupons != null)
+                    {
+                        <table>
+                            @foreach (var coupon in coupons)
+                            {
+                                <tr>
+                                    <td>-$@coupon.CouponDiscount applied to your order</td>
+                                </tr>
+                            }
+                        </table>
+                    }
                 </div>
-
-                <div class="mt-5">
-                    <h1>BILLING DETAILS</h1>
-
+            </div>
+            
+            <div class="mt-5">
+                <h1>BILLING DETAILS</h1>
+                <EditForm Model="@_order" OnValidSubmit="SubmitOrder">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
                     <div class="mt-4 d-flex justify-content-between">
                         <div class="w-100">
                             <label class="mb-2" for="firstName">First name <span class="text-teal">*</span></label>
@@ -127,114 +141,122 @@ else if (_loaded)
                     </div>
 
                     @*<div class="mt-5 form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="differentAddress">
-                            <label class="checkbox-label-2 fs-1" for="differentAddress">
-                                SHIP TO A DIFFERENT ADDRESS?
-                            </label>
-                        </div>*@
+                <input class="form-check-input" type="checkbox" value="" id="differentAddress">
+                <label class="checkbox-label-2 fs-1" for="differentAddress">
+                    SHIP TO A DIFFERENT ADDRESS?
+                </label>
+            </div>*@
 
 
-                </div>
+            </EditForm>
             </div>
+        </div>
 
-            @if (stateContainer.ShoppingCartProducts != null && stateContainer.ShoppingCartProducts.Count > 0)
-            {
-                <div class="order-section ms-4">
-                    <div class="order-banner d-flex align-items-center justify-content-center">YOUR ORDER</div>
-                    <div class="p-4">
-                        <div class="d-flex justify-content-between pb-3">
-                            <h1><span class="text-teal">PRODUCT</span></h1>
-                            <h1><span class="text-teal">SUBTOTAL</span></h1>
-                        </div>
-                        <ul>
-                            @foreach (var product in stateContainer.ShoppingCartProducts)
-                            {
-                                <li>
-                                    <div class="d-flex justify-content-between">
-                                        <p>
-                                            <span class="text-light-gray fs-7">(x@(product.Quantity))</span>
-                                            <span>@product.ProductName</span>
-                                        </p>
-                                        <p>$@(product.Price * product.Quantity)</p>
-                                    </div>
-                                </li>
-                            }
-                        </ul>
-                        <div class="d-flex justify-content-between text-teal fw-bold">
-                            <p>Subtotal</p>
-                            <p id="subtotal">$@(_subTotal + (decimal)0.0)</p>
-                        </div>
-                        <div class="shipping">
-                            <div class="row justify-content-between align-items-center">
-                                <div class="col-auto">Shipping</div>
-                                <div class="col-auto">
-                                    <InputRadioGroup Name="Shipping" @bind-Value="_order.ShippingMethodId">
-                                        @foreach (var shippingMethod in _shippingMethods)
-                                                {
-                                            <div class="radio-container d-flex align-items-center justify-content-end">
-                                                <label class="me-1">
-                                                    <span>@shippingMethod.ShippingMethodName</span>
-                                                    <span class="text-teal">
-                                                        @(shippingMethod.Price > 0 ? $"${shippingMethod.Price}" : "")
-                                                    </span>
-                                                </label>
-                                                <InputRadio class="float-end" Name="Shipping" Value="shippingMethod.ShippingMethodId" />
-                                            </div>
-                                                }
-                                    </InputRadioGroup>
-                                </div>
+        @if (stateContainer.ShoppingCartProducts != null && stateContainer.ShoppingCartProducts.Count > 0)
+        {
+    <EditForm Model="@_order" OnValidSubmit="SubmitOrder">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="order-section ms-4">
+            <div class="order-banner d-flex align-items-center justify-content-center">YOUR ORDER</div>
+            <div class="p-4">
+                <div class="d-flex justify-content-between pb-3">
+                    <h1><span class="text-teal">PRODUCT</span></h1>
+                    <h1><span class="text-teal">SUBTOTAL</span></h1>
+                </div>
+                <ul>
+                    @foreach (var product in stateContainer.ShoppingCartProducts)
+                    {
+                        <li>
+                            <div class="d-flex justify-content-between">
+                                <p>
+                                    <span class="text-light-gray fs-7">(x@(product.Quantity))</span>
+                                    <span>@product.ProductName</span>
+                                </p>
+                                <p>$@(product.Price * product.Quantity)</p>
                             </div>
-                        </div>
-                        <div class="total-cost d-flex justify-content-between text-teal">
-                            <h1>TOTAL</h1>
-                            <h1 id="total">$@(_subTotal + (_shippingMethods[_order.ShippingMethodId - 1]?.Price ?? 0))</h1>
-                        </div>
-                        <div class="payment-options">
-                            <InputRadioGroup Name="Payment" @bind-Value="_order.PaymentMethodId">
-                                @foreach (var payment in _paymentMethods)
+                        </li>
+                    }
+                </ul>
+                <div class="d-flex justify-content-between text-teal fw-bold">
+                    <p>Subtotal</p>
+                    <p id="subtotal">$@(_subTotal + (decimal)0.0)</p>
+                </div>
+                <div class="shipping">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-auto">Shipping</div>
+                        <div class="col-auto">
+                            <InputRadioGroup Name="Shipping" @bind-Value="_order.ShippingMethodId">
+                                @foreach (var shippingMethod in _shippingMethods)
                                         {
-                                    <div class="mt-2">
-                                        <InputRadio Name="Payment" Value="@payment.PaymentMethodId" id=@($"pm-{payment.PaymentMethodId}") />
-                                        <label class="ps-2" for="@($"pm-{payment.PaymentMethodId}")">@payment.PaymentMethodName</label>
-                                        @if (payment.PaymentMethodName == "Paypal")
-                                                {
-                                            <img class="px-2" src="/src/img/ext-logos/paypal.svg">
-                                            <a href="#"><span>What is paypal?</span></a>
-                                                }
+                                    <div class="radio-container d-flex align-items-center justify-content-end">
+                                        <label class="me-1">
+                                            <span>@shippingMethod.ShippingMethodName</span>
+                                            <span class="text-teal">
+                                                @(shippingMethod.Price > 0 ? $"${shippingMethod.Price}" : "")
+                                            </span>
+                                        </label>
+                                        <InputRadio class="float-end" Name="Shipping" Value="shippingMethod.ShippingMethodId" />
                                     </div>
-                                    @if (_order.PaymentMethodId == payment.PaymentMethodId)
-                                            {
-                                        <div class="payment-info bg-dark-blue rounded-2 text-white p-3 my-2 fs-7">
-                                            @payment.AdditionalInfo
-                                        </div>
-                                            }
                                         }
                             </InputRadioGroup>
                         </div>
-                        <div class="privacy-policy">
-                            Your personal data will be used to process your order, support your
-                            experience throughout this website, and for other purposes
-                            described in our <a href="#"><span>privacy policy.</span></a>
-                        </div>
-                        <div class="terms form-check">
-                            <InputCheckbox @bind-Value="_order.AgreedToTerms" class="form-check-input" id="agreedToTerms" />
-                            <label for="agreedToTerms">
-                                I have read and agree to the website
-                                <a href="/checkout#" class="text-teal"> terms and conditions. * </a>
-                            </label>
-
-                            <ValidationMessage For="() => _order.AgreedToTerms" />
-                        </div>
-                        <button class="btn place-order-btn" type="submit">PLACE ORDER</button>
                     </div>
                 </div>
-            }
-            else
-            {
-                navigationManager.NavigateTo("/shoppingcart");
-            }
+                <div class="d-flex flex-row-reverse">
+                    <span style="color: red; font-size: 15px">@(stateContainer.CouponDiscount > 0 ? $"-${stateContainer.CouponDiscount}" : null)</span>
+                </div>
+                <div class="total-cost d-flex justify-content-between text-teal">
+                    <h1>TOTAL</h1>
+                    <h1 id="total">$@((_subTotal - stateContainer.CouponDiscount) + (_shippingMethods[_order.ShippingMethodId - 1]?.Price ?? 0))</h1>
+                </div>
+                <div class="payment-options">
+                    <InputRadioGroup Name="Payment" @bind-Value="_order.PaymentMethodId">
+                        @foreach (var payment in _paymentMethods)
+                                {
+                            <div class="mt-2">
+                                <InputRadio Name="Payment" Value="@payment.PaymentMethodId" id=@($"pm-{payment.PaymentMethodId}") />
+                                <label class="ps-2" for="@($"pm-{payment.PaymentMethodId}")">@payment.PaymentMethodName</label>
+                                @if (payment.PaymentMethodName == "Paypal")
+                                        {
+                                    <img class="px-2" src="/src/img/ext-logos/paypal.svg">
+                                    <a href="#"><span>What is paypal?</span></a>
+                                        }
+                            </div>
+                            @if (_order.PaymentMethodId == payment.PaymentMethodId)
+                                    {
+                                <div class="payment-info bg-dark-blue rounded-2 text-white p-3 my-2 fs-7">
+                                    @payment.AdditionalInfo
+                                </div>
+                                    }
+                                }
+                    </InputRadioGroup>
+                </div>
+                <div class="privacy-policy">
+                    Your personal data will be used to process your order, support your
+                    experience throughout this website, and for other purposes
+                    described in our <a href="#"><span>privacy policy.</span></a>
+                </div>
+                <div class="terms form-check">
+                    <InputCheckbox @bind-Value="_order.AgreedToTerms" class="form-check-input" id="agreedToTerms" />
+                    <label for="agreedToTerms">
+                        I have read and agree to the website
+                        <a href="/checkout#" class="text-teal"> terms and conditions. * </a>
+                    </label>
+
+                    <ValidationMessage For="() => _order.AgreedToTerms" />
+                </div>
+                <button class="btn place-order-btn" type="submit">PLACE ORDER</button>
+            </div>
         </div>
     </EditForm>
+                }
+                else
+                {
+                navigationManager.NavigateTo("/shoppingcart");
+                }
+        </div>
+    
 }
 else
 {
@@ -246,6 +268,12 @@ else
     private List<ShippingMethod> _shippingMethods;
     private List<PaymentMethod> _paymentMethods;
 
+    private IEnumerable<Coupon> coupons;
+    private Coupon _coupon;
+
+    [Parameter]
+    public string couponString { get; set; }
+
     private decimal _subTotal = 0;
 
     private bool _productsAdded = false;
@@ -256,7 +284,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         _order = new OrderViewModel();
-
+        _coupon = new Coupon();
         await GetShippingMethodsAsync();
         await GetPaymentMethodsAsync();
         _subTotal = stateContainer.ShoppingCartProducts.Sum(scp => scp.Price * scp.Quantity);
@@ -327,5 +355,15 @@ else
         await apiService.SaveToLocalStorageAsync("cart", "");
     }
 
+
+    private async Task ApplyCouponAsync()
+    {
+        coupons = await Http.GetFromJsonAsync<IEnumerable<Coupon>>($"https://localhost:44306/api/Products/fetchDiscount?couponCode={couponString}");
+
+        foreach (var item in coupons)
+        {
+            stateContainer.CouponDiscount = item.CouponDiscount;
+        }
+    }
 
 }

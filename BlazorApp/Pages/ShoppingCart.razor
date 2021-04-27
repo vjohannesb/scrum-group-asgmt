@@ -1,6 +1,7 @@
 ﻿@page "/shoppingcart"
 @inject StateContainer stateContainer
 @implements IDisposable
+@inject HttpClient Http
 
 <CheckoutBreadcrumb />
 
@@ -38,7 +39,28 @@ else if (_loaded)
 
                 <div class="row mt-4 justify-content-between align-items-center">
                     <div class="col-auto">
-                        <CouponForm @bind-Coupon="_coupon" SubmitAction="ApplyCoupon" />
+                        <div class="coupon d-flex justify-content-center">
+                            <div>
+                                <EditForm Model="@_coupon" OnValidSubmit="@ApplyCouponAsync">
+                                    <p class="mb-4">If you have a coupon code, please apply it below.</p>
+                                    <div class="d-flex align-items-center">
+                                        <input class="form-control" type="text" placeholder="Coupon code" @bind="couponString">
+                                        <button class="apply-coupon-btn" type="submit">Apply Coupon</button>
+                                    </div>
+                                </EditForm>
+                                @if (coupons != null)
+                                {
+                                    <table>
+                                        @foreach (var coupon in coupons)
+                                        {
+                                            <tr>
+                                                <td>-$@coupon.CouponDiscount applied to your order</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-auto">
@@ -96,7 +118,10 @@ else if (_loaded)
                         </div>
 
                         <div class="col-auto">
-                            <span class="text-teal">$@(_subTotal + _shippingMethods[_selectedShippingId].Price)</span>
+                            <div class="d-flex flex-row-reverse">
+                                <span style="color: red; font-size: 15px">@(stateContainer.CouponDiscount > 0 ? $"-${stateContainer.CouponDiscount}" : null)</span>
+                            </div>
+                            <span class="text-teal">$@((_subTotal - stateContainer.CouponDiscount) + _shippingMethods[_selectedShippingId].Price)</span>
                         </div>
                     </div>
 
@@ -119,8 +144,8 @@ else if (_loaded)
 <section class="my-5 py-5">
     <div class="my-5">
         <ZigZagTitle BlackText="you may" TealText="also like" />
-    </div> 
-    <ProductCarousel ProductList="all"/>
+    </div>
+    <ProductCarousel ProductList="all" />
 </section>
 
 
@@ -130,7 +155,8 @@ else if (_loaded)
     private ShippingMethod _selectedShipping;
     private int _selectedShippingId;
 
-    private CouponViewModel _coupon;
+    private Coupon _coupon;
+    private IEnumerable<Coupon> coupons;
 
     private List<ProductViewModel> _products;
 
@@ -142,7 +168,7 @@ else if (_loaded)
 
     protected override async Task OnInitializedAsync()
     {
-        _coupon = new CouponViewModel();
+        _coupon = new Coupon();
         stateContainer.OnChange += StateHasChanged;
 
         await GetProductsAsync();
@@ -158,10 +184,10 @@ else if (_loaded)
     private void GoToCheckout()
             => navigationManager.NavigateTo("/checkout");
 
-    private void ApplyCoupon()
-    {
-        Console.WriteLine($"Applied coupon: {_coupon.CouponCode}");
-    }
+    //private void ApplyCoupon()
+    //{
+    //    Console.WriteLine($"Applied coupon: {_coupon.CouponCode}");
+    //}
 
     private void UpdateCart()
         => _subTotal = stateContainer.ShoppingCartProducts?.Sum(scp => scp.Price * scp.Quantity) ?? 0;
@@ -180,5 +206,20 @@ else if (_loaded)
         var shippingResponse = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ShippingMethodsUrl);
         if (shippingResponse.IsSuccessStatusCode)
             _shippingMethods = await shippingResponse.Content.ReadFromJsonAsync<List<ShippingMethod>>();
+    }
+
+    //COUPON
+    [Parameter]
+    public string couponString { get; set; }
+
+
+    private async Task ApplyCouponAsync()
+    {
+        coupons = await Http.GetFromJsonAsync<IEnumerable<Coupon>>($"https://localhost:44306/api/Products/fetchDiscount?couponCode={couponString}");
+
+        foreach (var item in coupons)
+        {
+            stateContainer.CouponDiscount = item.CouponDiscount;
+        }
     }
 }
