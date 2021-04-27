@@ -15,28 +15,34 @@
 }
 
 /** Shop Top Menu **/
-/*! List/Box/Large Box */
-.list-box-large-box {
+.list-box-large-box, .show-x-items, .btn-sorting-container {
     background: var(--dark-blue);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
     border-radius: 0.5rem;
 }
 
+
+/*! List/Box/Large Box */
+.list-box-large-box {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+    .list-box-large-box i {
+        cursor: pointer;
+    }
+
+        .list-box-large-box i.selected {
+            color: var(--teal) !important;
+        }
+
 /*! Show X Items  */
 .show-x-items {
-    background: var(--dark-blue);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    border-radius: 0.5rem;
 }
 
 .btn-sorting {
@@ -51,11 +57,7 @@
     }
 
 .btn-sorting-container {
-    background: var(--dark-blue);
-    border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+    justify-content: space-around !important;
 }
 
 .btn-sorting i {
@@ -65,10 +67,6 @@
 
 .btn-sorting:hover i {
     color: var(--teal);
-}
-
-.btn-sorting:hover {
-    color: white;
 }
 
 .dropdown-toggle::after {

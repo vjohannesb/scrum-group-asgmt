@@ -24,7 +24,7 @@ namespace BlazorApp.Services
         }
 
 
-        private ProductViewModel _modalProduct;
+        private ProductViewModel _modalProduct = new();
         public ProductViewModel ModalProduct
         {
             get => _modalProduct;

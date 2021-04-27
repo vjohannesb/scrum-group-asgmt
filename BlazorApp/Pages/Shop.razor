@@ -71,9 +71,9 @@
 
                 <!-- List/box/large box -->
                 <div class="col col-lg mt-2 mb-2 me-1 me-sm-4 list-box-large-box filter-toggle-flex">
-                    <a href="#"><i class="text-white hover-teal fs-2 me-3 fas fa-list"></i></a>
-                    <a href="#"><i class="text-white hover-teal fs-2 me-3 fas fa-th-large"></i></a>
-                    <a href="#"><i class="text-white hover-teal fs-2 me-0 fas fa-th"></i></a>
+                    <i class="text-white hover-teal fs-2 me-3 fas fa-list" @onclick="@(() => SetDisplay("list"))"></i>
+                    <i class="text-white hover-teal fs-2 me-3 fas fa-th-large" @onclick="@(() => SetDisplay("big"))"></i>
+                    <i class="text-white hover-teal fs-2 me-0 fas fa-th selected" @onclick="@(() => SetDisplay("small"))"></i>
                 </div>
 
                 <!-- Sorting Dropdown -->
@@ -160,7 +160,7 @@
                             <span class="filter-box-amount">12</span>
                         </div>
 
-                        <div class="filter-box-container text-box-container"
+                        <div class="filter-box-container text-box-container @(Category == "watches" ? "selected" : "")"
                              @onclick="@(() => ToggleCategoryFilter("Watches"))">
                             <div class="d-flex align-items-center">
                                 <p class="my-0 d-inline">Watches</p>
@@ -403,9 +403,25 @@
                             {
                                 @foreach (var product in _productViewModels)
                                 {
-                                    <div class="col">
-                                        <ProductCard Product="@product" @bind-ModalProduct="_modalProduct" />
-                                    </div>
+                                    @if (_display == "big")
+                                    {
+                                        <div class="col-6">
+                                            <ProductCard Product="@product" ClassName="large" />
+                                        </div>
+
+                                    }
+                                    else if (_display == "list")
+                                    {
+                                        <div class="col-12">
+                                            <ProductListCard Product="@product" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col">
+                                            <ProductCard Product="@product"/>
+                                        </div>
+                                    }
                                 }
                             }
                         }
@@ -428,8 +444,6 @@
     [Parameter]
     public string Category { get; set; }
 
-    private ProductViewModel _modalProduct;
-
     private List<ProductViewModel> _productViewModels;
 
     private List<string> _filterCategories;
@@ -439,9 +453,11 @@
     private int _take = 9;
     private int _page = 0;
 
+    private string _display = "small";
+
     private string _productsUrl;
 
-    private IJSObjectReference module;
+    private IJSObjectReference _module;
 
     protected override async Task OnInitializedAsync()
     {
@@ -451,7 +467,6 @@
         _filterColors = new();
         _filterSizes = new();
         _filterBrands = new();
-        _modalProduct = new ProductViewModel();
 
         if (!string.IsNullOrEmpty(Category))
         {
@@ -463,13 +478,15 @@
         {
             _productViewModels = await GetProductViewModelsAsync();
         }
-
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (module == null)
-            module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-filters.js");
+        if (firstRender)
+        {
+            _module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-filters.js");
+            await _module.InvokeVoidAsync("loadFilterUI");
+        }
     }
 
     private async Task<List<ProductViewModel>> GetProductViewModelsAsync()
@@ -518,8 +535,16 @@
         }
     }
 
-    private void SetTake(int take)
-        => _take = take;
+    private void SetDisplay(string mode)
+    {
+        _display = mode;
+    }
+
+    private async Task SetTake(int take)
+    {
+        _take = take;
+        await ApplyFiltersAsync();
+    }
 
     private void ToggleCategoryFilter(string category)
     {

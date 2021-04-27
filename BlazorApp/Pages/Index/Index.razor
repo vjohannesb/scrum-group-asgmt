@@ -31,7 +31,7 @@
     <ZigZagTitle BlackText="NEW" TealText="ARRIVALS" Subtitle="Check out our latest products from top fashion designers" />
 </div>
 <div class="my-5">
-    <ProductCarousel @bind-ModalProduct="_modalProduct" ProductList="all"/>
+    <ProductCarousel ProductList="all"/>
 </div>
 
 @* NEW CUSTOMERS 30% OFF *@
@@ -70,7 +70,7 @@
     <ZigZagTitle BlackText="FEATURED" TealText="PRODUCTS" Subtitle="Check out our monthly featured products from top brands" />
 </div>
 <div class="my-5">
-    <ProductCarousel @bind-ModalProduct="_modalProduct" ProductList="featured"/>
+    <ProductCarousel ProductList="featured"/>
 </div>
 
 
@@ -101,12 +101,12 @@
         <div class="row gx-0 justify-content-center">
 
             <div class="col-auto me-3">
-                <ProductCard Product="_products[0]" ClassName="h-100" @bind-ModalProduct="_modalProduct" />
+                <ProductCard Product="_products[0]" ClassName="h-100" />
             </div>
 
             <div class="col-auto d-flex flex-column">
-                <ProductCard Product="_products[1]" ClassName="h-50 mb-2" @bind-ModalProduct="_modalProduct" />
-                <ProductCard Product="_products[2]" ClassName="h-50 mt-2" @bind-ModalProduct="_modalProduct" />
+                <ProductCard Product="_products[1]" ClassName="h-50 mb-2" />
+                <ProductCard Product="_products[2]" ClassName="h-50 mt-2" />
             </div>
         </div>
     }

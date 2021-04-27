@@ -7,19 +7,19 @@
         {
             <div class="row row-cols-4">
                 <div class="col">
-                    <ProductCard Product="_products[_index % _products.Count]" @bind-ModalProduct="_childModal" />
+                    <ProductCard Product="_products[_index % _products.Count]" />
                 </div>
 
                 <div class="col">
-                    <ProductCard Product="_products[(_index + 1) % _products.Count]" @bind-ModalProduct="_childModal" />
+                    <ProductCard Product="_products[(_index + 1) % _products.Count]" />
                 </div>
 
                 <div class="col">
-                    <ProductCard Product="_products[(_index + 2) % _products.Count]" @bind-ModalProduct="_childModal" />
+                    <ProductCard Product="_products[(_index + 2) % _products.Count]" />
                 </div>
 
                 <div class="col">
-                    <ProductCard Product="_products[(_index + 3) % _products.Count]" @bind-ModalProduct="_childModal" />
+                    <ProductCard Product="_products[(_index + 3) % _products.Count]" />
                 </div>
             </div>
         }
@@ -29,23 +29,12 @@
 </div>
 
 @code {
-    [Parameter]
-    public ProductViewModel ModalProduct { get; set; }
-
-    [Parameter]
-    public EventCallback<ProductViewModel> ModalProductChanged { get; set; }
 
     [Parameter]
     public string ProductList { get; set; }
 
     [Parameter]
     public int RelatedProductId { get; set; }
-
-    private ProductViewModel _childModal
-    {
-        get => ModalProduct;
-        set => ModalProductChanged.InvokeAsync(value);
-    }
 
     private List<ProductViewModel> _products;
     private int _index;

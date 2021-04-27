@@ -120,7 +120,7 @@ else if (_loaded)
     <div class="my-5">
         <ZigZagTitle BlackText="you may" TealText="also like" />
     </div> 
-    <ProductCarousel @bind-ModalProduct="_modalProduct" ProductList="all"/>
+    <ProductCarousel ProductList="all"/>
 </section>
 
 
@@ -133,7 +133,6 @@ else if (_loaded)
     private CouponViewModel _coupon;
 
     private List<ProductViewModel> _products;
-    private ProductViewModel _modalProduct;
 
     private decimal _subTotal;
     private bool _loaded;
