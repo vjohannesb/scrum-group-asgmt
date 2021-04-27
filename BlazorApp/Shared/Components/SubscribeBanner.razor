@@ -8,8 +8,8 @@
                     Signup for awesome news about our products and all our special discounts.
                 </p>
                 <div class="subscribe-form mx-auto mx-lg-0">
-                    <input type="email" id="inputEmailSubscribe" placeholder="Enter email address">
-                    <button type="button" id="btnSubscribe">Subscribe</button>
+                    <input type="email" id="inputEmailSubscribe" placeholder="Enter email address" @bind="_inputEmailSubscribe">
+                    <button type="button" id="btnSubscribe" data-bs-toggle="modal" data-bs-target="#subscribeModal">Subscribe</button>
                 </div>
             </div>
             <div class="col subscribe-banner-container d-none d-lg-block">
@@ -18,3 +18,49 @@
         </div>
     </div>
 </article>
+
+@if (_inputEmailSubscribe == null)
+{
+    <!-- Modal -->
+    <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-teal" id="subscribeModalLabel">Invalid email adress!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Please enter a valid email adress.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSubscribe" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+else
+{
+    <!-- Modal -->
+    <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-teal" id="subscribeModalLabel">You have subscribed!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    You will get the latest news and discounts sent to the email adress you entered.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSubscribe" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private string _inputEmailSubscribe;
+}
