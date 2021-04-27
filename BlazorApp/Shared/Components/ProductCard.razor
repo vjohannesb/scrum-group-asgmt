@@ -80,6 +80,9 @@ else
     [Parameter]
     public ProductViewModel Product { get; set; }
 
+    [Parameter]
+    public string ClassName { get; set; }
+
     private bool checkWishlist { get; set; }
     private List<Tag> _modelTags { get; set; }
     private Tag _firstTag { get; set; }
