@@ -1,4 +1,8 @@
-﻿.product-name {
+﻿th {
+    cursor: pointer;
+}
+
+.product-name {
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
@@ -6,6 +10,13 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
 }
+
+    .product-name:hover {
+        text-decoration: underline;
+        -moz-text-decoration-color: var(--teal);
+        text-decoration-color: var(--teal);
+        color: var(--teal);
+    }
 
 i:hover {
     color: var(--teal);

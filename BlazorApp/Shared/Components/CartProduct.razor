@@ -10,7 +10,7 @@ else
         <i class="fas fa-times-circle" @onclick="RemoveProduct"></i>
     </td>
 
-    <th scope="row" class="d-flex align-items-center">
+    <th scope="row" class="d-flex align-items-center"  @onclick="GoToProduct">
         @*<img src=@Product.ProductImg alt="Product Image">*@
         <img src="https://via.placeholder.com/65/EEEEEE/20D3C2?text=@(Product.ProductName.Substring(0, 1).ToUpper())" alt="Product Image" />
         <div class="product-name ms-3">
@@ -44,5 +44,8 @@ else
 
         orderState.NotifyStateChanged();
     }
+
+    private void GoToProduct()
+        => navigationManager.NavigateTo($"products/{Product.ProductId}");
 
 }

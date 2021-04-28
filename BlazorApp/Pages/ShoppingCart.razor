@@ -184,11 +184,6 @@ else if (_loaded)
     private void GoToCheckout()
             => navigationManager.NavigateTo("/checkout");
 
-    //private void ApplyCoupon()
-    //{
-    //    Console.WriteLine($"Applied coupon: {_coupon.CouponCode}");
-    //}
-
     private void UpdateCart()
         => _subTotal = orderState.ShoppingCartProducts?.Sum(scp => scp.Price * scp.Quantity) ?? 0;
 
