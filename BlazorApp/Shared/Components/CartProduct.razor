@@ -1,4 +1,4 @@
-﻿@inject StateContainer stateContainer
+﻿@inject OrderState orderState
 
 @if (Product == null)
 {
@@ -6,14 +6,14 @@
 }
 else
 {
-    <td>
+    <td class="x-btn">
         <i class="fas fa-times-circle" @onclick="RemoveProduct"></i>
     </td>
 
-    <th scope="row">
+    <th scope="row" class="d-flex align-items-center">
         @*<img src=@Product.ProductImg alt="Product Image">*@
         <img src="https://via.placeholder.com/65/EEEEEE/20D3C2?text=@(Product.ProductName.Substring(0, 1).ToUpper())" alt="Product Image" />
-        <div class="product-name">
+        <div class="product-name ms-3">
             @Product.ProductName
         </div>
     </th>
@@ -36,13 +36,13 @@ else
 
     private async Task RemoveProduct()
     {
-        stateContainer.ShoppingCartProducts.Remove(Product);
+        orderState.ShoppingCartProducts.Remove(Product);
 
         var lsCart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
         lsCart = lsCart.Where(sci => sci.ProductId != Product.ProductId).ToList();
         await apiService.SaveToLocalStorageAsync<List<ShoppingCartItem>>("cart", lsCart);
 
-        stateContainer.NotifyStateChanged();
+        orderState.NotifyStateChanged();
     }
 
 }

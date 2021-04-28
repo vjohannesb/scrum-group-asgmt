@@ -8,26 +8,30 @@ namespace BlazorApp.Services
     {
         // Properties (samla alla URL:s på ett ställe)
         public string BaseUrl { get; }
+
+        // Customer URLs
         public string CustomersUrl { get; }
-        public string WishlistUrl { get; }
         public string SignInUrl { get; }
         public string RegisterUrl { get; }
+        public string ValidateTokenUrl { get; }
 
+        // Product URLs
         public string ProductsUrl { get; }
-        public string ProductUrl(int id);
         public string MultipleProductsUrl { get; }
-        public string RelatedProductsUrl(int id);
+        public string ProductUrl(int productId);
+        public string RelatedProductsUrl(int productId);
 
+        // Wishlist URLs
+        public string WishlistUrl { get; }
+        public string ProductInWishlistUrl(int productId);
+
+        // Order URLs
         public string OrdersUrl { get; }
         public string ShippingMethodsUrl { get; }
         public string PaymentMethodsUrl { get; }
 
-        public string AddWishlistUrl { get; }
-        public string CheckWishlistUrl { get; }
-        public string DeleteWishlistUrl { get; }
-        public string ProductModelsWishlistUrl { get; }
-        public string reviewModelUrl { get; }
-        public string changeCustomerNameUrl { get; }
+        // Review URLs
+        public string ReviewUrl { get; }
 
         // LocalStorage
         public Task SaveToLocalStorageAsync(string key, string value);
@@ -37,9 +41,6 @@ namespace BlazorApp.Services
         public Task<T> GetFromLocalStorageAsync<T>(string key);
 
 
-        // TOKEN
-        // TOKEN
-
         // API
         /// <summary>
         /// Allomfattande funktion vi kan använda på alla sidor för att skicka requests till API.
@@ -47,7 +48,7 @@ namespace BlazorApp.Services
         /// <param name="method">En HttpMethod som anger POST/GET/PUT/PATCH/DELETE. Ex. HttpMethod.Post</param>
         /// <param name="url">URL:en vi vill skicka requesten till. Ex. https://localhost:44306/api/customers/signin </param>
         /// <param name="serializeContent">Om det är något objekt vi vill skicka med så gör vi det här, exempelvis _signInModel, så konverteras det och läggs till korrekt i HTTP-Requesten</param>
-        /// <param name="auth">Om requesten kräver autentisering (detta ska läggas till senare med Token)</param>
+        /// <param name="auth">Om requesten kräver autentisering så lägger den till en Authorization-header med den Token som är sparad i LocalStorage</param>
         /// <example>
         /// <code>
         ///     var response = SendToApiAsync(HttpMethod.Post, SignInUrl, _signInModel);
@@ -61,12 +62,5 @@ namespace BlazorApp.Services
         public Task<HttpResponseMessage> SignInAsync(SignInModel model);
 
         public Task<HttpResponseMessage> RegisterAsync(RegisterModel model);
-
-        //public Task<HttpResponseMessage> AddToWishlist(int model);
-
-        public Task<bool> checkIfInWishlist(int model);
-        //public Task<HttpResponseMessage> DeleteFromWishlist(int model);
-
-
     }
 }

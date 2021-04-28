@@ -1,4 +1,4 @@
-﻿@inject StateContainer stateContainer
+﻿@inject ModalState modalState
 
 <div class="row product-list-card">
     <div class="col-6">
@@ -37,7 +37,7 @@
         => navigationManager.NavigateTo($"/products/{Product.ProductId}");
 
     private void UpdateModalProduct()
-        => stateContainer.ModalProduct = Product;
+        => modalState.ModalProduct = Product;
 
     private void ToggleWishlist()
     {

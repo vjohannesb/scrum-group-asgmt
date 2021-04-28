@@ -6,9 +6,9 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlazorApp.Services
+namespace BlazorApp.StateContainers
 {
-    public class StateContainer
+    public class OrderState
     {
         public OrderViewModel CompletedOrder { get; set; }
 
@@ -19,18 +19,6 @@ namespace BlazorApp.Services
             set
             {
                 _shoppingCartProducts = value;
-                NotifyStateChanged();
-            }
-        }
-
-
-        private ProductViewModel _modalProduct = new();
-        public ProductViewModel ModalProduct
-        {
-            get => _modalProduct;
-            set
-            {
-                _modalProduct = value;
                 NotifyStateChanged();
             }
         }

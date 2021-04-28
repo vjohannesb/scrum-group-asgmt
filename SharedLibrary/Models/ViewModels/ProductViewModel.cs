@@ -20,6 +20,8 @@ namespace SharedLibrary.Models.ViewModels
         public int InStock { get; set; }
         public DateTime DateTimeCreated { get; set; }
 
+        public bool IsInWishlist { get; set; }
+
         public Brand Brand { get; set; }
         public IEnumerable<Color> Colors { get; set; }
         public IEnumerable<Size> Sizes { get; set; }

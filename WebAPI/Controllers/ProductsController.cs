@@ -9,6 +9,8 @@ using SharedLibrary.Models.ViewModels;
 using SharedLibrary.Models.ProductModels;
 using Microsoft.EntityFrameworkCore.Query;
 using SharedLibrary.Models;
+using SharedLibrary.Models.CustomerModels;
+using WebAPI.Services;
 
 namespace WebAPI.Controllers
 {
@@ -18,22 +20,21 @@ namespace WebAPI.Controllers
     {
         private readonly SqlDbContext _context;
 
-        public ProductsController(SqlDbContext context)
+        public ProductsController(SqlDbContext context, IIdentityService identity)
         {
             _context = context;
         }
 
-        // Använd denna istället för _context.Products!
-        // ex: var products = await ProductContext().ToListAsync();
-        // eller som jag gjort i GetProducts
+        // Går att använda istället för _context.Products, latmanlösning
         private IIncludableQueryable<Product, Tag> ProductContext()
             => _context.Products
                     .Include(p => p.Brand)
+                    .Include(p => p.Reviews)
                     .Include(p => p.ProductColors).ThenInclude(pc => pc.Color)
                     .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
                     .Include(p => p.ProductTags).ThenInclude(pt => pt.Tag);
 
-        // GET: api/Products
+        // GET: api/Products m. valfria query-parametrar
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts(
             string categories = null,
@@ -49,6 +50,7 @@ namespace WebAPI.Controllers
             if (categories?.Length + colors?.Length + sizes?.Length == 0 && !inStock)
                 return await ProductContext().Select(p => new ProductViewModel(p)).ToListAsync();
 
+            // Filtrera produkter
             var categoryList = categories?.ToLower().Split(",");
             var colorList = colors?.ToLower().Split(",");
             var sizeList = sizes?.ToLower().Split(",");
@@ -74,7 +76,7 @@ namespace WebAPI.Controllers
 
             if (inStock)
                 products = products.Where(p => p.InStock > 0);
-                
+
             return products.Skip(from).Take(take).ToList();
         }
 
@@ -90,24 +92,6 @@ namespace WebAPI.Controllers
             }
 
             return NotFound();
-        }
-
-        [HttpGet("getWishlist")]
-        public async Task<IEnumerable<Product>> GetProductsWishlist()
-        {
-            List<Product> list = new List<Product>();
-            var test = await _context.Products.ToListAsync();
-            foreach (var product in test)
-            {
-                try
-                {
-                    if (_context.Wishlists.Any(w => w.ProductId == product.ProductId))
-                         list.Add(product);
-                }
-                catch { }
-            }
-            
-            return list;
         }
 
         // GET Products api/Products/search
@@ -167,145 +151,9 @@ namespace WebAPI.Controllers
         // return result;
         // }
 
-
-        /* Dessa kan nu ersättas med _context.Products.Include(p => p.ProductColors)...
-        [HttpGet("getProductById")]
-        public async Task<ActionResult<Product>> GetProductById(int id)
-        {
-            if (_context.Products.Any())
-            {
-                var productModel = await _context.Products.FindAsync(id);
-                if (productModel != null)
-                {
-                    return productModel;
-                }
-            }
-
-            return null;
-        }
-        
-        [HttpGet("getTagsById")]
-        public async Task<ActionResult<List<ProductTag>>> getTagsById(int id)
-        {
-            if (_context.Products.Any() && _context.Tags.Any())
-            {
-                var list = new List<ProductTag>();
-                var modelTagList = new List<ProductTag>();
-
-                foreach (var mtag in _context.ProductTags)
-                {
-                    if (mtag.ProductId == id)
-                    {
-                        modelTagList.Add(mtag);
-                    }
-                }
-                foreach (var mtagItem in modelTagList)
-                {
-                    if (mtagItem.ProductId == id)
-                    {
-                        ProductTag tag = new ProductTag();
-                        foreach (Tag t in _context.Tags)
-                        {
-                            if (t.TagId == mtagItem.TagId)
-                            {
-                                tag = t;
-                            }
-                        }
-                        var addTag = new Tag()
-                        {
-                            TagName = tag.TagName
-                        };
-
-                        list.Add(addTag);
-                    }
-                }
-
-                if (list != null)
-                {
-                    return list;
-                }
-            }
-
-            return null;
-        }
-
-        [HttpGet("getReviewsById")]
-        public async Task<ActionResult<List<ReviewModel>>> getReviewsById(int id)
-        {
-            if (_context.Products.Any() && _context.Reviews.Any())
-            {
-                var list = new List<ReviewModel>();
-                var reviewList = new List<Review>();
-
-                foreach (Review rev in _context.Reviews)
-                {
-                    if (rev.ProductId == id)
-                    {
-                        reviewList.Add(rev);
-                    }
-                }
-                foreach (Review revitem in reviewList)
-                {
-                    if (revitem.ProductId == id)
-                    {
-                        Customer customer = new Customer();
-                        foreach (Customer cust in _context.Customers)
-                        {
-                            if (cust.CustomerId == revitem.CustomerId)
-                            {
-                                customer = cust;
-                            }
-                        }
-                        var reviewModel = new ReviewModel()
-                        {
-                            ProductId = id,
-                            Name = customer.FirstName,
-                            Email = customer.Email,
-                            Text = revitem.Text,
-                            Rating = revitem.Rating
-                        };
-
-                        list.Add(reviewModel);
-                    }
-                }
-
-                if (list != null)
-                {
-                    return list;
-                }
-            }
-
-            return null;
-        }
-
-        [HttpGet("getProductsByProductId")]
-        public async Task<ActionResult<List<Product>>> GetProducts(int id)
-        {
-            if (_context.Products.Any() && _context.Products.Any())
-            {
-                var list = new List<Product>();
-                foreach (Product prod in _context.Products)
-                {
-                    if (prod.ProductId == id)
-                    {
-                        list.Add(prod);
-                    }
-                }
-                if (list != null)
-                {
-                    return list;
-                }
-            }
-
-            return null;
-        }
-
-        */
-
-
-
+        // Hämta flera produkter samtidigt, från ShoppingCart
         [HttpPost("multi")]
-        public async Task<ActionResult<List<ProductViewModel>>> GetMultipleProducts([FromBody] List<ShoppingCartItem> cart) 
+        public async Task<ActionResult<List<ProductViewModel>>> GetMultipleProducts([FromBody] List<ShoppingCartItem> cart)
         {
             var ids = cart.Select(sci => sci.ProductId).ToArray();
             if (ids.Length < 1)
@@ -351,21 +199,36 @@ namespace WebAPI.Controllers
             return Ok(productViewModels);
         }
 
-        //POST Products
+
+
+
+        // POST Products
         [HttpPost]
         public async Task<ActionResult<Product>> PostProducts(Product product)
         {
             product.DateTimeCreated = DateTime.Now;
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
 
-            return Ok(product);
-    }
+                return Ok(product);
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine(ex);
+            }
 
+            return BadRequest();
+        }
+
+
+        /**** Product-info (colors, sizes, brands, tags) ****/
+        /**** Product-info (colors, sizes, brands, tags) ****/
         // POST Color
         [HttpPost("color")]
         public async Task<ActionResult<Color>> PostColor(Color color)
-        {  
+        {
             if (!_context.Colors.Any(c => c.ColorName == color.ColorName))
             {
                 _context.Colors.Add(color);
@@ -373,9 +236,9 @@ namespace WebAPI.Controllers
 
                 return Ok(color);
             }
-         
+
             return BadRequest();
-        }  
+        }
 
         // POST Size
         [HttpPost("size")]
@@ -408,7 +271,7 @@ namespace WebAPI.Controllers
         // POST: Tags
         [HttpPost("tags")]
         public async Task<ActionResult<ProductTag>> PostTags(Tag tag)
-        {          
+        {
             if (!_context.Tags.Any(t => t.TagName == tag.TagName))
             {
                 _context.Tags.Add(tag);
@@ -417,28 +280,6 @@ namespace WebAPI.Controllers
                 return Ok(tag);
             }
             return BadRequest();
-
-        }
-
-        // POST: Reviews
-        [HttpPost("registerReview")]
-        public async Task<ActionResult<ReviewModel>> PostReview(ReviewModel reviewModel)
-        {
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(c => c.Email == reviewModel.Email);
-
-            Review review = new Review()
-            {
-                CustomerId = customer.CustomerId,
-                ProductId = reviewModel.ProductId,
-                ReviewText = reviewModel.Text,
-                Rating = reviewModel.Rating,
-                Likes = 0
-            };
-            _context.Reviews.Add(review);
-            await _context.SaveChangesAsync();
-
-            return Ok(review);
         }
 
         // POST: Coupon - Skapa nytt rabattkod och spara i databasen
@@ -453,25 +294,6 @@ namespace WebAPI.Controllers
             }
             return BadRequest();
 
-        }
-
-        [HttpPut("ChangeNameCustomer")]
-        public async Task<IActionResult> ChangeNameCustomer(ReviewModel revmodel)
-        {
-            var user = await _context.Customers.FirstOrDefaultAsync(u => u.Email == revmodel.Email);
-            user.FirstName = revmodel.Name;
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-
-            catch (DbUpdateConcurrencyException)
-            {
-                return NotFound();
-            }
-            return NoContent();
         }
 
     }

@@ -1,8 +1,9 @@
 @inject HttpClient Http
-@inject StateContainer stateContainer
+@inject ModalState modalState
+@inject OrderState orderState 
 @implements IDisposable
 
-<ProductDetailsModal Product=@stateContainer.ModalProduct />
+<ProductDetailsModal Product=@modalState.ModalProduct />
 <div>
     <div class="top-menu bg-teal d-flex justify-content-between align-items-center">
         <div class="container d-flex justify-content-between align-items-center p-0">
@@ -101,7 +102,7 @@
             <a class="little-box" href="/shoppingcart">
                 <i class="fas fa-shopping-bag"></i>
                 <div class="little-circle d-flex justify-content-center align-items-center">
-                    <p class="mb-0 text-light">@(stateContainer.ShoppingCartProducts?.Count ?? 0) </p>
+                    <p class="mb-0 text-light">@(orderState.ShoppingCartProducts?.Count ?? 0) </p>
                 </div>
             </a>
             <div class="ms-2">$0.00</div>
@@ -201,25 +202,27 @@
     {
         _searchQuery = new SearchQuery();
 
-        stateContainer.OnChange += StateHasChanged;
+        modalState.OnChange += StateHasChanged;
+        orderState.OnChange += StateHasChanged;
 
         // "Backup" ifall man refreshar sidan och StateContainer har återställts
         // så kollar den ifall det finns produkter sparat i LocalStorage
-        if (stateContainer?.ShoppingCartProducts == null)
+        if (orderState?.ShoppingCartProducts == null)
         {
             var cart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
             if (cart?.Count > 0)
             {
                 var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.MultipleProductsUrl, cart);
                 if (response.IsSuccessStatusCode)
-                    stateContainer.ShoppingCartProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+                    orderState.ShoppingCartProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
             }
         }
     }
 
     public void Dispose()
     {
-        stateContainer.OnChange -= StateHasChanged;
+        modalState.OnChange -= StateHasChanged;
+        orderState.OnChange -= StateHasChanged;
     }
 
     private void NavigateToSearchResult()

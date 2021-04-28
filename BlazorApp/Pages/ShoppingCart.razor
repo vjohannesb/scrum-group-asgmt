@@ -1,11 +1,11 @@
 ﻿@page "/shoppingcart"
-@inject StateContainer stateContainer
+@inject OrderState orderState
 @implements IDisposable
 @inject HttpClient Http
 
 <CheckoutBreadcrumb />
 
-@if (stateContainer?.ShoppingCartProducts == null || stateContainer?.ShoppingCartProducts?.Count < 1)
+@if (orderState?.ShoppingCartProducts == null || orderState?.ShoppingCartProducts?.Count < 1)
 {
     <p class="text-center mt-5">There are no products in your shopping cart.</p>
 }
@@ -27,7 +27,7 @@ else if (_loaded)
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var product in stateContainer.ShoppingCartProducts)
+                            @foreach (var product in orderState.ShoppingCartProducts)
                             {
                                 <tr>
                                     <CartProduct Product="@product" />
@@ -81,7 +81,7 @@ else if (_loaded)
                     <div class="row justify-content-between fw-bold">
                         <div class="col-auto">Subtotal</div>
                         <div class="col-auto text-teal">
-                            $@(stateContainer.ShoppingCartProducts.Sum(scp => scp.Price * scp.Quantity))
+                            $@(orderState.ShoppingCartProducts.Sum(scp => scp.Price * scp.Quantity))
                         </div>
                     </div>
 
@@ -119,9 +119,9 @@ else if (_loaded)
 
                         <div class="col-auto">
                             <div class="d-flex flex-row-reverse">
-                                <span style="color: red; font-size: 15px">@(stateContainer.CouponDiscount > 0 ? $"-${stateContainer.CouponDiscount}" : null)</span>
+                                <span style="color: red; font-size: 15px">@(orderState.CouponDiscount > 0 ? $"-${orderState.CouponDiscount}" : null)</span>
                             </div>
-                            <span class="text-teal">$@((_subTotal - stateContainer.CouponDiscount) + _shippingMethods[_selectedShippingId].Price)</span>
+                            <span class="text-teal">$@((_subTotal - orderState.CouponDiscount) + _shippingMethods[_selectedShippingId].Price)</span>
                         </div>
                     </div>
 
@@ -164,12 +164,12 @@ else if (_loaded)
     private bool _loaded;
 
     public void Dispose()
-        => stateContainer.OnChange -= StateHasChanged;
+        => orderState.OnChange -= StateHasChanged;
 
     protected override async Task OnInitializedAsync()
     {
         _coupon = new Coupon();
-        stateContainer.OnChange += StateHasChanged;
+        orderState.OnChange += StateHasChanged;
 
         await GetProductsAsync();
         await GetShippingMethodsAsync();
@@ -190,7 +190,7 @@ else if (_loaded)
     //}
 
     private void UpdateCart()
-        => _subTotal = stateContainer.ShoppingCartProducts?.Sum(scp => scp.Price * scp.Quantity) ?? 0;
+        => _subTotal = orderState.ShoppingCartProducts?.Sum(scp => scp.Price * scp.Quantity) ?? 0;
 
 
 
@@ -219,7 +219,7 @@ else if (_loaded)
 
         foreach (var item in coupons)
         {
-            stateContainer.CouponDiscount = item.CouponDiscount;
+            orderState.CouponDiscount = item.CouponDiscount;
         }
     }
 }

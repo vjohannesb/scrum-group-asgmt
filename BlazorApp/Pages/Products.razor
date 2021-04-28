@@ -1,1322 +1,252 @@
 ﻿@page "/products/{Id:int}"
-@inject HttpClient Http;
+@inject OrderState orderState
 
-<div class="container">
-    <div class="row">
+@if (_loaded)
+{
 
-        <!-- Component 2 -->
-        <div class="col-lg-5">
-            <div class="d-flex">
-                <img src="/src/img/products/Product-thumb.svg" alt="product img">
-                <div class="d-flex flex-column p-3 justify-content-between">
-                    <img src="/src/img/products/small-shoes-1.svg" alt="shoes 1">
-                    <img src="/src/img/products/small-shoes-2.svg" alt="shoes 2">
-                    <img src="/src/img/products/small-shoes-3.svg" alt="shoes 3">
-                    <img src="/src/img/products/small-shoes-4.svg" alt="shoes 4">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-5 col-lg-8 col-md-12 ">
-            <div class="row">
-                <div>
-                    <h1 class="Roboto-medium-24">@model.ProductName</h1>
-                    <p class="Roboto-regular-16">
-                        @model.ProductDescription
-                    </p>
-                    <hr>
-                </div>
-            </div>
-            <!-- Component 3 -->
-            <div class="row">
-                <div class="d-flex justify-content-start align-items-center">
-                    <div class="col-3">
-                        <span class="Roboto-medium-24">@model.Discount</span>
-                    </div>
-                    <div class="col-2">
-                        <span class="Roboto-regular-16 gray line-through">@model.Price</span>
-                    </div>
-                    <div class="col-2">
-                        <div class="d-flex justify-content-start align-items-center">
-                            @*<img src="/src/img/products/stock-image.svg" alt="stock-image">*@
-                            @if(stock.Contains("In stock")){
-                                 <i class="fas fa-signal greenStock"></i>
-                            }
-                            else if(stock.Contains("Few in stock")){
-                                 <i class="fas fa-signal yellowStock"></i>
-                            }
-                            else{
-                                <i class="fas fa-signal redStock"></i>
-                            }
-                            <span class="p-1 Roboto-regular-16">@stock</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Component 4 -->
-            <div class="row">
-                <div class="d-flex mt-3">
-
-
-
-                    <div class="col-3">
-                        <div class="d-flex h-100">
-                            <div class="d-flex align-items-center justify-conent-center Roboto-regular-16"
-                                 id="decrement-box" @onclick='(() => ChangeProductAmount(false))'>
-                                <span class="padding-lr">-</span>
-                            </div>
-                            <div class="d-flex align-items-center justify-conent-center Roboto-regular-16"
-                                 id="amount-placeholder-box">
-                                <span class="padding-lr">@productAmount</span>
-                            </div>
-
-                            <div class="d-flex align-items-center justify-conent-center Roboto-regular-16"
-                                 id="increment-box" @onclick='(() => ChangeProductAmount(true))'>
-                                <span class="padding-lr">+</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-5">
-                        <div id="add-to-cart" class="teal-bg Roboto-regular-16">
-                            <img class="m-1" src="/src/img/products/cart.svg" alt="cart">
-                            <span class="white">Add to cart</span>
-                        </div>
-
-                    </div>
-
-
-                    <div class="d-flex justify-content-around">
-                        <div class="col-5">
-                            <img src="/src/img/products/Color icon.svg" alt="color icon">
-                        </div>
-                        <div class="col-5">
-                            <img src="/src/img/products/Compare icon.svg" alt="compare icon">
-                        </div>
-                        
-                        <div class="col-5">
-                            @*<img src="/src/img/products/add-wishlist.svg" alt="wishlist icon">*@
-                            <i class="fas fa-heart @(checkWishlist ? "" : "text-teal")" @onclick='(() => checkIfActive(model.ProductId))'></i>
-                        </div>
-                    </div>
-
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Category -->
-
-            <div class="row mt-3">
-                <span class="Roboto-regular-16">Category: <span class="teal">@model.Category</span></span>
-            </div>
-
-            <!-- Tags -->
-            <div class="row mt-4">
-                <div class="d-flex">
-                    <span class="Roboto-regular-16">
-                        Tags:
-
-                        @foreach(var tag in _tags)
-                        {
-                            <span class="Roboto-regular-12 tags-border">@tag.TagName</span>
-                        }
-                    </span>
-                </div>
-            </div>
-
-            <!-- Share -->
-            <div class="row mt-5">
-                <div class="d-flex">
-                    <span class="Roboto-regular-16">
-                        Share:
-                        <img class="m-1" src="/src/img/products/social-button1.svg" alt="social 1">
-                        <img class="m-1" src="/src/img/products/social-button2.svg" alt="social 2">
-                        <img class="m-1" src="/src/img/products/social-button3.svg" alt="social 3">
-                        <img class="m-1" src="/src/img/products/social-button4.svg" alt="social 4">
-                        <img class="m-1" src="/src/img/products/social-button5.svg" alt="social 5">
-                    </span>
-                </div>
-            </div>
+    <div class="container">
+        <div class="row">
+            <ProductDetails Product="_product" DetailsPage="true" />
         </div>
     </div>
 
 
     <!-- Tabs -->
-    <div class="row">
-        <div class="d-flex mt-5 container justify-content-between">
-          <div class="tabs">
-          <input type="radio" name="tabs" id="tabone" checked="checked">
-          <label for="tabone" class="Roboto-regular-16 teal-bg">Description</label>
-          <div class="tab">
-            <h1>Description</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
-
-          <input type="radio" name="tabs" id="tabtwo" checked="checked">
-          <label for="tabtwo" class="Roboto-regular-16 teal-bg">Additional Information</label>
-          <div class="tab">
-            <h1>Additional Information</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
-  
-          <input type="radio" name="tabs" id="tabthree" checked="checked">
-          <label for="tabthree" class="Roboto-regular-16 teal-bg">Reviews (@_reviews.Count)</label>
-          <div class="tab">
-            
-                  <div class="row">
-        <div class="col">
-            <div class="row mt-5">
-                <div class="col">
-                    <span class="Roboto-regular-18 teal">@_reviews.Count reviews for </span>
-                    <span class="Roboto-regular-18">@model.ProductName</span>
-                </div>
-            </div>
-
-            @foreach(var rev in _reviews)
-            {
-                <div class="row mt-5">
-                    <div class="col-2">
-                        <img src="/src/img/products/user-profile-pic.svg" alt="profile picture">
+    <div class="container">
+        <div class="row">
+            <div class="d-flex mt-5 container justify-content-between">
+                <div class="tabs">
+                    <input type="radio" name="tabs" id="tabone" checked />
+                    <label class="tab-label" for="tabone">Description</label>
+                    <div class="tab">
+                        <h1 class="mt-3">Description</h1>
+                        <p>@_product.ProductDescription</p>
                     </div>
-                    <div class="col-9">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="d-inline-flex">
-                                    <span class="Roboto-bold-16 teal">@rev.Name</span>
-                                    <span class="Roboto-regular-14 gray"> - 24 July, 2020</span>
 
+                    <input type="radio" name="tabs" id="tabtwo" />
+                    <label class="tab-label" for="tabtwo">Additional Information</label>
+                    <div class="tab">
+                        <h1 class="mt-3">Additional Information</h1>
+                        <p>@_product.AdditionalInfo</p>
+                    </div>
+
+                    <input type="radio" name="tabs" id="tabthree" />
+                    <label class="tab-label" for="tabthree">Reviews (@_product.Reviews.Count())</label>
+                    <div class="tab">
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="row mt-5">
+                                    <div class="col fs-18">
+                                        <span class="text-teal">@_product.Reviews.Count() @PluralizeReviews() for </span>
+                                        <span class="fs-5">@_product.ProductName</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col d-inline-flex align-items-center flex-row-reverse">
-                                @for(int i = 4; i >= 0; i--){
-                                    if(i >= rev.Rating){
-                                        <i class="far fa-star"></i> 
-                                    }
-                                    else{
-                                       <i class="far fa-star teal"></i>
-                                    }    
+
+                                @foreach (var review in _product.Reviews)
+                                {
+                                    <div class="row mt-5">
+                                        <div class="col-auto">
+                                            <img class="rounded-3" src="https://via.placeholder.com/70/EEEEEE/20D3C2?text=@review.CustomerName.Split(" ")[0].Substring(0, 1)" alt="Profile" />
+                                        </div>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-inline-flex align-items-center">
+                                                        <span class="fw-bold text-teal">@review.CustomerName</span>
+                                                        <span class="ms-2 text-dark-gray fs-7">@review.Created.ToString("dd MMMM, yyyy")</span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col d-inline-flex align-items-center flex-row-reverse">
+                                                    <Rating Stars="review.Rating" Size="1" SpaceBetween="0.125" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col mt-2">
+                                                    @review.ReviewText
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 }
                             </div>
+
+                            <div class="col mt-5">
+                                <EditForm Model="@_reviewModel" OnValidSubmit="@RegisterReview">
+                                    <DataAnnotationsValidator />
+                                    <div class="add-review-form">
+                                        <h4 class="text-teal">Add a review</h4>
+                                        <p class="fs-7 text-dark-gray">
+                                            Your email address will not be published. Required fields are marked
+                                            <span class="ms-1 text-teal">*</span>
+                                        </p>
+                                        <div>
+                                            <span class="mr-2">
+                                                Your rating<span class="ms-1 text-teal">*</span>
+                                            </span>
+
+                                            <i class="fa-star @(_reviewModel.Rating >= 1 ? "fas" : "far")" @onclick="() => SetRating(1)" />
+                                            <i class="fa-star @(_reviewModel.Rating >= 2 ? "fas" : "far")" @onclick="() => SetRating(2)" />
+                                            <i class="fa-star @(_reviewModel.Rating >= 3 ? "fas" : "far")" @onclick="() => SetRating(3)" />
+                                            <i class="fa-star @(_reviewModel.Rating >= 4 ? "fas" : "far")" @onclick="() => SetRating(4)" />
+                                            <i class="fa-star @(_reviewModel.Rating >= 5 ? "fas" : "far")" @onclick="() => SetRating(5)" />
+
+                                        </div>
+                                        <div class="mt-3">
+                                            <label class="form-label" for="reviewText">Your review<span class="ms-1 text-teal">*</span></label><br>
+                                            <InputTextArea rows="10" class="review-input form-control form" type="text" id="reviewText" required
+                                                           @bind-Value="_reviewModel.ReviewText" />
+                                            <ValidationMessage For="() => _reviewModel.ReviewText" />
+                                        </div>
+
+                                        @if (_alreadyReviewed)
+                                        {
+                                            <div class="mt-3 alert alert-danger">
+                                                You have already reviewed this product. You may only submit one review per product.
+                                            </div>
+                                        }
+
+                                        @if (_signedIn)
+                                        {
+                                            <div>
+                                                <button type="submit" class="mt-3 submit-button w-100" disabled=@(_alreadyReviewed || _submitting)>
+                                                    ADD REVIEW
+                                                </button>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                <button type="button" class="mt-3 submit-button w-100" @onclick="GoToSignIn">
+                                                    Sign in to leave a review
+                                                </button>
+                                            </div>
+                                        }
+
+
+                                    </div>
+                                </EditForm>
+                            </div>
                         </div>
-                        <div class="row">
-                            <p class="Roboto-regular-16 col">
-                                @rev.Text
-                            </p>
-                        </div>
+                    </div>
 
+                    <input type="radio" name="tabs" id="tabfour" />
+                    <label class="tab-label" for="tabfour">About Brand</label>
+                    <div class="tab">
+                        <h1 class="mt-3">About Brand</h1>
+                        <p>@_product.Brand.BrandDescription</p>
                     </div>
-                </div>             
-            }
-        </div>
-
-        <div class="col mt-5">
-            <EditForm Model="@_reviewModel" OnValidSubmit="@RegisterReview">
-                <DataAnnotationsValidator />
-                <div class="add-review-form">
-                    <p class="Roboto-medium-24 teal">Add a review </p>
-                    <p class="Roboto-regular-14 gray">
-                        Your email address will not be published. Required fields are
-                        marked *
-                    </p>
-                    <div>
-                        <span class="Roboto-regular-16 mr-2">Your rating<span class="teal">*</span>:</span>
-                        <i class="far fa-star star-rating" @onclick="@(e => GetRating(1))"></i>
-                        <i class="far fa-star star-rating" @onclick="@(e => GetRating(2))"></i>
-                        <i class="far fa-star star-rating" @onclick="@(e => GetRating(3))"></i>
-                        <i class="far fa-star star-rating" @onclick="@(e => GetRating(4))"></i>
-                        <i class="far fa-star star-rating" @onclick="@(e => GetRating(5))"></i>
-                    </div>
-                    <div class="mt-3">
-                        <p Roboto-regular-16" for="firstName">Your review<span class="teal">*</span></p><br>
-                        <InputTextArea rows="10" class="review-input form-control form" type="text" id="firstName" required
-                                   @bind-Value="_reviewModel.Text" />
-                        <ValidationMessage For="() => _reviewModel.Text" />
-                    </div>
-                    <div class="mt-4">
-                        <p for="lastName">Name<span class="teal">*</span></p><br>
-                        <InputText class="review-input Roboto-regular-16 form-control form" type="text" id="lastName" required
-                                   @bind-Value="_reviewModel.Name" />
-                        <ValidationMessage For="() => _reviewModel.Name" />
-                    </div>
-                    <div class="mt-4">
-                        <p for="lastName">Email<span class="teal">*</span></p><br>
-                        <InputText class="review-input Roboto-regular-16 form-control form" type="text" id="lastName" required
-                                   @bind-Value="_reviewModel.Email" />
-                        <ValidationMessage For="() => _reviewModel.Email" />
-                    </div>
-@*Ta med????*@
-  @*                  <div class="mt-3">
-                        <InputText class="review-input Roboto-regular-16 form-control form" type="checkbox" id="lastName" required
-                                   @bind-Value="_reviewModel.SaveName" />
-                        <span class="Roboto-regular-16 m-3">
-                        Save my name, email, and website in this browser for the
-                        next time I comment.
-                        </span>
-                        <ValidationMessage For="() => _reviewModel.LastName" />
-                    </div>*@
-
-
-                    <div>
-                        <button type="submit" class="mt-4 Roboto-regular-16 submit-button" disabled=@_submitting>ADD REVIEW</button>
-                    </div>
-                    
-
                 </div>
-            </EditForm>
+            </div>
         </div>
     </div>
-          </div>
-
-          <input type="radio" name="tabs" id="tabfour" checked="checked">
-          <label for="tabfour" class="Roboto-regular-16 teal-bg">About Brand</label>
-          <div class="tab">
-            <h1>About Brand</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
-        </div>
-        </div>
-    </div>
-
-
-
+}
 
 <!-- Komponent från Alex med lite modifiering-->
-<div class="navy-bg p-3 mb-5">
-<Shipping_banner/>
-  @*  <div class="d-flex justify-content-between m-5">
-        <div class="box d-flex p-3 align-items-center white-bg m-3">
-            <span id="box-img-pack" class="icon box-img"></span>
-            <div class="box-text">
-                <div><span class="Roboto-medium-16">Free shipping</span></div>
-                <span class="Roboto-regular-16">For a local customer, we provide free shipping facility</span>
-            </div>
-        </div>
-        <div class="box d-flex p-4 align-items-center white-bg m-3">
-            <img id="box-img-clock" class="box-img" alt="box">
-            <div class="box-text">
-                <div><span class="Roboto-medium-16">24/7 support</span></div>
-                <span class="Roboto-regular-16">For any inquiry, we are available 24 hours every day</span>
-            </div>
-        </div>
-        <div class="box d-flex p-4 align-items-center white-bg m-3">
-            <img id="box-img-pay" class="box-img" alt="box">
-            <div class="box-text">
-                <div><span class="Roboto-medium-16">Online Payment</span></div>
-                <span class="Roboto-regular-16">You can pay quickly and easily with our online payment system</span>
-            </div>
-        </div>
-        <div class="box d-flex p-4 align-items-center white-bg m-3">
-            <img id="box-img-time" class="box-img" alt="box">
-            <div class="box-text">
-                <div><span class="Roboto-medium-16">Fast Delivery</span></div>
-                <span class="Roboto-regular-16">We understand your urgency and we deliver in a fast way</span>
-            </div>
-        </div>
-    </div>*@
+<div class="bg-indigo py-5 my-5">
+    <USPBanner />
 </div>
 
 <!-- YOU MAY ALSO LIKE -->
-<div class="container">
-    <div class="d-flex justify-content-center">
-        <div>
-            <div class="Roboto-play-bold-36">
-                <span>
-                    YOU MAY
-                    <span class="teal">ALSO LIKE</span>
-                </span>
-            </div>
-            <div class="d-flex justify-content-center">
-                <img src="/src/img/products/squiggly-line.svg" alt="line">
-            </div>
-        </div>
+<div class="mt-5 pt-5">
+    <ZigZagTitle BlackText="you may" TealText="also like" />
+    <div class="mt-3">
+        <ProductCarousel ProductList="all" />
     </div>
 </div>
 
-
-
-<div class="container mt-5">
-    <!-- Carousel från Alex + Johannes med modifiering -->
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false">
-        <div class="row">
-            <!-- First Carousel item -->
-            <div class="carousel-inner">
-                <div class="carousel-item active ">
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="prod-card">
-                                <div class="start-card p-0 ">
-                                    <div>
-                                        
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-center align-items-center">
-                                        <img class="d-block" src="/src/img/products/product-hat.svg">
-                                    </div>
-                                    <div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="hover-card p-0 ">
-                                    <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                        <div class="fill"></div>
-                                        <div class="text d-flex flex-column">
-                                            <p class="m-1">New look men's coat</p>
-                                            <p class="m-1 fashion-border">Fashion</p>
-                                            <p class="m-1"><strike>$220.00</strike></p>
-                                            <p class="m-1 teal">$190.00</p>
-                                        </div>
-                                    </div>
-                                    <!-- Ikon-funktion: johannes -->
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div>
-                                            <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                                <p class="mb-0 text-light">NEW</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img src="/src/img/products/product-shoes.svg">
-                                        </div>
-                                        <div>
-                                            <div class="textbox-prod navy-color d-flex align-items-center">
-                                                <p class="text-light mt-0 mb-0">New look men's coat</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div>
-                                            <div class="green-bg small-circle d-flex justify-content-center align-items-center">
-                                                <p class="mb-0 text-light">-20%</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-dress.svg">
-                                        </div>
-                                        <div>
-                                            <div class="textbox-prod navy-color d-flex align-items-center">
-                                                <p class="text-light mt-0 mb-0">Circle pattern girls shirt</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">Circle pattern girls shirt</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div>
-                                            <div class="green-bg small-circle d-flex justify-content-center align-items-center">
-                                                <p class="mb-0 text-light font-r">-20%</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-dress.svg">
-                                        </div>
-                                        <div>
-                                            <div class="textbox-prod navy-color d-flex align-items-center">
-                                                <p class="text-light mt-0 mb-0">Circle pattern girls shirt</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">Circle pattern girls shirt</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Second Carousel item -->
-                <div class="carousel-item">
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="d-block ">
-                                <div class="prod-card">
-                                    <div class="start-card">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Third Carousel item -->
-                <div class="carousel-item">
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="next">
-            <span class="" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-
-
-        <div class="row">
-            <div class="carousel-indicators m-0">
-                <button id="test" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                        class="active" aria-current="true" aria-label="Slide 1">
-                    <div class="dot rounded middle-gray-bg"></div>
-                </button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        aria-label="Slide 2">
-                    <div class="dot rounded middle-gray-bg"></div>
-                </button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                        aria-label="Slide 3">
-                    <div class="dot rounded middle-gray-bg"></div>
-                </button>
-            </div>
-        </div>
-
-    </div>
-</div>
+<div class="my-3 py-3" />
 
 <!-- RELATED PRODUCTS -->
-<div class="container">
-    <div class="d-flex justify-content-center">
-        <div>
-            <div class="Roboto-play-bold-36">
-                <span>
-                    RELATED
-                    <span class="teal">PRODUCTS</span>
-                </span>
-            </div>
-            <div class="d-flex justify-content-center">
-                <img src="/src/img/products/squiggly-line.svg" alt="line">
-            </div>
-        </div>
+<div class="mt-5 pt-5">
+    <ZigZagTitle BlackText="related" TealText="products" />
+    <div class="mt-3">
+        <ProductCarousel ProductList="related" RelatedProductId="Id" />
     </div>
 </div>
 
-<div class="container mt-5">
-    <!-- Carousel från Alex + Johannes med modifiering -->
-    <div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="false">
-        <div class="row">
-            <div class="carousel-inner">
-                <div class="carousel-item active ">
-                    <div class="row">
-                        <div class="col-3">
-
-                            <div class="prod-card">
-                                <div class="start-card rounded p-0 ">
-                                    <div>
-                                        <!-- NEW CIRCLE TEAL - FIX -->
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-center align-items-center">
-                                        <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                    </div>
-                                    <div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="hover-card rounded p-0 ">
-                                    <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                        <div class="fill"></div>
-                                        <div class="text d-flex flex-column">
-                                            <p class="m-1">New look men's coat</p>
-                                            <p class="m-1 fashion-border">Fashion</p>
-                                            <p class="m-1"><strike>$220.00</strike></p>
-                                            <p class="m-1 teal">$190.00</p>
-                                        </div>
-                                    </div>
-                                    <!-- Ikon-funktion: johannes -->
-                                </div>
-                            </div>
-
-                        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div>
-                                            <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                                <p class="mb-0 text-light">NEW</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img src="/src/img/products/product-shoes.svg">
-                                        </div>
-                                        <div>
-                                            <div class="textbox-prod navy-color d-flex align-items-center">
-                                                <p class="text-light mt-0 mb-0">New look men's coat</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div>
-                                            <div class="green-bg small-circle d-flex justify-content-center align-items-center">
-                                                <p class="mb-0 text-light">-20%</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-dress.svg">
-                                        </div>
-                                        <div>
-                                            <div class="textbox-prod navy-color d-flex align-items-center">
-                                                <p class="text-light mt-0 mb-0">Circle pattern girls shirt</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">Circle pattern girls shirt</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div>
-                                            <div class="green-bg small-circle d-flex justify-content-center align-items-center">
-                                                <p class="mb-0 text-light font-r">-20%</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-dress.svg">
-                                        </div>
-                                        <div>
-                                            <div class="textbox-prod navy-color d-flex align-items-center">
-                                                <p class="text-light mt-0 mb-0">Circle pattern girls shirt</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">Circle pattern girls shirt</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="d-block ">
-                                <div class="prod-card">
-                                    <div class="start-card">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-block w-100 rounded">
-                                <div class="prod-card">
-                                    <div class="start-card rounded p-0 ">
-                                        <div class="teal-bg small-circle d-flex justify-content-center align-items-center">
-                                            <p class="mb-0 text-light">NEW</p>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <img class="d-block rounded" src="/src/img/products/product-hat.svg">
-                                        </div>
-                                        <div class="textbox-prod navy-color d-flex align-items-center">
-                                            <p class="text-light mt-0 mb-0">Blue silk sleeved top</p>
-                                        </div>
-                                    </div>
-                                    <div class="hover-card rounded p-0 ">
-                                        <div class="prod-info-hover d-flex align-content-end flex-wrap text-light">
-                                            <div class="fill"></div>
-                                            <div class="text d-flex flex-column">
-                                                <p class="m-1">New look men's coat</p>
-                                                <p class="m-1 fashion-border">Fashion</p>
-                                                <p class="m-1"><strike>$220.00</strike></p>
-                                                <p class="m-1 teal">$190.00</p>
-                                            </div>
-                                        </div>
-                                        <!-- Ikon-funktion: johannes -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators2"
-                data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators2"
-                data-bs-slide="next">
-            <span class="" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-
-
-
-
-
-        <div class="carousel-indicators">
-            <button id="test" type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="0"
-                    class="active" aria-current="true" aria-label="Slide 1">
-                <div class="dot rounded middle-gray-bg"></div>
-            </button>
-            <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="1"
-                    aria-label="Slide 2">
-                <div class="dot rounded middle-gray-bg"></div>
-            </button>
-            <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="2"
-                    aria-label="Slide 3">
-                <div class="dot rounded middle-gray-bg"></div>
-            </button>
-        </div>
-
-    </div>
+<!-- SUBSCRIBE -->
+<div class="mt-5 pt-5">
+    <SubscribeBanner />
 </div>
+
 
 @code {
-    [Parameter]
-    public int Id { get; set; }
-    private ProductViewModel model;
-    private bool checkWishlist { get; set; }
-    private int productAmount { get; set; }
-    private string stock { get; set; }
-    
+        [Parameter]
+        public int Id { get; set; }
 
-    private List<Product> _products;
-    private List<ReviewModel> _reviews;
-    private List<Tag> _tags;
+    private ProductViewModel _product;
+    private ReviewViewModel _reviewModel;
+
+    private bool _submitting;
+    private bool _loaded;
+    private bool _signedIn;
+    private bool _alreadyReviewed;
 
     protected override async Task OnInitializedAsync()
     {
-        model = new ProductViewModel();
-        _products = new List<Product>();
-        _reviews = new List<ReviewModel>();
-        _tags = new List<Tag>();
-        productAmount = 1;
-        stock = "";
+        _loaded = false;
 
-        await GetProductViewModel();
-        await GetProducts();
-        await GetReviews();
-        await GetTags();
-        CheckIfInStock();
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ValidateTokenUrl, auth: true);
+        _signedIn = response.IsSuccessStatusCode;
 
-        checkWishlist = true;
+        _reviewModel = new ReviewViewModel();
 
-        var response = await apiService.checkIfInWishlist(Id);
-        if(response == true)
-            checkWishlist = false;
+        await GetProductAsync();
+
+        _loaded = true;
     }
-    public void CheckIfInStock()
-    {
-        var test = 0;
-        var status = "";
-        foreach(var p in _products){
-            test = p.InStock;
-        }
 
-        if (test > 0)
-        {
-            if (test < 5)
-            {
-                status = "Few in stock";
-            }
-            else
-            {
-                status = "In stock";
-            }
-        }
+    protected override async Task OnParametersSetAsync() 
+    {
+        await GetProductAsync();
+        StateHasChanged();
+    }
+
+    private async Task GetProductAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductUrl(Id));
+        if (response.IsSuccessStatusCode)
+            _product = await response.Content.ReadFromJsonAsync<ProductViewModel>();
         else
-            status = "Not in stock";
-
-        if (status != null)
-        {
-            stock = status;
-        }
-
+            navigationManager.NavigateTo("/notfound");
     }
-    public void ChangeProductAmount(bool changeAmount)
-    {
-        if(changeAmount == true){
-            productAmount = productAmount + 1;
-        }
-        else{
-            productAmount = productAmount - 1;
-        }
-    }
-
-     //Fixa snyggare lösning till API + bygg in bättre fel-hantering!
-    private async Task GetProductViewModel()
-    {
-        ProductViewModel checkModel = await Http.GetFromJsonAsync<ProductViewModel>($"https://localhost:44306/api/Products/getProductViewModelById?id={Id}");
-        model = checkModel;      
-    }
-
-     private async Task GetProducts()
-    {
-        var checkProd = await Http.GetFromJsonAsync<List<Product>>($"https://localhost:44306/api/Products/getProductsByProductId?id={Id}");
-        _products = checkProd;    
-    }
-    private async Task GetReviews()
-    {
-        var checkRev = await Http.GetFromJsonAsync<List<ReviewModel>>($"https://localhost:44306/api/Products/getReviewsById?id={Id}");
-        _reviews = checkRev; 
-    }
-    private async Task GetTags()
-    {
-        var checkTag = await Http.GetFromJsonAsync<List<Tag>>($"https://localhost:44306/api/Products/getTagsById?id={Id}");
-        _tags = checkTag; 
-    }
-
-    private ReviewModel _reviewModel;
-
-    private string _error;
-    private int rating;
-    private bool _submitting = false;
-
-    protected override void OnInitialized()
-    {
-        _reviewModel = new ReviewModel();
-    }
-  
-   private void GetRating(int r){
-        rating = r; 
-   }
 
     private async Task RegisterReview()
     {
         _submitting = true;
-        _error = string.Empty;
 
-        
         _reviewModel.ProductId = Id;
-        _reviewModel.Rating = rating;
-
-        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.reviewModelUrl, _reviewModel);
-        var response2 = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.changeCustomerNameUrl, _reviewModel);
-        if (response.IsSuccessStatusCode && response2.IsSuccessStatusCode)
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.ReviewUrl, _reviewModel, true);
+        if (response.IsSuccessStatusCode)
         {
-            _reviewModel = new ReviewModel();
+            _reviewModel = new();
+            await GetProductAsync();
+            StateHasChanged();
+        }
+        else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+        {
+            _reviewModel = new();
+            _alreadyReviewed = true;
         }
 
-        else
-            Console.WriteLine($"{(int)response.StatusCode} {response.ReasonPhrase}");
+        Console.WriteLine(response.StatusCode);
 
         _submitting = false;
     }
 
+    private void SetRating(int rating)
+        => _reviewModel.Rating = rating;
 
-    //Kontrollera vilka hjärtan som ska vara ifyllda?
-    public async Task checkIfActive(int modelId)
-    {
-        var response = await apiService.checkIfInWishlist(modelId);
-       
-        if(response == true){
-           checkWishlist = true;
-           await DeleteWishlistItemApi(modelId);
-        }
-        else{
-            checkWishlist = false;
-            await SendWishlistItemToApi(modelId);
-        } 
-    }
+    private void GoToSignIn()
+        => navigationManager.NavigateTo("/myaccount");
 
-
-     public async Task<HttpResponseMessage> SendWishlistItemToApi(int modelId)
-    {
-        //var response = await apiService.AddToWishlist(modelId);
-        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.AddWishlistUrl, Id, true);
-        if (response.IsSuccessStatusCode){}
-        return response;
-    }
-    public async Task<HttpResponseMessage> DeleteWishlistItemApi(int modelId)
-    {
-        var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.DeleteWishlistUrl, Id, true);
-        if (response.IsSuccessStatusCode){}
-        return response;
-    }
+    private string PluralizeReviews()
+        => _product.Reviews.Count() == 0 || _product.Reviews.Count() > 1
+        ? "reviews"
+        : "review";
 }
 

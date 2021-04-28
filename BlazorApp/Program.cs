@@ -1,4 +1,5 @@
 using BlazorApp.Services;
+using BlazorApp.StateContainers;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +21,9 @@ namespace BlazorApp
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<IAPIService, APIService>();
 
-            builder.Services.AddSingleton<StateContainer>();
+            builder.Services.AddSingleton<ModalState>();
+            builder.Services.AddSingleton<OrderState>();
+            builder.Services.AddSingleton<WishlistState>();
 
             await builder.Build().RunAsync();
         }

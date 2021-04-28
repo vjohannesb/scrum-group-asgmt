@@ -1,4 +1,6 @@
-@inject StateContainer stateContainer
+@inject ModalState modalState
+@inject WishlistState wishlistState
+@implements IDisposable
 
 @if (Product == null)
 {
@@ -25,8 +27,22 @@ else
                 <div class="product-overlay-pill">
                     <i class="fas fa-circle pop-toggle-btn"></i>
                     <div class="pop-toggle">
-                        <i class="fas fa-heart @(checkWishlist ? "" : "text-teal")" @onclick='(() => checkIfActive(Product.ProductId))'>
-                            <span class="pop-modal">@(checkWishlist ? "Save item" : "Remove item from wishlist")</span>
+                        <i class="fas fa-heart 
+                           @(Product.IsInWishlist ? "text-teal" : "")
+                           @(_togglingWishlist ? "toggling" : "")" 
+                           @onclick="ToggleWishlist">
+                            @if (_signedIn)
+                            {
+                                <span class="pop-modal">
+                                    @(Product.IsInWishlist ? "Remove item from wishlist": "Save item")
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="pop-modal">
+                                    Sign in to save items
+                                </span>
+                            }
                         </i>
                         <i class="fas fa-random">
                             <span class="pop-modal">Compare</span>
@@ -40,14 +56,14 @@ else
                     </div>
                 </div>
             </div>
-            
+
             <!-- Info -->
             <div class="text-white">
                 <div class="product-name my-2">
                     <a href="/products/@Product.ProductId">
                         @Product.ProductName
                     </a>
-                    
+
                 </div>
 
                 <!-- Tags -->
@@ -68,7 +84,7 @@ else
 
                     <!-- Rating -->
                     <div>
-                        <Rating Stars="@(Product.Rating ?? 0)" Size="1" SpaceBetween="0.15"/>
+                        <Rating Stars="@(Product.Rating ?? 0)" Size="1" SpaceBetween="0.15" />
                     </div>
                 </div>
             </div>
@@ -83,83 +99,87 @@ else
     [Parameter]
     public string ClassName { get; set; }
 
-    private bool checkWishlist { get; set; }
-    private List<Tag> _modelTags { get; set; }
-    private Tag _firstTag { get; set; }
-
-    // TODO: GetTags i API
+    private bool _signedIn;
+    private bool _togglingWishlist;
 
     protected override async Task OnInitializedAsync()
     {
-        checkWishlist = true;
+        modalState.OnChange += StateHasChanged;
+        wishlistState.OnChange += StateHasChanged;
 
-        var response = await apiService.checkIfInWishlist(Product.ProductId);
-        if(response == true)
-            checkWishlist = false;
+        // Validera token / kolla om användaren är inloggad
+        var tokenResponse = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ValidateTokenUrl, auth: true);
+        if (tokenResponse.IsSuccessStatusCode)
+        {
+            _signedIn = true;
+            var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductInWishlistUrl(Product.ProductId), auth: true);
+            if (response.IsSuccessStatusCode)
+            {
+                var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+                Product.IsInWishlist = payload.Succeeded;
+            }
+            else
+            {
+                _signedIn = false;
+                Product.IsInWishlist = false;
+            }
+        }
+    }
 
-        if (Product == null)
-            return;
+    public void Dispose()
+    {
+        modalState.OnChange -= StateHasChanged;
+        wishlistState.OnChange -= StateHasChanged;
+    }
 
-        //await GetTags();
+    private async Task ToggleWishlist()
+    {
+        if (!_signedIn) 
+            GoToSignIn();
+
+        if (!_togglingWishlist)
+        {
+            _togglingWishlist = true;
+
+            if (!Product.IsInWishlist)
+                await AddToWishlistAsync();
+            else
+                await RemoveFromWishlistAsync();
+
+            _togglingWishlist = false;
+        }
+    }
+
+    private async Task AddToWishlistAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.ProductInWishlistUrl(Product.ProductId), auth: true);
+        if (response.IsSuccessStatusCode)
+        {
+            Product.IsInWishlist = true;
+            wishlistState.WishlistProducts = wishlistState.WishlistProducts.Append(Product).ToList();
+        }
+    }
+
+    private async Task RemoveFromWishlistAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.ProductInWishlistUrl(Product.ProductId), auth: true);
+        if (response.IsSuccessStatusCode)
+        {
+            Product.IsInWishlist = false;
+            wishlistState.WishlistProducts = wishlistState.WishlistProducts
+                .Where(wp => wp.ProductId != Product.ProductId)
+                .ToList();
+        }
     }
 
     private void UpdateModalProduct()
-        => stateContainer.ModalProduct = Product;
-
-    //Kontrollera vilka hjärtan som ska vara ifyllda?
-    public async Task checkIfActive(int productId)
-    {
-        var response = await apiService.checkIfInWishlist(productId);
-
-        if(response == true){
-            checkWishlist = true;
-            await DeleteWishlistItemApi(productId);
-        }
-        else{
-            checkWishlist = false;
-            await SendWishlistItemToApi(productId);
-        }
-    }
-    public async Task<HttpResponseMessage> SendWishlistItemToApi(int productId)
-    {
-        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.AddWishlistUrl, productId, true);
-        if (response.IsSuccessStatusCode)
-        {
-            //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
-        }
-        return response;
-    }
-
-    public async Task<HttpResponseMessage> DeleteWishlistItemApi(int productId)
-    {
-        var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.DeleteWishlistUrl, productId, true);
-        if (response.IsSuccessStatusCode)
-        {
-            //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
-        }
-        return response;
-    }
-
+        => modalState.ModalProduct = Product;
 
     private void GoToProduct(int id)
         => navigationManager.NavigateTo($"/products/{id}");
 
-    //private async Task GetTags()
-    //{
-    //    var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.TagsUrl);
-    //    if (response.IsSuccessStatusCode)
-    //    {
-    //        _modelTags = await response.Content.ReadFromJsonAsync<List<Tag>>();
-    //        if (_modelTags.Count > 0)
-    //        {
-    //            _firstTag = _modelTags[0];
-    //        }
-    //    }
-    //    else
-    //    {
-    //        _error = "Could not load tags.";
-    //        _modelTags = new List<Tag>();
-    //    }
-    //}
+    private void GoToSignIn()
+        => navigationManager.NavigateTo("/myaccount");
+
 }
 

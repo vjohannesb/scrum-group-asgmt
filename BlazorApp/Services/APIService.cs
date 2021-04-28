@@ -18,26 +18,29 @@ namespace BlazorApp.Services
 
         public string BaseUrl => "https://localhost:44306/api";
 
+        // Customer URLs
         public string CustomersUrl => $"{BaseUrl}/customers";
-        public string WishlistUrl => $"{BaseUrl}/Wishlist";
         public string SignInUrl => $"{CustomersUrl}/signin";
         public string RegisterUrl => $"{CustomersUrl}/register";
+        public string ValidateTokenUrl => $"{CustomersUrl}/validate";
 
+        // Product URLs
         public string ProductsUrl => $"{BaseUrl}/products";
-        public string ProductUrl(int id) => $"{ProductsUrl}/{id}";
         public string MultipleProductsUrl => $"{ProductsUrl}/multi";
-        public string RelatedProductsUrl(int id) => $"{ProductsUrl}/{id}/related";
+        public string ProductUrl(int productId) => $"{ProductsUrl}/{productId}";
+        public string RelatedProductsUrl(int productId) => $"{ProductUrl(productId)}/related";
 
+        // Wishlist URLs
+        public string WishlistUrl => $"{BaseUrl}/wishlist";
+        public string ProductInWishlistUrl(int productId) => $"{WishlistUrl}/{productId}";
+
+        // Order URLs
         public string OrdersUrl => $"{BaseUrl}/orders";
         public string ShippingMethodsUrl => $"{OrdersUrl}/shipping";
         public string PaymentMethodsUrl => $"{OrdersUrl}/payment";
 
-        public string AddWishlistUrl => $"{WishlistUrl}/addWishlist";
-        public string CheckWishlistUrl => $"{WishlistUrl}/checkWishlist";
-        public string DeleteWishlistUrl => $"{WishlistUrl}/deleteWishlist";
-        public string ProductModelsWishlistUrl => $"{WishlistUrl}/getWishlist";
-        public string reviewModelUrl => $"{ProductsUrl}/registerReview";
-        public string changeCustomerNameUrl => $"{ProductsUrl}/ChangeNameCustomer";
+        // Review URLs
+        public string ReviewUrl => $"{BaseUrl}/reviews";
 
 
         public APIService(ILocalStorageService localStorage, HttpClient httpClient)
@@ -87,7 +90,6 @@ namespace BlazorApp.Services
                 }
 
                 var response = await _httpClient.SendAsync(request);
-                response.EnsureSuccessStatusCode();
                 return response;
             }
 
@@ -102,7 +104,7 @@ namespace BlazorApp.Services
             }
         }
 
-        // Helper för att logga in "snyggare"
+        // Helper för att logga in lättare
         public async Task<HttpResponseMessage> SignInAsync(SignInModel model)
         {
             var response = await SendToAPIAsync(HttpMethod.Post, SignInUrl, model);
@@ -114,6 +116,7 @@ namespace BlazorApp.Services
             return response;
         }
 
+        // Helper för att registrera lättare
         public async Task<HttpResponseMessage> RegisterAsync(RegisterModel model)
         {
             var response = await SendToAPIAsync(HttpMethod.Post, RegisterUrl, model);
@@ -123,35 +126,6 @@ namespace BlazorApp.Services
             }
             return response;
         }
-        //public async Task<HttpResponseMessage> AddToWishlist(int model)
-        //{
-        //    var response = await SendToAPIAsync(HttpMethod.Post, AddWishlistUrl, model, true);
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
-        //    }
-        //    return response;
-        //}
-        public async Task<bool> checkIfInWishlist(int model)
-        {
-            var response = await SendToAPIAsync(HttpMethod.Post, CheckWishlistUrl, model);
-            if (response.IsSuccessStatusCode)
-            {
-                return true;
-                //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
-            }
-            return false;
-        }
-
-        //public async Task<HttpResponseMessage> DeleteFromWishlist(int model)
-        //{
-        //    var response = await SendToAPIAsync(HttpMethod.Delete, DeleteWishlistUrl, model, true);
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        //var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
-        //    }
-        //    return response;
-        //}
     }
 }
 

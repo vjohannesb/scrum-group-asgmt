@@ -2,7 +2,6 @@
     user-select: none;
 }
 
-
 .tags-border:hover {
     cursor: pointer;
 }
@@ -13,23 +12,15 @@
     flex-wrap: wrap;
 }
 
-.tabs label {
-    order: 1;
-    padding: 1rem 2rem;
-    margin-right: 0.2rem;
-    cursor: pointer;
-    transition: background ease 0.2s;
-}
-
-.tabs .tab {
-    order: 99;
-    display: none;
-}
-
-    .tabs label {
+    .tabs .tab-label {
+        order: 1;
+        padding: 1rem 2rem;
+        margin-right: 0.2rem;
+        cursor: pointer;
+        transition: background ease 0.2s;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
-        background-color: var(--bg-dark-blue);
+        background-color: var(--dark-blue);
         color: white;
         padding: 10px;
         padding-left: 20px;
@@ -38,260 +29,76 @@
         margin-left: 3px;
     }
 
-.label:hover {
-    background-color: #20d3c2;
-    cursor: pointer;
-}
+        .tabs .tab-label:hover {
+            background-color: var(--teal);
+            cursor: pointer;
+        }
 
-.tabs input[type="radio"] {
-    display: none;
-}
-    .tabs input[type="radio"]:checked + label {
-        background: #20d3c2;
+    .tabs .tab {
+        order: 99;
+        display: none;
+        width: 100%;
+        border-top: 2px solid var(--teal);
     }
 
-.tabs input[type="radio"]:checked + label + .tab {
-    display: block;
-}
-.tabs-underline {
-    border: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
-    height: 5px !important;
-    background-color: #20d3c2 !important;
-}
+    .tabs input[type="radio"] {
+        display: none;
+    }
 
-.add-review-form {
-    background-color: #f6f6f6;
+        .tabs input[type="radio"]:checked + label {
+            background: #20d3c2;
+        }
+
+            .tabs input[type="radio"]:checked + label + .tab {
+                display: block;
+            }
+
+::deep .add-review-form {
+    background-color: var(--off-white);
     padding: 20px;
 }
 
-.review-input {
-    border: 0px solid;
-    width: 100%;
-    border-radius: 10px;
-}
+    ::deep .add-review-form .review-input {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    ::deep .add-review-form .fa-star {
+        cursor: pointer;
+    }
+
+    ::deep .add-review-form .far.fa-star {
+        color: var(--light-gray) !important;
+    }
+
+    ::deep .add-review-form .fas.fa-star,
+    ::deep .add-review-form .fa-star:hover {
+        color: var(--teal) !important;
+    }
 
 .submit-button {
     color: white;
-    background-color: #20d3c2;
-    border: solid #20d3c2;
+    background-color: var(--teal);
+    border: 2px solid transparent;
     border-radius: 23px;
+    font-size: 18px;
+    font-weight: 500;
     padding: 10px;
     padding-left: 25px;
     padding-right: 25px;
+    -moz-transition: 0.15s;
+    -o-transition: 0.15s;
+    -webkit-transition: 0.15s;
+    transition: 0.15s;
 }
 
-.icon {
-    display: inline-block;
-    width: 50px;
-    background-size: cover;
+.submit-button:hover {
+    background-color: transparent;
+    border: 2px solid var(--teal);
+    color: var(--teal);
 }
 
-.box-text {
-    padding: 10px;
-}
-
-    .box-text div {
-        width: fit-content;
-    }
-
-.box {
-    width: 400px;
-    height: 140px;
-    border-radius: 6px;
-}
-
-    .box:hover {
-        background-color: #20d3c2;
-    }
-
-        .box:hover #box-img-pack {
-            content: url(/src/img/products/shipping-box-white.svg);
-        }
-
-        .box:hover span {
-            color: white;
-        }
-
-        .box:hover p {
-            color: white;
-        }
-
-#box-img-pack {
-    content: url(/src/img/products/shipping-box-teal.svg);
-}
-
-#box-img-clock {
-    content: url(/src/img/products/img-clock-teal.svg);
-}
-
-.box:hover #box-img-clock {
-    content: url(/src/img/products/img-clock-white.svg);
-}
-
-#box-img-pay {
-    content: url(/src/img/products/img-pay-teal.svg);
-}
-
-.box:hover #box-img-pay {
-    content: url(/src/img/products/img-pay-white.svg);
-}
-
-#box-img-time {
-    content: url(/src/img/products/img-time-teal.svg);
-}
-
-.box:hover #box-img-time {
-    content: url(/src/img/products/img-time-white.svg);
-}
-
-/* Carousel */
-
-#carouselExampleIndicators {
-    height: 400px;
-    margin-bottom: 100px;
-}
-
-#carouselExampleIndicators2 {
-    height: 400px;
-    margin-bottom: 100px;
-}
-
-.prod-card {
-    height: 400px;
-    position: relative;
-    width: fit-content;
-    z-index: 1;
-}
-
-.start-card {
-    background-color: var(--lighter-gray);
-}
-
-.textbox-prod p {
-    margin-left: 30px;
-}
-
-.start-card,
-.hover-card {
-    position: absolute;
-    height: 300px;
-    margin-right: auto;
-    margin-left: auto;
-    z-index: 5;
-}
-
-.hover-card {
-    opacity: 0.9;
-    width: 255px;
-    background-color: var(--dark-blue);
-    z-index: 9;
-    display: none;
-}
-
-.prod-card:hover .hover-card {
-    display: block;
-}
-
-.prod-card .dark-blue-bg {
-    height: 50px;
-}
-
-.prod-card p,
-.prod-info-hover {
-    font-size: 18px;
-}
-
-    .prod-info-hover .teal {
-        font-size: 24px;
-    }
-
-    .prod-info-hover .fashion-border {
-        font-size: 14px;
-    }
-
-.fashion-border {
-    width: 70px;
-    text-align: center;
-    border: 1px solid white;
-}
-
-.carousel-control-next {
-    margin-right: -1vw;
-    margin-top: 130px;
-    width: 50px;
-    content: url(/src/img/products/carousel-right-arrow.svg);
-}
-
-    .carousel-control-next:hover {
-        content: url(/src/img/products/carousel-right-arrow-green.svg);
-    }
-
-.carousel-control-prev {
-    margin-left: -3vw;
-    margin-top: 130px;
-    width: 50px;
-    content: url(/src/img/products/carousel-left-arrow.svg);
-}
-
-    .carousel-control-prev:hover {
-        content: url(/src/img/products/carousel-left-arrow-green.svg);
-    }
-
-.carousel {
-    margin-bottom: 90px;
-}
-
-.carousel-indicators {
-}
-
-.dot {
-    width: 12px;
-    height: 12px;
-}
-
-.fill {
-    position: relative;
-    width: 250px;
-    height: 150px;
-}
-
-.hide {
-    display: block;
-}
-
-.prod-card:hover .hide {
-    display: none;
-}
-
-/* DOT */
-.middle-gray-bg {
-    background-color: var(--middle-gray);
-}
-
-.small-circle {
-    position: absolute;
-    top: 25px;
-    left: 25px;
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
-}
-
-
-
-.star-rating:hover {
-    cursor: pointer;
-    color: #20d3c2;
-}
-
-.yellowStock{
-    color: yellow;
-}
-.greenStock {
-    color: green;
-}
-.redStock {
-    color: red;
+/* Free shipping / 247 support / online payment / fast delivery */
+::deep .usp-container .usp-box {
+    background: white;
 }

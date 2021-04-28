@@ -1,40 +1,61 @@
-﻿@inject StateContainer stateContainer
+﻿@inject OrderState orderState
 
 @if (Product != null)
 {
     <div class="row main-row">
         <!-- Image Column -->
-        <div class="col-5 image-column">
-            <div class="product-image-display w-100">
-                <img src="https://via.placeholder.com/360" alt="Placeholder">
-            </div>
+        @if (!DetailsPage)
+        {
+            <div class="col-5 image-column">
+                <div class="product-image-display w-100">
+                    <img src="https://via.placeholder.com/360" alt="Placeholder">
+                </div>
 
-            <div class="product-image-selection w-100">
-                <img src="https://via.placeholder.com/70" alt="Placeholder">
-                <img src="https://via.placeholder.com/70" alt="Placeholder">
-                <img src="https://via.placeholder.com/70" alt="Placeholder">
-                <img src="https://via.placeholder.com/70" alt="Placeholder">
+                <div class="product-image-selection w-100">
+                    <img src="https://via.placeholder.com/70" alt="Placeholder">
+                    <img src="https://via.placeholder.com/70" alt="Placeholder">
+                    <img src="https://via.placeholder.com/70" alt="Placeholder">
+                    <img src="https://via.placeholder.com/70" alt="Placeholder">
+                </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="col-5 d-flex detail-imgs">
+                <div class="product-image-display">
+                    <img alt="Placeholder" src="https://via.placeholder.com/400">
+                </div>
+
+                <div class="d-flex flex-column justify-content-between ms-2">
+                    <img class="rounded-3" alt="Placeholder" src="https://via.placeholder.com/90">
+                    <img class="rounded-3" alt="Placeholder" src="https://via.placeholder.com/90">
+                    <img class="rounded-3" alt="Placeholder" src="https://via.placeholder.com/90">
+                    <img class="rounded-3" alt="Placeholder" src="https://via.placeholder.com/90">
+                </div>
+            </div>
+        }
 
         <!-- Info Column -->
         <div class="col-7 info-column">
-            <!-- Review + Logo Row -->
-            <div class="row review-brand-row">
-                <div class="col-3">
-                    <Rating Stars="@(Product.Rating ?? 0)" Size="0.875" />
+            @if (!DetailsPage)
+            {
+                <!-- Review + Logo Row -->
+                <div class="row review-brand-row">
+                    <div class="col-3">
+                        <Rating Stars="@(Product.Rating ?? 0)" Size="0.875" />
+                    </div>
+                    <div class="col">
+                        <div class="reviews-amount">(2 customer reviews)</div>
+                    </div>
+                    <div class="col logo">
+                        <img src="/src/img/brands/@(Product.Brand?.BrandName?.ToLower()).svg" alt="@(Product.Brand?.BrandName) Logo">
+                    </div>
                 </div>
-                <div class="col">
-                    <div class="reviews-amount">(2 customer reviews)</div>
-                </div>
-                <div class="col logo">
-                    <img src="/src/img/brands/@(Product.Brand?.BrandName?.ToLower()).svg" alt="@(Product.Brand?.BrandName) Logo">
-                </div>
-            </div>
+            }
 
             <!-- Title Row -->
             <div class="row title-row">
-                <h4 class="teal product-title">@Product.ProductName</h4>
+                <h4 class="text-teal product-title">@Product.ProductName</h4>
             </div>
 
             <!-- Description Row -->
@@ -68,7 +89,7 @@
                     <QuantityInput @bind-Quantity="_quantity" />
                 </div>
 
-                <button class="col-4 ms-3 me-3 add-to-cart" data-bs-dismiss="modal" 
+                <button class="col-4 ms-3 me-3 add-to-cart" data-bs-dismiss="modal"
                         @onclick="AddToCartAsync" disabled="@(Product.InStock < 1)">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Add to cart</span>
@@ -111,13 +132,13 @@
                 <div class="col">
                     <span class="tags-title">Tags:</span>
                     @if (Product.Tags != null)
-                {
-                    @foreach (var tag in Product.Tags)
                     {
-                        <span class="tag-box me-1">@tag.TagName</span>
-                    } 
+                        @foreach (var tag in Product.Tags)
+                        {
+                            <span class="tag-box me-1">@tag.TagName</span>
+                        }
 
-                }
+                    }
                 </div>
             </div>
 
@@ -150,30 +171,33 @@
     [Parameter]
     public ProductViewModel Product { get; set; }
 
+    [Parameter]
+    public bool DetailsPage { get; set; } = false;
+
     private int _quantity = 1;
 
     private async Task AddToCartAsync()
     {
         Product.Quantity = _quantity;
-        if (stateContainer.ShoppingCartProducts?.Count > 0)
+        if (orderState.ShoppingCartProducts?.Count > 0)
         {
-            var productInCart = stateContainer.ShoppingCartProducts.FirstOrDefault(p => p.ProductId == Product.ProductId);
+            var productInCart = orderState.ShoppingCartProducts.FirstOrDefault(p => p.ProductId == Product.ProductId);
             if (productInCart != null)
                 productInCart.Quantity += _quantity;
             else
-                stateContainer.ShoppingCartProducts.Add(Product);
+                orderState.ShoppingCartProducts.Add(Product);
 
-            stateContainer.NotifyStateChanged();
+            orderState.NotifyStateChanged();
         }
         else
-            stateContainer.ShoppingCartProducts = new List<ProductViewModel> { Product };
+            orderState.ShoppingCartProducts = new List<ProductViewModel> { Product };
 
         await AddToLocalStorageAsync();
     }
 
     private async Task AddToLocalStorageAsync()
     {
-        var cart = stateContainer.ShoppingCartProducts
+        var cart = orderState.ShoppingCartProducts
             .Select(scp => new ShoppingCartItem { ProductId = scp.ProductId, Quantity = scp.Quantity })
             .ToList();
         await apiService.SaveToLocalStorageAsync<List<ShoppingCartItem>>("cart", cart);

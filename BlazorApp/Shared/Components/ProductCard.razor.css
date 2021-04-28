@@ -10,7 +10,7 @@
 
     .product-container.large {
         width: 100%;
-        height: 100%;
+        height: 400px;
     }
 
 .circle {
@@ -159,3 +159,23 @@
     border-style: solid;
     border-color: transparent transparent transparent var(--teal);
 }
+
+/* Indikera i UI att man håller på att lägga till i Wishlist */
+.fas.fa-heart.toggling {
+    color: white !important;
+    cursor: wait;
+}
+
+    .fas.fa-heart.toggling span {
+        display: none !important;
+    }
+
+
+/* I WISHLIST */
+.wishlist-item .product-container, .wishlist-item .product-overlay {
+    -webkit-border-top-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    -webkit-border-top-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+

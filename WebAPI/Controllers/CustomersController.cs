@@ -17,9 +17,11 @@ using WebAPI.Models;
 using SharedLibrary.Models.ProductModels;
 using SharedLibrary.Models.OrderModels;
 using SharedLibrary.Models.CustomerModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase
@@ -44,8 +46,9 @@ namespace WebAPI.Controllers
                 : Unauthorized();
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<RegisterCustomer>> RegisterCustomer(RegisterCustomer model)
+        public async Task<ActionResult<ResponseModel>> RegisterCustomer(RegisterCustomer model)
         {
             if (!_context.Customers.Any(c => c.Email == model.Email))
             {
@@ -61,96 +64,48 @@ namespace WebAPI.Controllers
                     _context.Customers.Add(customer);
                     await _context.SaveChangesAsync();
 
-                    return Ok(customer);
+                    return Ok(new ResponseModel(true, customer.CustomerId.ToString()));
                 }
-                catch { }
-            }
-            return BadRequest();
-        }
-
-        
-     
-
-        [HttpPost("addWishlist")]
-        public async Task<ActionResult<Wishlist>> AddWhislistItem([FromBody] int productId)
-        {
-            var authorized = HttpContext.Request.Headers.TryGetValue("Authorization", out var bearer);
-            var token = bearer.ToString().Split(" ")[1];
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
-            var tokenId = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
-            var customerId = int.Parse(tokenId);
-
-            if (!_context.Wishlists.Any(w => w.ProductId == productId && w.CustomerId == customerId))
-            {
-                try
-                {       
-                    var wishlistItem = new Wishlist()
-                    {
-                        CustomerId = customerId,
-                        ProductId = productId
-                    };
-                    _context.Wishlists.Add(wishlistItem);
-                    await _context.SaveChangesAsync();
-
-                    return Ok(wishlistItem);
-                }
-                catch { }
-            }
-            return BadRequest();
-
-        }
-        [HttpPost("checkWishlist")]
-        public async Task<ActionResult<Wishlist>> CheckWhislistItem([FromBody] int productId)
-        {
-            if (!_context.Wishlists.Any(w => w.ProductId == productId))
-            {
-                return BadRequest();    
-            }
-            return Ok();
-        }
-
-        [HttpDelete("deleteWishlist")]
-        public async Task<ActionResult<Wishlist>> DeleteWhislistItem([FromBody] int productId)
-        {
-            var authorized = HttpContext.Request.Headers.TryGetValue("Authorization", out var bearer);
-            var token = bearer.ToString().Split(" ")[1];
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
-            var tokenId = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
-            var customerId = int.Parse(tokenId);
-
-            if (_context.Wishlists.Any(w => w.ProductId == productId && w.CustomerId == customerId))
-            {
-                try
+                catch (Exception ex)
                 {
-                    var wishlistItem = new Wishlist()
-                    {
-                        CustomerId = customerId,
-                        ProductId = productId
-                    };
-                    _context.Wishlists.Remove(wishlistItem);
-                    await _context.SaveChangesAsync();
-
-                    return Ok(wishlistItem);
+                    Console.WriteLine($"Unhandled error. {ex.Message}\n{ex}");
                 }
-                catch { }
             }
             return BadRequest();
-
         }
 
+        // Returnerar en IEnumerable<int> med produkt-id om det hittas något,
+        // annars passande http-kod
+        [VerifyToken]
+        [HttpGet("wishlist")]
+        public async Task<ActionResult<IEnumerable<int>>> GetCustomersWishlist()
+        {
+            HttpContext.Request.Headers.TryGetValue("Authorization", out var bearer);
+            if (string.IsNullOrEmpty(bearer))
+                return Unauthorized();
+
+            var customerId = _identity.GetCustomerIdFromToken(bearer);
+            if (customerId == 0)
+                return Unauthorized();
+
+            var wishlist = await _context.Wishlists
+                .Where(w => w.CustomerId == customerId)
+                .ToListAsync();
+
+            if (wishlist.Count < 1)
+                return NotFound();
+
+            return Ok(wishlist.Select(w => w.ProductId));
+        }
 
         /* 
          * [Authorize] kontrollerar token gentemot SecretKey (useAuthentication m. JWT i Startup.cs) 
          * [VerifyToken] kontrollerar token gentemot den som finns i databasen (Filters/VerifyToken.cs)
          * Funktionen körs inte om inte båda dessa "godkänns", och gör de de så returneras Ok()
          */
-        [Authorize]
         [VerifyToken]
-        [HttpPost("validate")]
+        [HttpGet("validate")]
         public IActionResult ValidateToken()
             => Ok();
-
     }
 }

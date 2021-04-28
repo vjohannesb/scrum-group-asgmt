@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SharedLibrary.Models.OrderModels;
 using SharedLibrary.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,11 +54,19 @@ namespace WebAPI.Controllers
         {
             if (!_context.ShippingMethods.Any(b => b.ShippingMethodName == shipping.ShippingMethodName))
             {
-                _context.ShippingMethods.Add(shipping);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.ShippingMethods.Add(shipping);
+                    await _context.SaveChangesAsync();
 
-                return Ok(shipping);
+                    return Ok(shipping);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
+
             return BadRequest();
         }
 
@@ -67,13 +76,20 @@ namespace WebAPI.Controllers
         {
             if (!_context.PaymentMethods.Any(p => p.PaymentMethodName == paymentMethod.PaymentMethodName))
             {
-                _context.PaymentMethods.Add(paymentMethod);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.PaymentMethods.Add(paymentMethod);
+                    await _context.SaveChangesAsync();
 
-                return Ok(paymentMethod);
+                    return Ok(paymentMethod);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
-            return BadRequest();
 
+            return BadRequest();
         }
     }
 }

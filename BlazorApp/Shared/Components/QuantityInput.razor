@@ -1,4 +1,4 @@
-﻿@inject StateContainer stateContainer
+﻿@inject OrderState orderState
 
 <div class="d-flex" id="quantityInputContainer">
     <div class="quantity-box" id="quantityDecrementBox" @onclick="DecrementQuantity">
@@ -23,7 +23,7 @@
     private async Task IncrementQuantity()
     {
         await QuantityChanged.InvokeAsync(++Quantity);
-        stateContainer.NotifyStateChanged();
+        orderState.NotifyStateChanged();
     }
 
     private async Task DecrementQuantity()
@@ -31,7 +31,7 @@
         if (Quantity > 1)
         {
             await QuantityChanged.InvokeAsync(--Quantity);
-            stateContainer.NotifyStateChanged();
+            orderState.NotifyStateChanged();
         }
     }
 } 

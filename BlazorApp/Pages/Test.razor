@@ -1,44 +1,468 @@
-﻿@page "/test/{Id:int}"
+﻿@page "/tests/{Id:int}"
+<!--
 @inject HttpClient Http;
 
-@*Onödigt abutton ha med products? modifiera om tabellen?*@
-@foreach(var prod in _products)
-{
-     <h1>Model:  @prod.ProductId</h1>
-     <h1>I Lager:  @prod.InStock</h1>
-}
-<h1>Model:  @model.ProductId</h1>
+<div class= "container">
+    <div class= "row">
+        <!--Component 2-->
+<!--<div class= "col-lg-5" >
+    <div class= "d-flex" >
+        <img src = "/src/img/products/Product-thumb.svg" alt = "product img" >
+        <div class= "d-flex flex-column p-3 justify-content-between" >
+            <img src = "/src/img/products/small-shoes-1.svg" alt = "shoes 1" >
+            <img src = "/src/img/products/small-shoes-2.svg" alt = "shoes 2" >
+            <img src = "/src/img/products/small-shoes-3.svg" alt = "shoes 3" >
+            <img src = "/src/img/products/small-shoes-4.svg" alt = "shoes 4" >
+        </div >
+    </div >
+    </div >
+        <div class= "col-xl-5 col-lg-8 col-md-12 ">
+            <div class= "row" >
+                <div >
+                    <h1 class= "Roboto-medium-24" > @model.ProductName </h1 >
+                    <p class= "Roboto-regular-16" >
+                        @model.ProductDescription
+                    </p >
+                    <hr >
+                </div >
+            </div >-->
+<!--Component 3-->
+<!--<div class= "row">
+    <div class= "d-flex justify-content-start align-items-center">
+        <div class= "col-3" >
+            <span class= "Roboto-medium-24" > @model.Discount </span >
+        </div >
+    <div class= "col-2" >
+        <span class= "Roboto-regular-16 gray line-through" > @model.Price </span >
+    </div >
+    <div class= "col-2" >
+        <div class= "d-flex justify-content-start align-items-center">-->
+@*<img src = "/src/img/products/stock-image.svg" alt = "stock-image" > *@
+<!--@if(stock.Contains("In stock")){
+                           <i class= "fas fa-signal greenStock" ></i>
+                   }
+                   else if (stock.Contains("Few in stock"))
+                   {
+                           <i class= "fas fa-signal yellowStock" ></i>
+                   }
+                   else
+                   {
+                       <i class= "fas fa-signal redStock" ></i>
+                   }
+                   <span class= "p-1 Roboto-regular-16" > @stock </span>
+            </div>
+        </div>
+    </div>
+</div>-->
+<!--Component 4-->
+<!--<div class= "row">
+   <div class= "d-flex mt-3">
+       <div class= "col-3">
+           <div class= "d-flex h-100">
+               <div class= "d-flex align-items-center justify-conent-center Roboto-regular-16"
+                   id = "decrement-box" @onclick = '(() => ChangeProductAmount(false))' >
+                   <span class= "padding-lr" > -</span>
+               </div>
+               <div class= "d-flex align-items-center justify-conent-center Roboto-regular-16"
+                   id = "amount-placeholder-box" >
+                   <span class= "padding-lr" > @productAmount </span>
+               </div >
+               <div class= "d-flex align-items-center justify-conent-center Roboto-regular-16"
+                   id = "increment-box" @onclick = '(() => ChangeProductAmount(true))' >
+                   <span class= "padding-lr" > +</span>
+               </div>
+           </div>
+       </div>
+       <div class= "col-5">
+           <div id = "add-to-cart" class= "teal-bg Roboto-regular-16" >
+               <img class= "m-1" src = "/src/img/products/cart.svg" alt = "cart" >
+               <span class= "white" > Add to cart</span>
+           </div>
+       </div>
+       <div class= "d-flex justify-content-around" >
+           <div class= "col-5" >
+               <img src = "/src/img/products/Color icon.svg" alt = "color icon" >
+               </div>
+               <div class= "col-5" >
+                   <img src = "/src/img/products/Compare icon.svg" alt = "compare icon" >
+               </div>
+               <div class= "col-5" >-->
+@*< img src = "/src/img/products/add-wishlist.svg" alt = "wishlist icon" > *@
+<!--<i class= "fas fa-heart @(checkWishlist ? "" : "text - teal")" @onclick = '(() => checkIfActive(model.ProductId))' ></i >
+                </div >
+            </div >
+        </div >
+    </div >
+</div >-->
+<!--Category-->
+<!--<div class= "row mt-3">
+    <span class= "Roboto-regular-16" > Category: <span class= "teal" > @model.Category </span ></span >
+</div >-->
+<!--Tags-->
+<!--<div class= "row mt-4" >
+    <div class= "d-flex" >
+        <span class= "Roboto-regular-16" >
+            Tags:
+            @foreach(var tag in _tags)
+            {
+                <span class= "Roboto-regular-12 tags-border" > @tag.TagName </span >
+            }
+        </span >
+    </div >
+</div >-->
+<!--Share-->
+<!--<div class= "row mt-5" >
+            <div class= "d-flex" >
+                <span class= "Roboto-regular-16" >
+                    Share:
+                    <img class= "m-1" src = "/src/img/products/social-button1.svg" alt = "social 1" >
+                    <img class= "m-1" src = "/src/img/products/social-button2.svg" alt = "social 2" >
+                    <img class= "m-1" src = "/src/img/products/social-button3.svg" alt = "social 3" >
+                    <img class= "m-1" src = "/src/img/products/social-button4.svg" alt = "social 4" >
+                    <img class= "m-1" src = "/src/img/products/social-button5.svg" alt = "social 5" >
+                </span >
+            </div >
+        </div >
+    </div >
+</div >-->
+<!--Tabs-->
+<!--<div class= "row" >
+    <div class= "d-flex mt-5 container justify-content-between" >
+    <div class= "tabs" >
+        <input type = "radio" name = "tabs" id = "tabone" checked= "checked" >
+            <label for= "tabone" class= "Roboto-regular-16 teal-bg" > Description </label >
+            <div class= "tab" >
+                <h1> Description </h1 >
+                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <input type="radio" name="tabs" id="tabtwo" checked="checked">
+            <label for="tabtwo" class= "Roboto-regular-16 teal-bg" > Additional Information </label>
+            <div class= "tab" >
+                <h1> Additional Information </h1>
+                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <input type="radio" name="tabs" id="tabthree" checked="checked">
+            <label for="tabthree" class= "Roboto-regular-16 teal-bg" > Reviews(@_reviews.Count) </label >
+            <div class= "tab" >
+                <div class= "row">
+                    <div class= "col" >
+                        <div class= "row mt-5" >
+                            <div class= "col">
+                                <span class= "Roboto-regular-18 teal" > @_reviews.Count reviews for </span >
+                                <span class= "Roboto-regular-18" > @model.ProductName </span >
+                            </div >
+                        </div >
+                        @foreach(var rev in _reviews)
+                        {
+                            <div class= "row mt-5" >
+                                <div class= "col-2" >
+                                    <img src = "/src/img/products/user-profile-pic.svg" alt = "profile picture" >
+                                </div >
+                                <div class= "col-9" >
+                                    <div class= "row" >
+                                    <div class= "col-6" >
+                                <div class= "d-inline-flex" >
+                                    <span class= "Roboto-bold-16 teal" > @rev.Name </span >
+                                    <span class= "Roboto-regular-14 gray" > -24 July, 2020 </span >
+                                </div >
+                            </div >
+                            <div class= "col d-inline-flex align-items-center flex-row-reverse" >
+                                @for(int i = 4; i >= 0; i--){
+                                    if(i >= rev.Rating)
+                                    {
+                                        <i class= "far fa-star" ></i >
+                                    }
+                                    else
+                                    {
+                                        <i class= "far fa-star teal" ></i>
+                                    }
+                                }
+                            </div >
+                        </div >
+                        <div class= "row" >
+                            <p class= "Roboto-regular-16 col" >
+                                @rev.Text
+                            </p >
+                        </div >
+                    </div >
+                </div >
+            }
+        </div >
+        <div class= "col mt-5" >
+            <EditForm Model = "@_reviewModel" OnValidSubmit = "@RegisterReview" >
+            <DataAnnotationsValidator />
+            <div class= "add-review-form" >
+                <p class= "Roboto-medium-24 teal" > Add a review</p>
+                <p class= "Roboto-regular-14 gray" >
+                    Your email address will not be published. Required fields are marked *
+                </p>
+            <div>
+                <span class= "Roboto-regular-16 mr-2" > Your rating <span class= "teal" > *</span >:</span >
+                <i class= "far fa-star star-rating" @onclick = "@(e => GetRating(1))"></i >
+                <i class= "far fa-star star-rating" @onclick = "@(e => GetRating(2))"></i >
+                <i class= "far fa-star star-rating" @onclick = "@(e => GetRating(3))"></i >
+                <i class= "far fa-star star-rating" @onclick = "@(e => GetRating(4))"></i >
+                <i class= "far fa-star star-rating" @onclick = "@(e => GetRating(5))"></i >
+            </div >
+            <div class= "mt-3" >
+                <p Roboto-regular - 16" for="firstName ">Your review<span class="teal ">*</span></p><br>
+                <InputTextArea rows = "10" class= "review-input form-control form" type = "text" id = "firstName" required
+                    @bind-Value="_reviewModel.Text" />
+                <ValidationMessage For="() => _reviewModel.Text" />
+            </div>
+            <div class= "mt-4" >
+                <p for= "lastName" > Name <span class= "teal" >*</span ></p><br>
+                <InputText class= "review-input Roboto-regular-16 form-control form" type = "text" id = "lastName" required
+                    @bind-Value="_reviewModel.Name" />
+                <ValidationMessage For="() => _reviewModel.Name" />
+            </div>
+            <div class= "mt-4" >
+                <p for= "lastName" > Email <span class= "teal" > *</span ></p ><br>
+                <InputText class= "review-input Roboto-regular-16 form-control form" type = "text" id = "lastName" required
+                    @bind-Value="_reviewModel.Email" />
+                <ValidationMessage For="() => _reviewModel.Email" />
+            </div>-->
+@*Ta med????*@
+@*                  <div class= "mt-3" >
+        < InputText class= "review-input Roboto-regular-16 form-control form" type = "checkbox" id = "lastName" required
+                         @bind-Value="_reviewModel.SaveName" />
+        <span class= "Roboto-regular-16 m-3" >
+        Save my name, email, and website in this browser for the
+        next time I comment.
+        </span>
+        <ValidationMessage For="() => _reviewModel.LastName" />
+    </div>*@
+<!--<div>
+                    <button type="submit" class= "mt-4 Roboto-regular-16 submit-button" disabled="@_submitting" > ADD REVIEW </button >
+                </div >
+            </div >
+        </EditForm >
+    </div >
+</div >
+</div >
+<input type = "radio" name = "tabs" id = "tabfour" checked= "checked" >
+    <label for= "tabfour" class= "Roboto-regular-16 teal-bg" > About Brand </label >
+    <div class= "tab" >
+        <h1 > About Brand </h1>
+        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+</div>-->
+<!-- Komponent från Alex med lite modifiering-->
+<!--<div class= "navy-bg p-3 mb-5" >-->
+@*  < div class= "d-flex justify-content-between m-5" >
 
-@code {
+         < div class= "box d-flex p-3 align-items-center white-bg m-3" >
+
+              < span id = "box-img-pack" class= "icon box-img" ></ span >
+
+                 < div class= "box-text" >
+
+                      < div >< span class= "Roboto-medium-16" > Free shipping </ span ></ div >
+
+                            < span class= "Roboto-regular-16" > For a local customer, we provide free shipping facility</span>
+            </div>
+        </div>
+        <div class= "box d-flex p-4 align-items-center white-bg m-3" >
+            < img id = "box-img-clock" class= "box-img" alt = "box" >
+
+                < div class= "box-text" >
+
+                     < div >< span class= "Roboto-medium-16" > 24 / 7 support </ span ></ div >
+
+                             < span class= "Roboto-regular-16" > For any inquiry, we are available 24 hours every day</span>
+            </div>
+        </div>
+        <div class= "box d-flex p-4 align-items-center white-bg m-3" >
+            < img id = "box-img-pay" class= "box-img" alt = "box" >
+
+                < div class= "box-text" >
+
+                     < div >< span class= "Roboto-medium-16" > Online Payment </ span ></ div >
+
+                           < span class= "Roboto-regular-16" > You can pay quickly and easily with our online payment system</span>
+            </div>
+        </div>
+        <div class= "box d-flex p-4 align-items-center white-bg m-3" >
+            < img id = "box-img-time" class= "box-img" alt = "box" >
+
+                < div class= "box-text" >
+
+                     < div >< span class= "Roboto-medium-16" > Fast Delivery </ span ></ div >
+
+                           < span class= "Roboto-regular-16" > We understand your urgency and we deliver in a fast way</span>
+            </div>
+        </div>
+    </div>*@
+</div>-->
+
+<!-- YOU MAY ALSO LIKE -->
+<!--RELATED PRODUCTS-->
+<!--</div >
+</div >
+
+ @code {
     [Parameter]
     public int Id { get; set; }
     private ProductViewModel model;
+private bool checkWishlist { get; set; }
+private int productAmount { get; set; }
+private string stock { get; set; }
 
-    private List<ProductViewModel> _products;
+private List<ReviewModel> _reviews;
+private List<Tag> _tags;
+
+protected override async Task OnInitializedAsync()
+{
+    model = new ProductViewModel();
+    _reviews = new List<ReviewModel>();
+    _tags = new List<Tag>();
+    productAmount = 1;
+    stock = "";
+
+    await GetProductViewModel();
+    await GetReviews();
+    await GetTags();
+    CheckIfInStock();
+
+    checkWishlist = true;
+
+    var response = await apiService.checkIfInWishlist(Id);
+    if (response == true)
+        checkWishlist = false;
+}
 
 
-
-    protected override async Task OnInitializedAsync()
+//Fixa snyggare lösning till API + bygg in bättre fel-hantering!
+private async Task GetProductViewModel()
+{
+    model = await Http.GetFromJsonAsync<ProductViewModel>($"https://localhost:44306/api/Products/getProductById?id={Id}");
+    Console.WriteLine(model.ProductName);
+}
+private async Task GetReviews()
+{
+    var getReviews = await Http.GetFromJsonAsync<List<ReviewModel>>($"https://localhost:44306/api/Products/getReviewsById?id={Id}");
+    if (getReviews.Count != 0)
     {
-        model = new ProductViewModel();
-        _products = new List<ProductViewModel>();
-
-        await GetProductViewModel();
-        await GetProducts();
-        
+        _reviews = getReviews;
     }
-
-     //Fixa snyggare lösning till API + bygg in bättre fel-hantering!
-    private async Task GetProductViewModel()
+    else
     {
-        ProductViewModel checkModel = await Http.GetFromJsonAsync<ProductViewModel>($"https://localhost:44306/api/Products/getProductViewModelById?id={Id}");
-        model = checkModel;      
+        Console.WriteLine("listan är tom");
     }
-
-     private async Task GetProducts()
+}
+private async Task GetTags()
+{
+    var getTags = await Http.GetFromJsonAsync<List<Tag>>($"https://localhost:44306/api/Products/getTagsById?id={Id}");
+    if (getTags.Count != 0)
     {
-        var checkProd = await Http.GetFromJsonAsync<List<ProductViewModel>>($"https://localhost:44306/api/Products/getProductsByProductId?id={Id}");
-        _products = checkProd;    
+        _tags = getTags;
     }
+    else
+    {
+        Console.WriteLine("listan är tom");
+    }
+}
+
+public void CheckIfInStock()
+{
+    var test = 0;
+    var status = "";
+    if (model.InStock > 0)
+    {
+        if (test < 5)
+            status = "Few in stock";
+
+        else
+            status = "In stock";
+    }
+    else
+        status = "Not in stock";
+
+    if (status != null)
+        stock = status;
 
 }
+public void ChangeProductAmount(bool changeAmount)
+{
+    if (changeAmount == true)
+    {
+        productAmount = productAmount + 1;
+    }
+    else
+    {
+        productAmount = productAmount - 1;
+    }
+}
+
+private ReviewModel _reviewModel;
+
+private string _error;
+private int rating;
+private bool _submitting = false;
+
+protected override void OnInitialized()
+{
+    _reviewModel = new ReviewModel();
+}
+
+private void GetRating(int r)
+{
+    rating = r;
+}
+
+private async Task RegisterReview()
+{
+    _submitting = true;
+    _error = string.Empty;
+
+
+    _reviewModel.ProductId = Id;
+    _reviewModel.Rating = rating;
+
+    var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.reviewModelUrl, _reviewModel);
+    var response2 = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.changeCustomerNameUrl, _reviewModel);
+    if (response.IsSuccessStatusCode && response2.IsSuccessStatusCode)
+    {
+        _reviewModel = new ReviewModel();
+    }
+
+    else
+        Console.WriteLine($"{(int)response.StatusCode} {response.ReasonPhrase}");
+
+    _submitting = false;
+}
+
+
+//Kontrollera vilka hjärtan som ska vara ifyllda?
+public async Task checkIfActive(int modelId)
+{
+    var response = await apiService.checkIfInWishlist(modelId);
+
+    if (response == true)
+    {
+        checkWishlist = true;
+        await DeleteWishlistItemApi(modelId);
+    }
+    else
+    {
+        checkWishlist = false;
+        await SendWishlistItemToApi(modelId);
+    }
+}
+public async Task<HttpResponseMessage> SendWishlistItemToApi(int modelId)
+{
+    //var response = await apiService.AddToWishlist(modelId);
+    var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.AddWishlistUrl, Id, true);
+    if (response.IsSuccessStatusCode) { }
+    return response;
+}
+public async Task<HttpResponseMessage> DeleteWishlistItemApi(int modelId)
+{
+    var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.DeleteWishlistUrl, Id, true);
+    if (response.IsSuccessStatusCode) { }
+    return response;
+}
+}-->

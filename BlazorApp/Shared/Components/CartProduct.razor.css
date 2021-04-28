@@ -1,25 +1,4 @@
-﻿/*    <td>
-        <i class="fas fa-times-circle"></i>
-    </td>
-    <td>
-        <img src=@Product.ProductImg alt="Product Image">
-    </td>
-    <th scope="row">
-        @Product.ProductName
-    </th>
-
-    <td><p id="priceColumn">@Product.Price</p></td>
-    <td>
-        <QuantityInput @bind-Quantity="@Product.Quantity" />
-    </td>
-    <td>
-        <p id="subTotalColumn">
-            $@(Product.Quantity * Product.Price)
-        </p>
-    </td>
-*/
-
-.product-name {
+﻿.product-name {
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
@@ -36,4 +15,9 @@ i:hover {
 img {
     width: 65px;
     height: 65px;
+}
+
+.x-btn {
+    width: 1px;
+    padding: 0;
 }

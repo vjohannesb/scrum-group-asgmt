@@ -1,6 +1,5 @@
 ﻿@page "/wishlist"
-@inject IJSRuntime jsRuntime; 
-@inject HttpClient Http;
+@inject WishlistState wishlistState
 
 <!-- Breadcrumb -->
 <div class="pt-5 pb-5 breadcrumb-section">
@@ -17,38 +16,46 @@
 
 <section>
     <div class="container">
-        <div class="d-flex align-items-center flex-column mt-5 pt-5">
-            <p class="dark-blue b-w-play-36">
-                YOUR PRODUCTS 
-                <span class="teal">WHISHLIST</span>
-            </p>
-            <img class="d-block mb-5" src="/img/zigzag.svg" alt="pattern">
+        <div class="d-flex align-items-center flex-column mt-5">
+            <ZigZagTitle BlackText="your" TealText="wishlist" />
         </div>
-        <div class="row">            
-            @if (_ProductViewModels == null)
+
+        <div class="row g-4 mt-5">            
+            @if (wishlistState.WishlistProducts == null)
             {
-                <div class="col">
-                    <p>Loading...</p>
+                <div class="col d-flex w-100 justify-content-center">
+                    <div class="loader" />
                 </div>
             }
             else
             {
-                @if (_ProductViewModels.Count < 1)
+                @if (wishlistState.WishlistProducts.Count < 1)
                 {
-                    <div class="col">
-                        <p>No products available...</p>
+                    <div class="col text-center">
+                        <p>There are no products in your wishlist (yet!)</p>
                     </div>
                 }
                 else
                 {
-                    @foreach (var ProductViewModel in _ProductViewModels)
+                    @if (!_removing)
                     {
-                        <div class="col-3 ">
-                        <div class="remove-top rounded-top d-flex align-items-center">
-                            <i class=" mx-4 fas dark-gray fa-times"></i>
-                            <span class="roboto dark-gray">Remove item</span>
-                        </div>
-                            <ProductCard Product="@ProductViewModel" />
+                        @foreach (var product in wishlistState.WishlistProducts)
+                        {
+                            <div class="col-4">
+                                <div class="wishlist-item">
+                                    <div class="remove-btn" @onclick="() => RemoveFromWishlist(product.ProductId)">
+                                        <i class="fas fa-times"></i>
+                                        <span class="ms-2">Remove item</span>
+                                    </div>
+                                    <ProductCard Product="@product" ClassName="large" />
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="d-flex w-100 justify-content-center">
+                            <div class="loader" />
                         </div>
                     }
                 }
@@ -61,31 +68,35 @@
 
 </section>
 @code {
-    private ProductViewModel _modalProduct;
 
-    private List<ProductViewModel> _ProductViewModels;
+    private bool _removing;
 
     protected override async Task OnInitializedAsync()
     {
-        var module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-slider.js");
-        _modalProduct = new ProductViewModel();
+        wishlistState.OnChange += StateHasChanged;
 
-        await GetWishlistItems();
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ValidateTokenUrl, auth: true);
+        if (!response.IsSuccessStatusCode)
+            navigationManager.NavigateTo("/myaccount");
+
+        await GetWishlistProducts();
     }
 
-   private async Task GetWishlistItems()
+    private async Task GetWishlistProducts()
     {
-        var response = await Http.GetFromJsonAsync<IEnumerable<ProductViewModel>>("https://localhost:44306/api/products/getWishlist");
-
-        //var response2 = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductViewModelsWishlistUrl);
-        if (response != null) {
-            Console.WriteLine("dig");
-            _ProductViewModels = response.ToList();
-        }
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.WishlistUrl, auth: true);
+        if (response.IsSuccessStatusCode)
+            wishlistState.WishlistProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
         else
-        {
-            Console.WriteLine("Successfully registered user!");
-            _ProductViewModels = new List<ProductViewModel>();
-        }
+            wishlistState.WishlistProducts = new();
+    }
+
+    private async Task RemoveFromWishlist(int productId)
+    {
+        _removing = true;
+        var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.ProductInWishlistUrl(productId), auth: true);
+        if (response.IsSuccessStatusCode)
+            wishlistState.WishlistProducts = wishlistState.WishlistProducts.Where(wp => wp.ProductId != productId).ToList();
+        _removing = false;
     }
 }

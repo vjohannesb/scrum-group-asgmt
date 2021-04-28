@@ -50,7 +50,7 @@
         _timeLeft = _countDownDate - DateTime.Now;
         await InvokeAsync(StateHasChanged);
         await Task.Delay(1000);
-        await UpdateTime();
+        UpdateTime();
     }
 
 }

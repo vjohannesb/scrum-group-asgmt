@@ -66,5 +66,15 @@ namespace WebAPI.Services
 
         private bool EmailRegistered(string email) =>
             _context.Customers.Any(customer => customer.Email == email);
+
+        public int GetCustomerIdFromToken(string bearer)
+        {
+            var token = bearer.Contains(" ") ? bearer.Split(" ")[1] : bearer;
+            var jwtToken = _tokenHandler.ReadJwtToken(token);
+            var tokenId = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "UserId")?.Value;
+            var parsed = int.TryParse(tokenId, out int id);
+
+            return parsed ? id : 0;
+        }
     }
 }

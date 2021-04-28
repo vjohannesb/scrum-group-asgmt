@@ -47,11 +47,22 @@ a {
     font-size: 3.75rem;
 }
 
+.fs-18 {
+    font-size: 1.125rem;
+}
+
 .fw-medium {
     font-weight: 500;
 }
 
 /* Buttons */
+button:disabled {
+    background: var(--lighter-gray) !important;
+    color: var(--dark-gray) !important;
+    border: 2px solid transparent !important;
+}
+
+
 .pill {
     border: 2px solid transparent;
     border-radius: 50rem;
@@ -225,10 +236,6 @@ a {
         right: 0.75rem;
         top: 0.5rem;
     }
-
-
-
-
 
 /******************************************************************************/
 /************************************ TEMP ************************************/

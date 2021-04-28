@@ -15,10 +15,5 @@ namespace SharedLibrary.Models.ViewModels
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public IEnumerable<Order> Orders { get; set; }
-        public IEnumerable<Review> Reviews { get; set; }
-        public IEnumerable<Wishlist> Wishlists { get; set; }
-
-        public IEnumerable<Product> ProductsInWishlist { get; set; }
     }
 }
