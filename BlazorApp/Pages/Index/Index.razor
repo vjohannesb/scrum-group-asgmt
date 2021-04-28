@@ -96,17 +96,17 @@
 @* TOP SELLERS *@
 <div class="my-5">
     <ZigZagTitle BlackText="TOP" TealText="SELLERS" Subtitle="Check out our weekly top sellers in all categories" />
-    @if (_products != null && _products.Count > 0)
+    @if (_topSellers != null && _topSellers.Count > 0)
     {
         <div class="row gx-0 justify-content-center">
 
             <div class="col-auto me-3">
-                <ProductCard Product="_products[0]" ClassName="h-100" />
+                <ProductCard Product="_topSellers[0]" ClassName="h-100" />
             </div>
 
             <div class="col-auto d-flex flex-column">
-                <ProductCard Product="_products[1]" ClassName="h-50 mb-2" />
-                <ProductCard Product="_products[2]" ClassName="h-50 mt-2" />
+                <ProductCard Product="_topSellers[1]" ClassName="h-50 mb-2" />
+                <ProductCard Product="_topSellers[2]" ClassName="h-50 mt-2" />
             </div>
         </div>
     }
@@ -131,14 +131,12 @@
 @code {
     private ProductViewModel _modalProduct = new ProductViewModel();
 
-    private List<ProductViewModel> _products;
+    private List<ProductViewModel> _topSellers;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.TopSoldProductsUrl(3));
         if (response.IsSuccessStatusCode)
-        {
-            _products = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
-        }
+            _topSellers = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
     }
 } 

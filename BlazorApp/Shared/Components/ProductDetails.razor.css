@@ -153,6 +153,25 @@
                 border: 2px solid transparent;
             }
 
+        .main-row .info-column .buy-actions-row .color-selection-btn {
+            position: relative;
+        }
+
+        .main-row .info-column .buy-actions-row .color-selection-btn .color-span {
+            display: none;
+        }
+
+        .main-row .info-column .buy-actions-row .color-selection-btn input:checked ~ .color-span {
+            display: inline-block;
+            border: none;
+            position: absolute;
+            top: -2.5rem;
+            left: 0;
+            background: var(--teal);
+            border-radius: 0;
+            padding: 0.25rem 0.5rem;
+        }
+
         .main-row .info-column .buy-actions-row .color-selection-btn img {
             width: 34px;
             height: 34px;

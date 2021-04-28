@@ -341,44 +341,34 @@
                     <!-- Top Rated Products -->
                     <div class="promo-top-products">
                         <h6 class="teal fw-bold">Top Rated Products</h6>
-                        <div class="row g-0 justify-content-start align-items-center">
-                            <div class="col-4 promo-product-container">
-                                <img class="rounded-4" src="https://via.placeholder.com/70"
-                                     alt="Placeholder Product Image">
-                            </div>
 
-                            <div class="col-8 promo-product-container">
-                                <p class="p-0 m-0 pt-2">Circle Pattern Girls...</p>
-                                <Rating Stars=4 />
-                                <p class="promo-product-price fw-bold">$190</p>
+                        @if (_topProducts == null)
+                        {
+                            <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+                                <div class="loader" />
                             </div>
+                        }
+                        else
+                        {
+                            @foreach (var tp in _topProducts)
+                            {
 
-                        </div>
-                        <div class="row g-0 justify-content-start align-items-center">
-                            <div class="col-4 promo-product-container">
-                                <img class="rounded-4" src="https://via.placeholder.com/70"
-                                     alt="Placeholder Product Image">
-                            </div>
+                                <div class="row g-0 justify-content-start align-items-center top-product" @onclick="() => GoToProduct(tp.ProductId)">
+                                    <div class="col-4 promo-product-container">
+                                        <img class="rounded-4" src="https://via.placeholder.com/70/EEEEEE/20d3c2"
+                                             alt="Placeholder Product Image">
+                                    </div>
 
-                            <div class="col-8 promo-product-container">
-                                <p class="p-0 m-0 pt-2">Circle Pattern Girls...</p>
-                                <Rating Stars=4 />
-                                <p class="promo-product-price fw-bold">$190</p>
-                            </div>
+                                    <div class="col-8 promo-product-container">
+                                        <p class="p-0 m-0 pt-2">@tp.ProductName</p>
+                                        <Rating Stars="@(tp.Rating ?? 0)" Size="1" SpaceBetween="0.125" />
+                                        <p class="text-teal fw-bold">$@tp.Price</p>
+                                    </div>
+                                </div>
+                            }
+                        }
 
-                        </div>
-                        <div class="row g-0 justify-content-start align-items-center">
-                            <div class="col-4 promo-product-container">
-                                <img class="rounded-4" src="https://via.placeholder.com/70"
-                                     alt="Placeholder Product Image">
-                            </div>
 
-                            <div class="col-8 promo-product-container">
-                                <p class="p-0 m-0 pt-2">Circle Pattern Girls...</p>
-                                <Rating Stars=4 />
-                                <p class="promo-product-price fw-bold">$190</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -445,6 +435,7 @@
     public string Category { get; set; }
 
     private List<ProductViewModel> _productViewModels;
+    private List<ProductViewModel> _topProducts;
 
     private List<string> _filterCategories;
     private List<string> _filterColors;
@@ -478,6 +469,15 @@
         {
             _productViewModels = await GetProductViewModelsAsync();
         }
+
+        await GetTopProductsAsync();
+    }
+
+    private async Task GetTopProductsAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.TopRatedProductsUrl(3));
+        if (response.IsSuccessStatusCode)
+            _topProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -536,9 +536,7 @@
     }
 
     private void SetDisplay(string mode)
-    {
-        _display = mode;
-    }
+        => _display = mode;
 
     private async Task SetTake(int take)
     {
@@ -641,4 +639,7 @@
             _productsUrl += "?";
         _productsUrl += $"take={_take}&from={_take * _page}";
     }
+
+    private void GoToProduct(int id)
+        => navigationManager.NavigateTo($"/products/{id}");
 }

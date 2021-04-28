@@ -179,3 +179,13 @@
     border-top-right-radius: 0 !important;
 }
 
+
+/* Färger */
+.color-circle {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+}

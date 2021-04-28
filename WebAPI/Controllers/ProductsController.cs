@@ -94,6 +94,38 @@ namespace WebAPI.Controllers
             return NotFound();
         }
 
+        // GET: Top Rated Products
+        [HttpGet("top")]
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetTopProducts(int take)
+        {
+            var products = await ProductContext()
+                .OrderByDescending(p => p.Rating)
+                .Select(p => new ProductViewModel(p))
+                .Take(take)
+                .ToListAsync();
+            return Ok(products);
+        }
+
+        // GET: Most Sold Products (räknar inte kvantitet utan bara antal ordrar m. produkt i)
+        [HttpGet("popular")]
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetPopularProducts(int take)
+        {
+            var productIds = await _context.OrderProducts
+                .Select(op => op.ProductId)
+                .GroupBy(i => i)
+                .OrderByDescending(i => i.Count())
+                .Take(take)
+                .Select(i => i.Key)
+                .ToListAsync();
+
+            var products = await ProductContext()
+                .Where(p => productIds.Contains(p.ProductId))
+                .Select(p => new ProductViewModel(p))
+                .ToListAsync();
+
+            return products;
+        }
+
         // GET Products api/Products/search
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<Product>>> SearchProducts(string searchString)
