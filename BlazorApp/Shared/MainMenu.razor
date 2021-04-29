@@ -1,6 +1,7 @@
 @inject HttpClient Http
 @inject ModalState modalState
 @inject OrderState orderState 
+@inject CompareState compareState 
 @implements IDisposable
 
 <ProductDetailsModal Product=@modalState.ModalProduct />
@@ -95,7 +96,7 @@
             <a class="little-box me-4" href="/compare">
                 <i class="fas fa-random"></i>
                 <div class="little-circle d-flex justify-content-center align-items-center">
-                    <p class="mb-0 text-light">0</p>
+                    <p class="mb-0 text-light">@(compareState.CompareProducts?.Count ?? 0)</p>
                 </div>
             </a>
 
@@ -202,6 +203,7 @@
     {
         _searchQuery = new SearchQuery();
 
+        compareState.OnChange += StateHasChanged;
         modalState.OnChange += StateHasChanged;
         orderState.OnChange += StateHasChanged;
 
@@ -221,6 +223,7 @@
 
     public void Dispose()
     {
+        compareState.OnChange -= StateHasChanged;
         modalState.OnChange -= StateHasChanged;
         orderState.OnChange -= StateHasChanged;
     }

@@ -21,6 +21,7 @@ namespace BlazorApp
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<IAPIService, APIService>();
 
+            builder.Services.AddSingleton<CompareState>();
             builder.Services.AddSingleton<ModalState>();
             builder.Services.AddSingleton<OrderState>();
             builder.Services.AddSingleton<WishlistState>();

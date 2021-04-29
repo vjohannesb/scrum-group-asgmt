@@ -1,5 +1,6 @@
 @inject ModalState modalState
 @inject WishlistState wishlistState
+@inject CompareState compareState
 @implements IDisposable
 
 @if (Product == null)
@@ -44,7 +45,7 @@ else
                                 </span>
                             }
                         </i>
-                        <i class="fas fa-random">
+                        <i class="fas fa-random" @onclick="AddToCompareAsync">
                             <span class="pop-modal">Compare</span>
                         </i>
                         <i class="fas fa-search" @onclick="() => GoToProduct(Product.ProductId)">
@@ -180,6 +181,44 @@ else
 
     private void GoToSignIn()
         => navigationManager.NavigateTo("/myaccount");
+
+    private async Task AddToCompareAsync()
+    {
+        if (compareState.CompareProducts?.Count > 0)
+        {
+            if (compareState.CompareProducts?.Count < 3){
+                Console.WriteLine("Fungerar");
+                var productInCompare = compareState.CompareProducts.FirstOrDefault(p => p.ProductId == Product.ProductId);
+                if (productInCompare != null) {
+                    //gör inget
+                }
+                else
+                    compareState.CompareProducts.Add(Product);
+            }
+            compareState.NotifyStateChanged();
+        }
+        else
+        compareState.CompareProducts = new List<ProductViewModel> { Product };
+
+        await AddToLocalStorageAsync();
+    }
+  
+    private async Task AddToLocalStorageAsync()
+    {
+        var compare = compareState.CompareProducts
+        .Select(scp => new ProductViewModel {
+        ProductId = scp.ProductId,
+        ProductName = scp.ProductName,
+        Rating = scp.Rating,
+        Price = scp.Price,
+        Discount = scp.Discount,
+        ProductImage = scp.ProductImage,
+        InStock = scp.InStock,
+        Brand = scp.Brand
+        })
+        .ToList();
+        await apiService.SaveToLocalStorageAsync<List<ProductViewModel>>("compare", compare);
+    }
 
 }
 
