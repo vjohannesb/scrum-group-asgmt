@@ -342,11 +342,11 @@
                         <h6 class="teal fw-bold">Product Status</h6>
                         <div class="row">
                             <div class="filter-status-container">
-                                <input type="checkbox" id="cbOnSale">
+                                <input type="checkbox" id="cbOnSale" @onclick="() => ToggleSaleFilter(true)">
                                 <label for="cbOnSale">On Sale</label>
                             </div>
                             <div class="filter-status-container">
-                                <input type="checkbox" id="cbInStock">
+                                <input type="checkbox" id="cbInStock" @onclick="() => ToggleStockFilter(true)">
                                 <label for="cbInStock">In Stock</label>
                             </div>
                         </div>
@@ -462,6 +462,9 @@
     private HashSet<string> _filterColors;
     private HashSet<string> _filterSizes;
     private HashSet<string> _filterBrands;
+    private HashSet<string> _filterStocks;
+    private HashSet<string> _filterSales;
+
     private int _take = 9;
     private int _page = 0;
 
@@ -480,6 +483,8 @@
         _filterColors = new();
         _filterSizes = new();
         _filterBrands = new();
+        _filterStocks = new();
+        _filterSales = new();
 
         if (!string.IsNullOrEmpty(Category))
         {
@@ -601,6 +606,22 @@
             _filterBrands.Remove(id.ToString());
     }
 
+    private void ToggleStockFilter(bool stock)
+    {
+        if (!_filterStocks.Add(stock.ToString()))
+            _filterStocks.Remove(stock.ToString());
+    }
+
+    private void ToggleSaleFilter(bool sale)
+    {
+        if (!_filterSales.Add(sale.ToString()))
+            _filterSales.Remove(sale.ToString());
+    }
+
+
+
+
+
     private async Task ApplyFiltersAsync()
     {
         _page = 0;
@@ -611,7 +632,7 @@
     private void UpdateFilterQuery()
     {
         _productsUrl = apiService.ProductsUrl;
-        if (_filterCategories.Count + _filterColors.Count + _filterSizes.Count + _filterBrands.Count > 0)
+        if (_filterCategories.Count + _filterColors.Count + _filterSizes.Count + _filterBrands.Count + _filterStocks.Count + _filterSales.Count > 0)
         {
             _productsUrl += "?";
             if (_filterCategories?.Count > 0)
@@ -625,6 +646,13 @@
 
             if (_filterBrands?.Count > 0)
                 _productsUrl += $"brands={string.Join(",", _filterBrands)}&";
+
+            if (_filterStocks?.Count > 0)
+                _productsUrl += $"instock={string.Join(",", _filterStocks)}&";
+
+            if (_filterSales?.Count > 0)
+                _productsUrl += $"discount={string.Join(",", _filterSales)}&";
+
         }
 
         if (_productsUrl.Contains('?'))

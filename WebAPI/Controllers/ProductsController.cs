@@ -42,12 +42,13 @@ namespace WebAPI.Controllers
             string sizes = null,
             string brands = null,
             bool inStock = false,
+            bool discount = false,
             int take = 9,
             int from = 0)
         {
             IEnumerable<ProductViewModel> products = await ProductContext().Select(p => new ProductViewModel(p)).ToListAsync();
 
-            if (categories?.Length + colors?.Length + sizes?.Length == 0 && !inStock)
+            if (categories?.Length + colors?.Length + sizes?.Length == 0 && !inStock && !discount)
                 return await ProductContext().Select(p => new ProductViewModel(p)).ToListAsync();
 
             // Filtrera produkter
@@ -76,6 +77,9 @@ namespace WebAPI.Controllers
 
             if (inStock)
                 products = products.Where(p => p.InStock > 0);
+
+            if (discount)
+                products = products.Where(p => p.Discount > 0);
 
             return products.Skip(from).Take(take).ToList();
         }
