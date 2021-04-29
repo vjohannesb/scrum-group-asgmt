@@ -126,6 +126,25 @@ namespace WebAPI.Controllers
             return products;
         }
 
+        [HttpGet("count")]
+        public async Task<ActionResult<Dictionary<string, Dictionary<string, int>>>> GetProductCount()
+        {
+            var categories = await _context.Products.Select(p => p.Category).ToListAsync();
+            var colors = await _context.ProductColors.Select(pc => pc.Color.ColorName).ToListAsync();
+            var sizes = await _context.ProductSizes.Select(ps => ps.Size.SizeName).ToListAsync();
+
+            var categoryCount = categories.GroupBy(i => i).ToDictionary(g => g.Key, g => g.Count());
+            var colorsCount = colors.GroupBy(i => i).ToDictionary(g => g.Key, g => g.Count());
+            var sizesCount = sizes.GroupBy(i => i).ToDictionary(g => g.Key, g => g.Count());
+
+            return new Dictionary<string, Dictionary<string, int>> 
+            { 
+                { "categories", categoryCount },
+                { "colors", colorsCount },
+                { "sizes", sizesCount } 
+            };
+        }
+
         // GET Products api/Products/search
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<Product>>> SearchProducts(string searchString)
@@ -205,6 +224,7 @@ namespace WebAPI.Controllers
             return Ok(products);
         }
 
+        // GET: api/Products/id/related
         [HttpGet("{id}/related")]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetRelatedProducts(int id)
         {

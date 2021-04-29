@@ -27,6 +27,7 @@ namespace BlazorApp.Services
         // Product URLs
         public string ProductsUrl => $"{BaseUrl}/products";
         public string MultipleProductsUrl => $"{ProductsUrl}/multi";
+        public string ProductCountUrl => $"{ProductsUrl}/count";
         public string ProductUrl(int productId) => $"{ProductsUrl}/{productId}";
         public string RelatedProductsUrl(int productId) => $"{ProductUrl(productId)}/related";
         public string TopRatedProductsUrl(int take) => $"{ProductsUrl}/top?take={take}";
