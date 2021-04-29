@@ -42,19 +42,25 @@ namespace SharedLibrary.Models.OrderModels
         public string Country { get; set; }
         
         [Required]
+        [MinLength(4, ErrorMessage = "A minimum of 4 characters is required")]
         public string Address { get; set; }
         public string SecondaryAddress { get; set; }
         
         [Required]
+        [MinLength(4, ErrorMessage = "A minimum of 4 characters is required")]
         public string City { get; set; }
         
         [Required]
         public string State { get; set; }
         
         [Required]
+        [MinLength(5, ErrorMessage = "Please enter a valid zip code")]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Incorrect zip code")]
         public string ZipCode { get; set; }
         
         [Required]
+        [MinLength(10, ErrorMessage = "Please enter a valid phone number")]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Incorrect phone number")]
         public string PhoneNumber { get; set; }
 
         public decimal TotalPrice { get; set; }
