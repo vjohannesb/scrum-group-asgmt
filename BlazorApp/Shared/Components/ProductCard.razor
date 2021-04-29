@@ -26,7 +26,17 @@ else
             <!-- Pill -->
             <div class="row justify-content-end">
                 <div class="product-overlay-pill">
-                    <i class="fas fa-circle pop-toggle-btn"></i>
+                    <i class="fas fa-circle pop-toggle-btn">
+                        @if(Product.Colors.Count() > 0)
+                        {
+                            <span class="pop-modal color-modal justify-content-around">
+                                @foreach (var color in Product.Colors)
+                                {
+                                    <span class="color-circle" style="background: @color.ColorName;" />
+                                }
+                            </span>
+                        }
+                    </i>
                     <div class="pop-toggle">
                         <i class="fas fa-heart 
                            @(Product.IsInWishlist ? "text-teal" : "")

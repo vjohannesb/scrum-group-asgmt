@@ -198,6 +198,14 @@ label[for="priceRangeAmount"] {
     background: green;
 }
 
+.color-box-orange {
+    background: #ff7800;
+}
+
+.color-box-brown {
+    background: brown;
+}
+
 /*! Product Categories + Filter by Size */
 .filter-box-container.text-box-container.selected p {
     color: var(--teal);
@@ -221,6 +229,18 @@ label[for="priceRangeAmount"] {
     }
 
 /*! Top Rated Products */
+.top-product {
+    cursor: pointer;
+    -moz-transition: 0.15s;
+    -o-transition: 0.15s;
+    -webkit-transition: 0.15s;
+    transition: 0.15s;
+}
+
+.top-product:hover {
+    color: var(--teal);
+}
+
 .promo-product-container img {
     max-width: 100%;
 }

@@ -94,6 +94,57 @@ namespace WebAPI.Controllers
             return NotFound();
         }
 
+        // GET: Top Rated Products
+        [HttpGet("top")]
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetTopProducts(int take)
+        {
+            var products = await ProductContext()
+                .OrderByDescending(p => p.Rating)
+                .Select(p => new ProductViewModel(p))
+                .Take(take)
+                .ToListAsync();
+            return Ok(products);
+        }
+
+        // GET: Most Sold Products (räknar inte kvantitet utan bara antal ordrar m. produkt i)
+        [HttpGet("popular")]
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetPopularProducts(int take)
+        {
+            var productIds = await _context.OrderProducts
+                .Select(op => op.ProductId)
+                .GroupBy(i => i)
+                .OrderByDescending(i => i.Count())
+                .Take(take)
+                .Select(i => i.Key)
+                .ToListAsync();
+
+            var products = await ProductContext()
+                .Where(p => productIds.Contains(p.ProductId))
+                .Select(p => new ProductViewModel(p))
+                .ToListAsync();
+
+            return products;
+        }
+
+        [HttpGet("count")]
+        public async Task<ActionResult<Dictionary<string, Dictionary<string, int>>>> GetProductCount()
+        {
+            var categories = await _context.Products.Select(p => p.Category).ToListAsync();
+            var colors = await _context.ProductColors.Select(pc => pc.Color.ColorName).ToListAsync();
+            var sizes = await _context.ProductSizes.Select(ps => ps.Size.SizeName).ToListAsync();
+
+            var categoryCount = categories.GroupBy(i => i).ToDictionary(g => g.Key, g => g.Count());
+            var colorsCount = colors.GroupBy(i => i).ToDictionary(g => g.Key, g => g.Count());
+            var sizesCount = sizes.GroupBy(i => i).ToDictionary(g => g.Key, g => g.Count());
+
+            return new Dictionary<string, Dictionary<string, int>> 
+            { 
+                { "categories", categoryCount },
+                { "colors", colorsCount },
+                { "sizes", sizesCount } 
+            };
+        }
+
         // GET Products api/Products/search
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<Product>>> SearchProducts(string searchString)
@@ -173,6 +224,7 @@ namespace WebAPI.Controllers
             return Ok(products);
         }
 
+        // GET: api/Products/id/related
         [HttpGet("{id}/related")]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetRelatedProducts(int id)
         {

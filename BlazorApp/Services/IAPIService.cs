@@ -18,8 +18,11 @@ namespace BlazorApp.Services
         // Product URLs
         public string ProductsUrl { get; }
         public string MultipleProductsUrl { get; }
+        public string ProductCountUrl { get; }
         public string ProductUrl(int productId);
         public string RelatedProductsUrl(int productId);
+        public string TopRatedProductsUrl(int take);
+        public string TopSoldProductsUrl(int take);
 
         // Wishlist URLs
         public string WishlistUrl { get; }

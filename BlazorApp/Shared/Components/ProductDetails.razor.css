@@ -135,9 +135,17 @@
             color: white;
             cursor: pointer;
             border: 2px solid transparent;
-            -webkit-transition: 0.2s;
-            transition: 0.2s;
+            -webkit-transition: 0.15s;
+            transition: 0.15s;
         }
+
+            .main-row .info-column .buy-actions-row .add-to-cart:active {
+                -moz-transform: scale(0.9);
+                -ms-transform: scale(0.95);
+                -o-transform: scale(0.95);
+                -webkit-transform: scale(0.95);
+                transform: scale(0.95);
+            }
 
             .main-row .info-column .buy-actions-row .add-to-cart:hover:not(:disabled) {
                 background: transparent;
@@ -152,6 +160,10 @@
                 color: white !important;
                 border: 2px solid transparent;
             }
+
+        .main-row .info-column .buy-actions-row .color-selection-btn {
+            position: relative;
+        }
 
         .main-row .info-column .buy-actions-row .color-selection-btn img {
             width: 34px;
@@ -321,3 +333,42 @@
 .detail-imgs img.rounded-3:hover {
     opacity: 1;
 }
+
+/* Quick-fix för färg-väljaren */
+.main-row .info-column .buy-actions-row .color-selection-btn .color-span {
+    display: none;
+}
+
+.main-row .info-column .buy-actions-row .color-selection-btn input:checked ~ .color-span {
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    border: none;
+    position: absolute;
+    top: -2.5rem;
+    left: 0;
+    background: white;
+    border: 2px solid gray;
+    border-radius: 5rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.color-span .color-circle {
+    width: 1rem;
+    height: 1rem;
+    border: none !important;
+    margin-left: .125rem;
+    margin-right: .125rem;
+    opacity: 0.85;
+    -moz-transition: .15s;
+    -o-transition: .15s;
+    -webkit-transition: .15s;
+    transition: .15s;
+}
+
+    .color-span .color-circle:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }

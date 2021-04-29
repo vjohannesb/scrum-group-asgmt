@@ -66,13 +66,13 @@
             </div>
 
             <!-- Price + Stock Row -->
-            <div class="row mb-3 g-0 price-status-row">
-                <div class="col-3">
+            <div class="row mb-3 g-0 price-status-row align-items-center">
+                <div class="col-auto">
                     <p class="current-price">$@Product.Price</p>
                 </div>
 
                 <div class="col-3">
-                    <div class="old-price">$@(Product.Price + Product.Discount)</div>
+                    <div class="old-price pt-1 ps-1">$@(Product.Price + Product.Discount)</div>
                 </div>
 
                 <div class="col-3">
@@ -97,7 +97,20 @@
 
                 <div class="col row align-items-center justify-content-center m-0 g-0">
                     <div class="col-2 me-2 color-selection-btn">
-                        <img src="/src/img/shop/color-circle.svg" alt="">
+                        <input id="toggleColors@(DetailsPage ? "Details" : "")" type="checkbox" class="visually-hidden" />
+                        <label for="toggleColors@(DetailsPage ? "Details" : "")">
+                            <img src="/src/img/shop/color-circle.svg" alt="">
+                        </label>
+
+                        <span class="color-span">
+                                @if (Product?.Colors != null && Product.Colors.Count() > 0)
+                                {
+                                    @foreach (var color in Product.Colors)
+                                    {
+                                        <span class="color-circle" style="background: @color.ColorName;" title="@color.ColorName" />
+                                    }
+                                } 
+                        </span>
                     </div>
 
                     <div class="col-2 me-2 compare-item">
