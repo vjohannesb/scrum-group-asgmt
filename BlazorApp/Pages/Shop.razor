@@ -250,16 +250,6 @@
                             </div>
                             <span class="filter-box-amount">@(_productCounts?["colors"]?["Brown"] ?? 0)</span>
                         </div>
-                        <div class="filter-box-container"
-                             @onclick="@(() => ToggleColorFilter("white"))">
-                            <div class="d-flex align-items-center">
-                                <span class="color-box color-box-white">
-                                    <i class="fas fa-check"></i>
-                                </span>
-                                <p class="ms-2 my-0 d-inline">White</p>
-                            </div>
-                            <span class="filter-box-amount">@(_productCounts?["colors"]?["White"] ?? 0)</span>
-                        </div>
                     </div>
 
                     <!-- Filter by Size -->

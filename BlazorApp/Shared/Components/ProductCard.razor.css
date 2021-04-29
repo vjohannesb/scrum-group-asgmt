@@ -135,17 +135,20 @@
         text-align: center;
         padding: 0.5rem;
         width: 7rem;
-        opacity: 0;
-        -moz-transition: opacity 0.2s;
-        -o-transition: opacity 0.2s;
-        -webkit-transition: opacity 0.2s;
-        transition: opacity 0.2s;
         display: none;
+    }
+
+    .product-overlay-pill i .pop-modal.color-modal {
+        background: white !important;
+        display: none;
+    }
+
+    .product-overlay-pill i:hover .pop-modal.color-modal {
+        display: flex !important;
     }
 
     .product-overlay-pill i:hover .pop-modal {
         display: block;
-        opacity: 1;
     }
 
 /* Lilla pilkanten på modal-rutan brevid ikonen */
@@ -182,8 +185,8 @@
 
 /* Färger */
 .color-circle {
-    width: 10px;
-    height: 10px;
+    width: 13px;
+    height: 13px;
     display: inline-block;
     -moz-border-radius: 100%;
     -webkit-border-radius: 100%;

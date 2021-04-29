@@ -105,7 +105,7 @@
                     <p class="mb-0 text-light">@(orderState.ShoppingCartProducts?.Count ?? 0) </p>
                 </div>
             </a>
-            <div class="ms-2">$0.00</div>
+            <div class="ms-2">$@(orderState.ShoppingCartProducts?.Sum(scp => scp.Price * scp.Quantity) ?? (decimal)0.00)</div>
         </div>
 
     </div>

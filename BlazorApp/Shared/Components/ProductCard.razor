@@ -28,7 +28,7 @@ else
                     <i class="fas fa-circle pop-toggle-btn">
                         @if(Product.Colors.Count() > 0)
                         {
-                            <span class="pop-modal d-flex justify-content-between">
+                            <span class="pop-modal color-modal justify-content-around">
                                 @foreach (var color in Product.Colors)
                                 {
                                     <span class="color-circle" style="background: @color.ColorName;" />

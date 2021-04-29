@@ -66,13 +66,13 @@
             </div>
 
             <!-- Price + Stock Row -->
-            <div class="row mb-3 g-0 price-status-row">
-                <div class="col-3">
+            <div class="row mb-3 g-0 price-status-row align-items-center">
+                <div class="col-auto">
                     <p class="current-price">$@Product.Price</p>
                 </div>
 
                 <div class="col-3">
-                    <div class="old-price">$@(Product.Price + Product.Discount)</div>
+                    <div class="old-price pt-1 ps-1">$@(Product.Price + Product.Discount)</div>
                 </div>
 
                 <div class="col-3">
@@ -102,7 +102,15 @@
                             <img src="/src/img/shop/color-circle.svg" alt="">
                         </label>
 
-                        <span class="color-span">HEJSAN</span>
+                        <span class="color-span">
+                                @if (Product?.Colors != null && Product.Colors.Count() > 0)
+                                {
+                                    @foreach (var color in Product.Colors)
+                                    {
+                                        <span class="color-circle" style="background: @color.ColorName;" title="@color.ColorName" />
+                                    }
+                                } 
+                        </span>
                     </div>
 
                     <div class="col-2 me-2 compare-item">

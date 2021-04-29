@@ -206,14 +206,6 @@ label[for="priceRangeAmount"] {
     background: brown;
 }
 
-.color-box-white {
-    border: 1px solid gray;
-    background: white;
-}
-
-.filter-box-container.selected .color-box-white i {
-    color: gray !important;
-}
 /*! Product Categories + Filter by Size */
 .filter-box-container.text-box-container.selected p {
     color: var(--teal);
