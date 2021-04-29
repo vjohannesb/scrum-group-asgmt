@@ -92,7 +92,8 @@ else
         await AddToLocalStorageAsync();
     }
 
-    private async Task AddToLocalStorageAsync()
+
+     private async Task AddToLocalStorageAsync()
     {
         var cart = orderState.ShoppingCartProducts
             .Select(scp => new ShoppingCartItem { ProductId = scp.ProductId, Quantity = scp.Quantity })
