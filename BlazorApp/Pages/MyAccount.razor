@@ -125,6 +125,7 @@ else
 @code {
     private SignInModel _signInModel;
     private RegisterModel _registerModel;
+    private Customer _customer;
 
     private string _error;
     private bool _submitting = false;
@@ -147,6 +148,7 @@ else
         else
             Console.WriteLine($"{(int)response.StatusCode} {response.ReasonPhrase}");
 
+        _customer = new Customer();
         _submitting = false;
     }
     private async Task RegisterUser()

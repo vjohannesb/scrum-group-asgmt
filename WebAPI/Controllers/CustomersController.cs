@@ -107,5 +107,6 @@ namespace WebAPI.Controllers
         [HttpGet("validate")]
         public IActionResult ValidateToken()
             => Ok();
+
     }
 }

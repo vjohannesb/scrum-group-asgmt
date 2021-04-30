@@ -86,7 +86,15 @@
         <div class="d-flex align-items-center account-bar">
             <a href="/myaccount" class="d-flex align-items-center">
                 <i class="far fa-user"></i>
-                <span class="ps-1">My account</span>
+                @if (_customer.FirstName == null)
+                {
+                    <span class="ps-1">My Account</span>
+                }
+                else
+                {
+                    <span class="ps-1">@(_customer.FirstName)</span>
+                }
+
             </a>
 
             <a class="ps-4 me-4" href="/wishlist">
@@ -202,9 +210,11 @@
 
 @code {
     private SearchQuery _searchQuery;
+    private Customer _customer;
 
     protected override async Task OnInitializedAsync()
     {
+        _customer = new Customer();
         _searchQuery = new SearchQuery();
 
         compareState.OnChange += StateHasChanged;

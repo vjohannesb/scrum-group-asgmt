@@ -372,3 +372,33 @@
         opacity: 1;
         transform: scale(1.1);
     }
+
+/*Wishlist*/
+.fas.fa-heart.toggling {
+    color: white !important;
+    cursor: wait;
+}
+
+    .fas.fa-heart.toggling span {
+        display: none !important;
+    }
+
+i .pop-modal {
+    font-weight: normal !important;
+    font-family: "Roboto", sans-serif !important;
+    background: var(--teal);
+    color: white;
+    position: absolute;
+    left: -8rem;
+    top: -0.5rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    padding: 0.5rem;
+    width: 7rem;
+    display: none;
+}
+
+
+i:hover {
+    display: flex !important;
+}

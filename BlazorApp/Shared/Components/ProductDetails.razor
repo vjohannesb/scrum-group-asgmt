@@ -1,4 +1,8 @@
 ﻿@inject OrderState orderState
+@inject ModalState modalState
+@inject WishlistState wishlistState
+@inject CompareState compareState
+@implements IDisposable
 
 @if (Product != null)
 {
@@ -67,13 +71,24 @@
 
             <!-- Price + Stock Row -->
             <div class="row mb-3 g-0 price-status-row align-items-center">
+
                 <div class="col-auto">
                     <p class="current-price">$@Product.Price</p>
                 </div>
+                @if (Product.Discount > 0)
+                {
+                    <div class="col-3">
+                        <div class="old-price pt-1 ps-1">$@(Product.Price + Product.Discount)</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-3">
+                        <div class="old-price pt-1 ps-1"></div>
+                    </div>
+                }
 
-                <div class="col-3">
-                    <div class="old-price pt-1 ps-1">$@(Product.Price + Product.Discount)</div>
-                </div>
+
 
                 <div class="col-3">
                     <div class="stock-status" title="@(Product.InStock > 50 ? "> 50" : Product.InStock > 0 ? "0-50" : "Out of stock")">
@@ -103,13 +118,13 @@
                         </label>
 
                         <span class="color-span">
-                                @if (Product?.Colors != null && Product.Colors.Count() > 0)
+                            @if (Product?.Colors != null && Product.Colors.Count() > 0)
+                            {
+                                @foreach (var color in Product.Colors)
                                 {
-                                    @foreach (var color in Product.Colors)
-                                    {
-                                        <span class="color-circle" style="background: @color.ColorName;" title="@color.ColorName" />
-                                    }
-                                } 
+                                    <span class="color-circle" style="background: @color.ColorName;" title="@color.ColorName" />
+                                }
+                            }
                         </span>
                     </div>
 
@@ -118,13 +133,17 @@
                             <i class="fas fa-random"></i>
                         </span>
                     </div>
-
-                    <div class="col-2 me-2 save-item">
-                        <span>
-                            <i class="fas fa-heart"></i>
-                        </span>
+                    
+                        <div class="col-2 me-2 save-item">
+                            <span>
+                                <i class="fas fa-heart
+                           @(Product.IsInWishlist ? "text-teal" : "")
+                           @(_togglingWishlist ? "toggling" : "")"
+                                   @onclick="ToggleWishlist">
+                                </i>
+                            </span>
                     </div>
-                </div>
+                    </div>
             </div>
 
             <!-- Category Row -->
@@ -188,6 +207,96 @@
     public bool DetailsPage { get; set; } = false;
 
     private int _quantity = 1;
+    private bool _signedIn;
+    private bool _togglingWishlist;
+
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        modalState.OnChange += StateHasChanged;
+        wishlistState.OnChange += StateHasChanged;
+
+        // Validera token / kolla om användaren är inloggad
+        var tokenResponse = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ValidateTokenUrl, auth: true);
+        if (tokenResponse.IsSuccessStatusCode)
+        {
+            _signedIn = true;
+            var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductInWishlistUrl(Product.ProductId), auth: true);
+            if (response.IsSuccessStatusCode)
+            {
+                var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+                Product.IsInWishlist = payload.Succeeded;
+            }
+            else
+            {
+                _signedIn = false;
+                Product.IsInWishlist = false;
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        modalState.OnChange -= StateHasChanged;
+        wishlistState.OnChange -= StateHasChanged;
+    }
+
+    private void GoToSignIn()
+        => navigationManager.NavigateTo("/myaccount");
+    private async Task ToggleWishlist()
+
+    {
+        if (!_signedIn)
+            GoToSignIn();
+
+        if (!_togglingWishlist)
+        {
+            _togglingWishlist = true;
+
+            if (!Product.IsInWishlist)
+                await AddToWishlistAsync();
+            else
+                await RemoveFromWishlistAsync();
+
+            _togglingWishlist = false;
+        }
+    }
+
+    private async Task AddToWishlistAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.ProductInWishlistUrl(Product.ProductId), auth: true);
+        if (response.IsSuccessStatusCode)
+        {
+            Product.IsInWishlist = true;
+            wishlistState.WishlistProducts = wishlistState.WishlistProducts.Append(Product).ToList();
+        }
+    }
+
+    private async Task RemoveFromWishlistAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.ProductInWishlistUrl(Product.ProductId), auth: true);
+        if (response.IsSuccessStatusCode)
+        {
+            Product.IsInWishlist = false;
+            wishlistState.WishlistProducts = wishlistState.WishlistProducts
+                .Where(wp => wp.ProductId != Product.ProductId)
+                .ToList();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     private async Task AddToCartAsync()
     {
@@ -217,7 +326,7 @@
     }
 
 
-    private void GoToCategory(string category)
+    private void GoToCategory( string category )
         => navigationManager.NavigateTo($"/shop/{category}", true);
 
     //protected override async Task OnInitializedAsync()
