@@ -1,0 +1,238 @@
+@inject ModalState modalState
+@inject WishlistState wishlistState
+@inject CompareState compareState
+@implements IDisposable
+
+@if (Product == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="product-container @(ClassName ?? "")">
+        <!-- Circle -->
+        <div class="circle">NEW</div>
+
+        <!-- Product Image-->
+        <img src="https://via.placeholder.com/350/EEEEEE/20D3C2?text=@Product.ProductName" alt="Product Image" class="product-img" />
+
+        <!-- Bottom Title -->
+        <div class="product-title">
+            @Product.ProductName
+        </div>
+
+        <!-- Product Overlay -->
+        <div class="product-overlay">
+            <!-- Pill -->
+            <div class="row justify-content-end">
+                <div class="product-overlay-pill">
+                    <i class="fas fa-circle pop-toggle-btn">
+                        @if(Product.Colors.Count() > 0)
+                        {
+                            <span class="pop-modal color-modal justify-content-around">
+                                @foreach (var color in Product.Colors)
+                                {
+                                    <span class="color-circle" style="background: @color.ColorName;" />
+                                }
+                            </span>
+                        }
+                    </i>
+                    <div class="pop-toggle">
+                        <i class="fas fa-heart 
+                           @(Product.IsInWishlist ? "text-teal" : "")
+                           @(_togglingWishlist ? "toggling" : "")" 
+                           @onclick="ToggleWishlist">
+                            @if (_signedIn)
+                            {
+                                <span class="pop-modal">
+                                    @(Product.IsInWishlist ? "Remove item from wishlist": "Save item")
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="pop-modal">
+                                    Sign in to save items
+                                </span>
+                            }
+                        </i>
+                        <i class="fas fa-random" @onclick="AddToCompareAsync">
+                            <span class="pop-modal">Compare</span>
+                        </i>
+                        <i class="fas fa-search" @onclick="() => GoToProduct(Product.ProductId)">
+                            <span class="pop-modal">Details</span>
+                        </i>
+                        <i class="fas fa-shopping-cart" data-bs-toggle="modal" data-bs-target="#quickViewModal" @onclick="UpdateModalProduct">
+                            <span class="pop-modal">Add to cart</span>
+                        </i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="text-white">
+                <div class="product-name my-2">
+                    <a href="/products/@Product.ProductId">
+                        @Product.ProductName
+                    </a>
+
+                </div>
+
+                <!-- Tags -->
+                <div class="product-tags my-2">
+                    <span class="px-2 border border-1">@Product.Tags?.FirstOrDefault()?.TagName</span>
+                </div>
+
+                <!-- Old Price -->
+                @if (Product.Discount > 0)
+                {
+                    <div class="old-price my-2 text-decoration-line-through">
+                        $@(Product.Price + @Product.Discount)
+                    </div>
+                }
+                
+
+                <!-- New Price -->
+                <div class="d-flex justify-content-between align-items-center my-2 text-teal fs-4">
+                    <div class="fw-medium">
+                        $@Product.Price
+                    </div>
+
+                    <!-- Rating -->
+                    <div>
+                        <Rating Stars="@(Product.Rating ?? 0)" Size="1" SpaceBetween="0.15" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ProductViewModel Product { get; set; }
+
+    [Parameter]
+    public string ClassName { get; set; }
+
+    private bool _signedIn;
+    private bool _togglingWishlist;
+
+    protected override async Task OnInitializedAsync()
+    {
+        modalState.OnChange += StateHasChanged;
+        wishlistState.OnChange += StateHasChanged;
+
+        // Validera token / kolla om användaren är inloggad
+        var tokenResponse = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ValidateTokenUrl, auth: true);
+        if (tokenResponse.IsSuccessStatusCode)
+        {
+            _signedIn = true;
+            var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductInWishlistUrl(Product.ProductId), auth: true);
+            if (response.IsSuccessStatusCode)
+            {
+                var payload = await response.Content.ReadFromJsonAsync<ResponseModel>();
+                Product.IsInWishlist = payload.Succeeded;
+            }
+            else
+            {
+                _signedIn = false;
+                Product.IsInWishlist = false;
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        modalState.OnChange -= StateHasChanged;
+        wishlistState.OnChange -= StateHasChanged;
+    }
+
+    private async Task ToggleWishlist()
+    {
+        if (!_signedIn) 
+            GoToSignIn();
+
+        if (!_togglingWishlist)
+        {
+            _togglingWishlist = true;
+
+            if (!Product.IsInWishlist)
+                await AddToWishlistAsync();
+            else
+                await RemoveFromWishlistAsync();
+
+            _togglingWishlist = false;
+        }
+    }
+
+    private async Task AddToWishlistAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.ProductInWishlistUrl(Product.ProductId), auth: true);
+        if (response.IsSuccessStatusCode)
+        {
+            Product.IsInWishlist = true;
+            wishlistState.WishlistProducts = wishlistState.WishlistProducts.Append(Product).ToList();
+        }
+    }
+
+    private async Task RemoveFromWishlistAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.ProductInWishlistUrl(Product.ProductId), auth: true);
+        if (response.IsSuccessStatusCode)
+        {
+            Product.IsInWishlist = false;
+            wishlistState.WishlistProducts = wishlistState.WishlistProducts
+                .Where(wp => wp.ProductId != Product.ProductId)
+                .ToList();
+        }
+    }
+
+    private void UpdateModalProduct()
+        => modalState.ModalProduct = Product;
+
+    private void GoToProduct(int id)
+        => navigationManager.NavigateTo($"/products/{id}");
+
+    private void GoToSignIn()
+        => navigationManager.NavigateTo("/myaccount");
+
+    private async Task AddToCompareAsync()
+    {
+        if (compareState.CompareProducts?.Count > 0)
+        {
+            if (compareState.CompareProducts?.Count < 3){
+                Console.WriteLine("Fungerar");
+                var productInCompare = compareState.CompareProducts.FirstOrDefault(p => p.ProductId == Product.ProductId);
+                if (productInCompare != null) {
+                    //gör inget
+                }
+                else
+                    compareState.CompareProducts.Add(Product);
+            }
+            compareState.NotifyStateChanged();
+        }
+        else
+        compareState.CompareProducts = new List<ProductViewModel> { Product };
+
+        await AddToLocalStorageAsync();
+    }
+  
+    private async Task AddToLocalStorageAsync()
+    {
+        var compare = compareState.CompareProducts
+        .Select(scp => new ProductViewModel {
+        ProductId = scp.ProductId,
+        ProductName = scp.ProductName,
+        Rating = scp.Rating,
+        Price = scp.Price,
+        Discount = scp.Discount,
+        ProductImage = scp.ProductImage,
+        InStock = scp.InStock,
+        Brand = scp.Brand
+        })
+        .ToList();
+        await apiService.SaveToLocalStorageAsync<List<ProductViewModel>>("compare", compare);
+    }
+
+}
+

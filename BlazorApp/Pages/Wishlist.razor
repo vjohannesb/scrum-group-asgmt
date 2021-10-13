@@ -1,0 +1,102 @@
+﻿@page "/wishlist"
+@inject WishlistState wishlistState
+
+<!-- Breadcrumb -->
+<div class="pt-5 pb-5 breadcrumb-section">
+    <div class="container d-flex justify-content-between align-items-center">
+        <p>Wishlist</p>
+        <nav class="breadcrumb-divider" aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-small-text">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <div class="d-flex align-items-center flex-column mt-5">
+            <ZigZagTitle BlackText="your" TealText="wishlist" />
+        </div>
+
+        <div class="row g-4 mt-5">            
+            @if (wishlistState.WishlistProducts == null)
+            {
+                <div class="col d-flex w-100 justify-content-center">
+                    <div class="loader" />
+                </div>
+            }
+            else
+            {
+                @if (wishlistState.WishlistProducts.Count < 1)
+                {
+                    <div class="col text-center">
+                        <p>There are no products in your wishlist (yet!)</p>
+                    </div>
+                }
+                else
+                {
+                    @if (!_removing)
+                    {
+                        @foreach (var product in wishlistState.WishlistProducts)
+                        {
+                            <div class="col-4">
+                                <div class="wishlist-item">
+                                    <div class="remove-btn" @onclick="() => RemoveFromWishlist(product.ProductId)">
+                                        <i class="fas fa-times"></i>
+                                        <span class="ms-2">Remove item</span>
+                                    </div>
+                                    <ProductCard Product="@product" ClassName="large" />
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="d-flex w-100 justify-content-center">
+                            <div class="loader" />
+                        </div>
+                    }
+                }
+            }
+
+        </div>
+
+       
+    </div>
+
+</section>
+@code {
+
+    private bool _removing;
+
+    protected override async Task OnInitializedAsync()
+    {
+        wishlistState.OnChange += StateHasChanged;
+
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ValidateTokenUrl, auth: true);
+        if (!response.IsSuccessStatusCode)
+            navigationManager.NavigateTo("/myaccount");
+
+        await GetWishlistProducts();
+    }
+
+    private async Task GetWishlistProducts()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.WishlistUrl, auth: true);
+        if (response.IsSuccessStatusCode)
+            wishlistState.WishlistProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+        else
+            wishlistState.WishlistProducts = new();
+    }
+
+    private async Task RemoveFromWishlist(int productId)
+    {
+        _removing = true;
+        var response = await apiService.SendToAPIAsync(HttpMethod.Delete, apiService.ProductInWishlistUrl(productId), auth: true);
+        if (response.IsSuccessStatusCode)
+            wishlistState.WishlistProducts = wishlistState.WishlistProducts.Where(wp => wp.ProductId != productId).ToList();
+        _removing = false;
+    }
+}

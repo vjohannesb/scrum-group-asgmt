@@ -1,0 +1,41 @@
+﻿<div class="container">
+    <div class="grid-container mb-5">
+        @foreach (var category in _categories)
+        {
+            <_CategoryCard CategoryName="@category.CategoryName"
+                           RowSpan="@category.RowSpan"
+                           ColumnSpan="@category.ColSpan"
+                           ProductsInCategory="@category.ProductCount" />
+        }
+
+    </div>
+</div>
+
+@code {
+    public class TempCategory
+    {
+        public TempCategory(string cn, int pc, int rs, int cs)
+        {
+            CategoryName = cn;
+            ProductCount = pc;
+            RowSpan = rs;
+            ColSpan = cs;
+        }
+        public string CategoryName { get; set; }
+        public int ProductCount { get; set; }
+        public int RowSpan { get; set; }
+        public int ColSpan { get; set; }
+    }
+
+    private List<TempCategory> _categories = new List<TempCategory>
+{
+        new TempCategory("Men", 34, 1, 1),
+        new TempCategory("Women", 53, 1, 2),
+        new TempCategory("Kids", 28, 2, 2),
+        new TempCategory("Shoes", 44, 2, 2),
+        new TempCategory("Hats", 12, 1, 1),
+        new TempCategory("Sunglasses", 18, 1, 2),
+        new TempCategory("Watches", 12, 1, 1)
+    };
+
+} 

@@ -1,0 +1,297 @@
+﻿.shoe img {
+    position: relative;
+}
+
+.circle {
+    border-radius: 50px;
+}
+
+.circle-blue {
+    background: var(--teal);
+}
+
+.circle-green {
+    background: var(--light-green);
+}
+
+/** Shop Top Menu **/
+.list-box-large-box, .show-x-items, .btn-sorting-container {
+    background: var(--dark-blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+}
+
+
+/*! List/Box/Large Box */
+.list-box-large-box {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+    .list-box-large-box i {
+        cursor: pointer;
+    }
+
+        .list-box-large-box i.selected {
+            color: var(--teal) !important;
+        }
+
+/*! Show X Items  */
+.show-x-items {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.btn-sorting {
+    color: white;
+    padding-top: 0.95rem;
+    padding-bottom: 0.95rem;
+}
+
+    .btn-sorting:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+.btn-sorting-container {
+    justify-content: space-around !important;
+}
+
+.btn-sorting i {
+    transition: color 0.2s;
+    margin-left: 2rem;
+}
+
+.btn-sorting:hover i {
+    color: var(--teal);
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+/** Filter Column  */
+/* ! FILTER BOXES */
+.filter-box-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.filter-box-amount {
+    margin: 0;
+    padding: 0 0.25rem;
+    border: 1px solid lightgray;
+    border-radius: 0.2rem;
+}
+
+.filter-box-container.selected .filter-box-amount {
+    color: white !important;
+    background: var(--teal) !important;
+    border: 1px solid var(--teal) !important;
+}
+
+.filter-box-container {
+    cursor: pointer;
+    opacity: 0.75;
+}
+
+    .filter-box-container:hover,
+    .filter-box-container.selected {
+        opacity: 1;
+    }
+
+/*! Filter by Price  */
+/** SLIDER **/
+.slider-container {
+    cursor: pointer !important;
+}
+
+#slider-range-price {
+    background: transparent;
+    border: 0 !important;
+    max-height: 0.2rem;
+}
+
+.ui-slider-range {
+    background: var(--teal) !important;
+    border: 0 !important;
+    margin-top: 0.15rem;
+    cursor: pointer !important;
+}
+
+.ui-slider-handle {
+    background: var(--teal) !important;
+    border: 0 !important;
+    width: 0.3rem !important;
+    cursor: pointer !important;
+}
+
+.ui-slider-handle-0 {
+    margin-left: 0 !important;
+}
+
+.ui-slider-handle-1 {
+    margin-left: -1px !important;
+}
+
+label[for="priceRangeAmount"] {
+    margin-right: 0.25rem;
+}
+
+#priceRangeAmount {
+    max-width: 100%;
+}
+
+.filter-pill {
+    cursor: pointer;
+    border-radius: 1rem;
+    padding-left: 1.4rem !important;
+    padding-right: 1.4rem !important;
+    border: 1px solid transparent;
+    transition: color 0.2s, border 0.2s, background 0.2s;
+}
+
+    .filter-pill:hover {
+        background: transparent !important;
+        border: 1px solid var(--teal) !important;
+        color: var(--teal) !important;
+    }
+
+/*! Filter by Color */
+.filter-box-container .color-box i {
+    display: none;
+}
+
+.filter-box-container.selected .color-box i {
+    display: block;
+    color: white;
+}
+
+.color-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 0.3rem;
+    background: black;
+}
+
+.color-box-black {
+    background: black;
+}
+
+.color-box-gray {
+    background: gray;
+}
+
+.color-box-red {
+    background: red;
+}
+
+.color-box-green {
+    background: green;
+}
+
+.color-box-orange {
+    background: #ff7800;
+}
+
+.color-box-brown {
+    background: brown;
+}
+
+/*! Product Categories + Filter by Size */
+.filter-box-container.text-box-container.selected p {
+    color: var(--teal);
+}
+
+/*! Filter by Brand */
+.filter-brand-container img {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 0.15s;
+}
+
+    .filter-brand-container img:hover,
+    .filter-brand-container.selected img {
+        border: 2px solid rgb(83, 83, 83) !important;
+        opacity: 1;
+    }
+
+    .filter-brand-container img:hover {
+        transform: scale(1.075);
+    }
+
+/*! Top Rated Products */
+.top-product {
+    cursor: pointer;
+    -moz-transition: 0.15s;
+    -o-transition: 0.15s;
+    -webkit-transition: 0.15s;
+    transition: 0.15s;
+}
+
+.top-product:hover {
+    color: var(--teal);
+}
+
+.promo-product-container img {
+    max-width: 100%;
+}
+
+/*! Brand Bottom Banner */
+.brand-bottom-banner img {
+    width: 75%;
+}
+
+/*! Filter Toggle */
+#btnToggleFilters {
+    text-align: center;
+    padding: 0.75rem 0;
+    border-radius: 1rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: 0.2s;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+    #btnToggleFilters:hover {
+        border: 1px solid var(--teal);
+        background: var(--teal);
+        color: white;
+    }
+
+.filter-column {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .filter-column {
+        display: block !important;
+    }
+}
+
+.filter-toggle-flex {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .filter-toggle-flex {
+        display: flex;
+    }
+}
+
+.shop-product-n-link {
+    cursor: pointer;
+}
+
+    .shop-product-n-link:hover,
+    .shop-product-n-link.selected {
+        color: var(--teal) !important;
+    }

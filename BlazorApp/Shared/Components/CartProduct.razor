@@ -1,0 +1,51 @@
+﻿@inject OrderState orderState
+
+@if (Product == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <td class="x-btn">
+        <i class="fas fa-times-circle" @onclick="RemoveProduct"></i>
+    </td>
+
+    <th scope="row" class="d-flex align-items-center"  @onclick="GoToProduct">
+        @*<img src=@Product.ProductImg alt="Product Image">*@
+        <img src="https://via.placeholder.com/65/EEEEEE/20D3C2?text=@(Product.ProductName.Substring(0, 1).ToUpper())" alt="Product Image" />
+        <div class="product-name ms-3">
+            @Product.ProductName
+        </div>
+    </th>
+
+    <td>
+        $@Product.Price
+    </td>
+
+    <td>
+        <QuantityInput @bind-Quantity="@Product.Quantity" />
+    </td>
+
+    <td class="subtotal-column text-teal">
+        $@(Product.Quantity * Product.Price)
+    </td>
+}
+@code {
+    [Parameter]
+    public ProductViewModel Product { get; set; }
+
+    private async Task RemoveProduct()
+    {
+        orderState.ShoppingCartProducts.Remove(Product);
+
+        var lsCart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
+        lsCart = lsCart.Where(sci => sci.ProductId != Product.ProductId).ToList();
+        await apiService.SaveToLocalStorageAsync<List<ShoppingCartItem>>("cart", lsCart);
+
+        orderState.NotifyStateChanged();
+    }
+
+    private void GoToProduct()
+        => navigationManager.NavigateTo($"products/{Product.ProductId}");
+
+}

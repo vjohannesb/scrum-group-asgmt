@@ -1,0 +1,107 @@
+
+
+
+.navy-bg {
+    background-color: var(--dark-blue);
+}
+
+.text-black {
+    color: black;
+}
+
+#location-marker {
+    margin-top: 10%;
+    color: #FE4545; 
+    font-size: 5rem;
+}
+
+#z-index-minus {
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.container-box {
+    margin-top: 20%;
+    margin-right: 50px;
+    margin-left: 50px;
+}
+
+.address-card {
+    margin: 40px;
+}
+
+.bottom-border-green {
+    border-bottom: 5px solid var(--teal);
+}
+
+.title-text {
+    font-size: 24px;
+    color: var(--teal);
+}
+
+
+
+
+#teal-line {
+    margin-left: 20px;
+}
+
+.social-icon:hover {
+    content: url(/img/social-icon-white.svg);
+}
+
+
+
+.dropdown-display-input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    outline: none;
+    border: 0;
+    width: 100%;
+}
+
+
+
+
+
+
+.dropdown-toggle {
+    background-color: white;
+}
+
+
+#dropdown-menu {
+    border: 0;
+    outline: none;
+    border-radius: 8px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+
+
+#submit-button {
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: var(--teal);
+    border: 0;
+    border-radius: 20px;
+    color: white;
+}
+
+
+.contact-us-socials i {
+    color: var(--teal);
+    -moz-transition: 0.15s;
+    -o-transition: 0.15s;
+    -webkit-transition: 0.15s;
+    transition: 0.15s;
+    cursor: pointer;
+    font-size: 1.25rem;
+}
+
+    .contact-us-socials i:hover {
+        color: white;
+    }

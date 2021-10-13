@@ -1,0 +1,104 @@
+.user-select-none {
+    user-select: none;
+}
+
+.tags-border:hover {
+    cursor: pointer;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .tabs .tab-label {
+        order: 1;
+        padding: 1rem 2rem;
+        margin-right: 0.2rem;
+        cursor: pointer;
+        transition: background ease 0.2s;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: var(--dark-blue);
+        color: white;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-right: 3px;
+        margin-left: 3px;
+    }
+
+        .tabs .tab-label:hover {
+            background-color: var(--teal);
+            cursor: pointer;
+        }
+
+    .tabs .tab {
+        order: 99;
+        display: none;
+        width: 100%;
+        border-top: 2px solid var(--teal);
+    }
+
+    .tabs input[type="radio"] {
+        display: none;
+    }
+
+        .tabs input[type="radio"]:checked + label {
+            background: #20d3c2;
+        }
+
+            .tabs input[type="radio"]:checked + label + .tab {
+                display: block;
+            }
+
+::deep .add-review-form {
+    background-color: var(--off-white);
+    padding: 20px;
+}
+
+    ::deep .add-review-form .review-input {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    ::deep .add-review-form .fa-star {
+        cursor: pointer;
+    }
+
+    ::deep .add-review-form .far.fa-star {
+        color: var(--light-gray) !important;
+    }
+
+    ::deep .add-review-form .fas.fa-star,
+    ::deep .add-review-form .fa-star:hover {
+        color: var(--teal) !important;
+    }
+
+.submit-button {
+    color: white;
+    background-color: var(--teal);
+    border: 2px solid transparent;
+    border-radius: 23px;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    -moz-transition: 0.15s;
+    -o-transition: 0.15s;
+    -webkit-transition: 0.15s;
+    transition: 0.15s;
+}
+
+.submit-button:hover {
+    background-color: transparent;
+    border: 2px solid var(--teal);
+    color: var(--teal);
+}
+
+/* Free shipping / 247 support / online payment / fast delivery */
+::deep .usp-container .usp-box {
+    background: white;
+}

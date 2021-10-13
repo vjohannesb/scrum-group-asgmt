@@ -1,0 +1,107 @@
+﻿@inject CompareState compareState
+@inject OrderState orderState
+
+@if (Product == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="content col-lg-3 mb-4 mx-0">
+        @*<!-- produktinfo -->*@
+        <div class="top-div">
+            <button class="btn btn-delete" @onclick="RemoveProduct"><i class="fas fa-times"></i> Remove item</button>
+            <div class="card-img-topcard-img-top">
+                <img src="https://via.placeholder.com/350/EEEEEE/20D3C2?text=@Product.ProductName" alt="Product Image" class="product-img" style="width:100%;" />
+            </div>
+            <div class="card-body text-center d-flex justify-content-center">
+                <span class="card-title">
+                    <p class="m-0">@Product.ProductName</p>
+                    <medium>
+                        <Rating Stars="@(Product.Rating ?? 0)" Size="0.875" />
+                    </medium>
+                    <h5>$@Product.Price</h5>
+                    <div class="buttonAddCart mt-4" data-bs-dismiss="modal" @onclick="AddToCartAsync" disabled="@(Product.InStock < 1)">
+                        <a class="btn-lg d-flex justify-content-center align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" color="white" width="20%" height="20px"
+                                 fill="currentColor" class="bi bi-cart" viewBox="0 1 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                            </svg>
+                            <span class="fontAddCart font-roboto">Add to cart</span>
+                        </a>
+                    </div>
+                </span>
+            </div>
+        </div>
+
+         <div class="down box-2 mb-2 d-flex justify-content-center align-items-center">
+             <div class="stock-status" title="@(Product.InStock > 50 ? "> 50" : Product.InStock > 0 ? "0-50" : "Out of stock")">
+                <i class="fas fa-archive @(Product.InStock > 50 ? " in-stock" : Product.InStock> 0 ? "low-stock" : "no-stock")"></i>
+                @(Product.InStock > 50 ? "In stock" : Product.InStock > 0 ? "Limited stock" : "Out of stock")
+            </div>
+        </div>
+        <div class="box-2 mb-2 d-flex justify-content-center align-items-center">
+            <img src="/src/img/brands/@(Product.Brand?.BrandName?.ToLower()).svg" alt="@(Product.Brand?.BrandName) Logo">
+        </div>
+        <div class="box-2 mb-2 d-flex justify-content-center align-items-center">
+            @foreach(var color in Product.Colors){
+                <span>@color.ColorName / </span>
+            }
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public ProductViewModel Product { get; set; }
+
+    private int _quantity = 1;
+
+    protected override void OnInitialized()
+    {
+        Product.Quantity = 1;
+    }
+
+    private async Task RemoveProduct()
+    {
+        compareState.CompareProducts.Remove(Product);
+
+        var lsCompare = await apiService.GetFromLocalStorageAsync<List<ProductViewModel>>("compare");
+        lsCompare = lsCompare.Where(sci => sci.ProductId != Product.ProductId).ToList();
+        await apiService.SaveToLocalStorageAsync<List<ProductViewModel>>("compare", lsCompare);
+        compareState.NotifyStateChanged();
+    }
+
+    private async Task AddToCartAsync()
+    {
+        Product.Quantity = _quantity;
+        if (orderState.ShoppingCartProducts?.Count > 0)
+        {
+            var productInCart = orderState.ShoppingCartProducts.FirstOrDefault(p => p.ProductId == Product.ProductId);
+            if (productInCart != null)
+                productInCart.Quantity += _quantity;
+            else
+                orderState.ShoppingCartProducts.Add(Product);
+
+            orderState.NotifyStateChanged();
+        }
+        else
+            orderState.ShoppingCartProducts = new List<ProductViewModel> { Product };
+
+        await AddToLocalStorageAsync();
+    }
+
+
+     private async Task AddToLocalStorageAsync()
+    {
+        var cart = orderState.ShoppingCartProducts
+            .Select(scp => new ShoppingCartItem { ProductId = scp.ProductId, Quantity = scp.Quantity })
+            .ToList();
+        await apiService.SaveToLocalStorageAsync<List<ShoppingCartItem>>("cart", cart);
+    }
+
+}
+
+
+

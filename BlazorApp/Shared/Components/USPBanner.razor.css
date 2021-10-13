@@ -1,0 +1,140 @@
+﻿.usp-box {
+    background: var(--light-teal);
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    margin: 0 2rem;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+}
+
+    .usp-box .usp-box-title {
+        color: var(--teal);
+    }
+
+    .usp-box img {
+        margin: 1rem;
+        width: 50px;
+    }
+
+    .usp-box #imgBox {
+        content: url(/src/img/home/box.svg);
+    }
+
+    .usp-box #imgClock {
+        content: url(/src/img/home/clock.png);
+    }
+
+    .usp-box #imgPayment {
+        content: url(/src/img/home/pay.svg);
+    }
+
+    .usp-box #imgTime {
+        content: url(/src/img/home/time.svg);
+    }
+
+    .usp-box:hover {
+        background: var(--teal);
+        color: white !important;
+    }
+
+        .usp-box:hover #imgBox {
+            content: url(/src/img/home/box.png);
+        }
+
+        .usp-box:hover #imgClock {
+            content: url(/src/img/home/clock.svg);
+        }
+
+        .usp-box:hover #imgPayment {
+            content: url(/src/img/home/pay.png);
+        }
+
+        .usp-box:hover #imgTime {
+            content: url(/src/img/home/time.png);
+        }
+
+        .usp-box:hover .usp-box-title {
+            color: white;
+        }
+
+#start-div-background {
+    width: 100vw;
+    height: 600px;
+}
+
+.height {
+    height: 100%;
+}
+
+.start-text {
+    width: 390px
+}
+
+#start-img {
+    height: 100%;
+    width: 100%;
+}
+
+#shipping-container {
+    width: 90vw;
+    margin: 0 auto;
+}
+
+.box {
+    width: 400px;
+    height: 140px;
+    border-radius: 6px;
+}
+
+    .box:hover {
+        background-color: var(--teal);
+    }
+
+#box-img-pack {
+    content: url(/img/box.svg);
+}
+
+.box:hover #box-img-pack {
+    width: 50px;
+    content: url(/img/box.png);
+}
+
+#box-img-clock {
+    width: 50px;
+    content: url(/img/clock.png);
+}
+
+.box:hover #box-img-clock {
+    width: 50px;
+    content: url(/img/clock.svg);
+}
+
+#box-img-pay {
+    width: 50px;
+    content: url(/img/pay.svg);
+}
+
+.box:hover #box-img-pay {
+    width: 50px;
+    content: url(/img/pay.png);
+}
+
+#box-img-time {
+    width: 50px;
+    content: url(/img/time.svg);
+}
+
+.box:hover #box-img-time {
+    width: 50px;
+    content: url(/img/time.png);
+}
+
+.box:hover p {
+    color: white
+}

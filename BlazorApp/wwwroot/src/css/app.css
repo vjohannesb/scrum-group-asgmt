@@ -1,0 +1,243 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Roboto:wght@300;400;500;700;900&display=swap");
+
+/******************************************************************************/
+/********************************** Allmänt ***********************************/
+/******************************************************************************/
+:root {
+    --gray-blue: #50546e;
+    --indigo: #292f51;
+    --dark-blue: #0e153d;
+    --darker-blue: #080c24;
+    --dark-gray: #aaaaaa;
+    --light-gray: #cccccc;
+    --lighter-gray: #e3e3e3;
+    --lightest-gray: #eeeeee;
+    --off-white: #f6f6f6;
+    --red: #fe4545;
+    --green: #64cb83;
+    --teal: #20d3c2;
+    --light-teal: #edfcfa;
+    --font-play: "Play", sans-serif;
+    --font-roboto: "Roboto", sans-serif;
+}
+
+html,
+body {
+    font-family: var(--font-roboto);
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Fonts */
+.font-play {
+    font-family: var(--font-play) !important;
+}
+
+.font-roboto {
+    font-family: var(--font-roboto) !important;
+}
+
+.fs-7 {
+    font-size: 0.875rem;
+}
+
+.fs-60 {
+    font-size: 3.75rem;
+}
+
+.fs-18 {
+    font-size: 1.125rem;
+}
+
+.fw-medium {
+    font-weight: 500;
+}
+
+/* Buttons */
+button:disabled {
+    background: var(--lighter-gray) !important;
+    color: var(--dark-gray) !important;
+    border: 2px solid transparent !important;
+}
+
+
+.pill {
+    border: 2px solid transparent;
+    border-radius: 50rem;
+    padding: .375rem 1rem;
+    font-weight: 500 !important;
+}
+
+.pill-white {
+    color: var(--teal);
+    background: white;
+}
+
+    .pill-white:hover {
+        color: white;
+        background: var(--teal);
+    }
+
+.pill-teal {
+    color: white;
+    background: var(--teal);
+}
+
+    .pill-teal:hover {
+        color: var(--teal);
+        background: transparent;
+        border: 2px solid var(--teal);
+    }
+
+.btn-caret {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 2rem;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50rem;
+    background: var(--teal);
+    color: white;
+    cursor: pointer;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    -webkit-transition: 0.2s;
+    transition: 0.15s;
+    border: 1px solid var(--teal);
+}
+
+    .btn-caret.right-caret::after {
+        content: "\f0da";
+        padding-left: .3rem;
+    }
+
+    .btn-caret.left-caret::after {
+        content: "\f0d9";
+        padding-right: .3rem;
+    }
+
+    .btn-caret:active {
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+
+    .btn-caret:hover {
+        color: var(--teal);
+        background: white;
+    }
+
+/* Breadcrumb */
+
+.breadcrumb-section {
+    background-color: var(--gray-blue);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+    .breadcrumb-section a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .breadcrumb-section p {
+        color: #20D3C2;
+        margin: 0;
+    }
+
+    .breadcrumb-section ol {
+        margin: 0;
+    }
+
+    .breadcrumb-section .active {
+        color: #20D3C2;
+    }
+
+.breadcrumb-divider .breadcrumb-item + .breadcrumb-item::before {
+    color: #20D3C2;
+}
+
+.breadcrumb-small-text {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.loader {
+    border: .5rem solid var(--lightest-gray);
+    border-top-color: var(--teal);
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    -moz-animation: spin 2s linear infinite;
+    -o-animation: spin 2s linear infinite;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+/******************************************************************************/
+/******************************* Blazor Defaults ******************************/
+/******************************************************************************/
+.valid.modified:not([type="checkbox"]) {
+    border: 1px solid #26b050;
+}
+
+.invalid {
+    border: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+/******************************************************************************/
+/************************************ TEMP ************************************/
+/******************************************************************************/
+

@@ -1,0 +1,368 @@
+﻿@page "/checkout"
+@inject OrderState stateContainer
+@inject HttpClient Http
+
+<CheckoutBreadcrumb />
+
+@if (!_loaded)
+{
+    <div class="loader" />
+}
+else if (_loaded)
+{
+    <div class="d-flex justify-content-center mt-5 mb-5">
+        <div class="forms-section me-4">
+            <p class="mb-4">
+                Returning customer?
+                <a href="/myaccount">Click here to login</a>
+            </p>
+
+            <div class="coupon d-flex justify-content-center">
+                <div>
+                    <EditForm Model="@_coupon" OnValidSubmit="@ApplyCouponAsync">
+                        <p class="mb-4">If you have a coupon code, please apply it below.</p>
+                        <div class="d-flex align-items-center">
+                            <input class="form-control" type="text" placeholder="Coupon code" @bind="couponString">
+                            <button class="apply-coupon-btn" type="submit">Apply Coupon</button>
+                        </div>
+                    </EditForm>
+                    @if (coupons != null)
+                    {
+                        <table>
+                            @foreach (var coupon in coupons)
+                            {
+                                <tr>
+                                    <td>-$@coupon.CouponDiscount applied to your order</td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                </div>
+            </div>
+
+            @if (stateContainer.ShoppingCartProducts != null && stateContainer.ShoppingCartProducts.Count > 0)
+            {
+                <EditForm Model="@_order" OnValidSubmit="SubmitOrder" class="d-flex justify-content-center">
+                    <DataAnnotationsValidator />
+                    <div class="mt-5">
+                        <h1>BILLING DETAILS</h1>
+                        <ValidationSummary />
+                        <div class="mt-4 d-flex justify-content-between">
+                            <div class="w-100">
+                                <label class="mb-2" for="firstName">First name <span class="text-teal">*</span></label>
+                                <InputText class="form-control form-large" type="text" id="firstName" @bind-Value="_order.FirstName" />
+                                <ValidationMessage For="() => _order.FirstName" />
+                            </div>
+
+                            <div class="w-100 ms-3">
+                                <label class="mb-2" for="lastName">Last name <span class="text-teal">*</span></label><br>
+                                <InputText class="form-control form-large" type="text" id="lastName" @bind-Value="_order.LastName" />
+                                <ValidationMessage For="() => _order.LastName" />
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="mb-2" for="companyName">Company name (optional)</label><br>
+                            <InputText class="form-control form-large" type="text" id="companyName" @bind-Value="_order.CompanyName" />
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="mb-2" for="country">Country <span class="text-teal">*</span></label>
+                            <InputSelect class="form-control form-large" @bind-Value="_order.Country">
+                                <option selected disabled>Select a country / region</option>
+                                <option value="USA">United States (US)</option>
+                                <option value="Sweden">Sweden (Europe)</option>
+                            </InputSelect>
+                            <ValidationMessage For="() => _order.Country" />
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="mb-2" for="adress">Street address <span class="text-teal">*</span></label><br>
+                            <InputText class="form-control form-large" type="text" id="address"
+                                       placeholder="House number and street name" @bind-Value="_order.Address" name="address" />
+                            <ValidationMessage For="() => _order.Address" />
+
+                            @************ IMPLEMENTERAS ? ************@
+                            <input type="text" id="adrsSuffix" class="form-control form-large mt-2"
+                                   placeholder="Apartment, suite, unit, etc. (optional)" />
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="mb-2" for="city">Town / City <span class="text-teal">*</span></label><br>
+                            <InputText class="form-control form-large" type="text" id="city" @bind-Value="_order.City" />
+                            <ValidationMessage For="() => _order.City" />
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="mb-2" for="state">State <span class="text-teal">*</span></label><br>
+                            <InputSelect class="form-control form-large" id="state" @bind-Value="_order.State">
+                                <option selected disabled>Select a state</option>
+                                <option value="AL">Alabama</option>
+                                <option value="CA">California</option>
+                            </InputSelect>
+                            <ValidationMessage For="() => _order.State" />
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="mb-2" for="zip">ZIP <span class="text-teal">*</span></label><br>
+                            <InputText class="form-control form-large" type="text" id="zip" @bind-Value="_order.ZipCode" />
+                            <ValidationMessage For="() => _order.ZipCode" />
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="mb-2" for="phone">Phone <span class="text-teal">*</span></label><br>
+                            <InputText class="form-control form-large" type="text" id="phone" @bind-Value="_order.PhoneNumber" />
+                            <ValidationMessage For="() => _order.PhoneNumber" />
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="mb-2" for="email">Email adress <span class="text-teal">*</span></label><br>
+                            <InputText class="form-control form-large" type="email" id="email" @bind-Value="_order.EmailAddress" />
+                            <ValidationMessage For="() => _order.EmailAddress" />
+                        </div>
+
+                        @if (_order.CreateAccount)
+                        {
+                            <div class="mt-4">
+                                <label class="mb-2" for="password">Password <span class="text-teal">*</span></label><br>
+                                <InputText class="form-control form-large" type="password" id="password" @bind-Value="_order.Password"
+                                           name="new-password" required />
+                                <ValidationMessage For="() => _order.Password" />
+                            </div>
+                        }
+
+                        <div class="mt-5 form-check checkbox-border">
+                            <InputCheckbox @bind-Value="_order.CreateAccount" id="createAccount" class="form-check-input" />
+                            <label class="checkbox-label-1" for="createAccount">Create an account?</label>
+                        </div>
+
+                        @* Implementera i databas? *@
+                        <div class="mt-4">
+                            <label class="mb-2" for="notes">Order notes (optional)</label><br>
+                            <textarea class="form-control form-text" id="notes"
+                                      placeholder="Notes about your order, e.g. special notes for delivery." rows="5"></textarea>
+                        </div>
+
+                        @*<div class="mt-5 form-check">
+            <input class="form-check-input" type="checkbox" value="" id="differentAddress">
+            <label class="checkbox-label-2 fs-1" for="differentAddress">
+                SHIP TO A DIFFERENT ADDRESS?
+            </label>
+        </div>*@
+
+                    </div>
+
+                    <div class="order-section ms-4">
+                        <div class="order-banner d-flex align-items-center justify-content-center">YOUR ORDER</div>
+                        <div class="p-4">
+                            <div class="d-flex justify-content-between pb-3">
+                                <h1><span class="text-teal">PRODUCT</span></h1>
+                                <h1><span class="text-teal">SUBTOTAL</span></h1>
+                            </div>
+                            <ul>
+                                @foreach (var product in stateContainer.ShoppingCartProducts)
+                                {
+                                    <li>
+                                        <div class="d-flex justify-content-between">
+                                            <p>
+                                                <span class="text-light-gray fs-7">(x@(product.Quantity))</span>
+                                                <span>@product.ProductName</span>
+                                            </p>
+                                            <p>$@(product.Price * product.Quantity)</p>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                            <div class="d-flex justify-content-between text-teal fw-bold">
+                                <p>Subtotal</p>
+                                <p id="subtotal">$@(_subTotal + (decimal)0.0)</p>
+                            </div>
+                            <div class="shipping">
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-auto">Shipping</div>
+                                    <div class="col-auto">
+                                        <InputRadioGroup Name="Shipping" @bind-Value="_order.ShippingMethodId">
+                                            @foreach (var shippingMethod in _shippingMethods)
+                                            {
+                                                <div class="radio-container d-flex align-items-center justify-content-end">
+                                                    <label class="me-1">
+                                                        <span>@shippingMethod.ShippingMethodName</span>
+                                                        <span class="text-teal">
+                                                            @(shippingMethod.Price > 0 ? $"${shippingMethod.Price}" : "")
+                                                        </span>
+                                                    </label>
+                                                    <InputRadio class="float-end" Name="Shipping" Value="shippingMethod.ShippingMethodId" />
+                                                </div>
+                                            }
+                                        </InputRadioGroup>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row-reverse">
+                                <span style="color: red; font-size: 15px">
+                                    @(stateContainer.CouponDiscount > 0 ? $"-${stateContainer.CouponDiscount}" : null)
+                                </span>
+                            </div>
+                            <div class="total-cost d-flex justify-content-between text-teal">
+                                <h1>TOTAL</h1>
+                                <h1 id="total">
+                                    $@((_subTotal - stateContainer.CouponDiscount) + (_shippingMethods[_order.ShippingMethodId - 1]?.Price ?? 0))
+                                </h1>
+                            </div>
+                            <div class="payment-options">
+                                <InputRadioGroup Name="Payment" @bind-Value="_order.PaymentMethodId">
+                                    @foreach (var payment in _paymentMethods)
+                                    {
+                                        <div class="mt-2">
+                                            <InputRadio Name="Payment" Value="@payment.PaymentMethodId"
+                                                        id=@($"pm-{payment.PaymentMethodId}") />
+                                            <label class="ps-2" for="@($" pm-{payment.PaymentMethodId}")">@payment.PaymentMethodName</label>
+                                            @if (payment.PaymentMethodName == "Paypal")
+                                            {
+                                                <img class="px-2" src="/src/img/ext-logos/paypal.svg">
+                                                <a href="#"><span>What is paypal?</span></a>
+                                            }
+                                        </div>
+                                        @if (_order.PaymentMethodId == payment.PaymentMethodId)
+                                        {
+                                            <div class="payment-info bg-dark-blue rounded-2 text-white p-3 my-2 fs-7">
+                                                @payment.AdditionalInfo
+                                            </div>
+                                        }
+                                    }
+                                </InputRadioGroup>
+                            </div>
+                            <div class="privacy-policy">
+                                Your personal data will be used to process your order, support your
+                                experience throughout this website, and for other purposes
+                                described in our <a href="#"><span>privacy policy.</span></a>
+                            </div>
+                            <div class="terms form-check">
+                                <InputCheckbox @bind-Value="_order.AgreedToTerms" class="form-check-input" id="agreedToTerms" />
+                                <label for="agreedToTerms">
+                                    I have read and agree to the website
+                                    <a href="/checkout#" class="text-teal"> terms and conditions. * </a>
+                                </label>
+
+                                <ValidationMessage For="() => _order.AgreedToTerms" />
+                            </div>
+                            <button class="btn place-order-btn" type="submit">PLACE ORDER</button>
+                        </div>
+                    </div>
+                </EditForm>
+            }
+            else
+            {
+                navigationManager.NavigateTo("/shoppingcart");
+            }
+        </div>
+    </div>
+}
+
+
+
+@code { 
+    
+    private OrderViewModel _order;
+    private List<ShippingMethod> _shippingMethods;
+    private List<PaymentMethod> _paymentMethods;
+
+    private IEnumerable<Coupon> coupons;
+    private Coupon _coupon;
+
+    [Parameter]
+    public string couponString { get; set; }
+
+    private decimal _subTotal = 0;
+
+    private bool _productsAdded = false;
+
+    // För att slippa kolla alla variabler i formulär etc.
+    private bool _loaded;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _order = new OrderViewModel();
+        _coupon = new Coupon();
+        await GetShippingMethodsAsync();
+        await GetPaymentMethodsAsync();
+        _subTotal = stateContainer.ShoppingCartProducts.Sum(scp => scp.Price * scp.Quantity);
+        _order.ShippingMethodId = 1;
+        _order.PaymentMethodId = 1;
+
+        _loaded = true;
+    }
+
+    private async Task GetShippingMethodsAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ShippingMethodsUrl);
+        if (response.IsSuccessStatusCode)
+            _shippingMethods = await response.Content.ReadFromJsonAsync<List<ShippingMethod>>();
+    }
+
+    private async Task GetPaymentMethodsAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.PaymentMethodsUrl);
+        if (response.IsSuccessStatusCode)
+            _paymentMethods = await response.Content.ReadFromJsonAsync<List<PaymentMethod>>();
+    }
+
+    private async Task SubmitOrder()
+    {
+        if (!_productsAdded)
+        {
+            AddProductsToOrder();
+        }
+
+        _order.TotalPrice = GetTotalPrice();
+
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.OrdersUrl, _order);
+        if (response.IsSuccessStatusCode)
+        {
+            SaveOrderInState();
+            await ResetCartAsync();
+
+            navigationManager.NavigateTo("/ordercomplete");
+        }
+    }
+
+    private void AddProductsToOrder()
+    {
+        foreach (var product in stateContainer.ShoppingCartProducts)
+        {
+            _order.OrderProducts.Add(new OrderProduct { ProductId = product.ProductId, Quantity = product.Quantity });
+        }
+        _productsAdded = true;
+    }
+
+    private decimal GetTotalPrice()
+        => stateContainer.ShoppingCartProducts.Sum(scp => scp.Price * scp.Quantity)
+            + _shippingMethods.First(sm => sm.ShippingMethodId == _order.ShippingMethodId).Price
+            - stateContainer.CouponDiscount;
+
+    private void SaveOrderInState()
+    {
+        _order.PaymentMethod = _paymentMethods.First(pm => pm.PaymentMethodId == _order.PaymentMethodId);
+        _order.ShippingMethod = _shippingMethods.First(sm => sm.ShippingMethodId == _order.ShippingMethodId);
+        _order.Products = stateContainer.ShoppingCartProducts;
+        stateContainer.CompletedOrder = _order;
+    }
+
+    private async Task ResetCartAsync()
+    {
+        _order = new();
+        stateContainer.ShoppingCartProducts = new List<ProductViewModel>();
+        await apiService.SaveToLocalStorageAsync("cart", "");
+    }
+
+
+    private async Task ApplyCouponAsync()
+    {
+        coupons = await Http.GetFromJsonAsync<IEnumerable<Coupon>>($"https://localhost:44306/api/Products/fetchDiscount?couponCode={couponString}");
+
+        foreach (var item in coupons)
+        {
+            stateContainer.CouponDiscount = item.CouponDiscount;
+        }
+    } 
+}

@@ -1,0 +1,34 @@
+﻿th {
+    cursor: pointer;
+}
+
+.product-name {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+    .product-name:hover {
+        text-decoration: underline;
+        -moz-text-decoration-color: var(--teal);
+        text-decoration-color: var(--teal);
+        color: var(--teal);
+    }
+
+i:hover {
+    color: var(--teal);
+    cursor: pointer;
+}
+
+img {
+    width: 65px;
+    height: 65px;
+}
+
+.x-btn {
+    width: 1px;
+    padding: 0;
+}

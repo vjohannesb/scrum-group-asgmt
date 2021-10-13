@@ -1,0 +1,56 @@
+﻿
+<div class="counter-container">
+    <div class="outer-circle">
+        <div class="inner-circle">
+            <h2>@_timeLeft.Days</h2>
+            <span>Days</span>
+        </div>
+    </div>
+
+    <div class="outer-circle">
+        <div class="inner-circle">
+            <h2>@_timeLeft.Hours</h2>
+            <span>Hours</span>
+        </div>
+    </div>
+
+    <div class="outer-circle">
+        <div class="inner-circle">
+            <h2>@_timeLeft.Minutes</h2>
+            <span>Minutes</span>
+        </div>
+    </div>
+
+    <div class="outer-circle">
+        <div class="inner-circle">
+            <h2>@_timeLeft.Seconds</h2>
+            <span>Seconds</span>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string CountDownTo { get; set; }
+
+    private DateTime _countDownDate;
+    private TimeSpan _timeLeft;
+
+    protected override void OnInitialized()
+    {
+        _countDownDate = DateTime.ParseExact(CountDownTo, "yyyy-MM-dd HH:mm", null);
+        _timeLeft = _countDownDate - DateTime.Now;
+
+        UpdateTime();
+    }
+
+    private async Task UpdateTime()
+    {
+        _timeLeft = _countDownDate - DateTime.Now;
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(1000);
+        UpdateTime();
+    }
+
+}

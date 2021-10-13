@@ -1,0 +1,51 @@
+﻿@inject ModalState modalState
+
+<div class="row product-list-card">
+    <div class="col-6">
+        <div class="col-auto d-flex justify-content-start align-items-center overflow-hidden">
+            <a class="fw-bold ms-2 product-title" href="/products/@Product.ProductId">
+                <img src="https://via.placeholder.com/65/EEEEEE/20D3C2?text=@(Product.ProductName.Substring(0, 1).ToUpper())" alt="Product Image" />
+                <span class="ms-2">@Product.ProductName</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-3">
+        <span class="text-light-gray text-decoration-line-through">$@(Product.Price + Product.Discount)</span>
+        <span class="fw-bold text-teal">$@Product.Price</span>
+    </div>
+
+    <div class="col-3 text-end">
+        <i class="fas fa-heart" @onclick="ToggleWishlist"></i>
+        <i class="fas fa-random" @onclick="ToggleCompare"></i>
+        <i class="fas fa-search" @onclick="GoToProductDetails"></i>
+        <i class="fas fa-shopping-cart" data-bs-toggle="modal" data-bs-target="#quickViewModal" 
+           @onclick="UpdateModalProduct"></i>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ProductViewModel Product { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    private void GoToProductDetails()
+        => navigationManager.NavigateTo($"/products/{Product.ProductId}");
+
+    private void UpdateModalProduct()
+        => modalState.ModalProduct = Product;
+
+    private void ToggleWishlist()
+    {
+        return;
+    }
+
+    private void ToggleCompare()
+    {
+        return;
+    }
+}

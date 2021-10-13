@@ -1,0 +1,172 @@
+﻿@page "/ordercomplete"
+@inject OrderState orderState
+
+@if (orderState.CompletedOrder == null)
+{
+    navigationManager.NavigateTo("/shoppingcart");
+}
+else if (_order == null)
+{
+    <div class="loader" />
+}
+else
+{
+    <CheckoutBreadcrumb />
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <h1 class="text-center fw-bold fs-60 font-play">
+                Thank you
+                <span class="text-teal">@_order.FirstName!</span>
+            </h1>
+
+            <h2 class="text-center font-play border-bottom border-2 pb-3 ">
+                We're processing your order right now.
+            </h2>
+
+            <p class="text-center">
+                A confirmation email and a copy of your receipt will be sent to @(_order.EmailAddress).
+            </p>
+
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <p class="fw-bold text-uppercase m-0">Payment</p>
+                    @if (_order.PaymentMethod.PaymentMethodName.ToLower() != "paypal")
+                    {
+                        <p class="m-0">
+                            @_order.PaymentMethod.AdditionalInfo
+                            <span class="fw-bold">Further instructions can be found in your confirmation email.</span>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="m-0">
+                            Your payment has been processed by Paypal.
+                            As soon as your transaction clears, we'll get started on your package!
+                        </p>
+                    }
+                </div>
+
+                <div class="col-6">
+                    <p class="fw-bold text-uppercase m-0">Shipping</p>
+                    <p class="m-0">
+                        @_order.ShippingMethod.AdditionalInfo
+                        Please make sure that the phone number you entered <span class="fw-bold">(@_order.PhoneNumber)</span>
+                        is correct, for your delivery notifications.
+                    </p>
+                </div>
+
+                <div class="col-12 mt-3 fw-bold text-center">
+                    <p>
+                        When your order has been processed, you can track your package
+                        <a href="https://postnord.se/vara-verktyg/spara-brev-paket-och-pall?shipmentId=123" target="_blank">here.</a>
+                    </p>
+                </div>
+            </div>
+
+            <h2>Products</h2>
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col" class="text-center">Quantity</th>
+                        <th scope="col" class="text-center">Price</th>
+                        <th scope="col" class="text-center">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in _order.Products)
+                    {
+                        <tr>
+                            <th scope="row">
+                                <img src="https://via.placeholder.com/65?text=@(product.ProductName.ToUpper().Substring(0, 1))" alt="">
+                                <span class="ms-3">@product.ProductName</span>
+                            </th>
+                            <td class="text-center">@product.Quantity</td>
+                            <td class="text-center">$@product.Price</td>
+                            <td class="text-center">$@(product.Price * product.Quantity)</td>
+                        </tr>
+                    }
+
+                    <tr class="border-white">
+                        <td></td>
+                        <td></td>
+                        <td class="text-center fw-bold">Subtotal</td>
+                        <td class="text-center fw-bold">$@_subTotal</td>
+                    </tr>
+
+                    <tr class="border-white">
+                        <td></td>
+                        <td></td>
+                        <td class="text-center fw-bold">Shipping</td>
+                        <td class="text-center fw-bold">$@_order.ShippingMethod.Price</td>
+                    </tr>
+
+                    @if (_discount > 0)
+                    {
+                        <tr class="border-white">
+                            <td />
+                            <td />
+                            <td class="text-center fw-bold text-teal">Discount</td>
+                            <td class="text-center fw-bold text-teal">-$@_discount</td>
+                        </tr>
+                    }
+
+                    <tr class="border-white">
+                        <td></td>
+                        <td></td>
+                        <td class="text-center fw-bold">Total</td>
+                        <td class="text-center fw-bold">$@(_order.TotalPrice)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <div class="row justify-content-evenly mt-5">
+                <div class="col-auto">
+                    <p class="fw-bold">Shipping address</p>
+                    <address>
+                        @if (!string.IsNullOrEmpty(_order.CompanyName))
+                        {
+                            @_order.CompanyName <br />
+                        }
+                        Att: @_order.FirstName @_order.LastName<br />
+                        @_order.Address<br />
+                        @_order.City, @_order.State @_order.ZipCode<br />
+                        @_order.Country<br />
+                    </address>
+                </div>
+                <div class="col-auto">
+                    <p class="fw-bold">Billing address</p>
+                    <address>
+                        @if (!string.IsNullOrEmpty(_order.CompanyName))
+                        {
+                            @_order.CompanyName <br />
+                        }
+                        Att: @_order.FirstName @_order.LastName<br />
+                        @_order.Address<br />
+                        @_order.City, @_order.State @_order.ZipCode<br />
+                        @_order.Country<br />
+                    </address>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+@code {
+    private OrderViewModel _order;
+
+    private decimal _subTotal;
+    private decimal _discount;
+
+    protected override void OnInitialized()
+    {
+        _order = orderState.CompletedOrder;
+        _subTotal = _order.Products.Sum(p => p.Price * p.Quantity);
+
+        // Spara discount för visning och återställ för nästa order
+        _discount = orderState.CouponDiscount;
+        orderState.CouponDiscount = 0;
+    }
+}

@@ -1,0 +1,670 @@
+﻿@page "/shop"
+@page "/shop/{Category}"
+@inject IJSRuntime jsRuntime
+@inject HttpClient Http
+
+<section>
+    <article class="banner pt-5 pb-5 bg-indigo">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col text-white">
+                    <h1 class="fw-bold font-play">
+                        New customers can get
+                        <span class="text-teal">30% off</span>
+                    </h1>
+                    <div class="btn pill pill-teal">
+                        LEARN MORE
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="/src/img/shop/shop-shoes.svg">
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article class="shop-container mt-5">
+        <div class="container">
+            <!-- Top Menu -->
+            <div class="row shop-top-menu justify-content-between">
+                <!-- Title + Breadcrumb -->
+                <div class="col-4 col-xxl-6 col-xl-5 col-lg-4">
+                    <h2 class="teal fw-bold">Shop</h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">
+                                <a href="#" class="text-decoration-none text-dark">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active mb-0" aria-current="page">Shop</li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <!-- Filter Toggle Button -->
+                <div id="btnToggleFilters" class="mt-3 d-block d-lg-none">
+                    Show Filters
+                </div>
+
+                <!-- Spacer -->
+                <div class="col-12 mb-3 d-lg-none"></div>
+
+                <!-- Show x items -->
+                <div class="col-12 col-lg mt-2 mb-2 me-4 px-xl-4 show-x-items filter-toggle-flex">
+                    <div>
+                        <span>
+                            Show:
+                            <span class="shop-product-n-link text-decoration-none text-white hover-teal selected" @onclick="() => SetTake(9)">
+                                9
+                            </span>/
+                            <span class="shop-product-n-link text-decoration-none text-white hover-teal" @onclick="() => SetTake(12)">
+                                12
+                            </span>/
+                            <span class="shop-product-n-link text-decoration-none text-white hover-teal" @onclick="() => SetTake(18)">
+                                18
+                            </span>/
+                            <span class="shop-product-n-link text-decoration-none text-white hover-teal" @onclick="() => SetTake(24)">
+                                24
+                            </span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- List/box/large box -->
+                <div class="col col-lg mt-2 mb-2 me-1 me-sm-4 list-box-large-box filter-toggle-flex">
+                    <i class="text-white hover-teal fs-2 me-3 fas fa-list" @onclick="@(() => SetDisplay("list"))"></i>
+                    <i class="text-white hover-teal fs-2 me-3 fas fa-th-large" @onclick="@(() => SetDisplay("big"))"></i>
+                    <i class="text-white hover-teal fs-2 me-0 fas fa-th selected" @onclick="@(() => SetDisplay("small"))"></i>
+                </div>
+
+                <!-- Sorting Dropdown -->
+                <div class="col col-lg mt-2 mb-2 btn-sorting-container filter-toggle-flex">
+                    <button class="btn btn-sorting dropdown-toggle" type="button" id="btnDropdownSorting"
+                            data-bs-toggle="dropdown">
+                        <span>Recommended</span>
+                        <i class="fas fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="btnDropdownSorting">
+                        <li><a class="dropdown-item" href="#">Recommended</a></li>
+                        <li><a class="dropdown-item" href="#">Latest</a></li>
+                        <li><a class="dropdown-item" href="#">Price (low to high)</a></li>
+                        <li><a class="dropdown-item" href="#">Price (high to low)</a></li>
+                        <li><a class="dropdown-item" href="#">Alphabetical (a-z)</a></li>
+                        <li><a class="dropdown-item" href="#">Alphabetical (z-a)</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Main Row -->
+            <div class="row row-cols-md-4 row-cols-lg-5 mt-5">
+                <!-- Filter Column -->
+                <div class="col-12 col-lg-3 filter-column">
+                    <button type="button" class="btn pill pill-teal w-100 mb-3" @onclick="ApplyFiltersAsync">Apply filter(s)</button>
+                    <!-- Filter by Categories -->
+                    <div class="filter-categories mb-5">
+                        <h6 class="teal fw-bold">Product Categories</h6>
+                            <div class="filter-box-container text-box-container @(Category == "men" ? "selected" : "")"
+                                 @onclick="@(() => ToggleCategoryFilter("men"))">
+                                <div class="d-flex align-items-center">
+                                    <p class="my-0 d-inline">Men's</p>
+                                </div>
+                                <span class="filter-box-amount">@(_productCounts?["categories"]?["Men"] ?? 0)</span>
+                            </div>
+
+                            <div class="filter-box-container text-box-container @(Category == "women" ? "selected" : "")"
+                                 @onclick="@(() => ToggleCategoryFilter("women"))">
+                                <div class="d-flex align-items-center">
+                                    <p class="my-0 d-inline">Women's</p>
+                                </div>
+                                <span class="filter-box-amount">@(_productCounts?["categories"]?["Women"] ?? 0)</span>
+                            </div>
+
+                            <div class="filter-box-container text-box-container @(Category == "unisex" ? "selected" : "")"
+                                 @onclick="@(() => ToggleCategoryFilter("unisex"))">
+                                <div class="d-flex align-items-center">
+                                    <p class="my-0 d-inline">Unisex</p>
+                                </div>
+                                <span class="filter-box-amount">@(_productCounts?["categories"]?["Unisex"] ?? 0)</span>
+                            </div>
+
+                            <div class="filter-box-container text-box-container @(Category == "kids" ? "selected" : "")"
+                                 @onclick="@(() => ToggleCategoryFilter("kids"))">
+                                <div class="d-flex align-items-center">
+                                    <p class="my-0 d-inline">Kids</p>
+                                </div>
+                                <span class="filter-box-amount">@(_productCounts?["categories"]?["Kids"] ?? 0)</span>
+                            </div>
+
+                            <div class="filter-box-container text-box-container @(Category == "hats" ? "selected" : "")"
+                                 @onclick="@(() => ToggleCategoryFilter("hats"))">
+                                <div class="d-flex align-items-center">
+                                    <p class="my-0 d-inline">Hats</p>
+                                </div>
+                                <span class="filter-box-amount">@(_productCounts?["categories"]?["Hats"] ?? 0)</span>
+                            </div>
+
+                            <div class="filter-box-container text-box-container @(Category == "sunglasses" ? "selected" : "")"
+                                 @onclick="@(() => ToggleCategoryFilter("sunglasses"))">
+                                <div class="d-flex align-items-center">
+                                    <p class="my-0 d-inline">Sunglasses</p>
+                                </div>
+                                <span class="filter-box-amount">@(_productCounts?["categories"]?["Sunglasses"] ?? 0)</span>
+                            </div>
+
+                            <div class="filter-box-container text-box-container @(Category == "shoes" ? "selected" : "")"
+                                 @onclick="@(() => ToggleCategoryFilter("shoes"))">
+                                <div class="d-flex align-items-center">
+                                    <p class="my-0 d-inline">Shoes</p>
+                                </div>
+                                <span class="filter-box-amount">@(_productCounts?["categories"]?["Shoes"] ?? 0)</span>
+                            </div>
+
+                            <div class="filter-box-container text-box-container @(Category == "watches" ? "selected" : "")"
+                                 @onclick="@(() => ToggleCategoryFilter("watches"))">
+                                <div class="d-flex align-items-center">
+                                    <p class="my-0 d-inline">Watches</p>
+                                </div>
+                                <span class="filter-box-amount">@(_productCounts?["categories"]?["Watches"] ?? 0)</span>
+                            </div>
+
+                        </div>
+
+                    <!-- Filter by Price -->
+                    <div class="filter-price mb-5">
+                        <h6 class="teal fw-bold">Filter by Price</h6>
+                        <div class="slider-container py-2 mb-3">
+                            <div id="slider-range-price"></div>
+                        </div>
+
+                        <div class="row align-items-center gx-0 justify-content-start justify-content-xxl-between">
+                            <div class="col-6 col-xxl">
+                                <label for="priceRangeAmount">Price:</label>
+                            </div>
+                            <div class="col-6 col-xxl-5">
+                                <input type="text" id="priceRangeAmount" readonly class="border-0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter by Color -->
+                    <div class="filter-color mb-5">
+                        <h6 class="teal fw-bold">Filter by Color</h6>
+
+                        <div class="filter-box-container"
+                             @onclick="@(() => ToggleColorFilter("black"))">
+                            <div class="d-flex align-items-center">
+                                <span class="color-box color-box-black">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                                <p class="ms-2 my-0 d-inline">Black</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["colors"]?["Black"] ?? 0)</span>
+                        </div>
+                        <div class="filter-box-container"
+                             @onclick="@(() => ToggleColorFilter("gray"))">
+                            <div class="d-flex align-items-center">
+                                <span class="color-box color-box-gray">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                                <p class="ms-2 my-0 d-inline">Gray</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["colors"]?["Gray"] ?? 0)</span>
+                        </div>
+                        <div class="filter-box-container"
+                             @onclick="@(() => ToggleColorFilter("red"))">
+                            <div class="d-flex align-items-center">
+                                <span class="color-box color-box-red">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                                <p class="ms-2 my-0 d-inline">Red</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["colors"]?["Red"] ?? 0)</span>
+                        </div>
+                        <div class="filter-box-container"
+                             @onclick="@(() => ToggleColorFilter("green"))">
+                            <div class="d-flex align-items-center">
+                                <span class="color-box color-box-green">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                                <p class="ms-2 my-0 d-inline">Green</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["colors"]?["Green"] ?? 0)</span>
+                        </div>
+                        <div class="filter-box-container"
+                             @onclick="@(() => ToggleColorFilter("orange"))">
+                            <div class="d-flex align-items-center">
+                                <span class="color-box color-box-orange">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                                <p class="ms-2 my-0 d-inline">Orange</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["colors"]?["Orange"] ?? 0)</span>
+                        </div>
+                        <div class="filter-box-container"
+                             @onclick="@(() => ToggleColorFilter("brown"))">
+                            <div class="d-flex align-items-center">
+                                <span class="color-box color-box-brown">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                                <p class="ms-2 my-0 d-inline">Brown</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["colors"]?["Brown"] ?? 0)</span>
+                        </div>
+                    </div>
+
+                    <!-- Filter by Size -->
+                    <div class="filter-size mb-5">
+                        <h6 class="teal fw-bold">Filter by Size</h6>
+
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("XS"))">
+                            <div class="d-flex align-items-center">
+                                <p class="my-0 d-inline">XS</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["sizes"]?["XS"] ?? 0)</span>
+                        </div>
+
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("S"))">
+                            <div class="d-flex align-items-center">
+                                <p class="my-0 d-inline">S</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["sizes"]?["S"] ?? 0)</span>
+                        </div>
+
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("M"))">
+                            <div class="d-flex align-items-center">
+                                <p class="my-0 d-inline">M</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["sizes"]?["M"] ?? 0)</span>
+                        </div>
+
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("L"))">
+                            <div class="d-flex align-items-center">
+                                <p class="my-0 d-inline">L</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["sizes"]?["L"] ?? 0)</span>
+                        </div>
+
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("XL"))">
+                            <div class="d-flex align-items-center">
+                                <p class="my-0 d-inline">XL</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["sizes"]?["XL"] ?? 0)</span>
+                        </div>
+
+                        <div class="filter-box-container text-box-container"
+                             @onclick="@(() => ToggleSizeFilter("XXL"))">
+                            <div class="d-flex align-items-center">
+                                <p class="my-0 d-inline">XXL</p>
+                            </div>
+                            <span class="filter-box-amount">@(_productCounts?["sizes"]?["XXL"] ?? 0)</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Filter by Brand -->
+                    <div class="filter-brand mb-5">
+                        <h6 class="teal fw-bold">Filter by Brand</h6>
+                        <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2 gx-2 gy-2 mt-2">
+                            <div class="col filter-brand-container">
+                                <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/bexim.svg"
+                                     alt="Bexim Logo" @onclick="() => ToggleBrandFilter(1)">
+                            </div>
+                            <div class="col filter-brand-container">
+                                <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/lighton.svg"
+                                     alt="Lighton Logo" @onclick="() => ToggleBrandFilter(2)">
+                            </div>
+                            <div class="col filter-brand-container">
+                                <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/dismis.svg"
+                                     alt="Dismis Logo" @onclick="() => ToggleBrandFilter(3)">
+                            </div>
+                            <div class="col filter-brand-container">
+                                <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/rosimo.svg"
+                                     alt="Rosimo Logo" @onclick="() => ToggleBrandFilter(4)">
+                            </div>
+                            <div class="col filter-brand-container">
+                                <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/dallas.svg"
+                                     alt="Dallas Logo" @onclick="() => ToggleBrandFilter(5)">
+                            </div>
+                            <div class="col filter-brand-container">
+                                <img class="p-2 border border-2 rounded-4 w-100 h-100" src="/src/img/brands/concord.svg"
+                                     alt="Concord Logo" @onclick="() => ToggleBrandFilter(6)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter by Status -->
+                    <div class="filter-status">
+                        <h6 class="teal fw-bold">Product Status</h6>
+                        <div class="row">
+                            <div class="filter-status-container">
+                                <input type="checkbox" id="cbOnSale" @onclick="() => ToggleSaleFilter(true)">
+                                <label for="cbOnSale">On Sale</label>
+                            </div>
+                            <div class="filter-status-container">
+                                <input type="checkbox" id="cbInStock" @onclick="() => ToggleStockFilter(true)">
+                                <label for="cbInStock">In Stock</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <button type="button" class="btn pill pill-teal w-100 mb-5 mt-3" @onclick="ApplyFiltersAsync">Apply filter(s)</button>
+
+
+                    <!-- Top Rated Products -->
+                    <!-- Top Rated Products -->
+                    <div class="promo-top-products">
+                        <h6 class="teal fw-bold">Top Rated Products</h6>
+
+                        @if (_topProducts == null)
+                        {
+                            <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+                                <div class="loader" />
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var tp in _topProducts)
+                            {
+
+                                <div class="row g-0 justify-content-start align-items-center top-product" @onclick="() => GoToProduct(tp.ProductId)">
+                                    <div class="col-4 promo-product-container">
+                                        <img class="rounded-4" src="https://via.placeholder.com/70/EEEEEE/20d3c2"
+                                             alt="Placeholder Product Image">
+                                    </div>
+
+                                    <div class="col-8 promo-product-container">
+                                        <p class="p-0 m-0 pt-2">@tp.ProductName</p>
+                                        <Rating Stars="@(tp.Rating ?? 0)" Size="1" SpaceBetween="0.125" />
+                                        <p class="text-teal fw-bold">$@tp.Price</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+
+                    </div>
+                </div>
+
+                <!-- Products Column/Row -->
+                <div class="col-12 col-lg-9">
+                    <div class="row row-cols-3 gy-4">
+                        @if (_productViewModels == null)
+                        {
+                            <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+                                <div class="loader" />
+                            </div>
+                        }
+                        else
+                        {
+                            @if (_productViewModels.Count < 1)
+                            {
+                                <div class="col">
+                                    <p>No products available...</p>
+                                </div>
+                            }
+                            else
+                            {
+                                @foreach (var product in _productViewModels)
+                                {
+                                    @if (_display == "big")
+                                    {
+                                        <div class="col-6">
+                                            <ProductCard Product="@product" ClassName="large" />
+                                        </div>
+
+                                    }
+                                    else if (_display == "list")
+                                    {
+                                        <div class="col-12">
+                                            <ProductListCard Product="@product" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col">
+                                            <ProductCard Product="@product"/>
+                                        </div>
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-center mt-5">
+                        <div class="btn-caret left-caret me-2" @onclick="PrevPage" />
+                        <div class="btn-caret right-caret ms-2" @onclick="NextPage" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <SubscribeBanner />
+</section>
+
+@code {
+    [Parameter]
+    public string Category { get; set; }
+
+    private List<ProductViewModel> _productViewModels;
+    private List<ProductViewModel> _topProducts;
+
+    private Dictionary<string, Dictionary<string, int>> _productCounts;
+
+    private HashSet<string> _filterCategories;
+    private HashSet<string> _filterColors;
+    private HashSet<string> _filterSizes;
+    private HashSet<string> _filterBrands;
+    private HashSet<string> _filterStocks;
+    private HashSet<string> _filterSales;
+
+    private int _take = 9;
+    private int _page = 0;
+
+    private string _display = "small";
+
+    private string _productsUrl;
+
+    private IJSObjectReference _module;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetProductCount();
+        _productsUrl = apiService.ProductsUrl;
+
+        _filterCategories = new();
+        _filterColors = new();
+        _filterSizes = new();
+        _filterBrands = new();
+        _filterStocks = new();
+        _filterSales = new();
+
+        if (!string.IsNullOrEmpty(Category))
+        {
+            Category = Category.ToLower();
+            _filterCategories.Add(Category);
+            await ApplyFiltersAsync();
+        }
+        else
+        {
+            _productViewModels = await GetProductViewModelsAsync();
+        }
+
+        await GetTopProductsAsync();
+    }
+
+    private async Task GetTopProductsAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.TopRatedProductsUrl(3));
+        if (response.IsSuccessStatusCode)
+            _topProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+    }
+
+    private async Task GetProductCount()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductCountUrl);
+        if (response.IsSuccessStatusCode)
+            _productCounts = await response.Content.ReadFromJsonAsync<Dictionary<string, Dictionary<string, int>>>();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await jsRuntime.InvokeAsync<IJSObjectReference>("import", "./src/js/shop-filters.js");
+            await _module.InvokeVoidAsync("loadFilterUI");
+        }
+    }
+
+    private async Task<List<ProductViewModel>> GetProductViewModelsAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, _productsUrl);
+        if (response.IsSuccessStatusCode)
+            return await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+
+        return new List<ProductViewModel>();
+    }
+
+    private async Task NextPage()
+    {
+        _page++;
+        UpdateFilterQuery();
+        var products = await GetProductViewModelsAsync();
+        if (products.Count > 0)
+        {
+            _productViewModels = products;
+            navigationManager.NavigateTo("/shop");
+        }
+        else
+        {
+            _page--;
+            UpdateFilterQuery();
+        }
+    }
+    private async Task PrevPage()
+    {
+        if (_page > 0)
+        {
+            _page--;
+            UpdateFilterQuery();
+            var products = await GetProductViewModelsAsync();
+            if (products.Count > 0)
+            {
+
+                _productViewModels = products;
+                navigationManager.NavigateTo("/shop");
+            }
+            else
+            {
+                _page++;
+                UpdateFilterQuery();
+            }
+        }
+    }
+
+    private void SetDisplay(string mode)
+        => _display = mode;
+
+    private async Task SetTake(int take)
+    {
+        _take = take;
+        await ApplyFiltersAsync();
+    }
+
+    private void ToggleCategoryFilter(string category)
+    {
+        if (!_filterCategories.Add(category))
+        {
+            _filterCategories.Remove(category);
+            if (Category == category)
+                Category = string.Empty;
+        }
+    }
+
+    private void ToggleColorFilter(string color)
+    {
+        if (!_filterColors.Add(color))
+            _filterColors.Remove(color);
+    }
+
+    private void ToggleSizeFilter(string size)
+    {
+        if (!_filterSizes.Add(size))
+            _filterSizes.Remove(size);
+    }
+
+    private void ToggleBrandFilter(int id)
+    {
+        if (!_filterBrands.Add(id.ToString()))
+            _filterBrands.Remove(id.ToString());
+    }
+
+    private void ToggleStockFilter(bool stock)
+    {
+        if (!_filterStocks.Add(stock.ToString()))
+            _filterStocks.Remove(stock.ToString());
+    }
+
+    private void ToggleSaleFilter(bool sale)
+    {
+        if (!_filterSales.Add(sale.ToString()))
+            _filterSales.Remove(sale.ToString());
+    }
+
+
+
+
+
+    private async Task ApplyFiltersAsync()
+    {
+        _page = 0;
+        UpdateFilterQuery();
+        _productViewModels = await GetProductViewModelsAsync();
+    }
+
+    private void UpdateFilterQuery()
+    {
+        _productsUrl = apiService.ProductsUrl;
+        if (_filterCategories.Count + _filterColors.Count + _filterSizes.Count + _filterBrands.Count + _filterStocks.Count + _filterSales.Count > 0)
+        {
+            _productsUrl += "?";
+            if (_filterCategories?.Count > 0)
+                _productsUrl += $"categories={string.Join(",", _filterCategories)}&";
+
+            if (_filterColors?.Count > 0)
+                _productsUrl += $"colors={string.Join(",", _filterColors)}&";
+
+            if (_filterSizes?.Count > 0)
+                _productsUrl += $"sizes={string.Join(",", _filterSizes)}&";
+
+            if (_filterBrands?.Count > 0)
+                _productsUrl += $"brands={string.Join(",", _filterBrands)}&";
+
+            if (_filterStocks?.Count > 0)
+                _productsUrl += $"instock={string.Join(",", _filterStocks)}&";
+
+            if (_filterSales?.Count > 0)
+                _productsUrl += $"discount={string.Join(",", _filterSales)}&";
+
+        }
+
+        if (_productsUrl.Contains('?'))
+        {
+            if (!_productsUrl.EndsWith("&"))
+                _productsUrl += "&";
+        }
+        else
+            _productsUrl += "?";
+        _productsUrl += $"take={_take}&from={_take * _page}";
+    }
+
+    private void GoToProduct(int id)
+        => navigationManager.NavigateTo($"/products/{id}");
+}

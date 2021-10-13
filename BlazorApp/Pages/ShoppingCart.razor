@@ -1,0 +1,220 @@
+﻿@page "/shoppingcart"
+@inject OrderState orderState
+@implements IDisposable
+@inject HttpClient Http
+
+<CheckoutBreadcrumb />
+
+@if (orderState?.ShoppingCartProducts == null || orderState?.ShoppingCartProducts?.Count < 1)
+{
+    <p class="text-center mt-5">There are no products in your shopping cart.</p>
+}
+else if (_loaded)
+{
+    <section class="container my-5">
+        <div class="row g-5">
+            <!-- Products Table -->
+            <div class="col-8 table-responsive">
+                <div class="row">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in orderState.ShoppingCartProducts)
+                            {
+                                <tr>
+                                    <CartProduct Product="@product" />
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row mt-4 justify-content-between align-items-center">
+                    <div class="col-auto">
+                        <div class="coupon d-flex justify-content-center">
+                            <div>
+                                <EditForm Model="@_coupon" OnValidSubmit="@ApplyCouponAsync">
+                                    <p class="mb-4">If you have a coupon code, please apply it below.</p>
+                                    <div class="d-flex align-items-center">
+                                        <input class="form-control" type="text" placeholder="Coupon code" @bind="couponString">
+                                        <button class="apply-coupon-btn" type="submit">Apply Coupon</button>
+                                    </div>
+                                </EditForm>
+                                @if (coupons != null)
+                                {
+                                    <table>
+                                        @foreach (var coupon in coupons)
+                                        {
+                                            <tr>
+                                                <td>-$@coupon.CouponDiscount applied to your order</td>
+                                            </tr>
+                                        }
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-auto">
+                        <button type="button" class="col-auto btn btn-update-cart bg-dark-blue"
+                                @onclick="UpdateCart">
+                            UPDATE CART
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Totals -->
+            <div class="col-4">
+                <h4 id="cartTotalsTitle" class="py-3 mb-0">CART TOTALS</h4>
+                <div class="cart-totals p-4">
+
+                    <!-- Subtotal -->
+                    <div class="row justify-content-between fw-bold">
+                        <div class="col-auto">Subtotal</div>
+                        <div class="col-auto text-teal">
+                            $@(orderState.ShoppingCartProducts.Sum(scp => scp.Price * scp.Quantity))
+                        </div>
+                    </div>
+
+                    <!-- Shipping methods -->
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-auto fw-bold">Shipping</div>
+                        <div class="col-auto">
+                            @if (_selectedShipping != null)
+                            {
+                                <EditForm Model="@_selectedShipping" novalidate>
+                                    <InputRadioGroup Name="Shipping" @bind-Value="_selectedShippingId">
+                                        @foreach (var shippingMethod in _shippingMethods)
+                                                {
+                                            <div class="radio-container d-flex align-items-center justify-content-end">
+                                                <label class="me-1">
+                                                    <span>@shippingMethod.ShippingMethodName</span>
+                                                    <span class="text-teal">
+                                                        @(shippingMethod.Price > 0 ? $"${shippingMethod.Price}" : "")
+                                                    </span>
+                                                </label>
+                                                <InputRadio Name="Shipping" Value="shippingMethod.ShippingMethodId - 1" class="float-end" novalidate />
+                                            </div>
+                                                }
+                                    </InputRadioGroup>
+                                </EditForm>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- TOTAL -->
+                    <div class="row justify-content-between fw-bold fs-5">
+                        <div class="col-auto">
+                            <span>TOTAL</span>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="d-flex flex-row-reverse">
+                                <span style="color: red; font-size: 15px">@(orderState.CouponDiscount > 0 ? $"-${orderState.CouponDiscount}" : null)</span>
+                            </div>
+                            <span class="text-teal">$@((_subTotal - orderState.CouponDiscount) + _shippingMethods[_selectedShippingId].Price)</span>
+                        </div>
+                    </div>
+
+                    <!-- Proceed to Checkout -->
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <button class="btn btn-goto-checkout" @onclick="GoToCheckout">
+                                PROCEED TO CHECKOUT
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+<!-- < YOU MAY ALSO LIKE -->
+<section class="my-5 py-5">
+    <div class="my-5">
+        <ZigZagTitle BlackText="you may" TealText="also like" />
+    </div>
+    <ProductCarousel ProductList="all" />
+</section>
+
+
+@code {
+    private List<ShippingMethod> _shippingMethods;
+
+    private ShippingMethod _selectedShipping;
+    private int _selectedShippingId;
+
+    private Coupon _coupon;
+    private IEnumerable<Coupon> coupons;
+
+    private List<ProductViewModel> _products;
+
+    private decimal _subTotal;
+    private bool _loaded;
+
+    public void Dispose()
+        => orderState.OnChange -= StateHasChanged;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _coupon = new Coupon();
+        orderState.OnChange += StateHasChanged;
+
+        await GetProductsAsync();
+        await GetShippingMethodsAsync();
+
+        _selectedShippingId = 0;
+        _selectedShipping = _shippingMethods[_selectedShippingId];
+        UpdateCart();
+
+        _loaded = true;
+    }
+
+    private void GoToCheckout()
+            => navigationManager.NavigateTo("/checkout");
+
+    private void UpdateCart()
+        => _subTotal = orderState.ShoppingCartProducts?.Sum(scp => scp.Price * scp.Quantity) ?? 0;
+
+
+
+    private async Task GetProductsAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
+        if (response.IsSuccessStatusCode)
+            _products = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+    }
+
+    private async Task GetShippingMethodsAsync()
+    {
+        var shippingResponse = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ShippingMethodsUrl);
+        if (shippingResponse.IsSuccessStatusCode)
+            _shippingMethods = await shippingResponse.Content.ReadFromJsonAsync<List<ShippingMethod>>();
+    }
+
+    //COUPON
+    [Parameter]
+    public string couponString { get; set; }
+
+
+    private async Task ApplyCouponAsync()
+    {
+        coupons = await Http.GetFromJsonAsync<IEnumerable<Coupon>>($"https://localhost:44306/api/Products/fetchDiscount?couponCode={couponString}");
+
+        foreach (var item in coupons)
+        {
+            orderState.CouponDiscount = item.CouponDiscount;
+        }
+    }
+}

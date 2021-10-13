@@ -1,0 +1,274 @@
+﻿@page "/products/{Id:int}"
+@inject OrderState orderState
+
+@if (_loaded)
+{
+    <!-- Breadcrumb -->
+    <div class="pt-5 pb-5 breadcrumb-section bg-indigo">
+        <div class="container d-flex justify-content-between align-items-center">
+            <nav class="breadcrumb-divider text-white" aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-small-text">
+                    <li class="breadcrumb-item">
+                        <a class="text-teal" href="/">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a class="text-teal" href="/shop">Shop</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a class="text-teal" href="/shop/@_product.Category">@_product.Category</a>
+                    </li>
+                    <li class="breadcrumb-item text-white" aria-current="page">
+                        @_product.ProductName
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+    <div class="container mt-5 pt-3">
+        <div class="row">
+            <ProductDetails Product="_product" DetailsPage="true" />
+        </div>
+    </div>
+
+
+    <!-- Tabs -->
+    <div class="container">
+        <div class="row">
+            <div class="d-flex mt-5 container justify-content-between">
+                <div class="tabs">
+                    <input type="radio" name="tabs" id="tabone" checked />
+                    <label class="tab-label" for="tabone">Description</label>
+                    <div class="tab">
+                        <h1 class="mt-3">Description</h1>
+                        <p>@_product.ProductDescription</p>
+                    </div>
+
+                    <input type="radio" name="tabs" id="tabtwo" />
+                    <label class="tab-label" for="tabtwo">Additional Information</label>
+                    <div class="tab">
+                        <h1 class="mt-3">Additional Information</h1>
+                        <p>@_product.AdditionalInfo</p>
+                    </div>
+
+                    <input type="radio" name="tabs" id="tabthree" />
+                    <label class="tab-label" for="tabthree">Reviews (@_product.Reviews.Count())</label>
+                    <div class="tab">
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="row mt-5">
+                                    <div class="col fs-18">
+                                        <span class="text-teal">@_product.Reviews.Count() @PluralizeReviews() for </span>
+                                        <span class="fs-5">@_product.ProductName</span>
+                                    </div>
+                                </div>
+
+                                @foreach (var review in _product.Reviews)
+                                {
+                                    <div class="row mt-5">
+                                        <div class="col-auto">
+                                            <img class="rounded-3" src="https://via.placeholder.com/70/EEEEEE/20D3C2?text=@review.CustomerName.Split(" ")[0].Substring(0, 1)" alt="Profile" />
+                                        </div>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="d-inline-flex align-items-center">
+                                                        <span class="fw-bold text-teal">@review.CustomerName</span>
+                                                        <span class="ms-2 text-dark-gray fs-7">@review.Created.ToString("dd MMMM, yyyy")</span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col d-inline-flex align-items-center flex-row-reverse">
+                                                    <Rating Stars="review.Rating" Size="1" SpaceBetween="0.125" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col mt-2">
+                                                    @review.ReviewText
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="col mt-5">
+                                <EditForm Model="@_reviewModel" OnValidSubmit="@RegisterReview">
+                                    <DataAnnotationsValidator />
+                                    <div class="add-review-form">
+                                        <h4 class="text-teal">Add a review</h4>
+                                        <p class="fs-7 text-dark-gray">
+                                            Your email address will not be published. Required fields are marked
+                                            <span class="ms-1 text-teal">*</span>
+                                        </p>
+                                        <div>
+                                            <span class="mr-2">
+                                                Your rating<span class="ms-1 text-teal">*</span>
+                                            </span>
+
+                                            <i class="fa-star @(_reviewModel.Rating >= 1 ? "fas" : "far")" @onclick="() => SetRating(1)" />
+                                            <i class="fa-star @(_reviewModel.Rating >= 2 ? "fas" : "far")" @onclick="() => SetRating(2)" />
+                                            <i class="fa-star @(_reviewModel.Rating >= 3 ? "fas" : "far")" @onclick="() => SetRating(3)" />
+                                            <i class="fa-star @(_reviewModel.Rating >= 4 ? "fas" : "far")" @onclick="() => SetRating(4)" />
+                                            <i class="fa-star @(_reviewModel.Rating >= 5 ? "fas" : "far")" @onclick="() => SetRating(5)" />
+
+                                        </div>
+                                        <div class="mt-3">
+                                            <label class="form-label" for="reviewText">Your review<span class="ms-1 text-teal">*</span></label><br>
+                                            <InputTextArea rows="10" class="review-input form-control form" type="text" id="reviewText" required
+                                                           @bind-Value="_reviewModel.ReviewText" />
+                                            <ValidationMessage For="() => _reviewModel.ReviewText" />
+                                        </div>
+
+                                        @if (_alreadyReviewed)
+                                        {
+                                            <div class="mt-3 alert alert-danger">
+                                                You have already reviewed this product. You may only submit one review per product.
+                                            </div>
+                                        }
+
+                                        @if (_signedIn)
+                                        {
+                                            <div>
+                                                <button type="submit" class="mt-3 submit-button w-100" disabled=@(_alreadyReviewed || _submitting)>
+                                                    ADD REVIEW
+                                                </button>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                <button type="button" class="mt-3 submit-button w-100" @onclick="GoToSignIn">
+                                                    Sign in to leave a review
+                                                </button>
+                                            </div>
+                                        }
+
+
+                                    </div>
+                                </EditForm>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="radio" name="tabs" id="tabfour" />
+                    <label class="tab-label" for="tabfour">About Brand</label>
+                    <div class="tab">
+                        <h1 class="mt-3">About Brand</h1>
+                        <p>@_product.Brand.BrandDescription</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Komponent från Alex med lite modifiering-->
+<div class="bg-indigo py-5 my-5">
+    <USPBanner />
+</div>
+
+<!-- YOU MAY ALSO LIKE -->
+<div class="mt-5 pt-5">
+    <ZigZagTitle BlackText="you may" TealText="also like" />
+    <div class="mt-3">
+        <ProductCarousel ProductList="all" />
+    </div>
+</div>
+
+<div class="my-3 py-3" />
+
+<!-- RELATED PRODUCTS -->
+<div class="mt-5 pt-5">
+    <ZigZagTitle BlackText="related" TealText="products" />
+    <div class="mt-3">
+        <ProductCarousel ProductList="related" RelatedProductId="Id" />
+    </div>
+</div>
+
+<!-- SUBSCRIBE -->
+<div class="mt-5 pt-5">
+    <SubscribeBanner />
+</div>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ProductViewModel _product;
+    private ReviewViewModel _reviewModel;
+
+    private bool _submitting;
+    private bool _loaded;
+    private bool _signedIn;
+    private bool _alreadyReviewed;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _loaded = false;
+
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ValidateTokenUrl, auth: true);
+        _signedIn = response.IsSuccessStatusCode;
+
+        _reviewModel = new ReviewViewModel();
+
+        await GetProductAsync();
+
+        _loaded = true;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await GetProductAsync();
+        StateHasChanged();
+    }
+
+    private async Task GetProductAsync()
+    {
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductUrl(Id));
+        if (response.IsSuccessStatusCode)
+            _product = await response.Content.ReadFromJsonAsync<ProductViewModel>();
+        else
+            navigationManager.NavigateTo("/notfound");
+    }
+
+    private async Task RegisterReview()
+    {
+        _submitting = true;
+
+        _reviewModel.ProductId = Id;
+        var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.ReviewUrl, _reviewModel, true);
+        if (response.IsSuccessStatusCode)
+        {
+            _reviewModel = new();
+            await GetProductAsync();
+            StateHasChanged();
+        }
+        else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+        {
+            _reviewModel = new();
+            _alreadyReviewed = true;
+        }
+
+        Console.WriteLine(response.StatusCode);
+
+        _submitting = false;
+    }
+
+    private void SetRating(int rating)
+        => _reviewModel.Rating = rating;
+
+    private void GoToSignIn()
+        => navigationManager.NavigateTo("/myaccount");
+
+    private string PluralizeReviews()
+        => _product.Reviews.Count() == 0 || _product.Reviews.Count() > 1
+        ? "reviews"
+        : "review";
+}
+

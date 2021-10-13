@@ -1,0 +1,37 @@
+﻿@inject OrderState orderState
+
+<div class="d-flex" id="quantityInputContainer">
+    <div class="quantity-box" id="quantityDecrementBox" @onclick="DecrementQuantity">
+        -
+    </div>
+    <div class="quantity-box" id="quantityCountBox">
+        <span id="quantityCount">@Quantity</span>
+    </div>
+
+    <div class="quantity-box" id="quantityIncrementBox" @onclick="IncrementQuantity">
+        +
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Quantity { get; set; }
+
+    [Parameter]
+    public EventCallback<int> QuantityChanged { get; set; }
+
+    private async Task IncrementQuantity()
+    {
+        await QuantityChanged.InvokeAsync(++Quantity);
+        orderState.NotifyStateChanged();
+    }
+
+    private async Task DecrementQuantity()
+    {
+        if (Quantity > 1)
+        {
+            await QuantityChanged.InvokeAsync(--Quantity);
+            orderState.NotifyStateChanged();
+        }
+    }
+} 

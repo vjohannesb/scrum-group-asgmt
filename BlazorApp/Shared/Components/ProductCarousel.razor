@@ -1,0 +1,81 @@
+﻿
+<div class="product-carousel d-flex align-items-center justify-content-center">
+    <div class="btn-caret left-caret" @onclick="PrevProduct" />
+
+    <div class="container mx-3 p-0">
+        @if (_products != null && _products.Count > 0)
+        {
+            <div class="row row-cols-4">
+                <div class="col">
+                    <ProductCard Product="_products[_index % _products.Count]" />
+                </div>
+
+                <div class="col">
+                    <ProductCard Product="_products[(_index + 1) % _products.Count]" />
+                </div>
+
+                <div class="col">
+                    <ProductCard Product="_products[(_index + 2) % _products.Count]" />
+                </div>
+
+                <div class="col">
+                    <ProductCard Product="_products[(_index + 3) % _products.Count]" />
+                </div>
+            </div>
+        }
+        else {
+            <div class="loader" />
+        }
+    </div>
+
+    <div class="btn-caret right-caret" @onclick="NextProduct" />
+</div>
+
+@code {
+
+    [Parameter]
+    public string ProductList { get; set; }
+
+    [Parameter]
+    public int RelatedProductId { get; set; }
+
+    private List<ProductViewModel> _products;
+    private int _index;
+    private string _productsUrl;
+
+    // Tillfällig, annars sätts produkter från parent som parameter
+    protected override async Task OnInitializedAsync()
+    {
+        _products = new();
+        switch (ProductList.ToLower())
+        {
+            case "related":
+                _productsUrl = apiService.RelatedProductsUrl(RelatedProductId);
+                break;
+
+            // Implementera senare
+            case "new":
+            case "featured":
+            case "all":
+            default:
+                _productsUrl = apiService.ProductsUrl;
+                break;
+        }
+
+        var response = await apiService.SendToAPIAsync(HttpMethod.Get, _productsUrl);
+        if (response.IsSuccessStatusCode)
+        {
+            _products = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+        }
+
+        _index = 0;
+    }
+
+    private void PrevProduct()
+        => _index = _index > 0
+            ? --_index
+            : _products.Count - 1;
+
+    private void NextProduct()
+        => ++_index;
+}

@@ -1,0 +1,249 @@
+@inject HttpClient Http
+@inject ModalState modalState
+@inject OrderState orderState 
+@inject CompareState compareState 
+@implements IDisposable
+
+<ProductDetailsModal Product=@modalState.ModalProduct />
+<div>
+    <div class="top-menu bg-teal d-flex justify-content-between align-items-center">
+        <div class="container d-flex justify-content-between align-items-center p-0">
+            <div>
+                <nav class="navbar navbar-expand navbar-light m-0">
+                    <div class="container-fluid p-0">
+                        <div class="collapse navbar-collapse" id="navbarScroll">
+                            <ul class="navbar-nav navbar-nav-scroll roboto" style="--bs-scroll-height: 100px;">
+                                <li class="nav-item dropdown me-2 p-1">
+                                    <a class="nav-link text-light dropdown-toggle" id="languageButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        ENG
+                                        <i class="fas fa-angle-down text-white ms-2"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="languageButton">
+                                        <li><a class="dropdown-item" href="#">Language 1</a></li>
+                                        <li><a class="dropdown-item" href="#">Language 2</a></li>
+                                        <li><a class="dropdown-item" href="#">Language 3</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown me-2 p-1">
+                                    <a class="nav-link text-light dropdown-toggle" id="currencyButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        USD
+                                        <i class="fas fa-angle-down text-white ms-2"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="currencyButton">
+                                        <li><a class="dropdown-item" href="#">Currency 1</a></li>
+                                        <li><a class="dropdown-item" href="#">Currency 2</a></li>
+                                        <li><a class="dropdown-item" href="#">Currency 3</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="d-flex align-items-center text-light">
+                <span><a class="top-menu-links" href="/newsletter">Newsletter</a></span>
+                <span class="menu_border mx-3"></span>
+                <span><a class="top-menu-links" href="/contactus">Contact us</a></span>
+                <span class="menu_border mx-3"></span>
+                <span><a class="top-menu-links" href="/faq">FAQs</a></span>
+                <span class="menu_border mx-3"></span>
+                <span class="d-flex justify-content-between">
+                    <a class="top-menu-links me-2" href="#"><i class="me-2 fab fa-facebook-f"></i></a>
+                    <a class="top-menu-links me-2" href="#"><i class="me-2 fab fa-instagram"></i></a>
+                    <a class="top-menu-links me-2" href="#"><i class="me-2 fab fa-twitter"></i></a>
+                    <a class="top-menu-links me-2" href="#"><i class="me-2 fab fa-linkedin"></i></a>
+                    <a class="top-menu-links" href="#"><i class="me-2 fab fa-snapchat-ghost"></i></a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    @* Middle menu *@
+    <div class="container middle-menu d-flex justify-content-between align-items-center">
+        <a href="#">
+            <img class="my-5" src="src/img/logo.svg">
+        </a>
+
+        @* Search form *@
+        <div class="search-form">
+            <EditForm Model="_searchQuery">
+                <InputText @bind-Value="_searchQuery.Query" placeholder="Search products..." />
+                <InputSelect @bind-Value="_searchQuery.Category" class="form-select">
+                    <option value="All">All</option>
+                    <option value="Men">Men</option>
+                    <option value="Women">Women</option>
+                    <option value="Kids">Kids</option>
+                </InputSelect>
+
+                <button type="button" class="btn btn-search" @onclick="NavigateToSearchResult">
+                    <i class="fas fa-search"></i>
+                </button>
+
+            </EditForm>
+        </div>
+
+        @* Account bar *@
+        <div class="d-flex align-items-center account-bar">
+            <a href="/myaccount" class="d-flex align-items-center">
+                <i class="far fa-user"></i>
+                @if (_customer.FirstName == null)
+                {
+                    <span class="ps-1">My Account</span>
+                }
+                else
+                {
+                    <span class="ps-1">@(_customer.FirstName)</span>
+                }
+
+            </a>
+
+            <a class="ps-4 me-4" href="/wishlist">
+                <i class="far fa-heart"></i>
+            </a>
+
+            <a class="little-box me-4" href="/compare">
+                <i class="fas fa-random"></i>
+                <div class="little-circle d-flex justify-content-center align-items-center">
+                    <p class="mb-0 text-light">@(compareState.CompareProducts?.Count ?? 0)</p>
+                </div>
+            </a>
+
+            <a class="little-box" href="/shoppingcart">
+                <i class="fas fa-shopping-bag"></i>
+                <div class="little-circle d-flex justify-content-center align-items-center">
+                    <p class="mb-0 text-light">@(orderState.ShoppingCartProducts?.Count ?? 0) </p>
+                </div>
+            </a>
+            <div class="ms-2">$@(orderState.ShoppingCartProducts?.Sum(scp => scp.Price * scp.Quantity) ?? (decimal)0.00)</div>
+        </div>
+
+    </div>
+
+    @* Bottom Menu *@
+    <div class="w-100 border-top ">
+        <div class="container bottom-menu p-0">
+            <nav class="navbar navbar-expand-lg navbar-light m-0 p-0 ">
+                <div class="container-fluid p-0 ">
+                    <div class="collapse navbar-collapse " id="navbarScroll">
+                        <ul class="navbar-nav me-auto navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                            <li class="nav-item dropdown me-3 bg-teal pt-1">
+                                <a class="first-menu-btn nav-link dropdown-toggle d-flex align-items-center" id="browseButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="d-flex flex-column me-2">
+                                        <i class="fas fa-bars text-white"></i>
+                                    </div>
+                                    <span class="text-light">Browse Categories</span>
+                                    <i class="fas fa-angle-down text-teal ms-2"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="browseButton">
+                                    <li><a class="dropdown-item" href="#">Category 1</a></li>
+                                    <li><a class="dropdown-item" href="#">Category 2</a></li>
+                                    <li><a class="dropdown-item" href="#">Category 3</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item me-2 p-1">
+                                <a class="nav-link text-dark" aria-current="page" href="/">Home</a>
+                            </li>
+                            <li class="nav-item dropdown me-2 p-1">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="shopButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Shop
+                                    <i class="fas fa-angle-down text-teal ms-2"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="shopButton">
+                                    <li><a class="dropdown-item" href="/shop">Go to shop</a></li>
+                                    <li><a class="dropdown-item" href="/shop/men">Go to men's section</a></li>
+                                    <li><a class="dropdown-item" href="/shop/women">Go to women's section</a></li>
+                                    <li><a class="dropdown-item" href="/shop/kids">Go to kids section</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown me-2 p-1">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="productsButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Products
+                                    <i class="fas fa-angle-down text-teal ms-2"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="productsButton">
+                                    <li><a class="dropdown-item" href="/shop/hats">Hats</a></li>
+                                    <li><a class="dropdown-item" href="/shop/shoes">Shoes</a></li>
+                                    <li><a class="dropdown-item" href="/shop/sunglasses">Sunglasses</a></li>
+                                    <li><a class="dropdown-item" href="/shop/watches">Watches</a></li>
+                                    <li><a class="dropdown-item" href="/offers">Special offers</a></li>
+                                    <li><a class="dropdown-item" href="/whatsnew">What's new?</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown me-2 p-1">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="categoriesButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Categories
+                                    <i class="fas fa-angle-down text-teal ms-2"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="categoriesButton">
+                                    <li><a class="dropdown-item" href="#">Category 1</a></li>
+                                    <li><a class="dropdown-item" href="#">Category 2</a></li>
+                                    <li><a class="dropdown-item" href="#">Category 3</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown me-2 p-1">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center text-dark" id="pagesButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Pages
+                                    <i class="fas fa-angle-down text-teal ms-2"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="pagesButton">
+                                    <li><a class="dropdown-item" href="/aboutus">About Us</a></li>
+                                    <li><a class="dropdown-item" href="/blog">Blog</a></li>
+                                    <li><a class="dropdown-item" href="/contactus">Contact Us</a></li>
+                                    <li><a class="dropdown-item" href="/portfolio">Portfolio</a></li>
+                                    <li><a class="dropdown-item" href="/team">Team</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item p-1">
+                                <a class="nav-link text-dark" href="/blog">Blog</a>
+                            </li>
+                        </ul>
+
+                        @* Special offer button *@
+                        <a href="/offers" class="btn pill pill-teal">SPECIAL OFFER</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private SearchQuery _searchQuery;
+    private Customer _customer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _customer = new Customer();
+        _searchQuery = new SearchQuery();
+
+        compareState.OnChange += StateHasChanged;
+        modalState.OnChange += StateHasChanged;
+        orderState.OnChange += StateHasChanged;
+
+        // "Backup" ifall man refreshar sidan och StateContainer har återställts
+        // så kollar den ifall det finns produkter sparat i LocalStorage
+        if (orderState?.ShoppingCartProducts == null)
+        {
+            var cart = await apiService.GetFromLocalStorageAsync<List<ShoppingCartItem>>("cart");
+            if (cart?.Count > 0)
+            {
+                var response = await apiService.SendToAPIAsync(HttpMethod.Post, apiService.MultipleProductsUrl, cart);
+                if (response.IsSuccessStatusCode)
+                    orderState.ShoppingCartProducts = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        compareState.OnChange -= StateHasChanged;
+        modalState.OnChange -= StateHasChanged;
+        orderState.OnChange -= StateHasChanged;
+    }
+
+    private void NavigateToSearchResult()
+    {
+        navigationManager.NavigateTo($"/search/{_searchQuery.Query}");
+    }
+} 

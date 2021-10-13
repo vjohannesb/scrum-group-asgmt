@@ -1,0 +1,73 @@
+﻿/*! FOOTER */
+footer {
+    background: var(--dark-blue);
+    color: white;
+}
+
+.top-footer {
+    border-top: 3px solid var(--teal);
+}
+
+.socials i {
+    font-size: 1.4rem;
+    color: var(--teal);
+    cursor: pointer;
+    transition: color 0.15s;
+}
+
+    .socials i:hover {
+        color: white;
+    }
+
+.footer-headers {
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+footer .info-text {
+    font-size: 0.875rem;
+}
+
+footer .useful-link {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+footer .footer-links {
+    color: white;
+    text-decoration: none;
+}
+
+    footer .footer-links:hover {
+        color: var(--teal);
+        text-decoration: underline;
+    }
+
+.instagram-photo {
+    width: 5rem;
+    height: 5rem;
+    background: var(--light-gray);
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+    .instagram-photo:hover {
+        background: var(--teal);
+    }
+
+.sub-footer {
+    background: var(--darker-blue);
+}
+
+    .sub-footer .payment-methods {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+        .sub-footer .payment-methods img {
+            margin: 3px;
+        }
+/*! FOOTER */

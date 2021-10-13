@@ -1,0 +1,92 @@
+﻿@page "/compare"
+@inject CompareState compareState
+@inject OrderState orderState
+@implements IDisposable
+
+<!-- Breadcrumb -->
+<div class="pt-5 pb-5 breadcrumb-section">
+    <div class="container d-flex justify-content-between align-items-center">
+        <p>Compare</p>
+        <nav class="breadcrumb-divider" aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-small-text">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Compare</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+@if (compareState?.CompareProducts == null || compareState?.CompareProducts?.Count < 1)
+{
+<div class="container">
+    <div class="row">
+        <p class="text-center mt-5">There are no products to compare.</p>
+    </div>
+</div>
+}
+else if (_loaded)
+{
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="content col-lg-3 col-md-6 mb-4 mx-0">
+            <div class="top-div">
+
+            </div>
+            <div class="down box mb-2 d-flex justify-content-center align-items-center">
+                <p class="m-0 font-roboto fw-medium">AVAILABILITY</p>
+            </div>
+            <div class="box mb-2 d-flex justify-content-center align-items-center">
+                <p class="m-0 font-roboto fw-medium">BRAND</p>
+            </div>
+            <div class="box mb-2 d-flex justify-content-center align-items-center">
+                <p class="m-0 font-roboto fw-medium">COLOR</p>
+            </div>
+        </div>
+        @foreach (var product in compareState.CompareProducts)
+        {
+        <CompareProduct Product=product />
+        }
+
+    </div>
+</div>
+
+
+}
+
+
+
+    @code {
+    private List<ProductViewModel>
+    _products;
+
+    private decimal _subTotal;
+    private bool _loaded;
+
+    public void Dispose()
+    => compareState.OnChange -= StateHasChanged;
+
+    protected override async Task OnInitializedAsync()
+    {
+    compareState.OnChange += StateHasChanged;
+
+    await GetProductsAsync();
+
+    UpdateCart();
+
+    _loaded = true;
+    }
+
+
+    private void UpdateCart()
+    => _subTotal = orderState.ShoppingCartProducts?.Sum(scp => scp.Price * scp.Quantity) ?? 0;
+
+
+
+    private async Task GetProductsAsync()
+    {
+    var response = await apiService.SendToAPIAsync(HttpMethod.Get, apiService.ProductsUrl);
+    if (response.IsSuccessStatusCode)
+    _products = await response.Content.ReadFromJsonAsync<List<ProductViewModel>>();
+    }
+
+}
